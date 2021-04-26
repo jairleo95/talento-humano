@@ -1,0 +1,150 @@
+
+<link href="../../../../../webapp/WEB-INF/jsp/css/businessLogic/Plazo/regPlazo.css" rel="stylesheet" type="text/css"/>
+
+    <div id="main" role="main" style="margin: 0px;">
+        <div id="content" >
+            <section id="widget-grid" class="">
+                <div class="row">
+                    <div class="well">
+                        <center><h1>Plazos de Requerimientos</h1></center>
+                        <div class="row ">
+
+                            <section class="col col-sm-12">
+                                <button type="button"  id="btn-registrar" class="btn btn-default btn-circle btn-lg btn-registrar" style="float:right;display:none" rel="tooltip" data-placement="top" data-original-title="Guardar"><i class="glyphicon glyphicon-floppy-disk"></i>
+                                </button>
+                                <button type="button"   class="btn btn-primary btn-circle btn-lg btnAgregar" style="float:right;display:none"  rel="tooltip"  data-placement="top" data-original-title="Agregar" ><i class="glyphicon glyphicon-plus"></i>
+                                </button>
+                                <button type="button"   class="btn btn-danger btn-circle btn-lg btnClose" style="float:right;display:none"  rel="tooltip" data-placement="top" data-original-title="Cancelar"  ><i class="glyphicon glyphicon-remove"></i>
+                                </button>
+                            </section>
+                        </div>
+                        <form    id="form-plazo" class="form_plazo smart-form"style="display:none" >
+                            <div class="row">
+                                <section class="col col-4">
+                                    <label><strong>Tipo de plazo :</strong></label>
+                                    <label class="select"> <i class="icon-append fa fa-calendar"></i>
+                                        <select name="tipo" required="" class="tipo" required="">
+                                            <option value='2' selected="">Ingreso a planilla</option>
+                                            <option value='1'>Inicio de Contrato</option>
+                                        </select>
+                                    </label>
+                                </section>
+                                <section class="col col-4">
+                                    <label><strong>Nombre de plazo :</strong></label>
+                                    <label class="input"> <i class="icon-prepend fa fa-user"></i>
+                                        <input type="text" name="nombre_plazo" required="" class="nombre_plazo" />
+                                    </label>
+                                </section>
+                                <section class="col col-4 tr_tolerancia" style="display: none; ">
+                                    <label><strong>Dias de tolerancia (Ingreso a planilla):</strong></label>
+                                    <label class="input"> <i class="icon-prepend fa fa-user"></i>
+                                        <input type="number" name="tolerancia" min="1"  required=""  value="0" class="tolerancia" />
+                                    </label>
+                                </section>
+                                <section class="col col-4 tr_dep_tolerancia">
+                                    <label><strong>Departamento tolerancia (Ingreso a planilla):</strong></label>
+                                    <label class="input"> <i class="icon-prepend fa fa-user"></i>
+                                        <input type="text" name="dep_tolerancia" required="" value="DPT-0019" class="dep_tolerancia" />
+                                    </label>
+                                </section>
+
+                            </div>
+                            <section>
+                                <label class="textarea">
+                                    <textarea rows="3" name="descripcion" placeholder="Descripci�n" required="" class="descripcion" ></textarea>
+                                </label>
+                            </section>
+                            <div class="row ">
+                                <section class="col col-3">
+                                    <label><strong>Tipo planilla :</strong></label>
+                                    <label class="select"> <i class="icon-append fa fa-calendar"></i>
+                                        <select name="planilla" required="" class="planilla" >
+                                            <option value="0">[Todos]</option>
+                                        </select>
+                                    </label>
+                                </section>
+                                <section class="col col-3">
+                                    <label><strong>Requerimiento :</strong></label>
+                                    <label class="select"> <i class=""></i>
+                                        <select name="id_req" required="" class="req" required="">
+                                            <option value="0">[Todos]</option>
+                                        </select>
+                                    </label>
+                                </section>
+                                <section class="col col-3">
+                                    <label><strong>Desde :</strong></label>
+                                    <label class="input"> <i class=""></i>
+                                        <input type="text" name="desde" placeholder="Request activation on" s required=""  readonly="" class="desde datepicker" data-dateformat='yy-mm-dd'>
+                                    </label>
+                                </section>
+                                <section class="col col-3">
+                                    <label><strong>Hasta :</strong></label>
+                                    <label class="input"> <i class=""></i>
+                                        <input type="text" name="hasta" placeholder="Request activation on"  required="" readonly="" class="hasta datepicker" data-dateformat='yy-mm-dd'>
+                                    </label>
+                                </section>
+                            </div>
+                            <div class="row">
+                                <section class="col col-4">
+                                    <label class="select" id="titu">
+                                        Direcci�n :<select name="direccion" class="direccion"  >
+                                            <option value="" >[SELECCIONE]</option>
+                                        </select>
+                                    </label>
+                                </section>
+                                <section class="col col-4">
+                                    <label class="select" id="titu">
+                                        Departamento :<select name="departamento" class="departamento"  >
+                                            <option value="" >[SELECCIONE]</option>
+
+                                        </select>
+                                    </label>
+                                </section>
+                                <section class="col col-4">
+                                    <label class="select" id="titu">
+                                        Area :<select name="area" class="area" >
+                                            <option value="" >[SELECCIONE]</option>
+                                        </select>
+                                    </label>
+                                </section>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </section>
+
+            <div class="row">
+                <div class="well">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-hover table-striped">
+                            <thead>
+                                <tr >
+                                    <td class="text-center semi-bold">Nro</td>
+                                    <td class="text-center semi-bold">Tipo Plazo</td>
+                                    <td class="text-center semi-bold">Nombre Plazo</td>
+                                    <td class="text-center semi-bold">Descripci�n</td>
+                                    <td class="text-center semi-bold">Desde</td>
+                                    <td class="text-center semi-bold">Hasta</td>
+                                    <td class="text-center semi-bold">Tipo de Planilla</td>
+                                    <td class="text-center semi-bold">Requerimiento</td>
+                                    <td class="text-center semi-bold">Dep. Tolerancia</td>
+                                    <td class="text-center semi-bold" >Dias de tolerancia</td>
+                                    <td class="text-center semi-bold">Departamento</td>
+                                    <td class="text-center semi-bold">Area</td>
+                                    <td class="text-center semi-bold" >Estado</td>
+                                    <td class="text-center semi-bold" style="width:8%">Editar</td>
+                                </tr>
+                            </thead>
+                            <tbody  class="tbodys" >
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+<script src="../../../js/Js_Formulario/Js_Form.js" type="text/javascript"></script>
+<!--Business Logic-->
+<script src="../../../js/businessLogic/Plazo/regPlazo.js?v=<%=globalProperties.VERSION_JS%>" type="text/javascript"></script>
