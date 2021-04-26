@@ -1,10 +1,10 @@
-<%@page import="pe.edu.upeu.application.model.Usuario"%>
+<%@page import="com.app.model.Usuario"%>
 <%
     HttpSession sesion_1 = request.getSession();
     String id_user_1 = (String) sesion_1.getAttribute("IDUSER");
     if (id_user_1 != null) {
 %>
-<%@page import="pe.edu.upeu.application.model.V_Var_Usuario"%>
+<%@page import="com.app.model.V_Var_Usuario"%>
 <jsp:useBean id="List_Usuario_var" scope="session" class="java.util.ArrayList"/>
 <!DOCTYPE html">
 <html >
@@ -382,7 +382,7 @@
                     idUser = $('.btnId' + valorr).val();
                     $.SmartMessageBox({
                         title: "Activar usuario!",
-                        content: "¿Esta seguro de habilitar el usuario?",
+                        content: "ï¿½Esta seguro de habilitar el usuario?",
                         buttons: '[No][Si]'
                     }, function(ButtonPressed) {
                         if (ButtonPressed === "Si") {
@@ -415,7 +415,7 @@
                     idUser = $('.btnId' + valorr).val();
                     $.SmartMessageBox({
                         title: "Desactivar usuario!",
-                        content: "¿Esta seguro de deshabilitar el usuario?",
+                        content: "ï¿½Esta seguro de deshabilitar el usuario?",
                         buttons: '[No][Si]'
                     }, function(ButtonPressed) {
                         if (ButtonPressed === "Si") {
@@ -448,7 +448,7 @@
                     idUser = $('.btnId' + valorr).val();
                     $.SmartMessageBox({
                         title: "Eliminar usuario!",
-                        content: "¿Esta seguro de eliminar el usuario?",
+                        content: "ï¿½Esta seguro de eliminar el usuario?",
                         buttons: '[No][Si]'
                     }, function(ButtonPressed) {
                         if (ButtonPressed === "Si") {

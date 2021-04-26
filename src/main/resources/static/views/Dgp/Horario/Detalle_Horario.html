@@ -1,17 +1,17 @@
-<%@page import="pe.edu.upeu.application.properties.globalProperties"%>
-<%@page import="pe.edu.upeu.application.model.Usuario"%>
+<%@page import="globalProperties"%>
+<%@page import="Usuario"%>
 <%
     HttpSession sesion = request.getSession();
     String id_user = (String) sesion.getAttribute("IDUSER");
     if (id_user != null) {
 %>
-<%@page import="pe.edu.upeu.application.model.V_Horario"%>
-<%@page import="pe.edu.upeu.application.model.Detalle_Horario"%>
+<%@page import="V_Horario"%>
+<%@page import="Detalle_Horario"%>
 <%@page import="java.util.List"%>
-<%@page import="pe.edu.upeu.application.dao.HorarioDAO"%>
-<%@page import="pe.edu.upeu.application.dao_imp.InterfaceHorarioDAO"%>
-<%@page import="pe.edu.upeu.application.dao_imp.InterfaceListaDAO"%>
-<%@page import="pe.edu.upeu.application.dao.ListaDAO"%>
+<%@page import="HorarioDAO"%>
+<%@page import="InterfaceHorarioDAO"%>
+<%@page import="InterfaceListaDAO"%>
+<%@page import="ListaDAO"%>
 <%@page import="pe.edu.upeu.application.web.controller.CHorario"%>
 <jsp:useBean id="List_V_Horario" scope="session" class="java.util.ArrayList"/>
 <!DOCTYPE html>

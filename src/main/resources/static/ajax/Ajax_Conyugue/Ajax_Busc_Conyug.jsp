@@ -4,14 +4,14 @@
     Author     : Alex
 --%>
 
-<%@page import="pe.edu.upeu.application.factory.ConexionBD"%>
+<%@page import="com.app.factory.ConexionBD"%>
 <%@page import="com.google.gson.Gson"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.util.List"%>
 <%@page import="java.util.HashMap"%>
 <%@page import="java.util.Map"%>
 <%@page import="java.sql.ResultSet"%>
-<%@page import="pe.edu.upeu.application.factory.FactoryConnectionDB"%>
+<%@page import="com.app.factory.FactoryConnectionDB"%>
 
 
 

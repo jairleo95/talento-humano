@@ -1,11 +1,11 @@
-<%@page import="pe.edu.upeu.application.model.Usuario"%>
+<%@page import="Usuario"%>
 <%
     HttpSession sesion_1 = request.getSession();
     String id_user_1 = (String) sesion_1.getAttribute("IDUSER");
     if (id_user_1 != null) {
 %>
-<%@page import="pe.edu.upeu.application.model.Requerimiento"%>
-<%@page import="pe.edu.upeu.application.model.Area"%>
+<%@page import="Requerimiento"%>
+<%@page import="Area"%>
 <jsp:useBean id="List_Area" scope="session" class="java.util.ArrayList"/>
 <jsp:useBean class="java.util.ArrayList" scope="session"  id="Listar_Requerimiento"/>
 <%
@@ -90,7 +90,7 @@
                         </div>
                         <div class="row">
                             <div class="form-group">
-                                <label>Sección :</label><br>
+                                <label>Secciï¿½n :</label><br>
                                 <input type="text" name="seccion" class="form-control" style="width: 250px">
                             </div>
                         </div>
@@ -122,10 +122,10 @@
                                     <td ><span title="FEC_DESDE">Fecha Desde</span></td>
                                     <td ><span title="FEC_HASTA">Fecha Hasta</span></td>
                                     <td ><span title="AREA">Area</span></td>
-                                    <td ><span title="SECCION">Sección</span></td>
+                                    <td ><span title="SECCION">Secciï¿½n</span></td>
                                     <td ><span title="PUESTO">Puesto</span></td>
                                     <td ><span title="SUELDO">Sueldo</span></td>
-                                    <td ><span title="FECHA_CREACION">Fecha de Contratación</span></td>
+                                    <td ><span title="FECHA_CREACION">Fecha de Contrataciï¿½n</span></td>
                                     <td ><span >Opcion</span></td>
                                     <td ><span >Imprimir</span></td>
                                     <td><button type="button" class="btn btn-primary" id="btns"> Seleccionar todo</button><button type="button" class="btn btn-primary" id="btns2"> Seleccionar </button><input type="submit" class="btn btn-primary" id="asa" value="Imprimir"></td>

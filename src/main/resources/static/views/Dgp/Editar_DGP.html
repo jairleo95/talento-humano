@@ -1,21 +1,21 @@
 
-<%@page import="pe.edu.upeu.application.properties.globalProperties"%>
-<%@page import="pe.edu.upeu.application.util.DateFormat"%>
-<%@page import="pe.edu.upeu.application.model.V_Det_DGP"%>
-<%@page import="pe.edu.upeu.application.model.Cuenta_Sueldo"%>
+<%@page import="globalProperties"%>
+<%@page import="DateFormat"%>
+<%@page import="V_Det_DGP"%>
+<%@page import="Cuenta_Sueldo"%>
 <%
     HttpSession sesion_1 = request.getSession();
     String id_user_1 = (String) sesion_1.getAttribute("IDUSER");
     if (id_user_1 != null) {
 
 %>
-<%@page import="pe.edu.upeu.application.model.Usuario"%>
+<%@page import="Usuario"%>
 <%@page import="org.apache.jasper.tagplugins.jstl.core.When"%>
-<%@page import="pe.edu.upeu.application.model.V_Ficha_Trab_Num_C"%>
-<%@page import="pe.edu.upeu.application.model.Requerimiento"%>
-<%@page import="pe.edu.upeu.application.model.V_Puesto_Direccion"%>
-<%@page import="pe.edu.upeu.application.model.Puesto"%>
-<%@page import="pe.edu.upeu.application.model.Trabajador"%>
+<%@page import="V_Ficha_Trab_Num_C"%>
+<%@page import="Requerimiento"%>
+<%@page import="V_Puesto_Direccion"%>
+<%@page import="Puesto"%>
+<%@page import="Trabajador"%>
 <jsp:useBean id="Listar_Trabajador_id" scope="session" class="java.util.ArrayList"/>
 <jsp:useBean id="LIST_ID_DGP" scope="session" class="java.util.ArrayList"/>
 <jsp:useBean id="List_Puesto" scope="session" class="java.util.ArrayList"/>
@@ -134,7 +134,7 @@
                                                 <header class="titulo_req">
 
                                                     <div class="spacing">
-                                                        <center><h1 class="spacing" style="font-weight: bold; margin: 0px;  color: #005cac;"> Documento de Gestión de Personal</h1></center>
+                                                        <center><h1 class="spacing" style="font-weight: bold; margin: 0px;  color: #005cac;"> Documento de Gestiï¿½n de Personal</h1></center>
                                                         <br>
 
                                                     </div>
@@ -168,11 +168,11 @@
                                                                     <option value="" >[Seleccione]</option>
                                                                     <%if (dg.getLi_motivo().equals("1")) {%>
                                                                     <option value="1" selected="">Trabajdor Nuevo</option>
-                                                                    <option value="2">Renovación</option>
+                                                                    <option value="2">Renovaciï¿½n</option>
                                                                     <%}
                                                                         if (dg.getLi_motivo().equals("2")) {%>
                                                                     <option value="1">Trabajdor Nuevo</option>
-                                                                    <option value="2" selected="">Renovación</option>
+                                                                    <option value="2" selected="">Renovaciï¿½n</option>
                                                                     <%}%>
                                                                 </select>
                                                             </label>
@@ -214,9 +214,9 @@
                                                             </label>
                                                         </section>
                                                         <section class="col col-4">
-                                                            <label class="label" id="titu"> Sección:</label>
+                                                            <label class="label" id="titu"> Secciï¿½n:</label>
                                                             <label class="select">
-                                                                <select data-placeholder="Seleccionar Sección"  class="select-seccion"required="" >
+                                                                <select data-placeholder="Seleccionar Secciï¿½n"  class="select-seccion"required="" >
                                                                     <option value="">[Seleccione]</option>  
                                                                 </select>
                                                             </label>
@@ -827,7 +827,7 @@
                                                             <section class="col col-sm-4 col-md-4">
                                                                 <div class="caja">
                                                                     <table id="show_sab" class="cont_sab table table-condensed table-bordered">     
-                                                                        <tr class="c_header"><td style="text-align: center;"  colspan="3">Sábado</td></tr>
+                                                                        <tr class="c_header"><td style="text-align: center;"  colspan="3">Sï¿½bado</td></tr>
                                                                     </table>
                                                                 </div>
                                                             </section>

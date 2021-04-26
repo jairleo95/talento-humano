@@ -3,7 +3,7 @@
     if (id_user != null) {
 %>
 
-<%@page import="pe.edu.upeu.application.model.Usuario"%>
+<%@page import="com.app.model.Usuario"%>
 <jsp:useBean id="List_ID_User" scope="session" class="java.util.ArrayList"/>
 <!DOCTYPE html>
 <!--
@@ -71,7 +71,7 @@ and open the template in the editor.
                 $(".cambiarC").click(function(e) {
                     $.SmartMessageBox({
                         title: "Cambiar Clave!",
-                        content: "¿Esta seguro de cambiar la clave de este usuario? ",
+                        content: "ï¿½Esta seguro de cambiar la clave de este usuario? ",
                         buttons: '[No][Si]'
                     }, function(ButtonPressed) {
                         if (ButtonPressed === "Si") {

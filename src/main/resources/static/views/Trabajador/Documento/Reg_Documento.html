@@ -1,16 +1,16 @@
-<%@page import="pe.edu.upeu.application.model.Lis_Doc_tra"%>
-<%@page import="pe.edu.upeu.application.model.Documentos"%>
-<%@page import="pe.edu.upeu.application.dao.DocumentoDAO"%>
-<%@page import="pe.edu.upeu.application.dao_imp.InterfaceDocumentoDAO"%>
-<%@page import="pe.edu.upeu.application.model.Usuario"%>
+<%@page import="Lis_Doc_tra"%>
+<%@page import="Documentos"%>
+<%@page import="DocumentoDAO"%>
+<%@page import="InterfaceDocumentoDAO"%>
+<%@page import="Usuario"%>
 <%
     HttpSession sesion = request.getSession();
     String id_user = (String) sesion.getAttribute("IDUSER");
     if (id_user != null) {
 %>
-<%@page import="pe.edu.upeu.application.model.Datos_Hijo_Trabajador"%>
-<%@page import="pe.edu.upeu.application.model.Padre_Madre_Conyugue"%>
-<%@page import="pe.edu.upeu.application.model.V_Reg_Dgp_Tra"%>
+<%@page import="Datos_Hijo_Trabajador"%>
+<%@page import="Padre_Madre_Conyugue"%>
+<%@page import="V_Reg_Dgp_Tra"%>
 <jsp:useBean id="List_Hijos" scope="session" class="java.util.ArrayList"/>
 <jsp:useBean id="List_Conyugue" scope="session" class="java.util.ArrayList"/>
 <jsp:useBean id="List_Adventista" scope="session" class="java.util.ArrayList"/>
@@ -108,7 +108,7 @@
             }
             function closedthis() {
                 $.smallBox({
-                    title: "¡Ficha de trabajador registrada correctamente!",
+                    title: "ï¿½Ficha de trabajador registrada correctamente!",
                     content: "ya puede visualizar toda la informacion del trabajador...",
                     color: "#739E73",
                     iconSmall: "fa fa-check fa-2x fadeInRight animated",
@@ -296,21 +296,21 @@
                                                                 <section class="cajita col-lg-12 col-md-12 col-sm-12 col-xs-12" style="text-align:center;margin-left:30px; " align="center">
                                                                     <%}%>
                                                                     <% if (d.getEs_documento_adjunto() == null & (permissionEditDocument)) {%>
-                                                                    <label class="toggle"><input type="checkbox" value="1"   name="estado<%=i + 1%>" name="checkbox-toggle" ><i style="top:110%;text-align:center;margin-left:60px; margin-bottom: 10px;" data-swchon-text="SI" data-swchoff-text="NO"></i>¿RECIBIDO EN FISICO?:</label>
+                                                                    <label class="toggle"><input type="checkbox" value="1"   name="estado<%=i + 1%>" name="checkbox-toggle" ><i style="top:110%;text-align:center;margin-left:60px; margin-bottom: 10px;" data-swchon-text="SI" data-swchoff-text="NO"></i>ï¿½RECIBIDO EN FISICO?:</label>
                                                                         <% } else { %>
                                                                         <% if (d.getEs_documento_adjunto() == null) { %>
 
-                                                                    <label class="null">¿RECIBIDO EN FISICO?:<BR>No Registrado</label>
+                                                                    <label class="null">ï¿½RECIBIDO EN FISICO?:<BR>No Registrado</label>
                                                                         <% } else { %>
                                                                     <label><% if (d.getEs_documento_adjunto().trim().equals("1")) {
                                                                         %>
 
-                                                                        ¿RECIBIDO EN FISICO?:<BR><img src="Aprobado.png" width="20" height="20">
+                                                                        ï¿½RECIBIDO EN FISICO?:<BR><img src="Aprobado.png" width="20" height="20">
                                                                         <%
                                                                         } else {
 
                                                                         %>
-                                                                        ¿RECIBIDO EN FISICO?:<BR><img src="Desaprobado.png" width="20" height="20">
+                                                                        ï¿½RECIBIDO EN FISICO?:<BR><img src="Desaprobado.png" width="20" height="20">
                                                                     </label>
                                                                     <% }
                                                                             }
@@ -394,19 +394,19 @@
                                                                 <section class="cajita col-lg-12 col-md-12 col-sm-12 col-xs-12" style="text-align:center;margin-left:30px;margin-top:-4px; " align="center">
                                                                     <%}%>
                                                                     <% if (d.getEs_documento_adjunto() == null & (permissionEditDocument)) {%>
-                                                                    <label class="toggle"><input type="checkbox" value="1"   name="estado<%=i + 1%>" name="checkbox-toggle" ><i style="top:110%;text-align:center;margin-left:40px;margin-bottom: 10px;" data-swchon-text="SI" data-swchoff-text="NO"></i>¿RECIBIDO EN FISICO?:</label>
+                                                                    <label class="toggle"><input type="checkbox" value="1"   name="estado<%=i + 1%>" name="checkbox-toggle" ><i style="top:110%;text-align:center;margin-left:40px;margin-bottom: 10px;" data-swchon-text="SI" data-swchoff-text="NO"></i>ï¿½RECIBIDO EN FISICO?:</label>
                                                                         <% } else { %>
                                                                         <% if (d.getEs_documento_adjunto() == null) { %>
 
-                                                                    <div> <label class="null">¿RECIBIDO EN FISICO?:<BR>No Registrado</label></div></section>
+                                                                    <div> <label class="null">ï¿½RECIBIDO EN FISICO?:<BR>No Registrado</label></div></section>
                                                                             <% } else { %>
                                                                 <label><% if (d.getEs_documento_adjunto().trim().equals("1")) { %>
-                                                                    ¿RECIBIDO EN FISICO?:<BR> <img  src="Aprobado.png" width="20" height="20">
+                                                                    ï¿½RECIBIDO EN FISICO?:<BR> <img  src="Aprobado.png" width="20" height="20">
                                                                     <%
                                                                     } else {
 
                                                                     %>
-                                                                    ¿RECIBIDO EN FISICO?:<BR><img src="Desaprobado.png" width="20" height="20">
+                                                                    ï¿½RECIBIDO EN FISICO?:<BR><img src="Desaprobado.png" width="20" height="20">
                                                                 </label>
                                                                 <% }
                                                                         }
@@ -482,20 +482,20 @@
                                                                 <section class="cajita col-lg-12 col-md-12 col-sm-12 col-xs-12" style="text-align:center;margin-left:30px; " align="center">
                                                                     <%}%>
                                                                     <% if (d.getEs_documento_adjunto() == null & (permissionEditDocument)) {%>
-                                                                    <label class="toggle"><input type="checkbox" value="1"   name="estado<%=i + 1%>" name="checkbox-toggle" ><i style="top:110%;text-align:center;margin-left:60px;margin-bottom: 10px;" data-swchon-text="SI" data-swchoff-text="NO"></i> ¿RECIBIDO EN FISICO?:</label>
+                                                                    <label class="toggle"><input type="checkbox" value="1"   name="estado<%=i + 1%>" name="checkbox-toggle" ><i style="top:110%;text-align:center;margin-left:60px;margin-bottom: 10px;" data-swchon-text="SI" data-swchoff-text="NO"></i> ï¿½RECIBIDO EN FISICO?:</label>
                                                                         <% } else { %>
                                                                         <% if (d.getEs_documento_adjunto() == null) { %>
 
-                                                                    <label class="null"> ¿RECIBIDO EN FISICO?:<BR>No Registrado</label>
+                                                                    <label class="null"> ï¿½RECIBIDO EN FISICO?:<BR>No Registrado</label>
                                                                         <% } else { %>
                                                                     <label><% if (d.getEs_documento_adjunto().trim().equals("1")) { %>
 
-                                                                        ¿RECIBIDO EN FISICO?:<BR><img src="Aprobado.png" width="20" height="20">
+                                                                        ï¿½RECIBIDO EN FISICO?:<BR><img src="Aprobado.png" width="20" height="20">
                                                                         <%
                                                                         } else {
 
                                                                         %>
-                                                                        ¿RECIBIDO EN FISICO?:<BR><img src="Desaprobado.png" width="20" height="20">
+                                                                        ï¿½RECIBIDO EN FISICO?:<BR><img src="Desaprobado.png" width="20" height="20">
                                                                     </label>
                                                                     <% }
                                                                             }
@@ -565,20 +565,20 @@
                                                                 <section class="cajita col-lg-12 col-md-12 col-sm-12 col-xs-12" style="text-align:center;margin-left:30px; " align="center">
                                                                     <%}%>
                                                                     <% if (d.getEs_documento_adjunto() == null & (permissionEditDocument)) {%>
-                                                                    <label class="toggle"><input type="checkbox" value="1"   name="estado<%=i + 1%>" name="checkbox-toggle" ><i style="top:110%;text-align:center;margin-left:60px;margin-bottom: 10px;" data-swchon-text="SI" data-swchoff-text="NO"></i> ¿RECIBIDO EN FISICO?:</label>
+                                                                    <label class="toggle"><input type="checkbox" value="1"   name="estado<%=i + 1%>" name="checkbox-toggle" ><i style="top:110%;text-align:center;margin-left:60px;margin-bottom: 10px;" data-swchon-text="SI" data-swchoff-text="NO"></i> ï¿½RECIBIDO EN FISICO?:</label>
                                                                         <% } else { %>
                                                                         <% if (d.getEs_documento_adjunto() == null) { %>
 
-                                                                    <label class="null"> ¿RECIBIDO EN FISICO?:<BR>No Registrado</label>
+                                                                    <label class="null"> ï¿½RECIBIDO EN FISICO?:<BR>No Registrado</label>
                                                                         <% } else { %>
                                                                     <label><% if (d.getEs_documento_adjunto().trim().equals("1")) { %>
 
-                                                                        ¿RECIBIDO EN FISICO?:<BR><img src="Aprobado.png" width="20" height="20">
+                                                                        ï¿½RECIBIDO EN FISICO?:<BR><img src="Aprobado.png" width="20" height="20">
                                                                         <%
                                                                         } else {
 
                                                                         %>
-                                                                        ¿RECIBIDO EN FISICO?:<BR><img src="Desaprobado.png" width="20" height="20">
+                                                                        ï¿½RECIBIDO EN FISICO?:<BR><img src="Desaprobado.png" width="20" height="20">
                                                                     </label>
                                                                     <% }
                                                                             }
@@ -633,9 +633,9 @@
 
                                                                 <section class="cajita col-lg-12 col-md-12 col-sm-12 col-xs-12" style="text-align:center;margin-left:30px;" align="center">
                                                                     <% if ((permissionEditDocument)) {%>
-                                                                    <label class="toggle"><input type="checkbox" value="1"   name="estado<%=i + 1%>" name="checkbox-toggle" ><i style="top:110%;text-align:center;margin-left:60px;margin-bottom: 10px;" data-swchon-text="SI" data-swchoff-text="NO"></i> ¿RECIBIDO EN FISICO?:</label>
+                                                                    <label class="toggle"><input type="checkbox" value="1"   name="estado<%=i + 1%>" name="checkbox-toggle" ><i style="top:110%;text-align:center;margin-left:60px;margin-bottom: 10px;" data-swchon-text="SI" data-swchoff-text="NO"></i> ï¿½RECIBIDO EN FISICO?:</label>
                                                                         <% } else {%>
-                                                                    <label class="null"> ¿RECIBIDO EN FISICO?:<BR>No Registrado</label>
+                                                                    <label class="null"> ï¿½RECIBIDO EN FISICO?:<BR>No Registrado</label>
                                                                         <% }%>
                                                                 </section>
                                                             </div>
@@ -700,19 +700,19 @@
                                                             <section class="cajita col-lg-12 col-md-12 col-sm-12 col-xs-12" style="text-align:center;margin-left:30px; " align="center">
                                                                 <%}%>
                                                                 <% if (d.getEs_documento_adjunto() == null & (permissionEditDocument)) {%>
-                                                                <label class="toggle"><input type="checkbox" value="1"   name="estado<%=i + 1%>" name="checkbox-toggle" ><i style="top:110%;text-align:center;margin-left:60px;margin-bottom: 10px;" data-swchon-text="SI" data-swchoff-text="NO"></i> ¿RECIBIDO EN FISICO?:</label>
+                                                                <label class="toggle"><input type="checkbox" value="1"   name="estado<%=i + 1%>" name="checkbox-toggle" ><i style="top:110%;text-align:center;margin-left:60px;margin-bottom: 10px;" data-swchon-text="SI" data-swchoff-text="NO"></i> ï¿½RECIBIDO EN FISICO?:</label>
                                                                     <% } else { %>
                                                                     <% if (d.getEs_documento_adjunto() == null) { %>
 
-                                                                <label class="null"> ¿RECIBIDO EN FISICO?:<BR>No Registrado</label>
+                                                                <label class="null"> ï¿½RECIBIDO EN FISICO?:<BR>No Registrado</label>
                                                                     <% } else { %>
                                                                 <label><% if (d.getEs_documento_adjunto().trim().equals("1")) { %>
-                                                                    ¿RECIBIDO EN FISICO?:<BR><img src="Aprobado.png" width="20" height="20">
+                                                                    ï¿½RECIBIDO EN FISICO?:<BR><img src="Aprobado.png" width="20" height="20">
                                                                     <%
                                                                     } else {
 
                                                                     %>
-                                                                    ¿RECIBIDO EN FISICO?:<BR><img src="Desaprobado.png" width="20" height="20">
+                                                                    ï¿½RECIBIDO EN FISICO?:<BR><img src="Desaprobado.png" width="20" height="20">
                                                                 </label>
                                                                 <% }
                                                                         }
@@ -792,7 +792,7 @@
                                                     Registrar
                                                 </button>
                                                 <button   type="button"   onclick="history.back()"   class="btn btn-default">
-                                                    Atrás
+                                                    Atrï¿½s
                                                 </button>
 
                                                 <%}%>
@@ -1068,7 +1068,7 @@ function goBack() {
                     $(".div-holi").text($(".DD").val());
                 });
                 $(".elimi").click(function () {
-                    var msg = confirm('¿estas seguro de eliminar?');
+                    var msg = confirm('ï¿½estas seguro de eliminar?');
                     if (msg == true) {
                         return true;
                     } else {

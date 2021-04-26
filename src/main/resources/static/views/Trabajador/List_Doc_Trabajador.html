@@ -7,12 +7,12 @@
     InterfaceDocumentoDAO doc_ = new DocumentoDAO();
     if (id_user_1 != null) {
 %>
-<%@page import="pe.edu.upeu.application.dao_imp.InterfaceDocumentoDAO"%>
-<%@page import="pe.edu.upeu.application.dao_imp.InterfaceDocumentoDAO"%>
-<%@page import="pe.edu.upeu.application.model.Lis_Doc_tra"%>
-<%@page import="pe.edu.upeu.application.model.Usuario"%>
-<%@page import="pe.edu.upeu.application.dao.DocumentoDAO"%>
-<%@page import="pe.edu.upeu.application.model.V_Documento_Trabajador"%>
+<%@page import="InterfaceDocumentoDAO"%>
+<%@page import="InterfaceDocumentoDAO"%>
+<%@page import="Lis_Doc_tra"%>
+<%@page import="Usuario"%>
+<%@page import="DocumentoDAO"%>
+<%@page import="V_Documento_Trabajador"%>
 <jsp:useBean id="Lis_doc_trabajador_hab" scope="session" class="java.util.ArrayList"/>
 
 <!DOCTYPE html>
@@ -151,7 +151,7 @@
                                                     <th data-hide="phone" >Nro</th>
                                                     <th data-class="expand" >Nombres </th>
                                                     <th data-hide="phone,tablet" >Documento</th>
-                                                    <th data-hide="phone" >Descripción</th>
+                                                    <th data-hide="phone" >Descripciï¿½n</th>
                                                 </tr>  
                                             </thead>
                                             <tbody>

@@ -1,15 +1,15 @@
-<%@page import="pe.edu.upeu.application.dao_imp.InterfaceTipo_DocumentoDAO"%>
-<%@page import="pe.edu.upeu.application.dao.Tipo_DocumentoDAO"%>
-<%@page import="pe.edu.upeu.application.model.Tipo_Documento"%>
-<%@page import="pe.edu.upeu.application.model.Usuario"%>
+<%@page import="InterfaceTipo_DocumentoDAO"%>
+<%@page import="Tipo_DocumentoDAO"%>
+<%@page import="Tipo_Documento"%>
+<%@page import="Usuario"%>
 <%
     HttpSession sesion_1 = request.getSession();
     String id_user_1 = (String) sesion_1.getAttribute("IDUSER");
     if (id_user_1 != null) {
 %>
-<%@page import="pe.edu.upeu.application.model.V_Ficha_Trab_Num_C"%>
-<%@page import="pe.edu.upeu.application.dao.ListaDAO"%>
-<%@page import="pe.edu.upeu.application.dao_imp.InterfaceListaDAO"%>
+<%@page import="V_Ficha_Trab_Num_C"%>
+<%@page import="ListaDAO"%>
+<%@page import="InterfaceListaDAO"%>
 <jsp:useBean id="ListaridTrabajador" scope="session" class="java.util.ArrayList"/>
 <!DOCTYPE html>
 <html>
@@ -71,7 +71,7 @@
                         %></td></tr>
 
                 <tr>
-                    <td  class="text-info">Grupo Sanguíneo:</td>
+                    <td  class="text-info">Grupo Sanguï¿½neo:</td>
                     <td>
                         <%   if (trb.getLi_grupo_sanguineo() != null) {
                                 for (int n = 0; n < list.List_Gs().size(); n++) {

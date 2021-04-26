@@ -1,11 +1,11 @@
-<%@page import="pe.edu.upeu.application.model.Usuario"%>
+<%@page import="Usuario"%>
 <%
     HttpSession sesion_1 = request.getSession();
     String id_user_1 = (String) sesion_1.getAttribute("IDUSER");
     if (id_user_1 != null) {
 %>
-<%@page import="pe.edu.upeu.application.model.Requerimiento"%>
-<%@page import="pe.edu.upeu.application.model.Area"%>
+<%@page import="Requerimiento"%>
+<%@page import="Area"%>
 <jsp:useBean class="java.util.ArrayList" scope="session"  id="List_Area"/>
 <jsp:useBean class="java.util.ArrayList" scope="session"  id="Listar_Requerimiento"/>
 <%
@@ -82,7 +82,7 @@
                     </div>
                     <div class="row">
                         <div class="form-group">
-                            <label>Sección :</label><br>
+                            <label>Secciï¿½n :</label><br>
                             <input type="text" name="seccion" class="form-control" style="width: 250px">
                         </div>
                         <div class="form-group">
@@ -157,12 +157,12 @@
                             <td style="width: 230px;" ><span title="NOMBRE_P">Nombres y Apellidos</span></td>
                             <td  ><span title="DEPARTAMENTO" >Departamento</span></td>
                             <td  ><span title="AREA" >Area</span></td>
-                            <td><span title="SECCION">Sección</span></td>
+                            <td><span title="SECCION">Secciï¿½n</span></td>
                             <td><span title="PUESTO">Puesto</span></td>
                             <td><span title="SUELDO">Sueldo</span></td>
                             <!-- <th><span title="PROCESO">Proceso</span></th>-->
                             <td><span title="MOTIVO">Requerimiento</span></td>
-                            <td><span title="FECHA_CREACION">Fecha de Contratación</span></td>
+                            <td><span title="FECHA_CREACION">Fecha de Contrataciï¿½n</span></td>
                         </tr>
                     </thead>
 

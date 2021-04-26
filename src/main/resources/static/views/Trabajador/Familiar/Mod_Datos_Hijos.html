@@ -1,11 +1,11 @@
-<%@page import="pe.edu.upeu.application.util.DateFormat"%>
-<%@page import="pe.edu.upeu.application.properties.globalProperties"%>
-<%@page import="pe.edu.upeu.application.model.Tipo_Documento"%>
+<%@page import="DateFormat"%>
+<%@page import="globalProperties"%>
+<%@page import="Tipo_Documento"%>
 <%    HttpSession sesion = request.getSession();
     String id_user = (String) sesion.getAttribute("IDUSER");
     if (id_user != null) {
 %>
-<%@page import="pe.edu.upeu.application.model.Datos_Hijo_Trabajador"%>
+<%@page import="Datos_Hijo_Trabajador"%>
 <jsp:useBean id="Lista_hijo_individual" scope="session" class="java.util.ArrayList"/>
 <jsp:useBean id="Listar_tipo_doc" scope="session" class="java.util.ArrayList"/>
 
@@ -256,7 +256,7 @@
                                                             </div>
                                                             <div class="col-sm-4">
                                                                 <div class="form-group">
-                                                                    <label>Inscripción Vigiente Essalud: </label>
+                                                                    <label>Inscripciï¿½n Vigiente Essalud: </label>
                                                                     <div class="input-group">
                                                                         <span class="input-group-addon"><i class="fa fa-flag fa-lg fa-fw"></i></span>
                                                                         <select  name="INSCRIPCION_VIG_ESSALUD" class="form-control input-group-sm"   required="" >

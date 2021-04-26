@@ -1,14 +1,14 @@
-<%@page import="pe.edu.upeu.application.util.DateFormat"%>
+<%@page import="com.app.util.DateFormat"%>
 <%@page import="java.util.HashMap"%>
 <%@page import="java.util.Map"%>
 <%@page import="com.google.gson.Gson"%>
 <%@page import="org.json.simple.JSONArray"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.util.List"%>
-<%@page import="pe.edu.upeu.application.model.V_Filtro_Dgp_Aut"%>
+<%@page import="com.app.model.V_Filtro_Dgp_Aut"%>
 <%@page import="java.sql.ResultSet"%>
-<%@page import="pe.edu.upeu.application.factory.FactoryConnectionDB"%>
-<%@page import="pe.edu.upeu.application.factory.ConexionBD"%>
+<%@page import="com.app.factory.FactoryConnectionDB"%>
+<%@page import="com.app.factory.ConexionBD"%>
 
 <%
     response.setContentType("application/json");

@@ -1,14 +1,14 @@
-<%@page import="pe.edu.upeu.application.util.DateFormat"%>
-<%@page import="pe.edu.upeu.application.properties.globalProperties"%>
-<%@page import="pe.edu.upeu.application.factory.FactoryConnectionDB"%>
+<%@page import="DateFormat"%>
+<%@page import="globalProperties"%>
+<%@page import="FactoryConnectionDB"%>
 <%@page import="java.util.ArrayList"%>
-<%@page import="pe.edu.upeu.application.model.Grupo_Ocupaciones"%>
-<%@page import="pe.edu.upeu.application.model.Modalidad"%>
-<%@page import="pe.edu.upeu.application.model.Regimen_Laboral"%>
-<%@page import="pe.edu.upeu.application.model.Direccion"%>
-<%@page import="pe.edu.upeu.application.model.V_Contrato_dgp"%>
-<%@page import="pe.edu.upeu.application.model.X_List_Id_Contrato_DGP"%>
-<%@page import="pe.edu.upeu.application.model.X_List_Id_Contrato_DGP"%>
+<%@page import="Grupo_Ocupaciones"%>
+<%@page import="Modalidad"%>
+<%@page import="Regimen_Laboral"%>
+<%@page import="Direccion"%>
+<%@page import="V_Contrato_dgp"%>
+<%@page import="X_List_Id_Contrato_DGP"%>
+<%@page import="X_List_Id_Contrato_DGP"%>
 <jsp:useBean id="List_contrato" scope="session" class="java.util.ArrayList"/>
 <jsp:useBean id="Listar_Direccion" scope="session" class="java.util.ArrayList"/>
 <jsp:useBean id="list_reg_labo" scope="session" class="java.util.ArrayList"/>
@@ -129,14 +129,14 @@
                                                     <%if (a.getLi_motivo() != null) {%>
                                                     <%if (a.getLi_motivo().trim().equals("1")) {%>
                                                     <option value="1" selected="">Trabajador Nuevo</option>   
-                                                    <option value="2" >renovación</option>   
+                                                    <option value="2" >renovaciï¿½n</option>   
                                                     <%} else {%>
                                                     <option value="1" >Trabajador Nuevo</option>   
-                                                    <option value="2" selected="">renovación</option>
+                                                    <option value="2" selected="">renovaciï¿½n</option>
                                                     <%}%>
                                                     <%} else {%>
                                                     <option value="1" >Trabajador Nuevo</option>   
-                                                    <option value="2" >renovación</option>
+                                                    <option value="2" >renovaciï¿½n</option>
                                                     <%}%>
                                                 </select>
                                             </label>
@@ -206,7 +206,7 @@
                                             disabledEdit = (permissionEditContract) ? "" : "disabled";
                                         %>
                                         <section class="col col-3" id="titulo">
-                                            <label class="select" id="titulo">Dirección:
+                                            <label class="select" id="titulo">Direcciï¿½n:
                                                 <select name="DIRECCION" <%=disabledEdit%> class="select_dir input-group-sm" id="select_dir">
                                                     <%
                                                         for (int c = 0; c < Listar_Direccion.size(); c++) {
@@ -238,7 +238,7 @@
                                             </label>
                                         </section>
                                         <section class="sec_sec col col-3" id="titulo">
-                                            <label class="select" id="titulo">Sección:
+                                            <label class="select" id="titulo">Secciï¿½n:
                                                 <select name="SECCION_ID" <%=disabledEdit%> class="select_sec input-group-sm" id="select_sec">
                                                     <option value="">[Seleccione]</option>
                                                 </select>  </label>
@@ -256,15 +256,15 @@
                                         <input name="PUESTO_ID"  type="hidden" value="<%=a.getId_puesto()%>" />
                                         <input name="DIRECCION"  type="hidden" value="<%=a.getId_direccion()%>" />
                                         <section class="col col-3">
-                                            <label class="select" id="titulo">Condición:
+                                            <label class="select" id="titulo">Condiciï¿½n:
                                                 <select name="CONDICION" class="input-group-sm" required="">
                                                     <%if (a.getLi_condicion() != null) {%>
                                                     <option value="1" <%if (a.getLi_condicion().trim().equals("1")) {%>selected=""<% }%>>Contratado</option>
                                                     <option value="2" <%if (a.getLi_condicion().trim().equals("2")) {%>selected=""<%}%>>Contratado Independiente</option>
                                                     <option value="3" <%if (a.getLi_condicion().trim().equals("3")) {%>selected=""<%}%>> Enpleado</option>
                                                     <option value="4" <%if (a.getLi_condicion().trim().equals("4")) {%>selected=""<%}%>>Misionero</option>
-                                                    <option value="5" <%if (a.getLi_condicion().trim().equals("5")) {%>selected=""<%}%>>Práctica Profesional</option>
-                                                    <option value="6" <%if (a.getLi_condicion().trim().equals("6")) {%>selected=""<%}%>>Práctica Pre Profesionales</option>
+                                                    <option value="5" <%if (a.getLi_condicion().trim().equals("5")) {%>selected=""<%}%>>Prï¿½ctica Profesional</option>
+                                                    <option value="6" <%if (a.getLi_condicion().trim().equals("6")) {%>selected=""<%}%>>Prï¿½ctica Pre Profesionales</option>
                                                     <option value="7" <%if (a.getLi_condicion().trim().equals("7")) {%>selected=""<%}%>>Convenio Laboral Juvenil</option>
                                                     <option value="8" <%if (a.getLi_condicion().trim().equals("8")) {%>selected=""<%}%>>MFL-Contrato</option>
                                                     <%} else {%>
@@ -273,8 +273,8 @@
                                                     <option value="2">Contratado Independiente</option>
                                                     <option value="3">Enpleado</option>
                                                     <option value="4">Misionero</option>
-                                                    <option value="5">Práctica Profesional</option>
-                                                    <option value="6">Práctica Pre Profesionales</option>
+                                                    <option value="5">Prï¿½ctica Profesional</option>
+                                                    <option value="6">Prï¿½ctica Pre Profesionales</option>
                                                     <option value="7">Convenio Laboral Juvenil</option>
                                                     <option value="8">MFL-Contrato</option>
                                                     <%}%>
@@ -284,7 +284,7 @@
                                     </div>
                                     <div class="row">
                                         <section class="col col-2">
-                                            <label class="input" id="titulo">Remuneración:
+                                            <label class="input" id="titulo">Remuneraciï¿½n:
                                                 <input type="text" name="SUELDO" value="<%=a.getCa_sueldo()%>" class="input-group-sm" id="remu" <%if (a.getId_dgp() == null) {
                                                     } else {%>readonly=""<%}%>>
                                             </label>
@@ -314,7 +314,7 @@
                                             </label>
                                         </section>
                                         <section class="col col-2" >
-                                            <label class="input" id="titulo">Asignanción Familiar:
+                                            <label class="input" id="titulo">Asignanciï¿½n Familiar:
                                                 <input type="text" name="ASIG_FAMILIAR" value="<%=a.getCa_asig_familiar()%>"  class="input-group-sm" id="asig" <%if (a.getId_dgp() == null) {
                                                     } else {%>readonly=""<%}%>>
                                             </label>
@@ -359,7 +359,7 @@
                                 <fieldset>
                                     <div class="row">
                                         <section class="col col-2">
-                                            <label class="select" id="titulo">Situación Especial:
+                                            <label class="select" id="titulo">Situaciï¿½n Especial:
                                                 <select name="situacionEspecial" class="input-group-sm situacionEspecial" data-valor="<%=a.getIdSituacionEspecial()%>">
                                                     <option value="">[Seleccione]</option>
 
@@ -416,7 +416,7 @@
                                             </label>
                                         </section>
                                         <section class="col col-4">
-                                            <label class="select" id="titulo">Tipo Contratación:
+                                            <label class="select" id="titulo">Tipo Contrataciï¿½n:
                                                 <select name="REG_LAB_MINTRA" class="input-group-sm" >
                                                     <option value="">[Seleccione]</option>
                                                     <option value="I">INICIO</option>
@@ -446,7 +446,7 @@
                                             </label>
                                         </section>
                                         <section class="col col-4">
-                                            <label class="input" id="titulo">Fecha de Suscripción: 
+                                            <label class="input" id="titulo">Fecha de Suscripciï¿½n: 
                                                 <%if (a.getFe_suscripcion() != null) {%>
                                                 <input id="suscripcion" type="date" name="FECHA_SUSCRIPCION"  class="input-group-sm"  value="<%=DateFormat.toFormat3(a.getFe_suscripcion())%>">
                                                 <%} else {%>
@@ -489,7 +489,7 @@
                                             </label>
                                         </section>
                                         <section class="col col-4">
-                                            <label class="select" id="titulo">Remuneración en Especie:
+                                            <label class="select" id="titulo">Remuneraciï¿½n en Especie:
                                                 <select name="REM_ESPECIE" class="input-group-sm" required="">
                                                     <option value="">[Seleccione]</option>
                                                     <%if (a.getDe_remu_especie() != null) {%>
@@ -555,10 +555,10 @@
                                                     <option value="">[Seleccione]</option>
                                                     <%if (a.getLi_regimen_laboral() != null) {%>
                                                     <option value="1" <%if (a.getLi_regimen_laboral().trim().equals("1")) {%> selected=""<%}%> >Privado</option>
-                                                    <option value="2" <%if (a.getLi_regimen_laboral().trim().equals("2")) {%> selected=""<%}%> >Público</option>
+                                                    <option value="2" <%if (a.getLi_regimen_laboral().trim().equals("2")) {%> selected=""<%}%> >Pï¿½blico</option>
                                                     <%} else {%>
                                                     <option value="1">Privado</option>
-                                                    <option value="2" selected="">Público</option>
+                                                    <option value="2" selected="">Pï¿½blico</option>
                                                     <%}%>
                                                 </select>
                                             </label>
@@ -622,7 +622,7 @@
                                 </fieldset>
                                 <fieldset>
                                     <section>
-                                        <label class="label" id="titulo">Observación:  </label>
+                                        <label class="label" id="titulo">Observaciï¿½n:  </label>
                                         <label class="textarea">
                                             <textarea rows="3"  name="OBSERVACION" cols="35" rows="6" value="<%=a.getDe_observacion()%>" ></textarea>
                                         </label>
@@ -631,14 +631,14 @@
                                 <fieldset>
                                     <div class="row">
                                         <!--<section class="col col-4">
-                                            <label class="select" id="titulo">Situación Actual:
+                                            <label class="select" id="titulo">Situaciï¿½n Actual:
                                                 <select name="ESTADO_CONTRATO" class="input-group-sm" required="">
                                                     <option value="">[Seleccione]</option>
                                                     <option value="1" selected="" >Activo</option>
-                                                    <option value="2">Término de Contrato</option>
+                                                    <option value="2">Tï¿½rmino de Contrato</option>
                                                     <option value="3">Renuncia Voluntaria</option>
                                                     <option value="4">Traslado a otra Filial/Institucion</option>
-                                                    <option value="5">No Inicio Relación Laboral</option>
+                                                    <option value="5">No Inicio Relaciï¿½n Laboral</option>
                                                     <option value="6">Cambio de Modalidad Contractual</option>
                                                     <option value="7">Abandono de Trabajo</option>
                                                 </select>

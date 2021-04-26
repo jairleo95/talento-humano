@@ -9,19 +9,19 @@
         rol = rol.trim();
 %>
 
-<%@page import="pe.edu.upeu.application.model.Cuenta_Sueldo"%>
-<%@page import="pe.edu.upeu.application.model.Tipo_Institucion"%>
-<%@page import="pe.edu.upeu.application.model.V_Ficha_Trab_Num_C"%>
-<%@page import="pe.edu.upeu.application.model.Usuario"%>
-<%@page import="pe.edu.upeu.application.model.Tipo_Documento"%>
-<%@page import="pe.edu.upeu.application.model.Ub_Departamento"%>
-<%@page import="pe.edu.upeu.application.model.Situacion_Educativa"%>
-<%@page import="pe.edu.upeu.application.model.Universidad"%>
-<%@page import="pe.edu.upeu.application.model.Carrera"%>
-<%@page import="pe.edu.upeu.application.model.V_Ubigeo"%>
-<%@page import="pe.edu.upeu.application.model.Nacionalidad"%>
+<%@page import="Cuenta_Sueldo"%>
+<%@page import="Tipo_Institucion"%>
+<%@page import="V_Ficha_Trab_Num_C"%>
+<%@page import="Usuario"%>
+<%@page import="Tipo_Documento"%>
+<%@page import="Ub_Departamento"%>
+<%@page import="Situacion_Educativa"%>
+<%@page import="Universidad"%>
+<%@page import="Carrera"%>
+<%@page import="V_Ubigeo"%>
+<%@page import="Nacionalidad"%>
 <jsp:useBean id="List_Cuenta_Sueldo" scope="session" class="java.util.ArrayList"/>
-<jsp:useBean id="list_año" scope="session" class="java.util.ArrayList"/>
+<jsp:useBean id="list_aï¿½o" scope="session" class="java.util.ArrayList"/>
 <jsp:useBean id="List_tipo_institucion" scope="session" class="java.util.ArrayList"/>
 <jsp:useBean id="List_Universidad" scope="session" class="java.util.ArrayList"/>
 <jsp:useBean id="ListaridTrabajador" scope="session" class="java.util.ArrayList"/>
@@ -115,7 +115,7 @@
                                 -->
                                 <header>
                                     <span class="widget-icon"> <i class="glyphicon glyphicon-user"></i> </span>
-                                    <h2 class="font-md"><strong>Modificar </strong> <i>apecto académico</i></h2>
+                                    <h2 class="font-md"><strong>Modificar </strong> <i>apecto acadï¿½mico</i></h2>
                                 </header>
                                 <!-- widget div-->
                                 <div>
@@ -135,7 +135,7 @@
                                                         <div class="row">
                                                             <div class="col-sm-4">
                                                                 <div class="form-group">
-                                                                    <label>Situación Educativa:</label>
+                                                                    <label>Situaciï¿½n Educativa:</label>
                                                                     <div class="input-group">
                                                                         <span class="input-group-addon"><i class="fa fa-mortar-board fa-lg fa-fw"></i></span>
                                                                         <select name="NIVEL_EDUCATIVO" class="form-control input-group-sm" id="sit_edu" required>
@@ -157,7 +157,7 @@
 
                                                             <div class="col-sm-4" id="es_inst_p" style="display: none">
                                                                 <div class="form-group">
-                                                                    <label>¿Estudio en una institucion educativa del Perú?</label>
+                                                                    <label>ï¿½Estudio en una institucion educativa del Perï¿½?</label>
                                                                     <div class="input-group">
                                                                         <span class="input-group-addon"><i class="fa fa-institution fa-lg fa-fw"></i></span>
                                                                         <select class="form-control input-group-sm" id="inst_peru" name="ES_INST_PERU" required>
@@ -181,7 +181,7 @@
                                                             </div>
                                                             <div class="col-sm-4" id="regimen" style="display: none">
                                                                 <div class="form-group">
-                                                                    <label>Regimen de la Institución Educativa:</label>
+                                                                    <label>Regimen de la Instituciï¿½n Educativa:</label>
                                                                     <div class="input-group">
                                                                         <span class="input-group-addon"><i class="fa fa-institution fa-lg fa-fw"></i></span>
                                                                         <select class="form-control input-group-sm" id="rg" name="REGIMEN" required>
@@ -208,7 +208,7 @@
                                                         <div class="row">
                                                             <div class="col-sm-4" id="ti" style="display: none">
                                                                 <div class="form-group">
-                                                                    <label>Tipo de Institución:</label>
+                                                                    <label>Tipo de Instituciï¿½n:</label>
                                                                     <div class="input-group">
                                                                         <span class="input-group-addon"><i class="fa fa-institution fa-lg fa-fw"></i></span>
                                                                         <select class="form-control input-group-sm" id="ti_inst"  required>
@@ -242,7 +242,7 @@
                                                             </div>
                                                             <div class="col-sm-4" id="institucion" style="display: none">
                                                                 <div class="form-group">
-                                                                    <label>Institución:</label>
+                                                                    <label>Instituciï¿½n:</label>
                                                                     <div class="input-group">
                                                                         <span class="input-group-addon"><i class="fa fa-institution fa-lg fa-fw"></i></span>
                                                                         <select class="form-control input-group-sm" id="inst"  required name="UNIVERSIDAD">
@@ -306,24 +306,24 @@
                                                             </div>           
                                                             <div class="col-sm-4" id="egreso">
                                                                 <div class="form-group">
-                                                                    <label>Año Egreso:</label>
+                                                                    <label>Aï¿½o Egreso:</label>
                                                                     <div class="input-group">
                                                                         <span class="input-group-addon"><i class="fa fa-mortar-board fa-lg fa-fw"></i></span>
                                                                         <select   id="ano_e" name="A_EGRESO" class="form-control input-group-sm" required="" >
                                                                             <option value="">[Seleccione]</option>
                                                                             <% if (t.getDe_anno_egreso() != null) {
-                                                                                    for (int jj = 0; jj < list_año.size(); jj++) {
-                                                                                        if (t.getDe_anno_egreso().trim().equals(list_año.get(jj))) {
+                                                                                    for (int jj = 0; jj < list_aï¿½o.size(); jj++) {
+                                                                                        if (t.getDe_anno_egreso().trim().equals(list_aï¿½o.get(jj))) {
                                                                             %>
-                                                                            <option value="<%=list_año.get(jj)%>" selected=""><%=list_año.get(jj)%></option>
+                                                                            <option value="<%=list_aï¿½o.get(jj)%>" selected=""><%=list_aï¿½o.get(jj)%></option>
                                                                             <%} else {%>
-                                                                            <option value="<%=list_año.get(jj)%>"><%=list_año.get(jj)%></option>
+                                                                            <option value="<%=list_aï¿½o.get(jj)%>"><%=list_aï¿½o.get(jj)%></option>
                                                                             <%}
                                                                                 }
                                                                             } else {
-                                                                                for (int jj = 0; jj < list_año.size(); jj++) {%>
+                                                                                for (int jj = 0; jj < list_aï¿½o.size(); jj++) {%>
 
-                                                                            <option value="<%=list_año.get(jj)%>"><%=list_año.get(jj)%></option>
+                                                                            <option value="<%=list_aï¿½o.get(jj)%>"><%=list_aï¿½o.get(jj)%></option>
                                                                             <%}
                                                                                 }
                                                                             %>

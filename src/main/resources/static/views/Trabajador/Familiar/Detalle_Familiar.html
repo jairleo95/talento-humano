@@ -1,13 +1,13 @@
 
-<%@page import="pe.edu.upeu.application.util.DateFormat"%>
-<%@page import="pe.edu.upeu.application.model.Tipo_Documento"%>
-<%@page import="pe.edu.upeu.application.model.V_Ficha_Trab_Num_C"%>
+<%@page import="DateFormat"%>
+<%@page import="Tipo_Documento"%>
+<%@page import="V_Ficha_Trab_Num_C"%>
 <%    HttpSession sesion_ = request.getSession();
     String id_user_ = (String) sesion_.getAttribute("IDUSER");
     if (id_user_ != null) {
 %>
-<%@page import="pe.edu.upeu.application.model.Usuario"%>
-<%@page import="pe.edu.upeu.application.model.Padre_Madre_Conyugue"%>
+<%@page import="Usuario"%>
+<%@page import="Padre_Madre_Conyugue"%>
 <jsp:useBean id="LISTA_HIJOS" scope="session" class="java.util.ArrayList"/>
 <jsp:useBean id="ListaridTrabajador" scope="session" class="java.util.ArrayList"/>
 <jsp:useBean id="Lista_Tipo_Doc" scope="session" class="java.util.ArrayList"/>

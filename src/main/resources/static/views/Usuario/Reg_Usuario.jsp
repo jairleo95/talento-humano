@@ -2,8 +2,8 @@
     String id_user = (String) sesion.getAttribute("IDUSER");
     if (id_user != null) {
 %>
-<%@page import="pe.edu.upeu.application.model.V_List_Empleado"%>
-<%@page import="pe.edu.upeu.application.model.Rol"%>
+<%@page import="com.app.model.V_List_Empleado"%>
+<%@page import="com.app.model.Rol"%>
 <jsp:useBean id="Listar_Emp" scope="session" class="java.util.ArrayList"/>
 <jsp:useBean id="List_Rol" scope="session" class="java.util.ArrayList"/>
 <!DOCTYPE html>

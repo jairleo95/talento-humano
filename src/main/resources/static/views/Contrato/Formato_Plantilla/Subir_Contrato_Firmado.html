@@ -1,6 +1,6 @@
 
-<%@page import="pe.edu.upeu.application.dao.DocumentoDAO"%>
-<%@page import="pe.edu.upeu.application.dao_imp.InterfaceDocumentoDAO"%>
+<%@page import="DocumentoDAO"%>
+<%@page import="InterfaceDocumentoDAO"%>
 <%
     HttpSession sesion = request.getSession();
     String id_user = (String) sesion.getAttribute("IDUSER");
@@ -301,7 +301,7 @@
         <script type="text/javascript">
             function closedthis() {
                 $.smallBox({
-                    title: "¡Documento registrada correctamente!",
+                    title: "ï¿½Documento registrada correctamente!",
                     content: "ya puede visualizar el documento",
                     color: "#739E73",
                     iconSmall: "fa fa-check fa-2x fadeInRight animated",
@@ -310,7 +310,7 @@
             }
             function closedthis2() {
                 $.smallBox({
-                    title: "¡Documento eliminado correctamente!",
+                    title: "ï¿½Documento eliminado correctamente!",
                     content: "ya puede ver el cambio",
                     color: "#739E73",
                     iconSmall: "fa fa-check fa-2x fadeInRight animated",
@@ -341,7 +341,7 @@
                     $(".div-holi").text($(".DD").val());
                 });
                 $(".elimi").click(function() {
-                    var msg = confirm('¿Está seguro de eliminar?');
+                    var msg = confirm('ï¿½Estï¿½ seguro de eliminar?');
                     if (msg == true) {
                         return true;
                     } else {

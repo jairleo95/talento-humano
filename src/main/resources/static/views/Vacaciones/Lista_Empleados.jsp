@@ -1,10 +1,10 @@
-<%@page import="pe.edu.upeu.application.model.Usuario"%>
+<%@page import="com.app.model.Usuario"%>
 <%
     HttpSession sesion_1 = request.getSession();
     String id_user_1 = (String) sesion_1.getAttribute("IDUSER");
     if (id_user_1 != null) {
 %>
-<%@page import="pe.edu.upeu.application.model.V_List_Empleado"%>
+<%@page import="com.app.model.V_List_Empleado"%>
 <jsp:useBean id="List_Empleado" scope="session" class="java.util.ArrayList"/>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html lang="en-us">
@@ -127,10 +127,10 @@
                                                                                                                                                 <input type="text" class="form-control" placeholder="Filtro Nombre" />
                                                                                                                                             </th>
                                                                                                                                             <th class="hasinput" style="width:16%">
-                                                                                                                                                <input type="text" class="form-control" placeholder="Filtro Área" />
+                                                                                                                                                <input type="text" class="form-control" placeholder="Filtro ï¿½rea" />
                                                                                                                                             </th>
                                                                                                                                             <th class="hasinput" style="width:16%">
-                                                                                                                                                <input type="text" class="form-control" placeholder="Filtro Sección" />
+                                                                                                                                                <input type="text" class="form-control" placeholder="Filtro Secciï¿½n" />
                                                                                                                                             </th>
                                                                                                                                             <th class="hasinput" style="width:16%">
                                                                                                                                                 <input type="text" class="form-control" placeholder="Filtro Puesto" />

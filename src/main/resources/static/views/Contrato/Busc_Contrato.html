@@ -1,14 +1,14 @@
 
-<%@page import="pe.edu.upeu.application.model.Direccion"%>
+<%@page import="Direccion"%>
 <%
     HttpSession sesion = request.getSession();
     String id_user = (String) sesion.getAttribute("IDUSER");
     if (id_user != null) {
 
 %>
-<%@page import="pe.edu.upeu.application.model.Usuario"%>
-<%@page import="pe.edu.upeu.application.model.Requerimiento"%>
-<%@page import="pe.edu.upeu.application.model.Area"%>
+<%@page import="Usuario"%>
+<%@page import="Requerimiento"%>
+<%@page import="Area"%>
 <jsp:useBean id="Listar_Direccion" scope="session" class="java.util.ArrayList"/>
 <jsp:useBean class="java.util.ArrayList" scope="session"  id="Listar_Requerimiento"/>
 <jsp:useBean class="java.util.ArrayList" scope="session"  id="List_Area_ID"/>
@@ -160,7 +160,7 @@
                     <div class="col-md-12 advice hidden">
                         <div class="alert alert-danger alert-dismissible" role="alert" style="width: 50%;">
                             <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                            <i class="glyphicon glyphicon-exclamation-sign"></i>   No se encontraron datos en la búsqueda
+                            <i class="glyphicon glyphicon-exclamation-sign"></i>   No se encontraron datos en la bï¿½squeda
                         </div>
                     </div>
                     <div class="col-md-12">
@@ -283,7 +283,7 @@
                                     if (document.form.termin.checked) {
                                         document.form.submit();
                                     } else {
-                                        alert("Debes aceptar los términos y condiciones");
+                                        alert("Debes aceptar los tï¿½rminos y condiciones");
                                         document.form.termin.focus();
                                         return false;
                                     }
@@ -373,8 +373,8 @@
                                         var radio = $("input[type='radio']:checked").length;
                                         var select = $("select option:selected").val();
                                         if (check == "") {
-                                                alert("seleccione un contrato");
-                                                return false;
+                                            ï¿½ï¿½ï¿½ï¿½alert("seleccione un contrato");
+                                            ï¿½ï¿½ï¿½ï¿½return false;
                                         }
                                     });
                                 });
@@ -382,15 +382,15 @@
                                     var t = '<table id="data"  class="table table-striped table-hover table-responsive">';
                                     t += '<thead class="tab_cabe" style="box-shadow: 0 0 20px 0 black;">';
                                     t += '<tr class="tr" >';
-                                    t += '<th style="width:3%;"><center><h6>N°  </h6></center></th>';
+                                    t += '<th style="width:3%;"><center><h6>Nï¿½  </h6></center></th>';
                                     t += '<th><center><h6 title="NOM_APE"><i class="glyphicon glyphicon-user"></i>   Nombres y Apellidos</h6></center></th>';
                                     t += '<th><center><h6 title="FEC_DESDE"><i class="glyphicon glyphicon-calendar"></i>   Fecha Desde</h6></center></th>';
                                     t += '<th><center><h6 title="FEC_HASTA"><i class="glyphicon glyphicon-calendar"></i>   Fecha Hasta</h6></center></th>';
                                     t += '<th><center><h6 title="AREA"><i class="glyphicon glyphicon-record"></i>   Area</h6></center></th>';
-                                    t += '<th><center><h6 title="SECCION"><i class="glyphicon glyphicon-adjust"></i>   Sección</h6></center></th>';
+                                    t += '<th><center><h6 title="SECCION"><i class="glyphicon glyphicon-adjust"></i>   Secciï¿½n</h6></center></th>';
                                     t += '<th><center><h6 title="PUESTO"><i class="glyphicon glyphicon-briefcase"></i>   Puesto</h6></center></th>';
                                     t += '<th><center><h6 title="SUELDO"><i class="glyphicon glyphicon-usd"></i>   Sueldo</h6></center></th>';
-                                    t += '<th><center><h6 title="FECHA_CREACION"><i class="glyphicon glyphicon-calendar"></i>   Fecha de Contratación</h6></center></th>';
+                                    t += '<th><center><h6 title="FECHA_CREACION"><i class="glyphicon glyphicon-calendar"></i>   Fecha de Contrataciï¿½n</h6></center></th>';
                                     t += '<th><center><h6 ><i class="glyphicon glyphicon-info-sign"></i>   Opcion</h6></center></th>';
                                     t += '<th style="width:7%;"><button type="button" class="btn btn-warning" id="btns" onclick="select_all()"><i class="glyphicon glyphicon-check"></i></button>';
                                     t += '<button type="submit" name="opc" class="btn btn-info" id="asa" value="Imprimir" style="margin-left: 1%;"><i class="glyphicon glyphicon-print"></i></button></th>';

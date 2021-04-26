@@ -1,17 +1,17 @@
-<%@page import="pe.edu.upeu.application.model.Zona"%>
-<%@page import="pe.edu.upeu.application.model.Via"%>
-<%@page import="pe.edu.upeu.application.model.V_Ubigeo"%>
-<%@page import="pe.edu.upeu.application.model.Usuario"%>
+<%@page import="Zona"%>
+<%@page import="Via"%>
+<%@page import="V_Ubigeo"%>
+<%@page import="Usuario"%>
 <%
     HttpSession sesion_1 = request.getSession();
     String id_user_1 = (String) sesion_1.getAttribute("IDUSER");
     if (id_user_1 != null) {
 %>
-<%@page import="pe.edu.upeu.application.dao.ListaDAO"%>
-<%@page import="pe.edu.upeu.application.dao_imp.InterfaceListaDAO"%>
-<%@page import="pe.edu.upeu.application.model.V_Ficha_Trab_Num_C"%>
-<%@page import="pe.edu.upeu.application.model.Trabajador"%>
-<%@page import="pe.edu.upeu.application.model.Trabajador"%>
+<%@page import="ListaDAO"%>
+<%@page import="InterfaceListaDAO"%>
+<%@page import="V_Ficha_Trab_Num_C"%>
+<%@page import="Trabajador"%>
+<%@page import="Trabajador"%>
 <jsp:useBean id="ListaridTrabajador" scope="session" class="java.util.ArrayList"/>
 <jsp:useBean id="List_Ubigeo" scope="session" class="java.util.ArrayList"/>
 <jsp:useBean id="List_Dom_D1_Id" scope="session" class="java.util.ArrayList"/>
@@ -49,7 +49,7 @@
                     </td>
 
                 </tr> 
-                <tr><td class="text-info">Dirección :</td><td>
+                <tr><td class="text-info">Direcciï¿½n :</td><td>
                         <%
                             if (trb.getLi_di_dom_a_d1() != null) {
                                 for (int i = 0; i < List_Dom_D1_Id.size(); i++) {
@@ -118,7 +118,7 @@
                         }%>
                 </tr>
                 <tr><td colspan="2"><div class="title">Direccion Segun Dni</div></td></tr>
-                <tr><td class="text-info">Dirección :</td><td>
+                <tr><td class="text-info">Direcciï¿½n :</td><td>
                         <%
                             if (trb.getLi_di_dom_leg_d1() != null) {
                                 for (int i = 0; i < List_Dom_D1_Id.size(); i++) {
@@ -203,7 +203,7 @@
 
                 <tr>
                     <td >
-                        <div class="title">Información Religiosa</div>
+                        <div class="title">Informaciï¿½n Religiosa</div>
                     </td>
                     <td >
                         <input type="hidden" name="idtr" value="<%=IDTR%>">  
@@ -212,7 +212,7 @@
                         <button class="btn btn-success btn-labeled" href="../../trabajador?opc=Editar_Asp_Soc&idtr=<%=IDTR%>"> <span class="btn-label"><i class="glyphicon glyphicon-refresh"></i></span> Editar </button>
                     </td>
                 </tr>
-                <tr><td class="text-info">Religión:</td><td><%
+                <tr><td class="text-info">Religiï¿½n:</td><td><%
                     if (trb.getLi_autoridad() != null) {
                         if (trb.getLi_religion().equals("1")) {
                             out.println("Adventista");

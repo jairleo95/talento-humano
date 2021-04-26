@@ -1,7 +1,7 @@
-<%@page import="pe.edu.upeu.application.properties.globalProperties"%>
-<%@page import="pe.edu.upeu.application.model.Tipo_Documento"%>
-<%@page import="pe.edu.upeu.application.dao.Tipo_DocumentoDAO"%>
-<%@page import="pe.edu.upeu.application.dao_imp.InterfaceTipo_DocumentoDAO"%>
+<%@page import="globalProperties"%>
+<%@page import="Tipo_Documento"%>
+<%@page import="Tipo_DocumentoDAO"%>
+<%@page import="InterfaceTipo_DocumentoDAO"%>
 <%    HttpSession sesion = request.getSession();
     String id_user = (String) sesion.getAttribute("IDUSER");
     if (id_user != null) {

@@ -1,4 +1,4 @@
-<%@page import="pe.edu.upeu.application.properties.globalProperties"%>
+<%@page import="globalProperties"%>
 <%
     HttpSession sesion = request.getSession();
     String id_user = (String) sesion.getAttribute("IDUSER");
@@ -6,16 +6,16 @@
         String iddep = (String) sesion.getAttribute("DEPARTAMENTO_ID");
         String iduser = (String) sesion.getAttribute("IDUSER");
 %>
-<%@page import="pe.edu.upeu.application.model.Usuario"%>
-<%@page import="pe.edu.upeu.application.model.Tipo_Documento"%>
-<%@page import="pe.edu.upeu.application.model.Via"%>
-<%@page import="pe.edu.upeu.application.model.Zona"%>
-<%@page import="pe.edu.upeu.application.model.Ub_Departamento"%>
-<%@page import="pe.edu.upeu.application.model.Situacion_Educativa"%>
-<%@page import="pe.edu.upeu.application.model.Universidad"%>
-<%@page import="pe.edu.upeu.application.model.Carrera"%>
-<%@page import="pe.edu.upeu.application.model.V_Ubigeo"%>
-<%@page import="pe.edu.upeu.application.model.Nacionalidad"%>
+<%@page import="Usuario"%>
+<%@page import="Tipo_Documento"%>
+<%@page import="Via"%>
+<%@page import="Zona"%>
+<%@page import="Ub_Departamento"%>
+<%@page import="Situacion_Educativa"%>
+<%@page import="Universidad"%>
+<%@page import="Carrera"%>
+<%@page import="V_Ubigeo"%>
+<%@page import="Nacionalidad"%>
 <jsp:useBean id="List_Nacionalidad" scope="session" class="java.util.ArrayList"/>
 <jsp:useBean id="List_Departamento" scope="session" class="java.util.ArrayList"/>
 <jsp:useBean id="List_Carrera" scope="session" class="java.util.ArrayList"/>
@@ -24,7 +24,7 @@
 <jsp:useBean id="Listar_zona" scope="session" class="java.util.ArrayList"/>
 <jsp:useBean id="Listar_via" scope="session" class="java.util.ArrayList"/>
 <jsp:useBean id="Listar_tipo_doc" scope="session" class="java.util.ArrayList"/>
-<jsp:useBean id="list_año" scope="session" class="java.util.ArrayList"/>
+<jsp:useBean id="list_aï¿½o" scope="session" class="java.util.ArrayList"/>
 <!DOCTYPE html>
 <html lang="en-us">
     <head>
@@ -162,7 +162,7 @@
                                                                 <a href="#tab1" data-toggle="tab"> <span class="step">1</span> <span class="title">Datos Personales</span> </a>
                                                             </li>
                                                             <li data-target="#step2">
-                                                                <a href="#tab2" data-toggle="tab"> <span class="step">2</span> <span class="title">Aspecto Académico</span> </a>
+                                                                <a href="#tab2" data-toggle="tab"> <span class="step">2</span> <span class="title">Aspecto Acadï¿½mico</span> </a>
                                                             </li>
                                                             <li data-target="#step3">
                                                                 <a href="#tab3" data-toggle="tab"> <span class="step">3</span> <span class="title">Aspecto Social</span> </a>
@@ -445,7 +445,7 @@
                                                                     <div class="form-group">
                                                                         <div class="input-group">
                                                                             <span class="input-group-addon"><i class="fa fa-phone fa-lg fa-fw"></i></span>
-                                                                            <input type="text" name="TELEFONO"  placeholder="Teléfono"  data-mask="(99) 999-9999" data-mask-placeholder= "X"   formnovalidate maxlength="50" value="" class="form-control input-group-sm telefono" >
+                                                                            <input type="text" name="TELEFONO"  placeholder="Telï¿½fono"  data-mask="(99) 999-9999" data-mask-placeholder= "X"   formnovalidate maxlength="50" value="" class="form-control input-group-sm telefono" >
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -488,7 +488,7 @@
                                                                                 <option value="">[Sistema Pensionario]</option>
                                                                                 <option value="1">AFP</option>
                                                                                 <option value="2">ONP</option>
-                                                                                <option value="3">Sin Régimen Provisional(jubilado, cesante).</option>
+                                                                                <option value="3">Sin Rï¿½gimen Provisional(jubilado, cesante).</option>
                                                                                 <option value="4">Fuera de Planilla</option>
                                                                             </select>
                                                                         </div>
@@ -542,7 +542,7 @@
 
                                                         <div class="tab-pane" id="tab2">
 
-                                                            <h3><strong>Paso 2</strong> - Aspecto Académico</h3>
+                                                            <h3><strong>Paso 2</strong> - Aspecto Acadï¿½mico</h3>
 
                                                             <div class="row">
                                                                 <div class="col-sm-4">
@@ -550,7 +550,7 @@
                                                                         <div class="input-group">
                                                                             <span class="input-group-addon"><i class="fa fa-mortar-board fa-lg fa-fw"></i></span>
                                                                             <select name="NIVEL_EDUCATIVO" class="form-control input-group-sm" id="sit_edu" required>
-                                                                                <option value="" selected="selected" >[Situación Educativa]</option>
+                                                                                <option value="" selected="selected" >[Situaciï¿½n Educativa]</option>
                                                                                 <%for (int s = 0; s < List_Situacion_Educativa.size(); s++) {
                                                                                         Situacion_Educativa e = new Situacion_Educativa();
                                                                                         e = (Situacion_Educativa) List_Situacion_Educativa.get(s);
@@ -566,7 +566,7 @@
                                                                         <div class="input-group">
                                                                             <span class="input-group-addon"><i class="fa fa-flag fa-lg fa-fw"></i></span>
                                                                             <select class="form-control input-group-sm" id="inst_peru" name="ES_INST_PERU" required>
-                                                                                <option value="" selected="selected" >[¿Estudio en una institucion educativa del Perú?]</option>
+                                                                                <option value="" selected="selected" >[ï¿½Estudio en una institucion educativa del Perï¿½?]</option>
                                                                                 <option value="1">Si</option>
                                                                                 <option value="2">No</option>
 
@@ -579,7 +579,7 @@
                                                                         <div class="input-group">
                                                                             <span class="input-group-addon"><i class="fa fa-legal fa-lg fa-fw"></i></span>
                                                                             <select class="form-control input-group-sm" id="rg" name="REGIMEN" required>
-                                                                                <option value="" selected="selected">[Regimen de la Institución Educativa]</option>
+                                                                                <option value="" selected="selected">[Regimen de la Instituciï¿½n Educativa]</option>
                                                                                 <option value="1">Publica</option>
                                                                                 <option value="2">Privada</option>
 
@@ -596,7 +596,7 @@
                                                                         <div class="input-group">
                                                                             <span class="input-group-addon"><i class="fa fa-institution fa-lg fa-fw"></i></span>
                                                                             <select class="form-control input-group-sm" id="ti_inst"  required>
-                                                                                <option value="" selected="selected">[Tipo de Institución]</option>
+                                                                                <option value="" selected="selected">[Tipo de Instituciï¿½n]</option>
                                                                             </select>
                                                                         </div>
                                                                     </div>
@@ -606,7 +606,7 @@
                                                                         <div class="input-group">
                                                                             <span class="input-group-addon"><i class="fa fa-institution fa-lg fa-fw"></i></span>
                                                                             <select class="form-control input-group-sm" id="inst"  required>
-                                                                                <option value="" selected="selected">[Institución]</option>
+                                                                                <option value="" selected="selected">[Instituciï¿½n]</option>
                                                                             </select>
                                                                         </div>
                                                                     </div>
@@ -634,9 +634,9 @@
                                                                         <div class="input-group">
                                                                             <span class="input-group-addon"><i class="fa fa-calendar fa-lg fa-fw"></i></span>
                                                                             <select    name="A_EGRESO" class="form-control input-group-sm" required="" >
-                                                                                <option value="">[Año Egreso]</option>
-                                                                                <% for (int jj = 0; jj < list_año.size(); jj++) {%>
-                                                                                <option value="<%=list_año.get(jj)%>"><%=list_año.get(jj)%></option>
+                                                                                <option value="">[Aï¿½o Egreso]</option>
+                                                                                <% for (int jj = 0; jj < list_aï¿½o.size(); jj++) {%>
+                                                                                <option value="<%=list_aï¿½o.get(jj)%>"><%=list_aï¿½o.get(jj)%></option>
                                                                                 <%}%>
                                                                             </select>
                                                                         </div>
@@ -769,7 +769,7 @@
                                                                             <span class="input-group-addon"><i class="fa fa-map-marker fa-lg fa-fw"></i></span>
                                                                             <select name="DIR_DOM_A_D3_ID" id="DOM_A_D3" class="form-control input-group-sm"  required="">
                                                                                 <option value="">[Seleccione]</option>
-                                                                                <option value="1">Número</option>
+                                                                                <option value="1">Nï¿½mero</option>
                                                                                 <option value="2">Lote</option>
                                                                                 <option value="3">S/N</option>
                                                                                 <option value="4">Km</option>
@@ -929,7 +929,7 @@
                                                                             <span class="input-group-addon"><i class="fa fa-map-marker fa-lg fa-fw"></i></span>
                                                                             <select name="DIR_DOM_LEG_D3_ID"  id="DOM_LEG_D3" class="form-control input-group-sm"  required="">
                                                                                 <option value="">[Seleccione]</option>
-                                                                                <option value="1">Número</option>
+                                                                                <option value="1">Nï¿½mero</option>
                                                                                 <option value="2">Lote</option>
                                                                                 <option value="3">S/N</option>
                                                                                 <option value="4">Km</option>
@@ -1075,7 +1075,7 @@
                                                                         <div class="input-group">
                                                                             <span class="input-group-addon"><i class="fa fa-institution fa-lg fa-fw"></i></span>
                                                                             <select  class="form-control input-group-sm"  id="reli" required="" name="RELIGION">
-                                                                                <option value="">[Religión]</option>
+                                                                                <option value="">[Religiï¿½n]</option>
                                                                                 <option value="1">Adventista</option>
                                                                                 <option value="2">Catolico</option>
                                                                                 <option value="3">Otros</option>
@@ -1088,7 +1088,7 @@
                                                                 <div  class="col-sm-4 div_diezmo" style="display: none">
                                                                     <div class="input-group">
                                                                         <span class="input-group-addon"><i class="fa fa-money fa-lg fa-fw"></i></span>
-                                                                        <span class="form-control" style="">¿Autorizar descuento de Diezmo?</span>
+                                                                        <span class="form-control" style="">ï¿½Autorizar descuento de Diezmo?</span>
                                                                         <span class="input-group-addon">
                                                                             <span class="onoffswitch">
                                                                                 <input type="checkbox" name="diezmo" value="1" class="onoffswitch-checkbox" id="st3">
@@ -1206,7 +1206,7 @@
                                                                 </div>
                                                             </div>
 
-                                                            <h3><strong>Paso 5</strong> - Datos del cónyugue</h3>
+                                                            <h3><strong>Paso 5</strong> - Datos del cï¿½nyugue</h3>
 
                                                             <div class="row"> 
                                                                 <div class="col-sm-3">
@@ -1218,7 +1218,7 @@
 
 
                                                                             <select  id="tra_upeu_con" name="TRABAJA_UPEU_CONYUGUE" required="" class="form-control input-group-sm select-conyugue" >
-                                                                                <option value="" selected=""  disabled="">¿Trabaja Upeu Conyugue?</option>
+                                                                                <option value="" selected=""  disabled="">ï¿½Trabaja Upeu Conyugue?</option>
                                                                                 <option value="1">Si</option>
                                                                                 <option value="0">No</option>
 
@@ -1292,7 +1292,7 @@
                                                                         <div class="input-group">
                                                                             <span class="input-group-addon"><i class="fa fa-medkit fa-lg fa-fw"></i></span>
                                                                             <select id="ins_vig_con" name="INSCRIPCION_VIG_ESSALUD" required=""  class="form-control input-group-sm" >
-                                                                                <option value="" selected="" >[Inscripción Vigente en Essalud]</option>
+                                                                                <option value="" selected="" >[Inscripciï¿½n Vigente en Essalud]</option>
                                                                                 <option value="1">Si</option>
                                                                                 <option value="0">No</option>
 
@@ -1394,7 +1394,7 @@
                                                                         <div class="input-group">
                                                                             <span class="input-group-addon"><i class="fa fa-medkit fa-lg fa-fw"></i></span>
                                                                             <select name="INSCRIPCION_VIG_ESSALUD_H"   class="form-control input-group-sm i_essalud_h formHijo">
-                                                                                <option value="" selected="" disabled="">[Inscripción Vigente en Essalud]</option>
+                                                                                <option value="" selected="" disabled="">[Inscripciï¿½n Vigente en Essalud]</option>
                                                                                 <option value="1">Si</option>
                                                                                 <option value="0">No</option>
                                                                             </select> 

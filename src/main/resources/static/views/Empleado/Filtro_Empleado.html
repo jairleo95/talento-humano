@@ -1,6 +1,6 @@
-<%@page import="pe.edu.upeu.application.properties.globalProperties"%>
-<%@page import="pe.edu.upeu.application.util.DateFormat"%>
-<%@page import="pe.edu.upeu.application.model.Usuario"%>
+<%@page import="globalProperties"%>
+<%@page import="DateFormat"%>
+<%@page import="Usuario"%>
 <%
     HttpSession sesion_1 = request.getSession();
     String id_user_1 = (String) sesion_1.getAttribute("IDUSER");
@@ -41,8 +41,8 @@
                                     <th data-class="expand">Nombres y Apellidos</th>
                                     <th>Direccion</th>
                                     <th>Departamento</th>
-                                    <th>Área</th>
-                                    <th data-hide="phone">Sección</th>
+                                    <th>ï¿½rea</th>
+                                    <th data-hide="phone">Secciï¿½n</th>
                                     <th data-hide="phone,tablet">Puesto</th>
                                     <th data-hide="phone,tablet">Fecha Inicio</th>
                                     <th data-hide="phone,tablet">Fecha Fin</th>

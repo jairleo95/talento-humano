@@ -1,4 +1,4 @@
-<%@page import="pe.edu.upeu.application.model.Usuario"%>
+<%@page import="Usuario"%>
 <%
     HttpSession sesion = request.getSession();
     String id_user = (String) sesion.getAttribute("IDUSER");
@@ -10,7 +10,7 @@
     Author     : ALFA 3
 --%>
 
-<%@page import="pe.edu.upeu.application.model.V_Dgp_Plazo"%>
+<%@page import="V_Dgp_Plazo"%>
 <jsp:useBean id="Lista_detalle_plazo" scope="session" class="java.util.ArrayList"/>
 <!DOCTYPE html>
 <html lang="en-us">

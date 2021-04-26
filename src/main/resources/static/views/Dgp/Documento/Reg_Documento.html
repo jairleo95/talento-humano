@@ -1,17 +1,17 @@
 <%@page import="java.util.List"%>
 <%@page import="java.util.ArrayList"%>
-<%@page import="pe.edu.upeu.application.properties.globalProperties"%>
+<%@page import="globalProperties"%>
 <%
     HttpSession sesion = request.getSession();
     String id_user = (String) sesion.getAttribute("IDUSER");
     if (id_user != null) {
 %>
-<%@page import='pe.edu.upeu.application.dao.DocumentoDAO'%>
-<%@page import='pe.edu.upeu.application.dao_imp.InterfaceDocumentoDAO'%>
-<%@page import='pe.edu.upeu.application.model.Usuario'%>
-<%@page import='pe.edu.upeu.application.model.Datos_Hijo_Trabajador'%>
-<%@page import='pe.edu.upeu.application.model.Padre_Madre_Conyugue'%>
-<%@page import='pe.edu.upeu.application.model.V_Reg_Dgp_Tra'%>
+<%@page import='DocumentoDAO'%>
+<%@page import='InterfaceDocumentoDAO'%>
+<%@page import='Usuario'%>
+<%@page import='Datos_Hijo_Trabajador'%>
+<%@page import='Padre_Madre_Conyugue'%>
+<%@page import='V_Reg_Dgp_Tra'%>
 <jsp:useBean id='List_Hijos' scope='session' class='java.util.ArrayList'/>
 <jsp:useBean id='List_Conyugue' scope='session' class='java.util.ArrayList'/>
 <jsp:useBean id='List_Adventista' scope='session' class='java.util.ArrayList'/>

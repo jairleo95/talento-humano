@@ -1,24 +1,24 @@
 
-<%@page import="pe.edu.upeu.application.util.DateFormat"%>
-<%@page import="pe.edu.upeu.application.factory.FactoryConnectionDB"%>
-<%@page import="pe.edu.upeu.application.model.Ub_Distrito"%>
-<%@page import="pe.edu.upeu.application.model.Ub_Provincia"%>
-<%@page import="pe.edu.upeu.application.model.V_Ficha_Trab_Num_C"%>
-<%@page import="pe.edu.upeu.application.model.Usuario"%>
+<%@page import="DateFormat"%>
+<%@page import="FactoryConnectionDB"%>
+<%@page import="Ub_Distrito"%>
+<%@page import="Ub_Provincia"%>
+<%@page import="V_Ficha_Trab_Num_C"%>
+<%@page import="Usuario"%>
 <%
     HttpSession sesion = request.getSession();
     String id_user = (String) sesion.getAttribute("IDUSER");
     if (id_user != null) {
 %>
-<%@page import="pe.edu.upeu.application.model.Tipo_Documento"%>
-<%@page import="pe.edu.upeu.application.model.Via"%>
-<%@page import="pe.edu.upeu.application.model.Zona"%>
-<%@page import="pe.edu.upeu.application.model.Ub_Departamento"%>
-<%@page import="pe.edu.upeu.application.model.Situacion_Educativa"%>
-<%@page import="pe.edu.upeu.application.model.Universidad"%>
-<%@page import="pe.edu.upeu.application.model.Carrera"%>
-<%@page import="pe.edu.upeu.application.model.V_Ubigeo"%>
-<%@page import="pe.edu.upeu.application.model.Nacionalidad"%>
+<%@page import="Tipo_Documento"%>
+<%@page import="Via"%>
+<%@page import="Zona"%>
+<%@page import="Ub_Departamento"%>
+<%@page import="Situacion_Educativa"%>
+<%@page import="Universidad"%>
+<%@page import="Carrera"%>
+<%@page import="V_Ubigeo"%>
+<%@page import="Nacionalidad"%>
 
 <%
     HttpSession sesion_1 = request.getSession(true);
@@ -32,7 +32,7 @@
 <jsp:useBean id="List_Situacion_Educativa" scope="session" class="java.util.ArrayList"/>
 <jsp:useBean id="Listar_zona" scope="session" class="java.util.ArrayList"/>
 <jsp:useBean id="Listar_via" scope="session" class="java.util.ArrayList"/>
-<jsp:useBean id="list_año" scope="session" class="java.util.ArrayList"/>
+<jsp:useBean id="list_aï¿½o" scope="session" class="java.util.ArrayList"/>
 
 <jsp:useBean id="ListaridTrabajador" scope="session" class="java.util.ArrayList"/>
 <jsp:useBean id="List_Nacionalidad" scope="session" class="java.util.ArrayList"/>
@@ -262,7 +262,7 @@
                                     if ((mmActual < mmCumple) || (mmActual == mmCumple && diaActual < diaCumple)) {
                                         edad--;
                                     }
-                                    $(".edad").text(edad + " años");
+                                    $(".edad").text(edad + " aï¿½os");
                                     if (edad < 18) {
 
                                     }
@@ -332,7 +332,7 @@
                                 <header>
                                     <center>
                                         <span class="widget-icon"> <i class="fa fa-male"></i> </span>
-                                        <h2>MODIFICAR INFORMACIÓN GENERAL</h2>
+                                        <h2>MODIFICAR INFORMACIï¿½N GENERAL</h2>
                                     </center>
 
                                 </header>
@@ -757,31 +757,31 @@
                                                                                         if (t.getCo_sistema_pensionario().trim().equals("1")) {%>
                                                                                 <option value="1" selected="">AFP</option>
                                                                                 <option value="2">ONP</option>
-                                                                                <option value="3">Sin Régimen Provisional(jubilado, cesante).</option>
+                                                                                <option value="3">Sin Rï¿½gimen Provisional(jubilado, cesante).</option>
                                                                                 <option value="4">Fuera de Planilla</option>
                                                                                 <%}
                                                                                     if (t.getCo_sistema_pensionario().trim().equals("2")) {%>
                                                                                 <option value="1">AFP</option>
                                                                                 <option value="2" selected="">ONP</option>
-                                                                                <option value="3">Sin Régimen Provisional(jubilado, cesante).</option>
+                                                                                <option value="3">Sin Rï¿½gimen Provisional(jubilado, cesante).</option>
                                                                                 <option value="4">Fuera de Planilla</option>
                                                                                 <%}
                                                                                     if (t.getCo_sistema_pensionario().trim().equals("3")) {%>
                                                                                 <option value="1">AFP</option>
                                                                                 <option value="2">ONP</option>
-                                                                                <option value="3" selected="">Sin Régimen Provisional(jubilado, cesante).</option>
+                                                                                <option value="3" selected="">Sin Rï¿½gimen Provisional(jubilado, cesante).</option>
                                                                                 <option value="4">Fuera de Planilla</option>
                                                                                 <%}
                                                                                     if (t.getCo_sistema_pensionario().trim().equals("4")) {%>
                                                                                 <option value="1">AFP</option>
                                                                                 <option value="2">ONP</option>
-                                                                                <option value="3" >Sin Régimen Provisional(jubilado, cesante).</option>
+                                                                                <option value="3" >Sin Rï¿½gimen Provisional(jubilado, cesante).</option>
                                                                                 <option value="4" selected="">Fuera de Planilla</option>
                                                                                 <%}
                                                                                 } else {%>
                                                                                 <option value="1">AFP</option>
                                                                                 <option value="2">ONP</option>
-                                                                                <option value="3">Sin Régimen Provisional(jubilado, cesante).</option>
+                                                                                <option value="3">Sin Rï¿½gimen Provisional(jubilado, cesante).</option>
                                                                                 <option value="4">Fuera de Planilla</option>
                                                                                 <%}%>
                                                                             </select>
@@ -1469,7 +1469,7 @@
            /* jQuery.validator.addMethod("val_fecha", function(value, element) {
                 var d = value.split("-");
                 return this.optional(element) || String(parseInt(d[0])).length == 4;
-            }, "¡Fecha ingresada invalida!");*/
+            }, "ï¿½Fecha ingresada invalida!");*/
 
             $('#bootstrap-wizard-1').bootstrapWizard({
                 'tabClass': 'form-wizard',

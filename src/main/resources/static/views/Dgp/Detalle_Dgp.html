@@ -1,5 +1,5 @@
-<%@page import="pe.edu.upeu.application.util.DateFormat"%>
-<%@page import="pe.edu.upeu.application.properties.globalProperties"%>
+<%@page import="DateFormat"%>
+<%@page import="globalProperties"%>
 <%
     HttpSession sesion_1 = request.getSession();
     String id_user_1 = (String) sesion_1.getAttribute("IDUSER");
@@ -7,21 +7,21 @@
 %>
 <%@page import="java.math.RoundingMode"%>
 <%@page import="java.math.BigDecimal"%>
-<%@page import="pe.edu.upeu.application.dao.Solicitud_RequerimientoDAO"%>
-<%@page import="pe.edu.upeu.application.dao_imp.InterfaceSolicitud_RequerimientoDAO"%>
-<%@page import="pe.edu.upeu.application.factory.FactoryConnectionDB"%>
-<%@page import="pe.edu.upeu.application.dao_imp.InterfacePlazo_DgpDAO"%>
-<%@page import="pe.edu.upeu.application.dao.Plazo_DgpDAO"%>
-<%@page import="pe.edu.upeu.application.model.Detalle_Centro_Costo"%>
-<%@page import="pe.edu.upeu.application.model.Centro_Costos"%>
-<%@page import="pe.edu.upeu.application.dao.UsuarioDAO"%>
-<%@page import="pe.edu.upeu.application.dao_imp.InterfaceUsuarioDAO"%>
-<%@page import="pe.edu.upeu.application.model.Usuario"%>
-<%@page import="pe.edu.upeu.application.model.V_Det_DGP"%>
-<%@page import="pe.edu.upeu.application.model.X_List_id_dgp"%>
+<%@page import="Solicitud_RequerimientoDAO"%>
+<%@page import="InterfaceSolicitud_RequerimientoDAO"%>
+<%@page import="FactoryConnectionDB"%>
+<%@page import="InterfacePlazo_DgpDAO"%>
+<%@page import="Plazo_DgpDAO"%>
+<%@page import="Detalle_Centro_Costo"%>
+<%@page import="Centro_Costos"%>
+<%@page import="UsuarioDAO"%>
+<%@page import="InterfaceUsuarioDAO"%>
+<%@page import="Usuario"%>
+<%@page import="V_Det_DGP"%>
+<%@page import="X_List_id_dgp"%>
 <%@page import="java.util.List"%>
-<%@page import="pe.edu.upeu.application.dao.DgpDAO"%>
-<%@page import="pe.edu.upeu.application.dao_imp.InterfaceDgpDAO"%>
+<%@page import="DgpDAO"%>
+<%@page import="InterfaceDgpDAO"%>
 <jsp:useBean id="LIST_ID_DGP" scope="session" class="java.util.ArrayList"/>
 <jsp:useBean id="LIST_ID_USER" scope="session" class="java.util.ArrayList"/>
 <jsp:useBean id="Cargar_dcc_dgp" scope="session" class="java.util.ArrayList"/>
@@ -114,7 +114,7 @@
                                             <td colspan="2" class="text-info ">Trabajador Nuevo</td></tr>
                                             <%}
                                                 if (d.getLi_motivo().equals("2")) {%>
-                                        <td colspan="2" class="text-info ">Renovación</td></tr>
+                                        <td colspan="2" class="text-info ">Renovaciï¿½n</td></tr>
                                         <%}
                                             }%>
                                         <tr><td  class="text-info " >Trabajador :</td><td class=""><%=d.getNombre_trabajador()%></td></tr>
@@ -123,19 +123,19 @@
                                         <tr><td class="text-info ">Sueldo Basico : S/.</td><td class="text-info "><%=cs.toPlainString()%></td></tr>
                                         <tr><td class="text-info ">BEV: </td><td class="text-info "><%=bev.toPlainString()%></td></tr>
                                         <tr><td class="text-info ">Bono Alimentario : S/.</td><td  class="text-info "><%=bal.toPlainString()%></td></tr>
-                                        <tr><td class="text-info ">Asignación Familiar : S/.</td><td  class="text-info "><%=d.getCa_asig_familiar()%></td></tr>
+                                        <tr><td class="text-info ">Asignaciï¿½n Familiar : S/.</td><td  class="text-info "><%=d.getCa_asig_familiar()%></td></tr>
                                         <tr><td class="text-info ">Bono por Funcion : S/.</td><td  class="text-info "><%=bp.toPlainString()%></td></tr>
                                         <tr><td class="text-info " >Total Remunerativo : S/.</td><td class="text-danger" ><%=total.toPlainString()%></td></tr>
                                         <tr><td  Class="text-info ">Departamento:</td><td class="text-info "><%=d.getNo_dep()%></td></tr>
                                         <tr><td  Class="text-info ">Area :</td><td class="text-info "><%=d.getNo_area()%></td></tr>
-                                        <tr><td  Class="text-info ">Sección :</td><td class="text-info "><%=d.getNo_seccion()%></td></tr>
+                                        <tr><td  Class="text-info ">Secciï¿½n :</td><td class="text-info "><%=d.getNo_seccion()%></td></tr>
                                         <tr><td  Class="text-info ">Puesto :</td><td class="text-info "><%=d.getNo_puesto()%></td></tr>
                                             <%if (Cargar_dcc_dgp.size() > 0) {
                                                     for (int p = 0; p < Cargar_dcc_dgp.size(); p++) {
                                                         Detalle_Centro_Costo dcc = new Detalle_Centro_Costo();
                                                         dcc = (Detalle_Centro_Costo) Cargar_dcc_dgp.get(p);
                                             %>
-                                        <tr><td class="text-info ">Centro de Costo N° <%=p + 1%></td><td class="text-info "><label class="text-danger"> <%=dcc.getCa_porcentaje() + "%"%> &nbsp;</label><%=dcc.getDe_centro_costo()%>&nbsp;&nbsp;&nbsp;<span class="text-success">  Codigo : <%=dcc.getCo_centro_costo()%></span></td></tr>
+                                        <tr><td class="text-info ">Centro de Costo Nï¿½ <%=p + 1%></td><td class="text-info "><label class="text-danger"> <%=dcc.getCa_porcentaje() + "%"%> &nbsp;</label><%=dcc.getDe_centro_costo()%>&nbsp;&nbsp;&nbsp;<span class="text-success">  Codigo : <%=dcc.getCo_centro_costo()%></span></td></tr>
                                         <%}
                                         } else {%>
                                         <tr><td class="text-info ">Centro de Costo </td><td class="text-info ">No tiene Centro de costo </td></tr>
@@ -251,7 +251,7 @@
 
                                     <div class="alert alert-warning fade in div_dgp">
                                         <button class="close" data-dismiss="alert">
-                                            ×
+                                            ï¿½
                                         </button>
                                         <i class="fa-fw fa fa-warning"></i>
                                         <strong>Advertencia</strong> Usted no ha cumplido con los dias de tolerancia del plazo <strong>Inicio de contrato</strong>, 
@@ -285,7 +285,7 @@
                                 </form>
                                 <%} else if (x == false & val_btn == 0) {
                                 %>
-                                <div class="alert alert-success fade in div_dgp"><button class="close" data-dismiss="alert">×</button><i class="fa-fw fa fa-check"></i>Usted tiene una solicitud en proceso, una vez que se haya autorizado se podrá enviar el <strong>requerimiento</strong>.</div>
+                                <div class="alert alert-success fade in div_dgp"><button class="close" data-dismiss="alert">ï¿½</button><i class="fa-fw fa fa-check"></i>Usted tiene una solicitud en proceso, una vez que se haya autorizado se podrï¿½ enviar el <strong>requerimiento</strong>.</div>
                                 <%}%>
                                 <%    }
                                     }%>

@@ -1,4 +1,4 @@
-<%@page import="pe.edu.upeu.application.model.Usuario"%>
+<%@page import="Usuario"%>
 <%
     HttpSession sesion = request.getSession();
     String id_user = (String) sesion.getAttribute("IDUSER");
@@ -10,13 +10,13 @@
     Author     : joserodrigo
 --%>
 
-<%@page import="pe.edu.upeu.application.dao.TrabajadorDAO"%>
-<%@page import="pe.edu.upeu.application.dao_imp.InterfaceTrabajadorDAO"%>
-<%@page import="pe.edu.upeu.application.dao_imp.InterfaceTrabajadorDAO"%>
+<%@page import="TrabajadorDAO"%>
+<%@page import="InterfaceTrabajadorDAO"%>
+<%@page import="InterfaceTrabajadorDAO"%>
 <%@page import="java.util.List"%>
-<%@page import="pe.edu.upeu.application.dao.ListaDAO"%>
-<%@page import="pe.edu.upeu.application.dao_imp.InterfaceListaDAO"%>
-<%@page import="pe.edu.upeu.application.model.X_List_dat_tr_plantilla"%>
+<%@page import="ListaDAO"%>
+<%@page import="InterfaceListaDAO"%>
+<%@page import="X_List_dat_tr_plantilla"%>
 
 <jsp:useBean id="lista" scope="session" class="java.util.ArrayList"/>
 <!DOCTYPE html>

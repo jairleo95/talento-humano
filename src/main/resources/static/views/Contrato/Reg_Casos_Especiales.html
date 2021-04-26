@@ -1,5 +1,5 @@
-<%@page import="pe.edu.upeu.application.properties.globalProperties"%>
-<%@page import="pe.edu.upeu.application.model.Usuario"%>
+<%@page import="globalProperties"%>
+<%@page import="Usuario"%>
 <%
     HttpSession sesion = request.getSession();
     String id_user = (String) sesion.getAttribute("IDUSER");
@@ -10,16 +10,16 @@
     Created on : 21/01/2015, 09:46:47 AM
     Author     : Alex
 --%>
-<%@page import="pe.edu.upeu.application.model.Grupo_Ocupaciones"%>
-<%@page import="pe.edu.upeu.application.model.Modalidad"%>
-<%@page import="pe.edu.upeu.application.model.Regimen_Laboral"%>
-<%@page import="pe.edu.upeu.application.model.Direccion"%>
+<%@page import="Grupo_Ocupaciones"%>
+<%@page import="Modalidad"%>
+<%@page import="Regimen_Laboral"%>
+<%@page import="Direccion"%>
 <%@page import="org.apache.jasper.tagplugins.jstl.core.When"%>
-<%@page import="pe.edu.upeu.application.model.V_Ficha_Trab_Num_C"%>
-<%@page import="pe.edu.upeu.application.model.Requerimiento"%>
-<%@page import="pe.edu.upeu.application.model.V_Puesto_Direccion"%>
-<%@page import="pe.edu.upeu.application.model.Puesto"%>
-<%@page import="pe.edu.upeu.application.model.Trabajador"%>
+<%@page import="V_Ficha_Trab_Num_C"%>
+<%@page import="Requerimiento"%>
+<%@page import="V_Puesto_Direccion"%>
+<%@page import="Puesto"%>
+<%@page import="Trabajador"%>
 <!--CONTRATO-->
 <jsp:useBean id="LISTAR_ANNO" scope="session" class="java.util.ArrayList"/>
 <jsp:useBean id="List_Puesto" scope="session" class="java.util.ArrayList"/>
@@ -160,7 +160,7 @@
                                                             </label>
                                                         </section>
                                                         <section class="col col-2" id="titu">
-                                                            <label class="select" id="titu">Dirección:
+                                                            <label class="select" id="titu">Direcciï¿½n:
                                                                 <select name="DIRECCION" class="input-group-sm select_dir" required="">
 
                                                                     <option value="">[Seleccione]</option>
@@ -187,7 +187,7 @@
                                                                 </select>  </label>
                                                         </section>
                                                         <section class="col col-3" id="titulo">
-                                                            <label class="select" id="titu">Sección:
+                                                            <label class="select" id="titu">Secciï¿½n:
                                                                 <select name="SECCION_ID" class="input-group-sm" id="select_sec" required="">
                                                                     <option value="">[Seleccione]</option>
                                                                 </select>  </label>
@@ -225,7 +225,7 @@
                                                     </div>
                                                     <div class="row">
                                                         <section class="col col-2">
-                                                            <label class="input" id="titu">Remuneración:
+                                                            <label class="input" id="titu">Remuneraciï¿½n:
                                                                 <input type="text" name="SUELDO" id="remu" value="0"  class="input-group-sm">
                                                             </label>
                                                         </section>
@@ -261,7 +261,7 @@
                                                         </section>
                                                         <section class="col col-2" >
                                                             <%int cant_hijos = Integer.parseInt(request.getParameter("cant_hijos"));%>
-                                                            <label class="input" id="titu">Asignanción Familiar:
+                                                            <label class="input" id="titu">Asignanciï¿½n Familiar:
                                                                 <input type="text" name="ASIG_FAMILIAR" <%if (cant_hijos == 0) {%> value="0.0" <%} else {%> value="75.0" <%}%> id="asig_fa" class="input-group-sm">
                                                             </label>
                                                         </section>
@@ -299,8 +299,8 @@
                                                     <div class="row centro-costo_1" >
                                                         <!--<code class="ver"></code>-->
                                                         <section class="col col-3">
-                                                            <label id="titu" class="centro-costo_1" >Centro de Costo Nº 1:</label>
-                                                            <label class="select" id="titu">Dirección :
+                                                            <label id="titu" class="centro-costo_1" >Centro de Costo Nï¿½ 1:</label>
+                                                            <label class="select" id="titu">Direcciï¿½n :
                                                                 <select required="" class="cc-dir">
                                                                     <option value="">[DIRECCION]</option>
                                                                 </select>
@@ -390,7 +390,7 @@
                                                             </label>
                                                         </section>
                                                         <section class="col col-4">
-                                                            <label class="select" id="titu">Tipo Contratación:
+                                                            <label class="select" id="titu">Tipo Contrataciï¿½n:
                                                                 <select name="REG_LAB_MINTRA" class="input-group-sm" >
                                                                     <option value="">[Seleccione]</option>
                                                                     <option value="I">INICIO</option>
@@ -413,7 +413,7 @@
                                                         </section>
                                                         <section class="col col-4">
                                                             <%String Fecha = request.getParameter("fe_subs");%>
-                                                            <label class="input" id="titu">Fecha de Suscripción: 
+                                                            <label class="input" id="titu">Fecha de Suscripciï¿½n: 
                                                                 <input id="suscripcion" type="date" name="FECHA_SUSCRIPCION"  class="input-group-sm"  value="<%=Fecha%>">
                                                             </label>
                                                         </section>
@@ -438,7 +438,7 @@
                                                             </label>
                                                         </section>
                                                         <section class="col col-4">
-                                                            <label class="select" id="titu">Remuneración en Especie:
+                                                            <label class="select" id="titu">Remuneraciï¿½n en Especie:
                                                                 <select name="REM_ESPECIE" class="input-group-sm" >
                                                                     <option value="">[Seleccione]</option>
                                                                     <option value="1">SI</option>
@@ -486,7 +486,7 @@
                                                                 <select name="REGIMEN_LABORAL" class="input-group-sm" required="">
                                                                     <option value="">[Seleccione]</option>
                                                                     <option value="1" selected>Privado</option>
-                                                                    <option value="2" selected>Público</option>
+                                                                    <option value="2" selected>Pï¿½blico</option>
                                                                 </select>
                                                             </label>
                                                         </section>
@@ -529,7 +529,7 @@
                                                 <fieldset>
                                                     <div class="">
                                                         <section class="col col-12">
-                                                            <label class="textarea" id="titu">Observación:  </label>
+                                                            <label class="textarea" id="titu">Observaciï¿½n:  </label>
                                                             <textarea  name="OBSERVACION"  class="input-group-sm " cols="35" rows="6"></textarea>
                                                         </section>
                                                     </div>
@@ -746,7 +746,7 @@
 
                                                         </table>
                                                         <table id="show_sab" class="cont_sab">     
-                                                            <tr><td align="center" colspan="2">Sábado</td></tr>
+                                                            <tr><td align="center" colspan="2">Sï¿½bado</td></tr>
 
                                                         </table>
                                                         <table id="show_dom" class="cont_dom" >
@@ -799,16 +799,16 @@
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
                             &times;
                         </button>
-                        <h4 class="modal-title" id="solPresModalLabel">Solicitud de ampliación del presupuesto</h4>
+                        <h4 class="modal-title" id="solPresModalLabel">Solicitud de ampliaciï¿½n del presupuesto</h4>
                     </div>
                     <div class="modal-body">
 
                         <div class="row">
                             <div class="col-md-12">
                                 <table  class="table table-striped">
-                                    <tr><td class="td">Departamento:</td><td><label id="spdep">Mi mamà</label></td></tr>   
-                                    <tr><td class="td">Àrea:</td><td><label id="spare">me mima</label></td></tr>   
-                                    <tr><td class="td">Puesto:</td><td><label id="sppto">Mi mamà</label></td></tr>  
+                                    <tr><td class="td">Departamento:</td><td><label id="spdep">Mi mamï¿½</label></td></tr>   
+                                    <tr><td class="td">ï¿½rea:</td><td><label id="spare">me mima</label></td></tr>   
+                                    <tr><td class="td">Puesto:</td><td><label id="sppto">Mi mamï¿½</label></td></tr>  
                                     <tr><td class="td">Temporada:</td><td><label id="sptem">me ama</label></td></tr>  
                                     <tr><td class="td">Requerimiento:</td><td><label id="spreq">Hola</label></td></tr>  
                                 </table>
@@ -837,7 +837,7 @@
                             <div class="col-md-12">
                                 <div class="well well-sm well-primary">
                                     <div class="form-group">
-                                        <textarea id="scom" class="form-control" placeholder="Motivo (Justificaciòn)" rows="5" required></textarea>
+                                        <textarea id="scom" class="form-control" placeholder="Motivo (Justificaciï¿½n)" rows="5" required></textarea>
                                     </div>
                                 </div>
                             </div>

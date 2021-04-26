@@ -1,21 +1,21 @@
-<%@page import="pe.edu.upeu.application.model.Requerimiento"%>
-<%@page import="pe.edu.upeu.application.util.DateFormat"%>
-<%@page import="pe.edu.upeu.application.properties.globalProperties"%>
-<%@page import="pe.edu.upeu.application.model.Usuario"%>
+<%@page import="Requerimiento"%>
+<%@page import="DateFormat"%>
+<%@page import="globalProperties"%>
+<%@page import="Usuario"%>
 <%
     HttpSession sesion = request.getSession();
     String id_user = (String) sesion.getAttribute("IDUSER");
     if (id_user != null) {
 %>
-<%@page import="pe.edu.upeu.application.model.Grupo_Ocupaciones"%>
-<%@page import="pe.edu.upeu.application.model.Direccion"%>
-<%@page import="pe.edu.upeu.application.model.Regimen_Laboral"%>
-<%@page import="pe.edu.upeu.application.model.Modalidad"%>
-<%@page import="pe.edu.upeu.application.model.V_Det_DGP"%>
+<%@page import="Grupo_Ocupaciones"%>
+<%@page import="Direccion"%>
+<%@page import="Regimen_Laboral"%>
+<%@page import="Modalidad"%>
+<%@page import="V_Det_DGP"%>
 <%@page import="oracle.net.aso.p"%>
-<%@page import="pe.edu.upeu.application.model.X_List_id_dgp"%>
-<%@page import="pe.edu.upeu.application.model.Puesto"%>
-<%@page import="pe.edu.upeu.application.model.DGP"%>
+<%@page import="X_List_id_dgp"%>
+<%@page import="Puesto"%>
+<%@page import="DGP"%>
 
 <jsp:useBean id="List_Puesto" scope="session" class="java.util.ArrayList"/>
 <jsp:useBean id="Listar_Direccion" scope="session" class="java.util.ArrayList"/>
@@ -145,10 +145,10 @@
                                                                 <%if (d.getLi_motivo() != null) {%>
                                                                 <%if (d.getLi_motivo().trim().equals("1")) {%>
                                                                 <option  selected="selected">Trabajador Nuevo</option>   
-                                                                <option  >renovación</option>   
+                                                                <option  >renovaciï¿½n</option>   
                                                                 <%} else {%>
                                                                 <option >Trabajador Nuevo</option>   
-                                                                <option selected="selected">renovación</option>   
+                                                                <option selected="selected">renovaciï¿½n</option>   
                                                                 <%}%>
                                                                 <%} else {%>
                                                                 <option selected="">NINGUNO</option>
@@ -191,7 +191,7 @@
                                                         </label>
                                                     </section>
                                                     <section class="col col-3" id="titulo">
-                                                        <label class="select" id="titulo">Dirección:
+                                                        <label class="select" id="titulo">Direcciï¿½n:
                                                             <select name="DIRECCION" class="select_dir input-group-sm" disabled=""  id="select_dir" >
                                                                 <option value="" >[Seleccione]</option>
                                                                 <%for (int g = 0; g < Listar_Direccion.size(); g++) {
@@ -221,7 +221,7 @@
                                                             </select>  </label>
                                                     </section>
                                                     <section class="sec_sec col col-3" id="titulo">
-                                                        <label class="select" id="titulo">Sección:
+                                                        <label class="select" id="titulo">Secciï¿½n:
                                                             <select name="SECCION_ID" class="select_sec input-group-sm" disabled=""  id="select_sec">
                                                                 <option value="">[Seleccione]</option>
                                                             </select>  </label>
@@ -248,7 +248,7 @@
                                                     <input name="PUESTO_ID"  type="hidden" value="<%=d.getId_puesto()%>" />
                                                     <input name="DIRECCION"  type="hidden" value="<%=d.getId_direccion()%>" />
                                                     <section class="col col-3">
-                                                        <label class="select" id="titulo">Condición:
+                                                        <label class="select" id="titulo">Condiciï¿½n:
                                                             <select name="CONDICION" class="input-group-sm" >
                                                                 <%
                                                                     for (int index = 0; index < Listar_Requerimiento.size(); index++) {
@@ -267,7 +267,7 @@
                                                 <div class="row">
 
                                                     <section class="col col-3">
-                                                        <label class="input" id="titulo">Remuneración:
+                                                        <label class="input" id="titulo">Remuneraciï¿½n:
                                                             <input type="text" name="SUELDO" value="<%=d.getCa_sueldo()%>" class="input-group-sm" id="remu" readonly="">
                                                         </label>
                                                     </section>
@@ -322,7 +322,7 @@
 
                                                 <div class="row">
                                                     <section class="col col-2">
-                                                        <label class="select" id="titulo">Situación Especial:
+                                                        <label class="select" id="titulo">Situaciï¿½n Especial:
                                                             <select name="situacionEspecial" class="input-group-sm situacionEspecial">
                                                                 <option value="">[Seleccione]</option>
 
@@ -375,7 +375,7 @@
                                                         </label>
                                                     </section>
                                                     <section class="col col-3">
-                                                        <label class="select" id="titulo">Tipo Contratación:
+                                                        <label class="select" id="titulo">Tipo Contrataciï¿½n:
                                                             <select name="REG_LAB_MINTRA" class="input-group-sm"   <%
                                                                 if (!d.getId_tipo_planilla().trim().equals("TPL-0002")) {
                                                                     out.print("required='required'");
@@ -409,7 +409,7 @@
                                                         </label>
                                                     </section>
                                                     <section class="col col-3">
-                                                        <label class="input" id="titulo">Fecha de Suscripción:
+                                                        <label class="input" id="titulo">Fecha de Suscripciï¿½n:
                                                             <input id="suscripcion" type="date" name="FECHA_SUSCRIPCION" class="input-group-sm"  value="<%=DateFormat.toFormat3(d.getFe_desde())%>" max="<%=DateFormat.toFormat3(d.getFe_desde())%>" 
                                                                    <%
                                                                        if (!d.getId_tipo_planilla().trim().equals("TPL-0002")) {
@@ -448,7 +448,7 @@
                                                         </label>
                                                     </section>
                                                     <section class="col col-2">
-                                                        <label class="select" id="titulo">Remuneración en Especie:
+                                                        <label class="select" id="titulo">Remuneraciï¿½n en Especie:
                                                             <select name="REM_ESPECIE" class="input-group-sm"  <%
                                                                 if (!d.getId_tipo_planilla().trim().equals("TPL-0002")) {
                                                                     out.print("required='required'");
@@ -502,7 +502,7 @@
                                                             <select name="REGIMEN_LABORAL" class="input-group-sm" required="">
                                                                 <option value="">[Seleccione]</option>
                                                                 <option value="1" selected>Privado</option>
-                                                                <option value="2" selected>Público</option>
+                                                                <option value="2" selected>Pï¿½blico</option>
                                                             </select>
                                                         </label>
                                                     </section>
@@ -568,7 +568,7 @@
 
                                             <fieldset>
                                                 <section>
-                                                    <label class="label" id="titulo">Observación:  </label>
+                                                    <label class="label" id="titulo">Observaciï¿½n:  </label>
                                                     <label class="textarea">
                                                         <textarea rows="3"  name="OBSERVACION" cols="35" rows="6" ></textarea>
                                                     </label>
