@@ -1,12 +1,12 @@
-<%@page import="com.app.util.DateFormat"%>
-<%@page import="com.app.model.Usuario"%>
+<%@page import="com.app.controller.util.DateFormat"%>
+<%@page import="com.app.domain.model.Usuario"%>
 <%
     HttpSession sesion_1 = request.getSession();
     String id_user_1 = (String) sesion_1.getAttribute("IDUSER");
     if (id_user_1 != null) {
 %>
 
-<%@page import="com.app.model.x_List_Id_Trab_Dgp"%>
+<%@page import="com.app.domain.model.x_List_Id_Trab_Dgp"%>
 <jsp:useBean id="LIST_ID_TRAB_DGP" class="java.util.ArrayList" scope="session"/>
 <!DOCTYPE html>
 <html>

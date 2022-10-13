@@ -7,12 +7,11 @@
     InterfaceDocumentoDAO doc_ = new DocumentoDAO();
     if (id_user_1 != null) {
 %>
-<%@page import="com.app.dao_imp.InterfaceDocumentoDAO"%>
-<%@page import="com.app.dao_imp.InterfaceDocumentoDAO"%>
-<%@page import="com.app.model.Lis_Doc_tra"%>
-<%@page import="com.app.model.Usuario"%>
-<%@page import="com.app.dao.DocumentoDAO"%>
-<%@page import="com.app.model.V_Documento_Trabajador"%>
+<%@page import="com.app.persistence.dao_imp.InterfaceDocumentoDAO"%>
+<%@page import="com.app.domain.model.Lis_Doc_tra"%>
+<%@page import="com.app.domain.model.Usuario"%>
+<%@page import="com.app.persistence.dao.DocumentoDAO"%>
+<%@page import="com.app.domain.model.V_Documento_Trabajador"%>
 <jsp:useBean id="Lis_doc_trabajador_hab" scope="session" class="java.util.ArrayList"/>
 
 <!DOCTYPE html>

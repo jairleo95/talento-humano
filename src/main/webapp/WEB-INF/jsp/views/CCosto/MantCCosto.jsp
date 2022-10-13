@@ -5,7 +5,7 @@
 --%>
 
 
-<%@page import="com.app.properties.globalProperties"%>
+<%@page import="com.app.config.globalProperties"%>
 <!DOCTYPE html>
 <html>
     <head>

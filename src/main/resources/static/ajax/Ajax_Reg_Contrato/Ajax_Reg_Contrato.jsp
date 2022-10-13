@@ -4,10 +4,10 @@
 <%@page import="org.json.simple.JSONArray"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.util.List"%>
-<%@page import="com.app.model.V_Filtro_Dgp_Aut"%>
+<%@page import="com.app.domain.model.V_Filtro_Dgp_Aut"%>
 <%@page import="java.sql.ResultSet"%>
-<%@page import="com.app.factory.FactoryConnectionDB"%>
-<%@page import="com.app.factory.ConexionBD"%>
+<%@page import="com.app.config.factory.FactoryConnectionDB"%>
+<%@page import="com.app.config.factory.ConexionBD"%>
 
 <%
     response.setContentType("application/json");

@@ -1,24 +1,24 @@
-<%@page import="com.app.properties.globalProperties"%>
+<%@page import="com.app.config.globalProperties"%>
 <%
     HttpSession sesion_1 = request.getSession();
     String id_user_1 = (String) sesion_1.getAttribute("IDUSER");
     if (id_user_1 != null) {
         String ID_DEP = (String) sesion_1.getAttribute("DEPARTAMENTO_ID");
 %>
-<%@page import="com.app.factory.FactoryConnectionDB"%>
-<%@page import="com.app.dao.AutorizacionDAO"%>
-<%@page import="com.app.dao_imp.InterfaceAutorizacionDAO"%>
-<%@page import="com.app.model.Usuario"%>
-<%@page import="com.app.dao_imp.InterfaceComentario_DGPDAO"%>
-<%@page import="com.app.dao.Comentario_DGPDAO"%>
+<%@page import="com.app.config.factory.FactoryConnectionDB"%>
+<%@page import="com.app.persistence.dao.AutorizacionDAO"%>
+<%@page import="com.app.persistence.dao_imp.InterfaceAutorizacionDAO"%>
+<%@page import="com.app.domain.model.Usuario"%>
+<%@page import="com.app.persistence.dao_imp.InterfaceComentario_DGPDAO"%>
+<%@page import="com.app.persistence.dao.Comentario_DGPDAO"%>
 <%@page import="java.util.Iterator"%>
-<%@page import="com.app.dao.DgpDAO"%>
-<%@page import="com.app.dao_imp.InterfaceDgpDAO"%>
+<%@page import="com.app.persistence.dao.DgpDAO"%>
+<%@page import="com.app.persistence.dao_imp.InterfaceDgpDAO"%>
 <%@page import="java.util.Map"%>
 <%@page import="java.util.List"%>
-<%@page import="com.app.model.V_Es_Requerimiento"%>
+<%@page import="com.app.domain.model.V_Es_Requerimiento"%>
 <jsp:useBean class="java.util.ArrayList" id="Det_Autorizacion" scope="session" />
-<%@page import="com.app.model.X_List_De_Autorizacion"%>
+<%@page import="com.app.domain.model.X_List_De_Autorizacion"%>
 <jsp:useBean class="java.util.ArrayList" id="LIST_DGP_PROCESO" scope="session" />
 <link href='../../css/Css_Bootstrap/fileinput.css' media='all' rel='stylesheet' type='text/css' />
 

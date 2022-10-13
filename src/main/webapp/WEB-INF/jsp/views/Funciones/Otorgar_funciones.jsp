@@ -3,7 +3,7 @@
     Created on : 29-ene-2015, 7:04:56
     Author     : joserodrigo
 --%>
-<%@page import="com.app.model.Direccion"%>
+<%@page import="com.app.domain.model.Direccion"%>
 
 <jsp:useBean id="Listar_Direccion" scope="session" class="java.util.ArrayList"/>
 <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css"/>

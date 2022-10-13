@@ -1,4 +1,4 @@
-<%@page import="com.app.model.V_Solicitud_Requerimiento"%>
+<%@page import="com.app.domain.model.V_Solicitud_Requerimiento"%>
 
 <jsp:useBean id="Detalle_Solicitud" scope="session" class="java.util.ArrayList"/>
 <!DOCTYPE html>

@@ -1,5 +1,5 @@
-<%@page import="com.app.properties.globalProperties"%>
-<%@page import="com.app.model.Usuario"%>
+<%@page import="com.app.config.globalProperties"%>
+<%@page import="com.app.domain.model.Usuario"%>
 <%
     HttpSession sesion_1 = request.getSession();
     String id_user_1 = (String) sesion_1.getAttribute("IDUSER");

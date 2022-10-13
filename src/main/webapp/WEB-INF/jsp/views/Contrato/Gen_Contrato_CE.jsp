@@ -1,10 +1,10 @@
-<%@page import="com.app.model.Usuario"%>
+<%@page import="com.app.domain.model.Usuario"%>
 <%
     HttpSession sesion = request.getSession();
     String id_user = (String) sesion.getAttribute("IDUSER");
     if (id_user != null) {
 %>
-<%@page import="com.app.model.V_Ficha_Trab_Num_C"%>
+<%@page import="com.app.domain.model.V_Ficha_Trab_Num_C"%>
 <jsp:useBean id="ListarTrabajador2" scope="session" class="java.util.ArrayList"/>
 <!DOCTYPE html>
 <html>

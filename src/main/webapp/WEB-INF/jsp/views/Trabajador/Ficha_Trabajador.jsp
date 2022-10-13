@@ -1,12 +1,12 @@
-<%@page import="com.app.factory.FactoryConnectionDB"%>
-<%@page import="com.app.model.Usuario"%>
+<%@page import="com.app.config.factory.FactoryConnectionDB"%>
+<%@page import="com.app.domain.model.Usuario"%>
 <%
     HttpSession sesion_1 = request.getSession();
     String id_user_1 = (String) sesion_1.getAttribute("IDUSER");
     if (id_user_1 != null) {
 %>
 
-<%@page import="com.app.model.V_Ficha_Trab_Num_C"%>
+<%@page import="com.app.domain.model.V_Ficha_Trab_Num_C"%>
 <%
     HttpSession sesion = request.getSession(true);
     String iddep = (String) request.getAttribute("DEPARTAMENTO_ID");

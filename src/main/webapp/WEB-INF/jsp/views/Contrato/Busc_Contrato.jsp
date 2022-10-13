@@ -1,14 +1,14 @@
 
-<%@page import="com.app.model.Direccion"%>
+<%@page import="com.app.domain.model.Direccion"%>
 <%
     HttpSession sesion = request.getSession();
     String id_user = (String) sesion.getAttribute("IDUSER");
     if (id_user != null) {
 
 %>
-<%@page import="com.app.model.Usuario"%>
-<%@page import="com.app.model.Requerimiento"%>
-<%@page import="com.app.model.Area"%>
+<%@page import="com.app.domain.model.Usuario"%>
+<%@page import="com.app.domain.model.Requerimiento"%>
+<%@page import="com.app.domain.model.Area"%>
 <jsp:useBean id="Listar_Direccion" scope="session" class="java.util.ArrayList"/>
 <jsp:useBean class="java.util.ArrayList" scope="session"  id="Listar_Requerimiento"/>
 <jsp:useBean class="java.util.ArrayList" scope="session"  id="List_Area_ID"/>

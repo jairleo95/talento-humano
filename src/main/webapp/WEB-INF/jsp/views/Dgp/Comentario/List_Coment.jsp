@@ -1,10 +1,10 @@
-<%@page import="com.app.model.Usuario"%>
+<%@page import="com.app.domain.model.Usuario"%>
 <%
     HttpSession sesion = request.getSession();
     String id_user = (String) sesion.getAttribute("IDUSER");
     if (id_user != null) {
 %>
-<%@page import="com.app.model.X_List_Comen_DGP"%>
+<%@page import="com.app.domain.model.X_List_Comen_DGP"%>
 <jsp:useBean id="List_Comentario_DGP" class="java.util.ArrayList" scope="session"/>
 <!DOCTYPE html >
 <html>

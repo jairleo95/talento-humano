@@ -1,18 +1,18 @@
 
-<%@page import="com.app.model.Tipo_Documento"%>
-<%@page import="com.app.dao.Tipo_DocumentoDAO"%>
-<%@page import="com.app.dao_imp.InterfaceTipo_DocumentoDAO"%>
-<%@page import="com.app.dao.ListaDAO"%>
-<%@page import="com.app.dao_imp.InterfaceListaDAO"%>
-<%@page import="com.app.model.V_Ficha_Trab_Num_C"%>
-<%@page import="com.app.model.Usuario"%>
+<%@page import="com.app.domain.model.Tipo_Documento"%>
+<%@page import="com.app.persistence.dao.Tipo_DocumentoDAO"%>
+<%@page import="com.app.persistence.dao_imp.InterfaceTipo_DocumentoDAO"%>
+<%@page import="com.app.persistence.dao.ListaDAO"%>
+<%@page import="com.app.persistence.dao_imp.InterfaceListaDAO"%>
+<%@page import="com.app.domain.model.V_Ficha_Trab_Num_C"%>
+<%@page import="com.app.domain.model.Usuario"%>
 <%
     HttpSession sesion_1 = request.getSession();
     String id_user_1 = (String) sesion_1.getAttribute("IDUSER");
     if (id_user_1 != null) {
 %>
 
-<%@page import="com.app.model.Padre_Madre_Conyugue"%>
+<%@page import="com.app.domain.model.Padre_Madre_Conyugue"%>
 <jsp:useBean id="ListaridTrabajador" scope="session" class="java.util.ArrayList"/>
 <jsp:useBean id="Listar_tipo_doc" scope="session" class="java.util.ArrayList"/>
 <!DOCTYPE html>

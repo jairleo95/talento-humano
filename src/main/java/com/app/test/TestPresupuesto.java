@@ -5,7 +5,7 @@
  */
 package com.app.test;
 
-import com.app.dao.PresupuestoDAO;
+import com.app.persistence.dao.PresupuestoDAO;
 
 /**
  *

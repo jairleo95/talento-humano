@@ -1,4 +1,4 @@
-<%@page import="com.app.model.V_Solicitud_Requerimiento"%>
+<%@page import="com.app.domain.model.V_Solicitud_Requerimiento"%>
 <%
     HttpSession sesion = request.getSession();
     String id_user = (String) sesion.getAttribute("IDUSER");

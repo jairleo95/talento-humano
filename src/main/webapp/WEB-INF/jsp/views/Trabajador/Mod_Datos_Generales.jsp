@@ -1,24 +1,24 @@
 
-<%@page import="com.app.util.DateFormat"%>
-<%@page import="com.app.factory.FactoryConnectionDB"%>
-<%@page import="com.app.model.Ub_Distrito"%>
-<%@page import="com.app.model.Ub_Provincia"%>
-<%@page import="com.app.model.V_Ficha_Trab_Num_C"%>
-<%@page import="com.app.model.Usuario"%>
+<%@page import="com.app.controller.util.DateFormat"%>
+<%@page import="com.app.config.factory.FactoryConnectionDB"%>
+<%@page import="com.app.domain.model.Ub_Distrito"%>
+<%@page import="com.app.domain.model.Ub_Provincia"%>
+<%@page import="com.app.domain.model.V_Ficha_Trab_Num_C"%>
+<%@page import="com.app.domain.model.Usuario"%>
 <%
     HttpSession sesion = request.getSession();
     String id_user = (String) sesion.getAttribute("IDUSER");
     if (id_user != null) {
 %>
-<%@page import="com.app.model.Tipo_Documento"%>
-<%@page import="com.app.model.Via"%>
-<%@page import="com.app.model.Zona"%>
-<%@page import="com.app.model.Ub_Departamento"%>
-<%@page import="com.app.model.Situacion_Educativa"%>
-<%@page import="com.app.model.Universidad"%>
-<%@page import="com.app.model.Carrera"%>
-<%@page import="com.app.model.V_Ubigeo"%>
-<%@page import="com.app.model.Nacionalidad"%>
+<%@page import="com.app.domain.model.Tipo_Documento"%>
+<%@page import="com.app.domain.model.Via"%>
+<%@page import="com.app.domain.model.Zona"%>
+<%@page import="com.app.domain.model.Ub_Departamento"%>
+<%@page import="com.app.domain.model.Situacion_Educativa"%>
+<%@page import="com.app.domain.model.Universidad"%>
+<%@page import="com.app.domain.model.Carrera"%>
+<%@page import="com.app.domain.model.V_Ubigeo"%>
+<%@page import="com.app.domain.model.Nacionalidad"%>
 
 <%
     HttpSession sesion_1 = request.getSession(true);

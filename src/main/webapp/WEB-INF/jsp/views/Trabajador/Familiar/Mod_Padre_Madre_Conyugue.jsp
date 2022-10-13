@@ -1,11 +1,11 @@
-<%@page import="com.app.model.Usuario"%>
+<%@page import="com.app.domain.model.Usuario"%>
 <%
     HttpSession sesion_1 = request.getSession();
     String id_user_1 = (String) sesion_1.getAttribute("IDUSER");
     if (id_user_1 != null) {
 %>
 
-<%@page import="com.app.model.Padre_Madre_Conyugue"%>
+<%@page import="com.app.domain.model.Padre_Madre_Conyugue"%>
 <jsp:useBean id="List_PMC" scope="session" class="java.util.ArrayList"/>
 <!DOCTYPE html >
 <html>

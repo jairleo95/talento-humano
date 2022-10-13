@@ -1,23 +1,23 @@
- <%@page import="com.app.properties.globalProperties"%>
-<%@page import="com.app.util.DateFormat"%>
+ <%@page import="com.app.config.globalProperties"%>
+<%@page import="com.app.controller.util.DateFormat"%>
 <%
     HttpSession sesion_1 = request.getSession();
     String id_user_1 = (String) sesion_1.getAttribute("IDUSER");
     if (id_user_1 != null) {
 %>
-<%@page import="com.app.factory.FactoryConnectionDB"%>
-<%@page import="com.app.dao.TrabajadorDAO"%>
-<%@page import="com.app.dao_imp.InterfaceTrabajadorDAO"%>
-<%@page import="com.app.dao.Tipo_DocumentoDAO"%>
-<%@page import="com.app.model.Tipo_Documento"%>
-<%@page import="com.app.dao_imp.InterfaceTipo_DocumentoDAO"%>
-<%@page import="com.app.dao_imp.InterfaceListaDAO"%>
-<%@page import="com.app.model.Usuario"%>
-<%@page import="com.app.model.Empleado"%>
+<%@page import="com.app.config.factory.FactoryConnectionDB"%>
+<%@page import="com.app.persistence.dao.TrabajadorDAO"%>
+<%@page import="com.app.persistence.dao_imp.InterfaceTrabajadorDAO"%>
+<%@page import="com.app.persistence.dao.Tipo_DocumentoDAO"%>
+<%@page import="com.app.domain.model.Tipo_Documento"%>
+<%@page import="com.app.persistence.dao_imp.InterfaceTipo_DocumentoDAO"%>
+<%@page import="com.app.persistence.dao_imp.InterfaceListaDAO"%>
+<%@page import="com.app.domain.model.Usuario"%>
+<%@page import="com.app.domain.model.Empleado"%>
 <%@page import="javax.print.DocFlavor.STRING"%>
-<%@page import="com.app.model.Auto_Mostrar"%>
-<%@page import="com.app.model.V_Ficha_Trab_Num_C"%>
-<%@page import="com.app.model.Trabajador"%>
+<%@page import="com.app.domain.model.Auto_Mostrar"%>
+<%@page import="com.app.domain.model.V_Ficha_Trab_Num_C"%>
+<%@page import="com.app.domain.model.Trabajador"%>
 <jsp:useBean id="ListaridTrabajador" scope="session" class="java.util.ArrayList"/>
 <jsp:useBean id="List_Auto_mostrar" scope="session" class="java.util.ArrayList"/>
 <jsp:useBean id="id_empleadox_ide" scope="session" class="java.util.ArrayList"/>

@@ -3,9 +3,9 @@
     Created on : 29-ene-2015, 7:04:40
     Author     : joserodrigo
 --%>
-<%@page import="com.app.properties.globalProperties"%>
+<%@page import="com.app.config.globalProperties"%>
 <%@page import="java.util.ArrayList"%>
-<%@page import="com.app.model.Funciones"%>
+<%@page import="com.app.domain.model.Funciones"%>
 <jsp:useBean id="Listar_funciones" scope="session" class="java.util.ArrayList"/>
 
 <!DOCTYPE html>

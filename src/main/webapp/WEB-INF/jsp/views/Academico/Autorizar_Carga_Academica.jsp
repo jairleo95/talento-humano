@@ -1,12 +1,12 @@
-<%@page import="com.app.model.Usuario"%>
+<%@page import="com.app.domain.model.Usuario"%>
 <%
     HttpSession sesion = request.getSession();
     String id_user = (String) sesion.getAttribute("IDUSER");
     if (id_user != null) {
 %>
-<%@page import="com.app.dao.DgpDAO"%>
-<%@page import="com.app.dao_imp.InterfaceDgpDAO"%>
-<%@page import="com.app.model.V_Autorizar_Dgp"%>
+<%@page import="com.app.persistence.dao.DgpDAO"%>
+<%@page import="com.app.persistence.dao_imp.InterfaceDgpDAO"%>
+<%@page import="com.app.domain.model.V_Autorizar_Dgp"%>
 <jsp:useBean id="List_Autorizacion_Academico" scope="session" class="java.util.ArrayList"/>
 <!DOCTYPE html>
 <html>

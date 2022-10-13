@@ -1,6 +1,6 @@
-<%@page import="com.app.properties.globalProperties"%>
-<%@page import="com.app.model.Direccion"%>
-<%@page import="com.app.model.Usuario"%>
+<%@page import="com.app.config.globalProperties"%>
+<%@page import="com.app.domain.model.Direccion"%>
+<%@page import="com.app.domain.model.Usuario"%>
 <%
     HttpSession sesion_1 = request.getSession();
     String id_user_1 = (String) sesion_1.getAttribute("IDUSER");
@@ -12,7 +12,7 @@
     Author     : Alex
 --%>
 
-<%@page import="com.app.model.Tipo_Horario"%>
+<%@page import="com.app.domain.model.Tipo_Horario"%>
 
 <jsp:useBean id="List_Tipo_Horario" scope="session" class="java.util.ArrayList"/>
 <jsp:useBean id="Listar_Direccion" scope="session" class="java.util.ArrayList"/>

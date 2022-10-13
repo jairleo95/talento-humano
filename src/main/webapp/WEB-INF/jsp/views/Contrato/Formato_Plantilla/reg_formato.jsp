@@ -1,8 +1,7 @@
 
-<%@page import="com.app.model.Zona"%>
-<%@page import="com.app.model.Via"%>
-<%@page import="com.app.model.Funciones"%>
-<%@page import="java.text.SimpleDateFormat"%>
+<%@page import="com.app.domain.model.Zona"%>
+<%@page import="com.app.domain.model.Via"%>
+<%@page import="com.app.domain.model.Funciones"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.util.Date"%>
 <%
@@ -16,11 +15,11 @@
 Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 -->
-<%@page import="com.app.model.Usuario"%>
+<%@page import="com.app.domain.model.Usuario"%>
 <%@page import="java.util.GregorianCalendar"%>
-<%@page import="com.app.dao.ListaDAO"%>
-<%@page import="com.app.dao_imp.InterfaceListaDAO"%>
-<%@page import="com.app.model.X_List_Id_Contrato_DGP"%>
+<%@page import="com.app.persistence.dao.ListaDAO"%>
+<%@page import="com.app.persistence.dao_imp.InterfaceListaDAO"%>
+<%@page import="com.app.domain.model.X_List_Id_Contrato_DGP"%>
 <%@page import="java.util.Calendar"%>
 <jsp:useBean id="List_contra_x_idcto" scope="session" class="java.util.ArrayList"/>
 <jsp:useBean id="List_x_fun_x_idpu" scope="session" class="java.util.ArrayList"/>

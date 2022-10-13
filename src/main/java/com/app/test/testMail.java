@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import com.app.util.Mail;
+import com.app.controller.util.Mail;
 
 /**
  *

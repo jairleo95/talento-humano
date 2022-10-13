@@ -1,17 +1,16 @@
-<%@page import="com.app.model.Zona"%>
-<%@page import="com.app.model.Via"%>
-<%@page import="com.app.model.V_Ubigeo"%>
-<%@page import="com.app.model.Usuario"%>
+<%@page import="com.app.domain.model.Zona"%>
+<%@page import="com.app.domain.model.Via"%>
+<%@page import="com.app.domain.model.V_Ubigeo"%>
+<%@page import="com.app.domain.model.Usuario"%>
 <%
     HttpSession sesion_1 = request.getSession();
     String id_user_1 = (String) sesion_1.getAttribute("IDUSER");
     if (id_user_1 != null) {
 %>
-<%@page import="com.app.dao.ListaDAO"%>
-<%@page import="com.app.dao_imp.InterfaceListaDAO"%>
-<%@page import="com.app.model.V_Ficha_Trab_Num_C"%>
-<%@page import="com.app.model.Trabajador"%>
-<%@page import="com.app.model.Trabajador"%>
+<%@page import="com.app.persistence.dao.ListaDAO"%>
+<%@page import="com.app.persistence.dao_imp.InterfaceListaDAO"%>
+<%@page import="com.app.domain.model.V_Ficha_Trab_Num_C"%>
+<%@page import="com.app.domain.model.Trabajador"%>
 <jsp:useBean id="ListaridTrabajador" scope="session" class="java.util.ArrayList"/>
 <jsp:useBean id="List_Ubigeo" scope="session" class="java.util.ArrayList"/>
 <jsp:useBean id="List_Dom_D1_Id" scope="session" class="java.util.ArrayList"/>

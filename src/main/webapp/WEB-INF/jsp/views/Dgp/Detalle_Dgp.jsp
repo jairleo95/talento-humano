@@ -1,5 +1,5 @@
-<%@page import="com.app.util.DateFormat"%>
-<%@page import="com.app.properties.globalProperties"%>
+<%@page import="com.app.controller.util.DateFormat"%>
+<%@page import="com.app.config.globalProperties"%>
 <%
     HttpSession sesion_1 = request.getSession();
     String id_user_1 = (String) sesion_1.getAttribute("IDUSER");
@@ -7,21 +7,21 @@
 %>
 <%@page import="java.math.RoundingMode"%>
 <%@page import="java.math.BigDecimal"%>
-<%@page import="com.app.dao.Solicitud_RequerimientoDAO"%>
-<%@page import="com.app.dao_imp.InterfaceSolicitud_RequerimientoDAO"%>
-<%@page import="com.app.factory.FactoryConnectionDB"%>
-<%@page import="com.app.dao_imp.InterfacePlazo_DgpDAO"%>
-<%@page import="com.app.dao.Plazo_DgpDAO"%>
-<%@page import="com.app.model.Detalle_Centro_Costo"%>
-<%@page import="com.app.model.Centro_Costos"%>
-<%@page import="com.app.dao.UsuarioDAO"%>
-<%@page import="com.app.dao_imp.InterfaceUsuarioDAO"%>
-<%@page import="com.app.model.Usuario"%>
-<%@page import="com.app.model.V_Det_DGP"%>
-<%@page import="com.app.model.X_List_id_dgp"%>
+<%@page import="com.app.persistence.dao.Solicitud_RequerimientoDAO"%>
+<%@page import="com.app.persistence.dao_imp.InterfaceSolicitud_RequerimientoDAO"%>
+<%@page import="com.app.config.factory.FactoryConnectionDB"%>
+<%@page import="com.app.persistence.dao_imp.InterfacePlazo_DgpDAO"%>
+<%@page import="com.app.persistence.dao.Plazo_DgpDAO"%>
+<%@page import="com.app.domain.model.Detalle_Centro_Costo"%>
+<%@page import="com.app.domain.model.Centro_Costos"%>
+<%@page import="com.app.persistence.dao.UsuarioDAO"%>
+<%@page import="com.app.persistence.dao_imp.InterfaceUsuarioDAO"%>
+<%@page import="com.app.domain.model.Usuario"%>
+<%@page import="com.app.domain.model.V_Det_DGP"%>
+<%@page import="com.app.domain.model.X_List_id_dgp"%>
 <%@page import="java.util.List"%>
-<%@page import="com.app.dao.DgpDAO"%>
-<%@page import="com.app.dao_imp.InterfaceDgpDAO"%>
+<%@page import="com.app.persistence.dao.DgpDAO"%>
+<%@page import="com.app.persistence.dao_imp.InterfaceDgpDAO"%>
 <jsp:useBean id="LIST_ID_DGP" scope="session" class="java.util.ArrayList"/>
 <jsp:useBean id="LIST_ID_USER" scope="session" class="java.util.ArrayList"/>
 <jsp:useBean id="Cargar_dcc_dgp" scope="session" class="java.util.ArrayList"/>

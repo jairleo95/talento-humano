@@ -4,10 +4,10 @@
     Author     : Andres
 --%>
 
-<%@page import="com.app.model.V_Var_Usuario"%>
+<%@page import="com.app.domain.model.V_Var_Usuario"%>
 
-<%@page import="com.app.model.V_List_Empleado"%>
-<%@page import="com.app.model.Rol"%>
+<%@page import="com.app.domain.model.V_List_Empleado"%>
+<%@page import="com.app.domain.model.Rol"%>
 <jsp:useBean id="Listar_Emp" scope="session" class="java.util.ArrayList"/>
 <jsp:useBean id="List_Usuario_var" scope="session" class="java.util.ArrayList"/>
 <!DOCTYPE html>

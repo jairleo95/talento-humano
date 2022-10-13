@@ -1,14 +1,13 @@
-<%@page import="com.app.util.DateFormat"%>
-<%@page import="com.app.properties.globalProperties"%>
-<%@page import="com.app.factory.FactoryConnectionDB"%>
+<%@page import="com.app.controller.util.DateFormat"%>
+<%@page import="com.app.config.globalProperties"%>
+<%@page import="com.app.config.factory.FactoryConnectionDB"%>
 <%@page import="java.util.ArrayList"%>
-<%@page import="com.app.model.Grupo_Ocupaciones"%>
-<%@page import="com.app.model.Modalidad"%>
-<%@page import="com.app.model.Regimen_Laboral"%>
-<%@page import="com.app.model.Direccion"%>
-<%@page import="com.app.model.V_Contrato_dgp"%>
-<%@page import="com.app.model.X_List_Id_Contrato_DGP"%>
-<%@page import="com.app.model.X_List_Id_Contrato_DGP"%>
+<%@page import="com.app.domain.model.Grupo_Ocupaciones"%>
+<%@page import="com.app.domain.model.Modalidad"%>
+<%@page import="com.app.domain.model.Regimen_Laboral"%>
+<%@page import="com.app.domain.model.Direccion"%>
+<%@page import="com.app.domain.model.V_Contrato_dgp"%>
+<%@page import="com.app.domain.model.X_List_Id_Contrato_DGP"%>
 <jsp:useBean id="List_contrato" scope="session" class="java.util.ArrayList"/>
 <jsp:useBean id="Listar_Direccion" scope="session" class="java.util.ArrayList"/>
 <jsp:useBean id="list_reg_labo" scope="session" class="java.util.ArrayList"/>

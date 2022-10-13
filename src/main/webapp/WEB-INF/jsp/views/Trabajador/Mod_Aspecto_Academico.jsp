@@ -9,17 +9,17 @@
         rol = rol.trim();
 %>
 
-<%@page import="com.app.model.Cuenta_Sueldo"%>
-<%@page import="com.app.model.Tipo_Institucion"%>
-<%@page import="com.app.model.V_Ficha_Trab_Num_C"%>
-<%@page import="com.app.model.Usuario"%>
-<%@page import="com.app.model.Tipo_Documento"%>
-<%@page import="com.app.model.Ub_Departamento"%>
-<%@page import="com.app.model.Situacion_Educativa"%>
-<%@page import="com.app.model.Universidad"%>
-<%@page import="com.app.model.Carrera"%>
-<%@page import="com.app.model.V_Ubigeo"%>
-<%@page import="com.app.model.Nacionalidad"%>
+<%@page import="com.app.domain.model.Cuenta_Sueldo"%>
+<%@page import="com.app.domain.model.Tipo_Institucion"%>
+<%@page import="com.app.domain.model.V_Ficha_Trab_Num_C"%>
+<%@page import="com.app.domain.model.Usuario"%>
+<%@page import="com.app.domain.model.Tipo_Documento"%>
+<%@page import="com.app.domain.model.Ub_Departamento"%>
+<%@page import="com.app.domain.model.Situacion_Educativa"%>
+<%@page import="com.app.domain.model.Universidad"%>
+<%@page import="com.app.domain.model.Carrera"%>
+<%@page import="com.app.domain.model.V_Ubigeo"%>
+<%@page import="com.app.domain.model.Nacionalidad"%>
 <jsp:useBean id="List_Cuenta_Sueldo" scope="session" class="java.util.ArrayList"/>
 <jsp:useBean id="list_a�o" scope="session" class="java.util.ArrayList"/>
 <jsp:useBean id="List_tipo_institucion" scope="session" class="java.util.ArrayList"/>

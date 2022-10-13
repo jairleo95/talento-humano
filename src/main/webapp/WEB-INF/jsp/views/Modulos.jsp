@@ -5,7 +5,7 @@
 
 %>
 
-<%@page import="com.app.model.V_Privilegio"%>
+<%@page import="com.app.domain.model.V_Privilegio"%>
 <jsp:useBean id="LIST_MODULO" scope="session" class="java.util.ArrayList"/>
 <!DOCTYPE html>
 <html lang="en" class="no-js">

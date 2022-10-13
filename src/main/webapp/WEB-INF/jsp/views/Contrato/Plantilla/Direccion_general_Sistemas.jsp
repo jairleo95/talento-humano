@@ -1,12 +1,12 @@
-<%@page import="com.app.model.Usuario"%>
+<%@page import="com.app.domain.model.Usuario"%>
 <%
     HttpSession sesion = request.getSession();
     String id_user = (String) sesion.getAttribute("IDUSER");
     if (id_user != null) {
 %>
-<%@page import="com.app.dao.ListaDAO"%>
-<%@page import="com.app.dao_imp.InterfaceListaDAO"%>
-<%@page import="com.app.model.X_List_dat_tr_plantilla"%>
+<%@page import="com.app.persistence.dao.ListaDAO"%>
+<%@page import="com.app.persistence.dao_imp.InterfaceListaDAO"%>
+<%@page import="com.app.domain.model.X_List_dat_tr_plantilla"%>
 <jsp:useBean id="LIST_DAT_TR_PLANTILLA" scope="session" class="java.util.ArrayList"/>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
 

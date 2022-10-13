@@ -1,15 +1,15 @@
-<%@page import="com.app.model.Ub_Distrito"%>
-<%@page import="com.app.model.Ub_Provincia"%>
-<%@page import="com.app.model.V_Ficha_Trab_Num_C"%>
-<%@page import="com.app.dao.ListaDAO"%>
-<%@page import="com.app.dao_imp.InterfaceListaDAO"%>
-<%@page import="com.app.model.V_Var_Usuario"%>
-<%@page import="com.app.model.V_Usuario"%>
-<%@page import="com.app.model.Via"%>
-<%@page import="com.app.model.Zona"%>
-<%@page import="com.app.model.Ub_Departamento"%>
-<%@page import="com.app.model.V_Ubigeo"%>
-<%@page import="com.app.model.Nacionalidad"%>
+<%@page import="com.app.domain.model.Ub_Distrito"%>
+<%@page import="com.app.domain.model.Ub_Provincia"%>
+<%@page import="com.app.domain.model.V_Ficha_Trab_Num_C"%>
+<%@page import="com.app.persistence.dao.ListaDAO"%>
+<%@page import="com.app.persistence.dao_imp.InterfaceListaDAO"%>
+<%@page import="com.app.domain.model.V_Var_Usuario"%>
+<%@page import="com.app.domain.model.V_Usuario"%>
+<%@page import="com.app.domain.model.Via"%>
+<%@page import="com.app.domain.model.Zona"%>
+<%@page import="com.app.domain.model.Ub_Departamento"%>
+<%@page import="com.app.domain.model.V_Ubigeo"%>
+<%@page import="com.app.domain.model.Nacionalidad"%>
 <%
     HttpSession sesion = request.getSession(true);
     String iddep = (String) sesion.getAttribute("DEPARTAMENTO_ID");

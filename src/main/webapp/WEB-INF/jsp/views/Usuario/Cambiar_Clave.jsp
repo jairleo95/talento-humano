@@ -3,7 +3,7 @@
     if (id_user != null) {
 %>
 
-<%@page import="com.app.model.Usuario"%>
+<%@page import="com.app.domain.model.Usuario"%>
 <jsp:useBean id="List_ID_User" scope="session" class="java.util.ArrayList"/>
 <!DOCTYPE html>
 <!--

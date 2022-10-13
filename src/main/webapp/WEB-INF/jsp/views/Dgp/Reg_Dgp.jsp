@@ -1,18 +1,18 @@
-<%@page import="com.app.properties.globalProperties"%>
-<%@page import="com.app.model.Cuenta_Sueldo"%>
+<%@page import="com.app.config.globalProperties"%>
+<%@page import="com.app.domain.model.Cuenta_Sueldo"%>
 <%
     HttpSession sesion_1 = request.getSession();
     String id_user_1 = (String) sesion_1.getAttribute("IDUSER");
     if (id_user_1 != null) {
 %>
-<%@page import="com.app.model.Usuario"%>
+<%@page import="com.app.domain.model.Usuario"%>
 <%@page import="org.apache.jasper.tagplugins.jstl.core.When"%>
-<%@page import="com.app.model.V_Ficha_Trab_Num_C"%>
-<%@page import="com.app.model.Requerimiento"%>
-<%@page import="com.app.model.V_Puesto_Direccion"%>
-<%@page import="com.app.model.Puesto"%>
-<%@page import="com.app.model.Trabajador"%>
-<%@page import="com.app.factory.FactoryConnectionDB"%>
+<%@page import="com.app.domain.model.V_Ficha_Trab_Num_C"%>
+<%@page import="com.app.domain.model.Requerimiento"%>
+<%@page import="com.app.domain.model.V_Puesto_Direccion"%>
+<%@page import="com.app.domain.model.Puesto"%>
+<%@page import="com.app.domain.model.Trabajador"%>
+<%@page import="com.app.config.factory.FactoryConnectionDB"%>
 <jsp:useBean id="Listar_Trabajador_id" scope="session" class="java.util.ArrayList"/>
 <jsp:useBean id="List_Puesto" scope="session" class="java.util.ArrayList"/>
 <jsp:useBean id="Listar_Requerimiento" scope="session" class="java.util.ArrayList"/>

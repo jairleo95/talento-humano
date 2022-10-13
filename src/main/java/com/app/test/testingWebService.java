@@ -8,9 +8,9 @@ package com.app.test;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.app.dao.Carga_AcademicaDAO;
-import com.app.dao_imp.InterfaceCarga_AcademicaDAO;
-import com.app.properties.globalProperties;
+import com.app.persistence.dao.Carga_AcademicaDAO;
+import com.app.persistence.dao_imp.InterfaceCarga_AcademicaDAO;
+import com.app.config.globalProperties;
 
 /**
  *

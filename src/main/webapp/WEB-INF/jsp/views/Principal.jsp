@@ -1,4 +1,4 @@
-<%@page import="com.app.properties.globalProperties"%>
+<%@page import="com.app.config.globalProperties"%>
 <%
     HttpSession sesion = request.getSession();
     String id_user = (String) sesion.getAttribute("IDUSER");
@@ -6,10 +6,10 @@
         Usuario us = new Usuario();
         String id_rol = (String) sesion.getAttribute("IDROL");
 %>
-<%@page import="com.app.factory.FactoryConnectionDB"%>
-<%@page import="com.app.model.V_Privilegio"%>
-<%@page import="com.app.model.V_Usuario"%>
-<%@page import="com.app.model.Usuario"%>
+<%@page import="com.app.config.factory.FactoryConnectionDB"%>
+<%@page import="com.app.domain.model.V_Privilegio"%>
+<%@page import="com.app.domain.model.V_Usuario"%>
+<%@page import="com.app.domain.model.Usuario"%>
 <jsp:useBean id="listarURL" scope="session" class="java.util.ArrayList"/>
 
 <!DOCTYPE html>

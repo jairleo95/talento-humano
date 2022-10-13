@@ -1,13 +1,13 @@
-<%@page import="com.app.dao_imp.InterfaceComentario_DGPDAO"%>
-<%@page import="com.app.dao.Comentario_DGPDAO"%>
-<%@page import="com.app.model.Usuario"%>
+<%@page import="com.app.persistence.dao_imp.InterfaceComentario_DGPDAO"%>
+<%@page import="com.app.persistence.dao.Comentario_DGPDAO"%>
+<%@page import="com.app.domain.model.Usuario"%>
 <%
     HttpSession sesion_1 = request.getSession();
     String id_user_1 = (String) sesion_1.getAttribute("IDUSER");
     if (id_user_1 != null) {
 %>
 <jsp:useBean class="java.util.ArrayList" id="Det_Autorizacion" scope="session" />
-<%@page import="com.app.model.X_List_De_Autorizacion"%>
+<%@page import="com.app.domain.model.X_List_De_Autorizacion"%>
         <!-- possible classes: minified, fixed-ribbon, fixed-header, fixed-width-->
 
         <%InterfaceComentario_DGPDAO cm = new Comentario_DGPDAO();

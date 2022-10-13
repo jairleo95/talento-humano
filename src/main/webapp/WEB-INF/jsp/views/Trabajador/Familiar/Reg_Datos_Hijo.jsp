@@ -1,7 +1,7 @@
-<%@page import="com.app.properties.globalProperties"%>
-<%@page import="com.app.model.Tipo_Documento"%>
-<%@page import="com.app.dao.Tipo_DocumentoDAO"%>
-<%@page import="com.app.dao_imp.InterfaceTipo_DocumentoDAO"%>
+<%@page import="com.app.config.globalProperties"%>
+<%@page import="com.app.domain.model.Tipo_Documento"%>
+<%@page import="com.app.persistence.dao.Tipo_DocumentoDAO"%>
+<%@page import="com.app.persistence.dao_imp.InterfaceTipo_DocumentoDAO"%>
 <%    HttpSession sesion = request.getSession();
     String id_user = (String) sesion.getAttribute("IDUSER");
     if (id_user != null) {

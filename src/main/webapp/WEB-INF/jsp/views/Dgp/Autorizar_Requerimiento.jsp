@@ -1,16 +1,16 @@
 
-<%@page import="com.app.properties.globalProperties"%>
+<%@page import="com.app.config.globalProperties"%>
 <%
     HttpSession sesion = request.getSession();
     String id_user = (String) sesion.getAttribute("IDUSER");
     if (id_user != null) {
 %>
-<%@page import="com.app.dao.AutorizacionDAO"%>
-<%@page import="com.app.model.Usuario"%>
-<%@page import="com.app.dao.DgpDAO"%>
-<%@page import="com.app.dao_imp.InterfaceDgpDAO"%>
-<%@page import="com.app.dao_imp.InterfaceAutorizacionDAO"%>
-<%@page import="com.app.model.V_Autorizar_Dgp"%>
+<%@page import="com.app.persistence.dao.AutorizacionDAO"%>
+<%@page import="com.app.domain.model.Usuario"%>
+<%@page import="com.app.persistence.dao.DgpDAO"%>
+<%@page import="com.app.persistence.dao_imp.InterfaceDgpDAO"%>
+<%@page import="com.app.persistence.dao_imp.InterfaceAutorizacionDAO"%>
+<%@page import="com.app.domain.model.V_Autorizar_Dgp"%>
 <jsp:useBean id="List_id_Autorizacion" scope="session" class="java.util.ArrayList"/>
 <html>
     <head>

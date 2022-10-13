@@ -1,12 +1,11 @@
 
-<%@page import="com.app.dao.PlantillaContractualDAO"%>
-<%@page import="com.app.dao_imp.InterfacePlantillaContractualDAO"%>
-<%@page import="com.app.dao.FuncionDAO"%>
-<%@page import="com.app.dao_imp.InterfaceFuncionDAO"%>
-<%@page import="com.app.dao.ContratoDAO"%>
-<%@page import="com.app.dao_imp.InterfaceContratoDAO"%>
-<%@page import="com.app.model.Funciones"%>
-<%@page import="java.text.SimpleDateFormat"%>
+<%@page import="com.app.persistence.dao.PlantillaContractualDAO"%>
+<%@page import="com.app.persistence.dao_imp.InterfacePlantillaContractualDAO"%>
+<%@page import="com.app.persistence.dao.FuncionDAO"%>
+<%@page import="com.app.persistence.dao_imp.InterfaceFuncionDAO"%>
+<%@page import="com.app.persistence.dao.ContratoDAO"%>
+<%@page import="com.app.persistence.dao_imp.InterfaceContratoDAO"%>
+<%@page import="com.app.domain.model.Funciones"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.util.Date"%>
 <%

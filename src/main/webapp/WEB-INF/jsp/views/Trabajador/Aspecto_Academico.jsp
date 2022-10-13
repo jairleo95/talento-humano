@@ -1,19 +1,18 @@
-<%@page import="com.app.model.Tipo_Institucion"%>
-<%@page import="com.app.model.Universidad"%>
-<%@page import="com.app.model.Cuenta_Sueldo"%>
-<%@page import="com.app.dao.Carrera_UniversidadDAO"%>
-<%@page import="com.app.dao_imp.InterfaceCarrera_UniversidadDAO"%>
-<%@page import="com.app.model.Usuario"%>
+<%@page import="com.app.domain.model.Tipo_Institucion"%>
+<%@page import="com.app.domain.model.Universidad"%>
+<%@page import="com.app.domain.model.Cuenta_Sueldo"%>
+<%@page import="com.app.persistence.dao.Carrera_UniversidadDAO"%>
+<%@page import="com.app.persistence.dao_imp.InterfaceCarrera_UniversidadDAO"%>
+<%@page import="com.app.domain.model.Usuario"%>
 <%
     HttpSession sesion_1 = request.getSession();
     String id_user_1 = (String) sesion_1.getAttribute("IDUSER");
     if (id_user_1 != null) {
 %>
-<%@page import="com.app.dao.ListaDAO"%>
-<%@page import="com.app.dao_imp.InterfaceListaDAO"%>
-<%@page import="com.app.model.V_Ficha_Trab_Num_C"%>
-<%@page import="com.app.model.Trabajador"%>
-<%@page import="com.app.model.Trabajador"%>
+<%@page import="com.app.persistence.dao.ListaDAO"%>
+<%@page import="com.app.persistence.dao_imp.InterfaceListaDAO"%>
+<%@page import="com.app.domain.model.V_Ficha_Trab_Num_C"%>
+<%@page import="com.app.domain.model.Trabajador"%>
 <jsp:useBean id="ListaridTrabajador" scope="session" class="java.util.ArrayList"/>
 <jsp:useBean id="List_Cuenta_Sueldo" scope="session" class="java.util.ArrayList"/>
 <jsp:useBean id="List_Universidad" scope="session" class="java.util.ArrayList"/>

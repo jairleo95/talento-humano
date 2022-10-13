@@ -1,11 +1,11 @@
 
-<%@page import="com.app.model.V_Es_Req_Incompleto"%>
+<%@page import="com.app.domain.model.V_Es_Req_Incompleto"%>
 <%
     HttpSession sesion_1 = request.getSession();
     String id_user_1 = (String) sesion_1.getAttribute("IDUSER");
     if (id_user_1 != null) {
 %>
-<%@page import="com.app.model.Usuario"%>
+<%@page import="com.app.domain.model.Usuario"%>
 <jsp:useBean class="java.util.ArrayList" id="List_Incomplet" scope="session" />
 <!DOCTYPE html>
 <html lang="en-us">

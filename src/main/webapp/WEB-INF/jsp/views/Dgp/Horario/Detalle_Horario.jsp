@@ -1,17 +1,17 @@
-<%@page import="com.app.properties.globalProperties"%>
-<%@page import="com.app.model.Usuario"%>
+<%@page import="com.app.config.globalProperties"%>
+<%@page import="com.app.domain.model.Usuario"%>
 <%
     HttpSession sesion = request.getSession();
     String id_user = (String) sesion.getAttribute("IDUSER");
     if (id_user != null) {
 %>
-<%@page import="com.app.model.V_Horario"%>
-<%@page import="com.app.model.Detalle_Horario"%>
+<%@page import="com.app.domain.model.V_Horario"%>
+<%@page import="com.app.domain.model.Detalle_Horario"%>
 <%@page import="java.util.List"%>
-<%@page import="com.app.dao.HorarioDAO"%>
-<%@page import="com.app.dao_imp.InterfaceHorarioDAO"%>
-<%@page import="com.app.dao_imp.InterfaceListaDAO"%>
-<%@page import="com.app.dao.ListaDAO"%>
+<%@page import="com.app.persistence.dao.HorarioDAO"%>
+<%@page import="com.app.persistence.dao_imp.InterfaceHorarioDAO"%>
+<%@page import="com.app.persistence.dao_imp.InterfaceListaDAO"%>
+<%@page import="com.app.persistence.dao.ListaDAO"%>
 <%@page import="com.app.web.controller.CHorario"%>
 <jsp:useBean id="List_V_Horario" scope="session" class="java.util.ArrayList"/>
 <!DOCTYPE html>

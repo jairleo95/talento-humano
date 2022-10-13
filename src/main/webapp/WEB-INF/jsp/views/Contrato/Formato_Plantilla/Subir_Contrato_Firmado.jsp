@@ -1,6 +1,6 @@
 
-<%@page import="com.app.dao.DocumentoDAO"%>
-<%@page import="com.app.dao_imp.InterfaceDocumentoDAO"%>
+<%@page import="com.app.persistence.dao.DocumentoDAO"%>
+<%@page import="com.app.persistence.dao_imp.InterfaceDocumentoDAO"%>
 <%
     HttpSession sesion = request.getSession();
     String id_user = (String) sesion.getAttribute("IDUSER");

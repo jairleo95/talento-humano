@@ -1,11 +1,11 @@
-<%@page import="com.app.util.DateFormat"%>
-<%@page import="com.app.properties.globalProperties"%>
-<%@page import="com.app.model.Tipo_Documento"%>
+<%@page import="com.app.controller.util.DateFormat"%>
+<%@page import="com.app.config.globalProperties"%>
+<%@page import="com.app.domain.model.Tipo_Documento"%>
 <%    HttpSession sesion = request.getSession();
     String id_user = (String) sesion.getAttribute("IDUSER");
     if (id_user != null) {
 %>
-<%@page import="com.app.model.Datos_Hijo_Trabajador"%>
+<%@page import="com.app.domain.model.Datos_Hijo_Trabajador"%>
 <jsp:useBean id="Lista_hijo_individual" scope="session" class="java.util.ArrayList"/>
 <jsp:useBean id="Listar_tipo_doc" scope="session" class="java.util.ArrayList"/>
 

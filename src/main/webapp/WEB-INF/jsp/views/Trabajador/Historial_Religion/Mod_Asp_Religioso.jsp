@@ -4,7 +4,7 @@
     Author     : Alex
 --%>
 
-<%@page import="com.app.model.V_Ficha_Trab_Num_C"%>
+<%@page import="com.app.domain.model.V_Ficha_Trab_Num_C"%>
 
 <jsp:useBean id="ListaridTrabajador" scope="session" class="java.util.ArrayList"/>
 <!DOCTYPE html>

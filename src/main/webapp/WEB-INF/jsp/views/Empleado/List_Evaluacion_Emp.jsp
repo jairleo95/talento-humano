@@ -1,4 +1,4 @@
-<%@page import="com.app.model.Usuario"%>
+<%@page import="com.app.domain.model.Usuario"%>
 <%
     HttpSession sesion_1 = request.getSession();
     String id_user_1 = (String) sesion_1.getAttribute("IDUSER");
@@ -9,7 +9,7 @@
     Created on : 08/01/2015, 06:57:41 PM
     Author     : Alex
 --%>
-<%@page import="com.app.model.Evaluacion_Emp"%>
+<%@page import="com.app.domain.model.Evaluacion_Emp"%>
 <jsp:useBean id="LIST_EVALUACION" scope="session" class="java.util.ArrayList"/>
 <!DOCTYPE html>
 <html>

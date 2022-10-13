@@ -1,4 +1,4 @@
-<%@page import="com.app.properties.globalProperties"%>
+<%@page import="com.app.config.globalProperties"%>
 <%
     HttpSession sesion = request.getSession();
     String id_user = (String) sesion.getAttribute("IDUSER");
@@ -6,16 +6,16 @@
         String iddep = (String) sesion.getAttribute("DEPARTAMENTO_ID");
         String iduser = (String) sesion.getAttribute("IDUSER");
 %>
-<%@page import="com.app.model.Usuario"%>
-<%@page import="com.app.model.Tipo_Documento"%>
-<%@page import="com.app.model.Via"%>
-<%@page import="com.app.model.Zona"%>
-<%@page import="com.app.model.Ub_Departamento"%>
-<%@page import="com.app.model.Situacion_Educativa"%>
-<%@page import="com.app.model.Universidad"%>
-<%@page import="com.app.model.Carrera"%>
-<%@page import="com.app.model.V_Ubigeo"%>
-<%@page import="com.app.model.Nacionalidad"%>
+<%@page import="com.app.domain.model.Usuario"%>
+<%@page import="com.app.domain.model.Tipo_Documento"%>
+<%@page import="com.app.domain.model.Via"%>
+<%@page import="com.app.domain.model.Zona"%>
+<%@page import="com.app.domain.model.Ub_Departamento"%>
+<%@page import="com.app.domain.model.Situacion_Educativa"%>
+<%@page import="com.app.domain.model.Universidad"%>
+<%@page import="com.app.domain.model.Carrera"%>
+<%@page import="com.app.domain.model.V_Ubigeo"%>
+<%@page import="com.app.domain.model.Nacionalidad"%>
 <jsp:useBean id="List_Nacionalidad" scope="session" class="java.util.ArrayList"/>
 <jsp:useBean id="List_Departamento" scope="session" class="java.util.ArrayList"/>
 <jsp:useBean id="List_Carrera" scope="session" class="java.util.ArrayList"/>

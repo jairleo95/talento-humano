@@ -1,23 +1,23 @@
-<%@page import="com.app.model.Funciones"%>
+<%@page import="com.app.domain.model.Funciones"%>
 <%
     HttpSession sesion = request.getSession();
     String id_user = (String) sesion.getAttribute("IDUSER");
     if (id_user != null) {
 %>
-<%@page import="com.app.model.Grupo_Ocupaciones"%>
-<%@page import="com.app.model.Sub_Modalidad"%>
-<%@page import="com.app.model.Modalidad"%>
-<%@page import="com.app.model.Regimen_Laboral"%>
-<%@page import="com.app.model.Centro_Costos"%>
-<%@page import="com.app.dao.ListaDAO"%>
-<%@page import="com.app.dao_imp.InterfaceListaDAO"%>
-<%@page import="com.app.dao.ContratoDAO"%>
-<%@page import="com.app.dao_imp.InterfaceContratoDAO"%>
-<%@page import="com.app.model.Usuario"%>
-<%@page import="com.app.model.X_List_Plantilla"%>
-<%@page import="com.app.dao.PlantillaDAO"%>
-<%@page import="com.app.dao_imp.InterfacePlantillaDAO"%>
-<%@page import="com.app.model.X_List_Id_Contrato_DGP"%>
+<%@page import="com.app.domain.model.Grupo_Ocupaciones"%>
+<%@page import="com.app.domain.model.Sub_Modalidad"%>
+<%@page import="com.app.domain.model.Modalidad"%>
+<%@page import="com.app.domain.model.Regimen_Laboral"%>
+<%@page import="com.app.domain.model.Centro_Costos"%>
+<%@page import="com.app.persistence.dao.ListaDAO"%>
+<%@page import="com.app.persistence.dao_imp.InterfaceListaDAO"%>
+<%@page import="com.app.persistence.dao.ContratoDAO"%>
+<%@page import="com.app.persistence.dao_imp.InterfaceContratoDAO"%>
+<%@page import="com.app.domain.model.Usuario"%>
+<%@page import="com.app.domain.model.X_List_Plantilla"%>
+<%@page import="com.app.persistence.dao.PlantillaDAO"%>
+<%@page import="com.app.persistence.dao_imp.InterfacePlantillaDAO"%>
+<%@page import="com.app.domain.model.X_List_Id_Contrato_DGP"%>
 
 <jsp:useBean id="List_contra_x_idcto" scope="session" class="java.util.ArrayList"/>
 <jsp:useBean id="List_Situacion_Actual" scope="session" class="java.util.ArrayList"/>

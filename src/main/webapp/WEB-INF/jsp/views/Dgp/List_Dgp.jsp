@@ -1,11 +1,11 @@
-<%@page import="com.app.model.Trabajador"%>
-<%@page import="com.app.model.Usuario"%>
+<%@page import="com.app.domain.model.Trabajador"%>
+<%@page import="com.app.domain.model.Usuario"%>
 <%
     HttpSession sesion_1 = request.getSession();
     String id_user_1 = (String) sesion_1.getAttribute("IDUSER");
     if (id_user_1 != null) {
 %>
-<%@page import="com.app.model.X_List_det_dgp"%>
+<%@page import="com.app.domain.model.X_List_det_dgp"%>
 <jsp:useBean id="List_Det_Dgp" scope="session" class="java.util.ArrayList"/>  
 <jsp:useBean id="List_Trb_Mod_Rel" scope="session" class="java.util.ArrayList"/>  
 

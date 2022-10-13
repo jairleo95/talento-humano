@@ -1,13 +1,13 @@
 
-<%@page import="com.app.util.DateFormat"%>
-<%@page import="com.app.model.Tipo_Documento"%>
-<%@page import="com.app.model.V_Ficha_Trab_Num_C"%>
+<%@page import="com.app.controller.util.DateFormat"%>
+<%@page import="com.app.domain.model.Tipo_Documento"%>
+<%@page import="com.app.domain.model.V_Ficha_Trab_Num_C"%>
 <%    HttpSession sesion_ = request.getSession();
     String id_user_ = (String) sesion_.getAttribute("IDUSER");
     if (id_user_ != null) {
 %>
-<%@page import="com.app.model.Usuario"%>
-<%@page import="com.app.model.Padre_Madre_Conyugue"%>
+<%@page import="com.app.domain.model.Usuario"%>
+<%@page import="com.app.domain.model.Padre_Madre_Conyugue"%>
 <jsp:useBean id="LISTA_HIJOS" scope="session" class="java.util.ArrayList"/>
 <jsp:useBean id="ListaridTrabajador" scope="session" class="java.util.ArrayList"/>
 <jsp:useBean id="Lista_Tipo_Doc" scope="session" class="java.util.ArrayList"/>

@@ -1,4 +1,4 @@
-<%@page import="com.app.model.Usuario"%>
+<%@page import="com.app.domain.model.Usuario"%>
 <%
     HttpSession sesion_1 = request.getSession();
     String id_user_1 = (String) sesion_1.getAttribute("IDUSER");
@@ -9,9 +9,9 @@
     Created on : 13/01/2015, 10:24:45 AM
     Author     : Alex
 --%>
-<%@page import="com.app.dao_imp.InterfaceFormato_HorarioDAO"%>
-<%@page import="com.app.dao.Formato_HorarioDAO"%>
-<%@page import="com.app.model.Formato_Horario"%>
+<%@page import="com.app.persistence.dao_imp.InterfaceFormato_HorarioDAO"%>
+<%@page import="com.app.persistence.dao.Formato_HorarioDAO"%>
+<%@page import="com.app.domain.model.Formato_Horario"%>
 <jsp:useBean id="LISTAR_FORMATO_HORARIO" scope="session" class="java.util.ArrayList" />
 <!DOCTYPE html>
 <html>
