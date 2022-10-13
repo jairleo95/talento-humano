@@ -132,7 +132,7 @@ function list_puesto(num) {
             var $this = $(this).val();
             if (confirm("¿Esta Seguro de Eliminar?")) {
                 alert("opc=Eliminar_PP&id=" + $(".iddp" + $this).val());
-                $.post("../../paso", "opc=Eliminar_PP&id=" + $(".iddp" + $this).val(),
+                $.post("paso", "opc=Eliminar_PP&id=" + $(".iddp" + $this).val(),
                         function (objJson) {
                             console.log("value:" + $this);
                             list_puesto($this - 1);

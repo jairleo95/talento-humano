@@ -7,7 +7,7 @@
 
 function listDepartamento() {
     var s = $(".selec_dep");
-    $.post("../../Direccion_Puesto", "opc=Listar&" + "id_dir=" + $(".dir_pu").val(), function (objJson) {
+    $.post("Direccion_Puesto", "opc=Listar&" + "id_dir=" + $(".dir_pu").val(), function (objJson) {
         s.empty();
         var lista = objJson.lista;
         s.append("<option value='' > [Seleccione] </option>");
@@ -24,7 +24,7 @@ function listDepartamento() {
 function listArea() {
     var s = $(".Selec_Area");
 
-    $.post("../../Direccion_Puesto", "opc=Listar_area&" + "id_dep=" + $(".dep_pu").val(), function (objJson) {
+    $.post("Direccion_Puesto", "opc=Listar_area&" + "id_dep=" + $(".dep_pu").val(), function (objJson) {
         s.empty();
         var lista = objJson.lista;
         s.append("<option value='' > [Seleccione] </option>");
@@ -42,7 +42,7 @@ function listArea() {
 function listSeccion() {
     var s = $("#select_sec");
 
-    $.post("../../Direccion_Puesto", "opc=Listar_sec&" + "id_are=" + $(".area_pu").val(), function (objJson) {
+    $.post("Direccion_Puesto", "opc=Listar_sec&" + "id_are=" + $(".area_pu").val(), function (objJson) {
         s.empty();
         var lista = objJson.lista;
         s.append("<option value='' > [Seleccione] </option>");
@@ -58,7 +58,7 @@ function listSeccion() {
 }
 function listPlantilla() {
     var s = $(".con_pl_pu");
-    $.post("../../plantilla_contractual", "opc=List_planti&" + "id_pu=" + $(".id_pu_dgp").val(), function (objJson) {
+    $.post("plantilla_contractual", "opc=List_planti&" + "id_pu=" + $(".id_pu_dgp").val(), function (objJson) {
         s.empty();
         var lista = objJson.lista;
         s.append("<option value='' > [Seleccione] </option>");
@@ -72,7 +72,7 @@ function showEsDiezmo() {
     obj.hide(100);
     obj.empty();
     $.ajax({
-        url: "../../trabajador", data: "opc=ShowEsDiezmoTrabajador&id=" + $(".idtr").val(), type: 'POST', success: function (data, textStatus, jqXHR) {
+        url: "trabajador", data: "opc=ShowEsDiezmoTrabajador&id=" + $(".idtr").val(), type: 'POST', success: function (data, textStatus, jqXHR) {
             if (data.rpta) {
                 obj.append(data.html);
                 obj.show(100);
@@ -85,7 +85,7 @@ function showEsDiezmo() {
                         if (ButtonPressed === "Si") {
                             if ($(".cbkDiezmo").prop("checked")) {
                                 $.ajax({
-                                    url: "../../trabajador", data: "opc=UpdateEsDiezmo&id=" + $(".idtr").val() + "&estado=0", type: 'POST', success: function (data, textStatus, jqXHR) {
+                                    url: "trabajador", data: "opc=UpdateEsDiezmo&id=" + $(".idtr").val() + "&estado=0", type: 'POST', success: function (data, textStatus, jqXHR) {
                                         if (data.status) {
                                             $(".cbkDiezmo").prop("checked", false);
                                             $.smallBox({
@@ -101,7 +101,7 @@ function showEsDiezmo() {
                                 });
                             } else {
                                 $.ajax({
-                                    url: "../../trabajador", data: "opc=UpdateEsDiezmo&id=" + $(".idtr").val() + "&estado=1", type: 'POST', success: function (data, textStatus, jqXHR) {
+                                    url: "trabajador", data: "opc=UpdateEsDiezmo&id=" + $(".idtr").val() + "&estado=1", type: 'POST', success: function (data, textStatus, jqXHR) {
                                         if (data.status) {
                                             $(".cbkDiezmo").prop("checked", true);
                                             $.smallBox({
@@ -144,12 +144,12 @@ $(document).ready(function () {
     $("#su_t").numeric();
     $("#asig").numeric();
 
-    $.sound_path = "../../sound/", $.sound_on = !0, jQuery(document).ready(function () {
+    $.sound_path = "sound/", $.sound_on = !0, jQuery(document).ready(function () {
         $("body").append("<div id='divSmallBoxes'></div>"), $("body").append("<div id='divMiniIcons'></div><div id='divbigBoxes'></div>");
     });
     listCentoCostoByDGP($("#id_dgp").val());
     showEsDiezmo();
-    list_selectJavaBeans($(".ti_contrato"), "../../contrato", "opc=List_ti_contrato", "id_tipo_contrato", "de_ti_contrato");
+    list_selectJavaBeans($(".ti_contrato"), "contrato", "opc=List_ti_contrato", "id_tipo_contrato", "de_ti_contrato");
 
     $('#checkout-form').validate();
 
@@ -157,7 +157,7 @@ $(document).ready(function () {
     listSeccion();
     listArea();
     listPlantilla();
-    list_selectJavaBeans($(".situacionEspecial"), "../../situacionEspecial", "opc=list", "idSituacionEspecial", "deSituacionEspecial");
+    list_selectJavaBeans($(".situacionEspecial"), "situacionEspecial", "opc=list", "idSituacionEspecial", "deSituacionEspecial");
 
     var a = $("#select-sub-mod");
     var c = $("#Selec_Area");
@@ -174,7 +174,7 @@ $(document).ready(function () {
         $(".conteni").val($(".date").val());
     });
     $("#select_mod").change(function () {
-        $.post("../../ajax/Ajax_Reg_Contrato/Ajax_Reg_Contrato.jsp?opc=submodalidad&" + "MODALIDAD=" + $("#select_mod").val(), function (objJson) {
+        $.post("ajax/Ajax_Reg_Contrato/Ajax_Reg_Contrato.jsp?opc=submodalidad&" + "MODALIDAD=" + $("#select_mod").val(), function (objJson) {
             a.empty();
             var list = objJson.lista;
             a.append("<option value='' > [Seleccione] </option>");
@@ -186,7 +186,7 @@ $(document).ready(function () {
         });
     });
     $("#selec_dep").change(function () {
-        $.post("../../Direccion_Puesto", "opc=Listar_area&" + "id_dep=" + $("#selec_dep").val(), function (objJson) {
+        $.post("Direccion_Puesto", "opc=Listar_area&" + "id_dep=" + $("#selec_dep").val(), function (objJson) {
             c.empty();
             if (objJson.rpta == -1) {
                 alert(objJson.mensaje);
@@ -204,7 +204,7 @@ $(document).ready(function () {
         });
     });
     $("#select_dir").change(function () {
-        $.post("../../Direccion_Puesto", "opc=Listar_dir_dep&" + "id=" + $("#select_dir").val(), function (objJson) {
+        $.post("Direccion_Puesto", "opc=Listar_dir_dep&" + "id=" + $("#select_dir").val(), function (objJson) {
             b.empty();
             if (objJson.rpta == -1) {
                 alert(objJson.mensaje);
@@ -222,7 +222,7 @@ $(document).ready(function () {
         });
     });
     $("#Selec_Area").change(function () {
-        $.post("../../Direccion_Puesto", "opc=Listar_sec&" + "id_are=" + $("#Selec_Area").val(), function (objJson) {
+        $.post("Direccion_Puesto", "opc=Listar_sec&" + "id_are=" + $("#Selec_Area").val(), function (objJson) {
             d.empty();
 
             var list = objJson.lista;
@@ -237,7 +237,7 @@ $(document).ready(function () {
         });
     });
     $("#select_sec").change(function () {
-        $.post("../../Direccion_Puesto", "opc=Listar_pu_id&" + "id=" + $("#select_sec").val(), function (objJson) {
+        $.post("Direccion_Puesto", "opc=Listar_pu_id&" + "id=" + $("#select_sec").val(), function (objJson) {
             e.empty();
             if (objJson.rpta == -1) {
                 alert(objJson.mensaje);
@@ -257,7 +257,7 @@ $(document).ready(function () {
     });
     $("#btn-registrar").click(function () {
         var pr = $("#select-proceso").val();
-        $.post("../../paso", $("#form-paso").serialize(), function () {
+        $.post("paso", $("#form-paso").serialize(), function () {
             Listar_Paso(pr);
         });
         $("#btn-registrar").val("Registrar Paso");

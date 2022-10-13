@@ -27,11 +27,9 @@ public class WebServiceClient {
         JSONObject jsonObject = null;
         JSONArray arr = null;
         try {
-            System.out.println("enter to this line 1");
             soapResponse = soapConnection.call(createSOAPRequest(semestre, methodProperties), globalProperties.service + keyPub);
             if (soapResponse != null) {
                 // print SOAP Response
-                System.out.println("enter to this line 2");
                 ByteArrayOutputStream out = new ByteArrayOutputStream();
                 soapResponse.writeTo(out);
                 String strMsg = new String(out.toByteArray());
@@ -69,9 +67,7 @@ public class WebServiceClient {
             /*MimeHeaders headers = soapMessage.getMimeHeaders();
              headers.addHeader("SOAPAction", serverURI  + "VerifyEmail");
              */
-            System.out.println("enter to line 68");
             soapMessage.saveChanges();
-            System.out.println("enter to line 70");
             /* Print the request message */
  /*System.out.println("Request SOAP Message:");
             soapMessage.writeTo(System.out);

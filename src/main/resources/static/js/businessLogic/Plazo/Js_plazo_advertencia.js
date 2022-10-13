@@ -1,5 +1,5 @@
 function listar_mensaje_plazo(tipo, warning, info, req) {
-    $.post("../../plazo_dgp", "opc=Listar&tipo=" + tipo, function (objJson) {
+    $.post("plazo_dgp", "opc=Listar&tipo=" + tipo, function (objJson) {
         warning.empty();
         info.empty();
         var lista = objJson.lista;
@@ -25,7 +25,7 @@ function listar_mensaje_plazo(tipo, warning, info, req) {
 }
 
 function AlertCumplimientoPlazo_Fecha(fecha) {
-    $.post("../../dgp", "opc=Val_Fe_Inicio&fecha=" + fecha, function (objJson) {
+    $.post("dgp", "opc=Val_Fe_Inicio&fecha=" + fecha, function (objJson) {
         if (objJson.rpta==="1") {
             if (objJson.estado) {
             $.bigBox({

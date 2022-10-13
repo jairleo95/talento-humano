@@ -63,7 +63,7 @@ function initAutorizacion() {
 function ValBtnAutorizarDgp(trabajador, divBotones) {
     divBotones.empty();
     $.ajax({
-        url: "../../autorizacion", data: "opc=ValBtnAutorizacion&trabajador=" + trabajador, type: 'POST', success: function (data, textStatus, jqXHR) {
+        url: "autorizacion", data: "opc=ValBtnAutorizacion&trabajador=" + trabajador, type: 'POST', success: function (data, textStatus, jqXHR) {
             if (data.rpta === "1") {
                 divBotones.append(data.data);
                 $(".btn-autor").click(function (e) {
@@ -75,7 +75,7 @@ function ValBtnAutorizarDgp(trabajador, divBotones) {
                         if (ButtonPressed === "Si") {
                             //$(".form-aut").submit();
                             $(".btn-autor").attr("disabled", "disabled");
-                            $.ajax({url: "../../autorizacion",
+                            $.ajax({url: "autorizacion",
                                 data: $(".form-aut").serialize(),
                                 type: 'POST',
                                 success: function (data, textStatus, jqXHR) {
@@ -107,7 +107,7 @@ function ShowCbk_Procesar_Ind(iddgp) {
     div.empty();
     div2.empty();
     $.ajax({
-        url: "../../autorizacion", data: "opc=ShowCkbEstado_procesarIndiviual&iddgp=" + iddgp, type: 'POST', success: function (data, textStatus, jqXHR) {
+        url: "autorizacion", data: "opc=ShowCkbEstado_procesarIndiviual&iddgp=" + iddgp, type: 'POST', success: function (data, textStatus, jqXHR) {
             if (data.rpta === "1") {
                 div.append(data.ckbAsigFam);
                 div2.append(data.ckbEs_Sis);

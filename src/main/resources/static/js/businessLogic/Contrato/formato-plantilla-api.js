@@ -343,12 +343,12 @@ function Listar_Plantilla() {
     });
 }
 function Activar_Plantilla(id_pp, opc) {
-    $.post("../../../templates", "opc=" + opc + "&id_pp=" + id_pp, function () {
+    $.post("templates", "opc=" + opc + "&id_pp=" + id_pp, function () {
         Listar_Plantilla();
     });
 }
 function Desac_Plantilla(id_pp, opc) {
-    $.post("../../../templates", "opc=" + opc + "&id_pp=" + id_pp, function () {
+    $.post("templates", "opc=" + opc + "&id_pp=" + id_pp, function () {
         Listar_Plantilla();
     });
 }
@@ -370,7 +370,7 @@ function  lis_sel(d, valor, opc, num) {
         $("#di_sig").val("0");
     } else {
         if (valor != 0) {
-            $.post("../../../Direccion_Puesto", "opc=" + opc + "&" + "id=" + valor, function (objJson) {
+            $.post("Direccion_Puesto", "opc=" + opc + "&" + "id=" + valor, function (objJson) {
                 var list = objJson.lista;
                 d.append("<option value='0' selected=''> [TODOS] </option>");
                 if (list.length !== 0) {
@@ -432,7 +432,7 @@ function status_plantilla(status) {
 }
 $(document).ready(function () {
     pageSetUp();
-    $.sound_path = "../../../sound/", $.sound_on = !0, jQuery(document).ready(function () {
+    $.sound_path ="sound/", $.sound_on = !0, jQuery(document).ready(function () {
         $("body").append("<div id='divSmallBoxes'></div>"), $("body").append("<div id='divMiniIcons'></div><div id='divbigBoxes'></div>");
     });
     /*Crear o edotar el nombre de la plantilla*/

@@ -299,6 +299,14 @@ function getAvatar(tipo, idtra) {
 }
 
 function pageEvents() {
+    $(".li-privilegio").click(function () {
+        var href = $(this).find('a').attr('href');
+        console.log('privilege:'+href);
+        $(".oldContent").hide();
+        $(".newContent").show();
+
+        loadURL(href, $(".newContent"));
+    });
 
     $(".ReqPlanilla").click(function () {
         $(".oldContent").hide();
@@ -415,7 +423,7 @@ $(document).ready(function () {
     var idtra = $('#id_trabajador').val();
     getAvatar("perfil", idtra);
     showElements();
-    showPrivileges();
+    //showPrivileges();
     UpdateNotifications();
     pageEvents();
     pageSetUp();

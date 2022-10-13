@@ -37,7 +37,7 @@
             var array_id_dgp = [];
             var pos = 0;
             var estado = true;
-            var url = (tipo === 1) ? "../../autorizacion?opc=UpdateStatusDgp_Procesar&estado=" + estado + "&tipo=1" : "../../autorizacion?opc=UpdateStatusDgp_Procesar&estado=" + estado + "&tipo=2";
+            var url = (tipo === 1) ? "autorizacion?opc=UpdateStatusDgp_Procesar&estado=" + estado + "&tipo=1" : "autorizacion?opc=UpdateStatusDgp_Procesar&estado=" + estado + "&tipo=2";
             if (tipo === 1) {
                 for (var i = 0, max = lista; i < max; i++) {
                     if ($(".chkAsigFam" + i).prop('checked')) {
@@ -107,7 +107,7 @@
         }
         function listar_autorizados(tipo_lista) {
 
-            $.post("../../autorizacion", "opc=ShowListProcesarReq&tipo_lista=" + tipo_lista, function (objJson) {
+            $.post("autorizacion", "opc=ShowListProcesarReq&tipo_lista=" + tipo_lista, function (objJson) {
                 var lista = objJson.lista;
                 if (objJson.rpta === -1) {
                     alert(objJson.mensaje);
@@ -141,7 +141,7 @@
         }
         $(document).ready(function () {
             pageSetUp();
-            $.sound_path = "../../sound/", $.sound_on = !0, jQuery(document).ready(function () {
+            $.sound_path = "sound/", $.sound_on = !0, jQuery(document).ready(function () {
                 $("body").append("<div id='divSmallBoxes'></div>"), $("body").append("<div id='divMiniIcons'></div><div id='divbigBoxes'></div>")
             });
             listar_autorizados(true);

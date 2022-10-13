@@ -138,7 +138,7 @@ $(document).ready(function () {
                     "sMessage": "Generado por AlfaTeam <i>(presiona Esc para cerrar)</i>"
                 }
             ],
-            "sSwfPath": "../../js/plugin/datatables/swf/copy_csv_xls_pdf.swf"
+            "sSwfPath": "js/plugin/datatables/swf/copy_csv_xls_pdf.swf"
         },
         "autoWidth": true,
         "preDrawCallback": function () {
@@ -164,7 +164,7 @@ $(document).ready(function () {
         }, function (ButtonPressed) {
             if (ButtonPressed === "Si") {
                 $.ajax({
-                    url: "../../contrato",
+                    url: "contrato",
                     type: "POST",
                     data: "opc=validar_contrato&id_cto=" + cto
                 }).done(function (e) {
@@ -184,7 +184,7 @@ $(document).ready(function () {
                 });
                 //var id = $('.dgp').val();
                 //location.href = "Reg_List_Solicitud.jsp?iddgp="+id+"";
-                //window.location = "../../solicitud_requerimiento?iddgp=" + $(".dgp").val() + "&opc=Reg_List_Solicitud";
+                //window.location = solicitud_requerimiento?iddgp=" + $(".dgp").val() + "&opc=Reg_List_Solicitud";
                 //alert();
             }
             if (ButtonPressed === "No") {

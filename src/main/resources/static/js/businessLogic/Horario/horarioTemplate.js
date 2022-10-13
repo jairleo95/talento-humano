@@ -37,7 +37,7 @@ $(document).ready(function () {
         data += "&CA_HORAS=" + $('.h_totales').val();
         data += "&id_ar=" + $('.select-area').val();
         data += "&id_sec=" + $('.select-seccion').val();
-        $.post("../../formato_horario", data, function () {
+        $.post("formato_horario", data, function () {
             cargar_horarios($('.t_horario'), true, $('.modNombre').val());
         });
 
@@ -47,7 +47,7 @@ $(document).ready(function () {
 function cargar_horarios(sel, dep, nombre) {
 
     var x = '0';
-    $.post("../../formato_horario", "opc=Listar_Tip_Horario&sec=" + $('.select-seccion').val(), function (objJson) {
+    $.post("formato_horario", "opc=Listar_Tip_Horario&sec=" + $('.select-seccion').val(), function (objJson) {
         var lista = objJson.lista;
         sel.empty();
         sel.append('<option value="0" >[SELECCIONE]</option>');
@@ -70,7 +70,7 @@ function llenar_horario(valor) {
     guardar = false;
     var dias_semana = new Array("lun", "mar", "mie", "jue", "vie", "sab", "dom");
     plDiasl($('.contDias'), false, false, false, false, false, false, false);
-    $.post("../../formato_horario", "opc=Listar_Horario&id=" + valor, function (objJson) {
+    $.post("formato_horario", "opc=Listar_Horario&id=" + valor, function (objJson) {
         var lista = objJson.lista;
         for (var i = 0; i < lista.length; i++) {
             if (lista[i].estado !== '2') {

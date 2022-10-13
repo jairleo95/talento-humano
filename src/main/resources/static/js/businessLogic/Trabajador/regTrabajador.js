@@ -11,7 +11,7 @@ function cod_uni_unico() {
     var x = false;
     $.ajax({
         async: false,
-        url: "../../trabajador",
+        url: "trabajador",
         type: "POST",
         data: "opc=validar_cod_uni&" + "cod_uni=" + $(".cod_uni").val()
     }).done(function (e) {
@@ -183,7 +183,7 @@ function val_doc(valor) {
     if (true) {
         $.ajax({
             async: false,
-            url: "../../trabajador",
+            url: "trabajador",
             data: "opc=Val_num_Doc&doc=" + valor,
             type: "post"
         }).done(function (e) {
@@ -215,7 +215,7 @@ function val_diezmo() {
 function list_prov_id_dep(rg, ti, selected, id_select) {
     var data = "id_dep=" + rg + "&opc=dep_nac";
     ti.append('<option value="">Cargando...</option>').val('');
-    $.post("../../ubigeo", data, function (objJson) {
+    $.post("ubigeo", data, function (objJson) {
         ti.empty();
         if (objJson.rpta == -1) {
             alert(objJson.mensaje);
@@ -252,7 +252,7 @@ function list_dist_id_prov(rg, ti, selected, id_select) {
     var data = "id_dist=" + rg + "&opc=pro_nac";
     ti.append('<option value="">Cargando...</option>').val('');
     ti.empty();
-    $.post("../../ubigeo", data, function (objJson) {
+    $.post("ubigeo", data, function (objJson) {
 
         if (objJson.rpta == -1) {
             alert(objJson.mensaje);
@@ -456,7 +456,7 @@ $(document).ready(function () {
         var insti = $("#inst").val();
         var data = "inst=" + insti + "&opc=carrera";
         carr.append('<option value="">Cargando...</option>').val('');
-        $.post("../../detalle_carrera", data, function (objJson) {
+        $.post("detalle_carrera", data, function (objJson) {
             carr.empty();
             if (objJson.rpta == -1) {
                 alert(objJson.mensaje);
@@ -479,7 +479,7 @@ $(document).ready(function () {
     var rg = $("#dep_dir_l").val();
     var data = "id_dep=" + rg + "&opc=dep_nac";
     tip.append('<option value="">Cargando...</option>').val('');
-    $.post("../../ubigeo", data, function (objJson) {
+    $.post("ubigeo", data, function (objJson) {
         tip.empty();
         if (objJson.rpta === -1) {
             alert(objJson.mensaje);
@@ -501,7 +501,7 @@ $(document).ready(function () {
     var rg = $("#pro_dir_l").val();
     var data = "id_dist=" + rg + "&opc=pro_nac";
     ti.append('<option value="">Cargando...</option>').val('');
-    $.post("../../ubigeo", data, function (objJson) {
+    $.post("ubigeo", data, function (objJson) {
         ti.empty();
         if (objJson.rpta === -1) {
             alert(objJson.mensaje);
@@ -563,7 +563,7 @@ $(document).ready(function () {
         var rg = $("#dep_nac").val();
         var data = "id_dep=" + rg + "&opc=dep_nac";
         ti.append('<option value="">Cargando...</option>').val('');
-        $.post("../../ubigeo", data, function (objJson) {
+        $.post("ubigeo", data, function (objJson) {
             ti.empty();
             if (objJson.rpta == -1) {
                 alert(objJson.mensaje);
@@ -587,7 +587,7 @@ $(document).ready(function () {
         var rg = $("#pro_nac").val();
         var data = "id_dist=" + rg + "&opc=pro_nac";
         ti.append('<option value="">Cargando...</option>').val('');
-        $.post("../../ubigeo", data, function (objJson) {
+        $.post("ubigeo", data, function (objJson) {
             ti.empty();
             if (objJson.rpta == -1) {
                 alert(objJson.mensaje);
@@ -612,7 +612,7 @@ $(document).ready(function () {
         var rg = $("#dep_dir_a").val();
         var data = "id_dep=" + rg + "&opc=dep_nac";
         ti.append('<option value="">Cargando...</option>').val('');
-        $.post("../../ubigeo", data, function (objJson) {
+        $.post("ubigeo", data, function (objJson) {
             ti.empty();
             if (objJson.rpta == -1) {
                 alert(objJson.mensaje);
@@ -636,7 +636,7 @@ $(document).ready(function () {
         var rg = $("#pro_dir_a").val();
         var data = "id_dist=" + rg + "&opc=pro_nac";
         ti.append('<option value="">Cargando...</option>').val('');
-        $.post("../../ubigeo", data, function (objJson) {
+        $.post("ubigeo", data, function (objJson) {
             ti.empty();
             if (objJson.rpta === -1) {
                 alert(objJson.mensaje);
@@ -673,7 +673,7 @@ $(document).ready(function () {
         var rg = $("#rg").val();
         var data = "regimen=" + rg + "&opc=ti_inst";
         ti.append('<option value="">Cargando...</option>').val('');
-        $.post("../../detalle_carrera", data, function (objJson) {
+        $.post("detalle_carrera", data, function (objJson) {
             ti.empty();
             if (objJson.rpta == -1) {
                 alert(objJson.mensaje);
@@ -697,7 +697,7 @@ $(document).ready(function () {
         var ti = $("#ti_inst").val();
         var data = "ti=" + ti + "&opc=institucion";
         inst.append('<option value="">Cargando...</option>').val('');
-        $.post("../../detalle_carrera", data, function (objJson) {
+        $.post("detalle_carrera", data, function (objJson) {
             inst.empty();
             if (objJson.rpta == -1) {
                 alert(objJson.mensaje);
@@ -1074,7 +1074,7 @@ $(document).ready(function () {
     var b = $(".tbodys");
     $("#btnfiltrar").click(
             function () {
-                $.post("../../ajax/Ajax_Conyugue/Ajax_Busc_Conyug.jsp", $("#frm_filtro").serialize(), function (objJson) {
+                $.post("ajax/Ajax_Conyugue/Ajax_Busc_Conyug.jsp", $("#frm_filtro").serialize(), function (objJson) {
                     b.empty();
                     var list = objJson.lista;
                     for (var i = 0; i < list.length; i++) {

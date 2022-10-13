@@ -44,7 +44,7 @@ function Eliminar(id, num, dia) {
     var dia_string = "";
     var msg = confirm('Si aceptas se eliminara la informacion totalmente ¿estas seguro de realizar esta operacion?');
     if (msg == true) {
-        $.post("../../formato_horario", "opc=Eliminar_turno&id_horario=" + id, function (objJson) {
+        $.post("formato_horario", "opc=Eliminar_turno&id_horario=" + id, function (objJson) {
             if (dia == 1) {
                 dia_string = "lun";
             }
@@ -154,7 +154,7 @@ function cuenta_bancaria(banco) {
 }
 
 function listar_tipo_horario() {
-    $.post("../../formato_horario", "opc=Listar_Tip_Horario", function (objJson) {
+    $.post("formato_horario", "opc=Listar_Tip_Horario", function (objJson) {
 
         if (objJson.rpta == -1) {
             alert(objJson.mensaje);
@@ -195,7 +195,7 @@ function list_horario(valor) {
 
         var dias_semana = new Array("lun", "mar", "mie", "jue", "vie", "sab", "dom");
         $(".tr-dia").remove();
-        $.post("../../formato_horario", "opc=Listar_Horario&id=" + valor, function (objJson) {
+        $.post("formato_horario", "opc=Listar_Horario&id=" + valor, function (objJson) {
             var lista = objJson.lista;
             var text_html = '';
             var primera_fila = 0;
@@ -268,7 +268,7 @@ function list_horario(valor) {
 
 }
 function listar_horas() {
-    $.post("../../formato_horario", "opc=Listar_Horas_horario&iddgp=" + $(".iddgp").val(), function (objJson) {
+    $.post("formato_horario", "opc=Listar_Horas_horario&iddgp=" + $(".iddgp").val(), function (objJson) {
         if (objJson.rpta == -1) {
             alert(objJson.mensaje);
             return;
@@ -546,7 +546,7 @@ function showEsDiezmo() {
     obj.empty();
     obj.append('<br><div class="col col-md-12 text-center"><i class="fa fa-spin fa-spinner"></i></div>');
     $.ajax({
-        url: "../../trabajador", data: "opc=ShowEsDiezmoTrabajador&id=" + $(".idtr").val(), type: 'POST', success: function (data, textStatus, jqXHR) {
+        url: "trabajador", data: "opc=ShowEsDiezmoTrabajador&id=" + $(".idtr").val(), type: 'POST', success: function (data, textStatus, jqXHR) {
             if (data.rpta) {
                 obj.empty();
                 obj.append(data.html);
@@ -559,7 +559,7 @@ function showEsDiezmo() {
                         if (ButtonPressed === "Si") {
                             if ($(".cbkDiezmo").prop("checked")) {
                                 $.ajax({
-                                    url: "../../trabajador", data: "opc=UpdateEsDiezmo&id=" + $(".idtr").val() + "&estado=0", type: 'POST', success: function (data, textStatus, jqXHR) {
+                                    url: "trabajador", data: "opc=UpdateEsDiezmo&id=" + $(".idtr").val() + "&estado=0", type: 'POST', success: function (data, textStatus, jqXHR) {
                                         if (data.status) {
                                             $(".cbkDiezmo").prop("checked", false);
                                             $.smallBox({
@@ -577,7 +577,7 @@ function showEsDiezmo() {
                                 });
                             } else {
                                 $.ajax({
-                                    url: "../../trabajador", data: "opc=UpdateEsDiezmo&id=" + $(".idtr").val() + "&estado=1", type: 'POST', success: function (data, textStatus, jqXHR) {
+                                    url: "trabajador", data: "opc=UpdateEsDiezmo&id=" + $(".idtr").val() + "&estado=1", type: 'POST', success: function (data, textStatus, jqXHR) {
                                         if (data.status) {
                                             $(".cbkDiezmo").prop("checked", true);
                                             $.smallBox({
@@ -779,16 +779,16 @@ $(document).ready(function () {
         }
     });
 
-    list_select($(".select-area"), "../../Direccion_Puesto", "opc=Listar_area2&id=" + $(".dep_id").val(), "4", $(".area_id").val());
-    list_select($(".select-seccion"), "../../Direccion_Puesto", "opc=Listar_sec2&id=" + $(".area_id").val(), "4", $(".seccion_id").val());
-    list_select($(".select-puesto"), "../../Direccion_Puesto", "opc=Listar_pu_id&id=" + $(".seccion_id").val(), "4", $(".puesto_id").val());
+    list_select($(".select-area"), "Direccion_Puesto", "opc=Listar_area2&id=" + $(".dep_id").val(), "4", $(".area_id").val());
+    list_select($(".select-seccion"), "Direccion_Puesto", "opc=Listar_sec2&id=" + $(".area_id").val(), "4", $(".seccion_id").val());
+    list_select($(".select-puesto"), "Direccion_Puesto", "opc=Listar_pu_id&id=" + $(".seccion_id").val(), "4", $(".puesto_id").val());
     $(".select-area").change(function () {
-        list_select($(".select-seccion"), "../../Direccion_Puesto", "opc=Listar_sec2&id=" + $(".select-area").val(), "3");
+        list_select($(".select-seccion"), "Direccion_Puesto", "opc=Listar_sec2&id=" + $(".select-area").val(), "3");
         $(".select-seccion,.select-puesto").val("");
         $(".chosen-select").trigger("chosen:updated");
     });
     $(".select-seccion").change(function () {
-        list_select($(".select-puesto"), "../../Direccion_Puesto", "opc=Listar_pu_id&id=" + $(".select-seccion").val(), "3");
+        list_select($(".select-puesto"), "Direccion_Puesto", "opc=Listar_pu_id&id=" + $(".select-seccion").val(), "3");
         $(".chosen-select").trigger("chosen:updated");
     });
 

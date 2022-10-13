@@ -5,6 +5,7 @@
  */
 package com.app.web.controller.recruitment.dgp;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -12,6 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.app.properties.UserMachineProperties;
@@ -68,7 +70,7 @@ import com.app.web.controller.inbox.Permission;
  */
 
 @RestController
-@RequestMapping("processes/dgp")
+@RequestMapping("dgp")
 public class CDgp {
 
     InterfaceRequerimientoDAO requerimientoDAO = new RequerimientoDAO();
@@ -92,17 +94,20 @@ public class CDgp {
     InterfacePeriodo_PagoDAO periodoPago = new Periodo_PagoDAO();
 
     @GetMapping
-    public ResponseEntity<?> read(HttpServletRequest request) {
+    public ResponseEntity<?> read(HttpServletRequest request, HttpServletResponse response) throws IOException {
         HttpSession session = request.getSession(true);
         String opc = request.getParameter("opc");
 
         Map<String, Object> rpta = new HashMap<String, Object>();
 
         //session parameters
+        String iddir = (String) session.getAttribute("IDDIR");
         String iddep = (String) session.getAttribute("DEPARTAMENTO_ID");
         String iduser = (String) session.getAttribute("IDUSER");
         String idrol = (String) session.getAttribute("IDROL");
         String idtr = request.getParameter("idtr");
+        String idpuesto = (String) session.getAttribute("PUESTO_ID");
+        Permission permission = new Permission().getPermissions(idrol);
 
         if (opc.equals("Listar_Req")) {
             String id_tr = request.getParameter("idtr");
@@ -247,12 +252,46 @@ public class CDgp {
 
             ///response.sendRedirect("views/Dgp/User_Dgp.html");
         }
+        if (opc.equals("Proceso")) {
+
+            if (permission.isAdmin()) {
+                session.setAttribute("LIST_DGP_PROCESO", dgp.LIST_DGP_PROCESO("", "", "", false, true));
+            } else {
+                if (idrol.equals("ROL-0019")||idrol.equals("ROL-0008")) {
+                    session.setAttribute("LIST_DGP_PROCESO", dgp.LIST_DGP_PROCESO("", iddir, "", false, false));
+                } else {
+                    if (permission.isDepartFilter()) {
+                        session.setAttribute("LIST_DGP_PROCESO", dgp.LIST_DGP_PROCESO(iddep, "", "", false, false));
+                    }
+                    if (permission.isDireccionFilter()) {
+                        session.setAttribute("LIST_DGP_PROCESO", dgp.LIST_DGP_PROCESO("", iddir, "", false, false));
+                    }
+                    if (permission.isPuestoFilter()) {
+                        session.setAttribute("LIST_DGP_PROCESO", dgp.LIST_DGP_PROCESO("", "", idpuesto, false, false));
+                    } else {
+                        session.setAttribute("LIST_DGP_PROCESO", dgp.LIST_DGP_PROCESO(iddep, "", "", false, false));
+                    }
+                }
+            }
+
+            response.sendRedirect("Proceso_Dgp");
+        }
+        if (opc.equals("rd")) {
+            String ID_DGP = request.getParameter("iddgp");
+            String ID_TRABAJADOR = request.getParameter("idtr");
+            session.setAttribute("LIST_ID_DGP", dgp.LIST_ID_DGP(ID_DGP));
+            session.setAttribute("VALIDAR_DGP_CONTR", dgp.VALIDAR_DGP_CONTR(ID_DGP, idtr));
+            session.setAttribute("Cargar_dcc_dgp", cc.Cargar_dcc_dgp(ID_DGP));
+            int num = dgp.VALIDAR_DGP_CONTR(ID_DGP, ID_TRABAJADOR);
+            session.setAttribute("LIST_ID_USER", usuario.List_ID_User(iduser));
+            response.sendRedirect("Dgp/Detalle_Dgp.html?idtr=" + ID_TRABAJADOR + "&num=" + num + "&iddgp=" + ID_DGP + "&opc=reg_doc");
+        }
 
         return new ResponseEntity<>(rpta, HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<?> process(HttpServletRequest request) {
+    public ResponseEntity<?> process(HttpServletRequest request, HttpServletResponse response) {
 
         HttpSession session = request.getSession(true);
         String opc = request.getParameter("opc");
@@ -535,40 +574,6 @@ public class CDgp {
                 if (Tipo_planilla.equals("TPL-0003")) {
                     idreq = "REQ-0017";
                 }
-            }
-            if (opc.equals("rd")) {
-                String ID_DGP = request.getParameter("iddgp");
-                String ID_TRABAJADOR = request.getParameter("idtr");
-                session.setAttribute("LIST_ID_DGP", dgp.LIST_ID_DGP(ID_DGP));
-                session.setAttribute("VALIDAR_DGP_CONTR", dgp.VALIDAR_DGP_CONTR(ID_DGP, idtr));
-                session.setAttribute("Cargar_dcc_dgp", cc.Cargar_dcc_dgp(ID_DGP));
-                int num = dgp.VALIDAR_DGP_CONTR(ID_DGP, ID_TRABAJADOR);
-                session.setAttribute("LIST_ID_USER", usuario.List_ID_User(iduser));
-                ////response.sendRedirect("views/Dgp/Detalle_Dgp.html?idtr=" + ID_TRABAJADOR + "&num=" + num + "&iddgp=" + ID_DGP + "&opc=reg_doc");
-            }
-            if (opc.equals("Proceso")) {
-
-                if (permission.isAdmin()) {
-                    session.setAttribute("LIST_DGP_PROCESO", dgp.LIST_DGP_PROCESO("", "", "", false, true));
-                } else {
-                    if (idrol.equals("ROL-0019")||idrol.equals("ROL-0008")) {
-                        session.setAttribute("LIST_DGP_PROCESO", dgp.LIST_DGP_PROCESO("", iddir, "", false, false));
-                    } else {
-                        if (permission.isDepartFilter()) {
-                            session.setAttribute("LIST_DGP_PROCESO", dgp.LIST_DGP_PROCESO(iddep, "", "", false, false));
-                        }
-                        if (permission.isDireccionFilter()) {
-                            session.setAttribute("LIST_DGP_PROCESO", dgp.LIST_DGP_PROCESO("", iddir, "", false, false));
-                        }
-                        if (permission.isPuestoFilter()) {
-                            session.setAttribute("LIST_DGP_PROCESO", dgp.LIST_DGP_PROCESO("", "", idpuesto, false, false));
-                        } else {
-                            session.setAttribute("LIST_DGP_PROCESO", dgp.LIST_DGP_PROCESO(iddep, "", "", false, false));
-                        }
-                    }
-                }
-
-                ////response.sendRedirect("views/Dgp/Proceso_Dgp.html");
             }
             if (opc.equals("Terminar")) {
                 String iddgp = request.getParameter("iddgp");

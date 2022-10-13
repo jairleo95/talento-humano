@@ -30,7 +30,7 @@ import java.util.Map;
 @RequestMapping("/menu")
 public class CMenu {
 
-    @GetMapping
+    @RequestMapping
     public ModelAndView menu(HttpServletRequest request) {
             InterfaceRolDAO Irol = new RolDAO();
             String opc = request.getParameter("opc");
@@ -45,36 +45,36 @@ public class CMenu {
 
                 if (opc == null && !idrol.trim().equals("ROL-0013")) {
                     //System.out.println("rol:"+idrol);
-                    return new ModelAndView("/views/Modulos.html");
+                    return new ModelAndView("Modulos");
 
                 } else if (opc != null & user != null) {
                     if (opc.equals("logout")) {
                         sesion.invalidate();
-                        return new ModelAndView("/views/index.html");
+                        return new ModelAndView("index");
 
                     } if (opc.equals("List_Privilegios")) {
                         System.out.println("Enter to List_Privilegios");
                         String module = request.getParameter("idmod");
                         sesion.setAttribute("moduleSelected", module);
-                        //sesion.setAttribute("listarURL", Irol.listarURL(idrol, id_modulo));
-                        return new ModelAndView("/views/Principal.html");
+                        sesion.setAttribute("listarURL", Irol.listarURL(idrol, module));
+                        return new ModelAndView("Principal");
 
                     }
 
                 } else if (idrol.trim().equals("ROL-0013")) {
                     String id_modulo = "MOD-0001";
                     sesion.setAttribute("listarURL", Irol.listarURL(idrol, id_modulo));
-                    return new ModelAndView("/views/Principal.html");
+                    return new ModelAndView("Principal");
 
                 } else {
-                    return new ModelAndView("/views/index.html");
+                    return new ModelAndView("index");
 
                 }
             } else {
-                return new ModelAndView("/views/index.html");
+                return new ModelAndView("index");
 
             }
-        return new ModelAndView("/views/index.html");
+        return new ModelAndView("index");
     }
 
     @RequestMapping(value = "/privileges", method = {RequestMethod.GET}, produces = {MediaType.APPLICATION_JSON_VALUE})

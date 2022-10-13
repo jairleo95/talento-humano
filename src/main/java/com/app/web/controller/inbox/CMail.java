@@ -39,7 +39,7 @@ public class CMail extends HttpServlet {
           Mail mail  = new Mail();
           
           String emailSubject="jairleo95@gmail.com";
-          String pwdSubject="BlackVeilBrides";
+          String pwdSubject="";
           String to="jairleo95@gmail.com";
           String from="jairleo95@gmail.com";
           String subject="Gestion del Talento Humano";

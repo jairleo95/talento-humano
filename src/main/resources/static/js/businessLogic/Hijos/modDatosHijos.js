@@ -1,7 +1,7 @@
 // DO NOT REMOVE : GLOBAL FUNCTIONS!
 $(document).ready(function () {
     pageSetUp();
-            $.post("../../../familiar", "opc=Listar_Hijo_id_tr&idtr="+$(".idtr").val(), function (objJson) {
+            $.post("familiar", "opc=Listar_Hijo_id_tr&idtr="+$(".idtr").val(), function (objJson) {
             var texto_html = '';
             var div = $(".listar_hijos");
             if (objJson.rpta === -1) {
@@ -28,9 +28,9 @@ $(document).ready(function () {
                                 + '<td >' + lista[i].superior + '</td>'
                                 + '<td >';
                         if ($(".accesToEditDataHijos").val()) {
-                            texto_html += '<a href = "../../../familiar?idhijo=' + lista[i].idh + '&idtr=' + lista[i].idtr + '&opc=modificar" class="btn btn-success btn-sm">'
+                            texto_html += '<a href = "familiar?idhijo=' + lista[i].idh + '&idtr=' + lista[i].idtr + '&opc=modificar" class="btn btn-success btn-sm">'
                                     + ' <i class="fa fa-pencil"></i></a>'
-                                    + ' <button type="button" class = "btn btn-danger btn-sm eliminar" value="../../../familiar?idhijo=' + lista[i].idh + '&idtr=' + lista[i].idtr + '&opc=eliminar">'
+                                    + ' <button type="button" class = "btn btn-danger btn-sm eliminar" value="familiar?idhijo=' + lista[i].idh + '&idtr=' + lista[i].idtr + '&opc=eliminar">'
                                     + ' <i class="fa fa-times"></i> </button>';
                         }
 

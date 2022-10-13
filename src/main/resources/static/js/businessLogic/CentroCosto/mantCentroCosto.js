@@ -12,7 +12,7 @@ $(document).ready(function () {
     function cargar_Dir() {
         $('.indir').empty();
         $('.indir').append("<option>[Espere..]</option>");
-        $.post("../../MCCosto?opc=list_dir", function (objJson) {
+        $.post("MCCosto?opc=list_dir", function (objJson) {
             var lista = objJson.lista;
             if (lista.length > 0) {
                 $('.indir').empty();
@@ -43,7 +43,7 @@ $(document).ready(function () {
         if (selec != undefined) {
             sel = selec;
         }
-        $.post("../../MCCosto?opc=list_dep&id=" + id, function (objJson) {
+        $.post("MCCosto?opc=list_dep&id=" + id, function (objJson) {
             var lista = objJson.lista;
             if (lista.length > 0) {
                 $('.indep').empty();
@@ -66,7 +66,7 @@ $(document).ready(function () {
         if (selec != undefined) {
             sel = selec;
         }
-        $.post("../../MCCosto?opc=list_ar&id=" + id, function (objJson) {
+        $.post("MCCosto?opc=list_ar&id=" + id, function (objJson) {
             var lista = objJson.lista;
             if (lista.length > 0) {
                 $('.inarea').empty();
@@ -91,7 +91,7 @@ $(document).ready(function () {
             sel = selec;
         }
         if (id !== undefined) {
-            $.post("../../MCCosto?opc=list_se&id=" + id, function (objJson) {
+            $.post("MCCosto?opc=list_se&id=" + id, function (objJson) {
                 var lista = objJson.lista;
                 if (lista.length > 0) {
                     $('.inseccion').empty();
@@ -112,9 +112,9 @@ $(document).ready(function () {
     function cargar_T(id) {
         var url = "";
         if (id != null) {
-            url = "../../MCCosto?opc=list_ccosto&id=" + id;
+            url = "MCCosto?opc=list_ccosto&id=" + id;
         } else {
-            url = "../../MCCosto?opc=list_ccosto";
+            url = "MCCosto?opc=list_ccosto";
         }
         $.post(url, function (objJson) {
             var lista = objJson.lista;
@@ -208,7 +208,7 @@ $(document).ready(function () {
                     }, function (ButtonPressed) {
                         if (ButtonPressed === "Si") {
                             var id_det_cc = $('.iddcc' + valnum).val();
-                            $.post("../../MCCosto?opc=del_cc&id_det_cc=" + id_det_cc, function () {
+                            $.post("MCCosto?opc=del_cc&id_det_cc=" + id_det_cc, function () {
                                 cargar_T();
                                 $.smallBox({
                                     title: "Eliminar Centro de Costo",
@@ -256,7 +256,7 @@ $(document).ready(function () {
                     data += "&ID_DEPARTAMENTO=" + ID_DEPARTAMENTO;
                     data += "&ID_AREA=" + ID_AREA;
                     data += "&ID_SECCION=" + ID_SECCION;
-                    $.post("../../MCCosto?opc=add_cc", data, function () {
+                    $.post("MCCosto?opc=add_cc", data, function () {
                         cargar_T();
                         $('.inccc').val("");
                         $('.indcc').val("");
@@ -306,7 +306,7 @@ $(document).ready(function () {
                     data += "&ID_SECCION=" + ID_SECCION;
                     console.log(ID_CENTRO_COSTO);
                     console.log(id_det_cc);
-                    $.post("../../MCCosto?opc=edit_cc", data, function () {
+                    $.post("MCCosto?opc=edit_cc", data, function () {
                         cargar_T();
                         $('.inccc').val("");
                         $('.indcc').val("");
@@ -338,7 +338,7 @@ $(document).ready(function () {
 
             });
         } else if ($('.btnSave').val() == 3) {
-            $.post("../../MCCosto?opc=Asignar_cc", $(".form_cc").serialize() , function () {
+            $.post("MCCosto?opc=Asignar_cc", $(".form_cc").serialize() , function () {
                 cargar_T($(".id_cc").val());
             });
 

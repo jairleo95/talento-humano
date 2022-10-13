@@ -135,7 +135,7 @@
                 //funciones
                 function reg_fh() {
                     var data = $('.frm_Dias').serialize();
-                    $.post("../../formato_horario?opc=REGISTRAR_FORMATOS", data, function () {
+                    $.post("formato_horario?opc=REGISTRAR_FORMATOS", data, function () {
                         cargar_tabla();
                         btnClose();
                     });
@@ -143,7 +143,7 @@
 
                 }
                 function reg_th(data, regfh) {
-                    $.post("../../formato_horario", data, function () {
+                    $.post("formato_horario", data, function () {
                         reset_select($('.sel_seccion'), "Seccion");
                         reset_select($('.sel_dep'), "Departamento");
                         reset_select($('.sel_area'), "Area");
@@ -173,7 +173,7 @@
                     data += "&ID_DEPARTAMENTO=" + $('.sel_dep').val();
                     data += "&" + $('.frm_Dias').serialize();
                     if (guardar === true) {
-                        $.post("../../formato_horario", data, function () {
+                        $.post("formato_horario", data, function () {
                             cargar_tabla();
                             btnClose();
                         });
@@ -187,7 +187,7 @@
                     ti.empty();
                     var data = "opc=departamento" + "&idDepartamento=" + id;
                     ti.append('<option value="">Cargando...</option>').val('');
-                    $.post("../../funcion", data, function (objJson) {
+                    $.post("funcion", data, function (objJson) {
                         ti.empty();
                         var lista = objJson.lista;
                         if (lista.length > 0) {
@@ -221,7 +221,7 @@
                     ti.empty();
                     var data = "opc=direccion" + "&idDireccion=" + idDir;
                     ti.append('<option value="">Cargando...</option>').val('');
-                    $.post("../../funcion", data, function (objJson) {
+                    $.post("funcion", data, function (objJson) {
                         ti.empty();
                         if (objJson.rpta == -1) {
                             alert(objJson.mensaje);
@@ -244,7 +244,7 @@
                     ti.empty();
                     var data = "opc=area" + "&idArea=" + id;
                     ti.append('<option value="">Cargando...</option>').val('');
-                    $.post("../../funcion", data, function (objJson) {
+                    $.post("funcion", data, function (objJson) {
                         ti.empty();
                         if (objJson.rpta == -1) {
                             alert(objJson.mensaje);
@@ -265,7 +265,7 @@
 
 
                 function cargar_tabla() {
-                    $.post("../../formato_horario?opc=LFH", function (objJson) {
+                    $.post("formato_horario?opc=LFH", function (objJson) {
                         var lista = objJson.lista;
                         if (lista.length > 0) {
                             var t = "";

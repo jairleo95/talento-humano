@@ -351,7 +351,7 @@ public class DgpDAO implements InterfaceDgpDAO {
         if (id_dep.equals("DPT-0019")||id_dep.equals("DPT-0033")||admin) {
             sql = "select * from RHVD_ES_REQUERIMIENTO where ES_PORCENT IS NOT NULL  ";
         }
-        sql += (procAcad) ? " and es_proc_acad>0" : " and es_proc_acad=0 ";
+        //sql += (procAcad) ? " and es_proc_acad>0" : " and es_proc_acad=0 ";//todo: check
         sql += " ORDER BY TO_NUMBER(SUBSTR(ID_DGP,5,LENGTH(ID_DGP))) DESC";
 
         Logger.getLogger(getClass().getName()).log(Level.INFO, id_dir);
@@ -382,7 +382,7 @@ public class DgpDAO implements InterfaceDgpDAO {
                 v.setNo_dep(rs.getString("no_dep"));
                 v.setAnno_procesamiento(rs.getString("anno_procesamiento"));
                 v.setMes_procesamiento(rs.getString("mes_procesamiento"));
-                v.setEs_proc_acad(rs.getInt("es_proc_acad"));
+                //v.setEs_proc_acad(rs.getInt("es_proc_acad"));//TODO: CHECH THIS
                 Lista.add(v);
             }
         } catch (SQLException ex) {

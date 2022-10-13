@@ -8,7 +8,7 @@
 function ListarMotivo(at) {
     alert("asdasdasd");
     var id = $(".vHist" + at + "").val();
-    var url = '../../dgp?opc=SeguimientoH';
+    var url = 'dgp?opc=SeguimientoH';
     var data = 'iddgp=' + id;
     $.post(url, data, function (objJson) {
         var lista = objJson.listar;
@@ -29,7 +29,7 @@ function listHistory(at) {
     var dgp = "id_dgp";
     var id = $(".vHist" + at + "").val();
     var id1 = $(".idDepart").val();
-    var url = '../../dgp?opc=SeguimientoH';
+    var url = 'dgp?opc=SeguimientoH';
     var data = 'iddgp=' + id;
     var rol = $("#rolse").val();
     $.post(url, data, function (objJson) {
@@ -43,10 +43,10 @@ function listHistory(at) {
                 if (lista[i].es_autorizacion !== null) {
                     if (lista[i].es_autorizacion !== null) {
                         if (lista[i].es_autorizacion === '1') {
-                            m += '<td><img src="../../img/Aprobado.png" width="20" height="20"></td>';
+                            m += '<td><img src="img/Aprobado.png" width="20" height="20"></td>';
                         }
                         if (lista[i].es_autorizacion === '2') {
-                            m += '<td><img src="../../img/Desaprobado.png" width="20" height="20"></td>';
+                            m += '<td><img src="img/Desaprobado.png" width="20" height="20"></td>';
                         }
                     } else {
                         m += '<td>No Registrado</td>';
@@ -148,7 +148,7 @@ function printDetProceso(objProgAut, postData) {
     objProgAut.empty();
     objProgAut.append('<img src="../../img/ajax-loader/horizontal_fountain.gif" />');
     $.ajax({
-        url: "../../dgp",
+        url: "dgp",
         data: "opc=Imprimir_det_proceso" + postData,
         type: 'POST', async: true,
         success: function (data, textStatus, jqXHR) {
@@ -199,7 +199,7 @@ function initStatusProcessDGP() {
     var responsiveHelperCAacademico = undefined;
     var varTableCAcademica = $(".tableEsCargaAcademica").dataTable({
         "ajax": {
-            "url": "../../carga_academica",
+            "url": "carga_academica",
             "type": "POST",
             "dataSrc": "list",
             "data": {
@@ -260,13 +260,13 @@ function initStatusProcessDGP() {
                             + '     <i class="fa fa-caret-down"></i>'
                             + ' </button>'
                             + ' <ul class="dropdown-menu">'
-                            + '     <li><a href="../../dgp?iddgp=' + data.id_dgp + '&opc=User_Aut">Usuarios - Prox. Autorizacion</a></li>'
-                            + '<li><a href="../../dgp?iddgp=' + data.id_dgp + '&opc=Seguimiento">Ver Historial</a> </li>'
-                            + '<li><a href="../../documento?iddgp=' + data.id_dgp + '&idtr=' + data.id_trabajador + '&opc=Ver_Documento">Ver Documentos</a></li>'
+                            + '     <li><a href="dgp?iddgp=' + data.id_dgp + '&opc=User_Aut">Usuarios - Prox. Autorizacion</a></li>'
+                            + '<li><a href="dgp?iddgp=' + data.id_dgp + '&opc=Seguimiento">Ver Historial</a> </li>'
+                            + '<li><a href="documento?iddgp=' + data.id_dgp + '&idtr=' + data.id_trabajador + '&opc=Ver_Documento">Ver Documentos</a></li>'
                             + ' <li><a data-valor="' + data.id_dgp + ';' + data.id_trabajador + ';' + data.ap_paterno + ' ' + data.ap_materno + ' ' + data.no_trabajador + '" class="click" data-toggle="modal" data-target="#myModal" data-backdrop="static" data-keyboard="false" onclick="sendAjaxComment()" >Comentario</a></li>'
-                            + ' <li><a href="../../solicitud_requerimiento?iddgp=' + data.id_dgp + '&opc=Reg_List_Solicitud">Hacer Solicitud</a></li>'
+                            + ' <li><a href="solicitud_requerimiento?iddgp=' + data.id_dgp + '&opc=Reg_List_Solicitud">Hacer Solicitud</a></li>'
                             + ' <li class="divider"></li><li>'
-                            + '<li><a href="../../dgp?iddgp=' + data.id_dgp + '&idtr=' + data.id_trabajador + '&opc=Detalle">Ver Requerimiento</a> </li>'
+                            + '<li><a href="dgp?iddgp=' + data.id_dgp + '&idtr=' + data.id_trabajador + '&opc=Detalle">Ver Requerimiento</a> </li>'
                             + ' </ul>'
                             + ' </div>'
                             );

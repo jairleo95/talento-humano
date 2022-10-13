@@ -21,7 +21,7 @@ lb[4] = "Viernes";
 lb[5] = "Sabado";
 lb[6] = "Domingo";
 function listHorario(id_dgp) {
-    var url = '../../horario?iddgp=' + id_dgp;
+    var url = 'horario?iddgp=' + id_dgp;
     var data = 'opc=Listar2';
     $.post(url, data, function (objJson) {
         var listas = objJson.listar;

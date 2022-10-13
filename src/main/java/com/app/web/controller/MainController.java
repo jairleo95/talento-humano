@@ -18,7 +18,7 @@ public class MainController {
 
     @RequestMapping(value = "/")
     public ModelAndView index() {
-        return new ModelAndView("/views/index.html");
+        return new ModelAndView("index");
     }
 
     @RequestMapping(value = "/Requerimiento")
@@ -27,7 +27,7 @@ public class MainController {
     }
     @RequestMapping(value = "/Reporte_Carga_Academica")
     public ModelAndView Reporte_Carga_Academica() {
-        return new ModelAndView("views/Academico/Carga_Academica/Rep_Carga_Academica.html");
+        return new ModelAndView("Academico/Carga_Academica/Rep_Carga_Academica");
     }
     @RequestMapping(value = "/Buscar_Trabajador")
     public ModelAndView fichaTrabajador() {
@@ -76,14 +76,26 @@ public class MainController {
         return new ModelAndView("/views/Formato_Horario/Detalle_Formato_Horario.html");
     }
 
-    @RequestMapping(value = "/dgp")
+    @RequestMapping(value = "/Proceso_Dgp")
     public ModelAndView dgp() {
-        return new ModelAndView("/views/Dgp/Proceso_Dgp.html");
+        return new ModelAndView("/Dgp/Proceso_Dgp");
     }
 
     @RequestMapping(value = "/imbox")
     public ModelAndView imbox() {
-        return new ModelAndView("/views/Dgp/Autorizar_Requerimiento.html");
+        return new ModelAndView("/Dgp/Autorizar_Requerimiento");
+    }
+    @RequestMapping(value = "/generate")
+    public ModelAndView generateDGP() {
+        return new ModelAndView("/views/Dgp/Generar_Dgp.html");
+    }
+    @RequestMapping(value = "/Reg_Dgp")
+    public ModelAndView regDGP() {
+        return new ModelAndView("/views/Dgp/Reg_Dgp.html");
+    }
+    @RequestMapping(value = "/Reg_Usuario")
+    public ModelAndView Reg_Usuario() {
+        return new ModelAndView("/views/Usuario/Reg_Usuario.html");
     }
 
 }

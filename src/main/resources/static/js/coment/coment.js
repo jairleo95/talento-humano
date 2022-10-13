@@ -54,7 +54,7 @@ var insert = true;
 //--------------------- jalar comentarios --------------
         function sendAjax(parm) {
         var idDgp = $('.idDgp').val();
-        var url1 = '../../comentario?iddgp=';
+        var url1 = 'comentario?iddgp=';
 	var url = url1.trim()+idDgp+'&opc=list';
         var tipo = parm;
         var ln = 0;
@@ -76,9 +76,9 @@ var insert = true;
                          console.log("objetosde la base de datos ...");
                          console.log(objt);
                          if(objt.ar_foto == null || objt.ar_foto == "" ){
-                                img+="../../img/avatar_default.jpg"; 
+                                img+="img/avatar_default.jpg";
                               }else{
-                                img+="../../views/Usuario/Fotos/"+objt.ar_foto;
+                                img+="views/Usuario/Fotos/"+objt.ar_foto;
                               }
                          
                         if(cant_coment == 1){
@@ -135,7 +135,7 @@ var insert = true;
 	// get inputs
 	var idDgp = $('.idDgp').val();
 	var cometario = $('.mensaje').val();
-        var url1 = '../../comentario?opc=COMENTAR&iddgp=';
+        var url1 = 'comentario?opc=COMENTAR&iddgp=';
 	var url = url1.trim()+idDgp+'&coment='+cometario.trim();
 	$.ajax({
 		url: url,

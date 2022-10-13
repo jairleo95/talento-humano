@@ -66,7 +66,7 @@ function initDatatableAuthorizedRequirements() {
         tablet: 1024,
         phone: 480
     };
-    var uriAuthorizedRequirements = "../../autorizacion";
+    var uriAuthorizedRequirements = "autorizacion";
     var otable = $('#authorizedRequirements').DataTable({
         "processing": true,
         "serverSide": true,
@@ -156,7 +156,7 @@ function initDatatableAuthorizedRequirements() {
 }
 function listar_autorizados(mes, anno) {
     var text_html = "";
-    /* $.post("../../autorizacion", "opc=List_Dgp_Aut&mes=" + mes + "&anno=" + anno, function (objJson) {
+    /* $.post(autorizacion", "opc=List_Dgp_Aut&mes=" + mes + "&anno=" + anno, function (objJson) {
      var lista = objJson.data;
      if (objJson.rpta === -1) {
      alert(objJson.mensaje);
@@ -199,7 +199,7 @@ function listar_autorizados(mes, anno) {
 /*CARGA ACADEMICA*/
 function loadDatatableCargaAcademica() {
     $.ajax({
-        url: "../../autorizacion", data: "opc=headerTableAutorizacionCA", type: 'POST', success: function (data, textStatus, jqXHR) {
+        url: "autorizacion", data: "opc=headerTableAutorizacionCA", type: 'POST', success: function (data, textStatus, jqXHR) {
             if (data.access) {
                 $(".tHeadAutCA").append(data.htmlHeader);
                 $(".tBodyAutCA").append(data.htmlBody);
@@ -270,13 +270,13 @@ function procesarFirmas(callback, callbackOnItem) {
         if (currentInputFirma.prop('checked')) {
             $.ajax({
                 async: false,
-                url: "../../contrato",
+                url: "contrato",
                 type: "POST", success: function (data, textStatus, jqXHR) {
                     if (data.rpta) {
                         console.log("status firma updated:" + data.rpta);
                         $.ajax({
                             async: false,
-                            url: "../../autorizacion",
+                            url: "autorizacion",
                             type: "POST", success: function (data, textStatus, jqXHR) {
                                 if (data.rpta) {
                                     console.log("autorizado!");
@@ -310,13 +310,13 @@ function procesarFirmas(callback, callbackOnItem) {
     if (typeof callback !== 'undefined') {
         callback();
     } else {
-        //  window.location.href = "../../autorizacion";
+        //  window.location.href = "autorizacion";
     }
 
 }
 function refreshCurrentPage() {
     console.log("redirecto to autorizacion");
-    window.location.href = "../../autorizacion";
+    window.location.href = "autorizacion";
 }
 function procesarSendToRemu(callback) {
     console.log("enter to procesarSendToRemu function");
@@ -379,7 +379,7 @@ function registerCOdHuella(inputItem, callback) {
     if (inputItem.val() !== "" & typeof inputItem.val() !== "undefined") {
         $.ajax({
             async: false,
-            url: "../../trabajador", data: "opc=registrar_huella&cod=" + inputItem.val() + "&idtr=" + inputItem.parents("tr").find(".idTrabajador").val(),
+            url: "trabajador", data: "opc=registrar_huella&cod=" + inputItem.val() + "&idtr=" + inputItem.parents("tr").find(".idTrabajador").val(),
             type: "POST", success: function (data, textStatus, jqXHR) {
                 if (data.rpta) {
                     console.log("huella registrada!");
@@ -396,7 +396,7 @@ function processAutorizacionMasive(values, callback) {
     console.log("::enter to processAutorizacionMasive function");
     $.ajax({
         async: false,
-        url: "../../autorizacion",
+        url: "autorizacion",
         data: "opc=Aceptar" + values,
         type: "POST", success: function (data, textStatus, jqXHR) {
             if (data.rpta) {
@@ -418,7 +418,7 @@ function sendEmail(dataURL, callback) {
     /*open modal*/
     $.ajax({
         //  async: false,
-        url: "../../autorizacion",
+        url: "autorizacion",
         type: "POST", success: function (data, textStatus, jqXHR) {
             if (data.status) {
                 statusBarAut.text("Correos enviados!").fadeOut('slow');
@@ -487,7 +487,7 @@ $(document).ready(function () {
     });
 
 
-    $.sound_path = "../../sound/", $.sound_on = !0, jQuery(document).ready(function () {
+    $.sound_path = "sound/", $.sound_on = !0, jQuery(document).ready(function () {
         $("body").append("<div id='divSmallBoxes'></div>"), $("body").append("<div id='divMiniIcons'></div><div id='divbigBoxes'></div>");
     });
     $(".inp_cod_aps").keypress(function (event) {
@@ -620,12 +620,12 @@ $(document).ready(function () {
                         $(".headerReqAutorizado").addClass("widget-body-ajax-loading");
                         $.ajax({
                             async: false,
-                            url: "../../trabajador", data: "opc=reg_aps_masivo&cod=" + itemCodAps.val() + "&idtr=" + itemCodAps.parents("tr").find(".idTrabajador").val(),
+                            url: "trabajador", data: "opc=reg_aps_masivo&cod=" + itemCodAps.val() + "&idtr=" + itemCodAps.parents("tr").find(".idTrabajador").val(),
                             type: "POST", success: function (objJson, textStatus, jqXHR) {
                                 if (objJson.rpta) {
                                     $.ajax({
                                         async: false,
-                                        url: "../../autorizacion",
+                                        url: "autorizacion",
                                         type: "POST", success: function (objJson, textStatus, jqXHR) {
                                             if (objJson.rpta) {
                                                 var table = new $.fn.dataTable.Api('#dt_basic1');

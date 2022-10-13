@@ -222,7 +222,7 @@ function mflcheck(cb) {
 
 function Listar_Direccion() {
     var cc_dir = $(".cc-dir");
-    $.post("../../centro_costo?opc=Listar_dir", function (objJson) {
+    $.post("centro_costo?opc=Listar_dir", function (objJson) {
         if (objJson.rpta == -1) {
             alert(objJson.mensaje);
             return;
@@ -240,7 +240,7 @@ $(".cc-dir").change(function () {
 });
 function Listar_Departamento(id_dir) {
     var cc_dep = $(".cc-dep");
-    $.post("../../centro_costo?opc=Listar_dep", "&id_dir=" + id_dir, function (objJson) {
+    $.post("centro_costo?opc=Listar_dep", "&id_dir=" + id_dir, function (objJson) {
         cc_dep.empty();
         cc_dep.append("<option value=''>[DEPARTAMENTO]</option>");
         if (objJson.rpta == -1) {
@@ -261,7 +261,7 @@ $(".cc-dep").change(function () {
 });
 function Listar_Centro_Costo(id_dep) {
     var centro_costo = $(".centro_costo");
-    $.post("../../centro_costo?opc=Listar_CC", "&id_dep=" + id_dep, function (objJson) {
+    $.post("centro_costo?opc=Listar_CC", "&id_dep=" + id_dep, function (objJson) {
         centro_costo.empty();
         centro_costo.append("<option value=''>[CENTRO COSTO]</option>");
         if (objJson.rpta == -1) {
@@ -279,7 +279,7 @@ function VAL_COD_APS() {
     if ($("#cod_ap").val() != "") {
         var co_aps = document.getElementById("cod_ap");
         $.ajax({
-            url: "../../empleado",
+            url: "empleado",
             type: "POST",
             data: "opc=validar_aps&co_aps=" + co_aps.value, success: function (data, textStatus, jqXHR) {
 
@@ -307,7 +307,7 @@ function VAL_COD_HUELLA() {
     if ($("#cod_hu").val() != "") {
         var co_huel = document.getElementById("cod_hu");
         $.ajax({
-            url: "../../empleado",
+            url: "empleado",
             type: "POST",
             data: "opc=validar_huella&co_hue=" + co_huel.value, success: function (data, textStatus, jqXHR) {
 
@@ -331,7 +331,7 @@ function VAL_COD_HUELLA() {
 function Listar_plantilla2() {
     var s = $(".con_pl_pu");
 
-    $.post("../../plantilla_contractual", "opc=List_planti&" + "id_pu=" + $(".id_pu_dgp").val(), function (objJson) {
+    $.post("plantilla_contractual", "opc=List_planti&" + "id_pu=" + $(".id_pu_dgp").val(), function (objJson) {
         s.empty();
         var lista = objJson.lista;
         s.append("<option value='' > [SELECCIONE] </option>");
@@ -388,7 +388,7 @@ function calcularHoras() {
 function listar_dep_cc(x, opc, arr_cc) {
 
     var cc_dep = $(".cc-dep" + x);
-    $.post("../../centro_costo?opc=Listar_dep", "&id_dir=" + $(".cc-dir" + x).val(), function (objJson) {
+    $.post("centro_costo?opc=Listar_dep", "&id_dir=" + $(".cc-dir" + x).val(), function (objJson) {
 
         cc_dep.empty();
         cc_dep.append("<option value=''>[DEPARTAMENTO]</option>");
@@ -415,7 +415,7 @@ function listar_dep_cc(x, opc, arr_cc) {
 function listar_centro_costo(x, opc, arr_cc) {
 
     var centro_costo = $(".centro_costo" + x);
-    $.post("../../centro_costo?opc=Listar_CC", "&id_dep=" + $(".cc-dep" + x).val(), function (objJson) {
+    $.post("centro_costo?opc=Listar_CC", "&id_dep=" + $(".cc-dep" + x).val(), function (objJson) {
         centro_costo.empty();
         centro_costo.append("<option value=''>[CENTRO COSTO]</option>");
         if (objJson.rpta == -1) {
@@ -442,7 +442,7 @@ function listar_centro_costo(x, opc, arr_cc) {
 
 function listar_cc(num, opc, arr_cc) {
     var select_cc = $(".select-cc");
-    $.post("../../centro_costo?opc=Listar_cc", function (objJson) {
+    $.post("centro_costo?opc=Listar_cc", function (objJson) {
         //  select_cc.empty();
         if (objJson.rpta == -1) {
             alert(objJson.mensaje);
@@ -455,7 +455,7 @@ function listar_cc(num, opc, arr_cc) {
 
     });
     var cc_dir = $(".cc-dir" + num);
-    $.post("../../centro_costo?opc=Listar_dir", function (objJson) {
+    $.post("centro_costo?opc=Listar_dir", function (objJson) {
         if (objJson.rpta == -1) {
             alert(objJson.mensaje);
             return;
@@ -514,7 +514,7 @@ function list_horario(valor) {
     } else {
         var dias_semana = new Array("lun", "mar", "mie", "jue", "vie", "sab", "dom");
         $(".tr-dia").remove();
-        $.post("../../formato_horario", "opc=Listar_Horario&id=" + valor, function (objJson) {
+        $.post("formato_horario", "opc=Listar_Horario&id=" + valor, function (objJson) {
             var lista = objJson.lista;
             for (var f = 0; f < dias_semana.length; f++) {
 
@@ -643,7 +643,7 @@ function agregar_centro_costo(opc, arr_cc) {
 }
 
 function listar_tipo_horario() {
-    $.post("../../formato_horario", "opc=Listar_Tip_Horario", function (objJson) {
+    $.post("formato_horario", "opc=Listar_Tip_Horario", function (objJson) {
 
         if (objJson.rpta == -1) {
             alert(objJson.mensaje);
@@ -663,7 +663,7 @@ $(document).ready(function () {
 
     pageSetUp();
     mostrar();
-    list_selectJavaBeans($(".ti_contrato"), "../../contrato", "opc=List_ti_contrato", "id_tipo_contrato", "de_ti_contrato");
+    list_selectJavaBeans($(".ti_contrato"), "contrato", "opc=List_ti_contrato", "id_tipo_contrato", "de_ti_contrato");
     $('#checkout-form').validate({
         // Rules for form validation
         rules: {
@@ -890,7 +890,7 @@ $(document).ready(function () {
 
     $("#select_mod").change(
             function () {
-                $.post("../../ajax/Ajax_Reg_Contrato/Ajax_Reg_Contrato.jsp?opc=submodalidad&" + "MODALIDAD=" + $("#select_mod").val(), function (objJson) {
+                $.post("ajax/Ajax_Reg_Contrato/Ajax_Reg_Contrato.jsp?opc=submodalidad&" + "MODALIDAD=" + $("#select_mod").val(), function (objJson) {
                     a.empty();
                     var list = objJson.lista;
                     a.append("<option value='' > [SELECCIONE] </option>");
@@ -910,7 +910,7 @@ $(document).ready(function () {
             });
 
     $("#selec_dep").change(function () {
-        $.post("../../Direccion_Puesto", "opc=Listar_area&" + "id_dep=" + $("#selec_dep").val(), function (objJson) {
+        $.post("Direccion_Puesto", "opc=Listar_area&" + "id_dep=" + $("#selec_dep").val(), function (objJson) {
             c.empty();
             if (objJson.rpta == -1) {
                 alert(objJson.mensaje);
@@ -938,7 +938,7 @@ $(document).ready(function () {
             var url = "";
             var data = "";
             if (destino === 2) {
-                url = "../../pres?opc=comp";
+                url = "pres?opc=comp";
                 data = "idDes=" + idDestino;
                 data += "&dest=" + destino;
                 data += "&idreq=" + $('#nom_req').val();
@@ -957,7 +957,7 @@ $(document).ready(function () {
                     }
                 });
             } else if (destino === 1) {
-                url = "../../pres?opc=comp";
+                url = "pres?opc=comp";
                 data = "idDes=" + idDestino;
                 data += "&dest=" + destino;
                 data += "&idreq=" + $('#nom_req').val();
@@ -981,7 +981,7 @@ $(document).ready(function () {
                 });
             } else if (destino === 3) {
                 console.log(idDestino);
-                url = "../../pres?opc=comp";
+                url = "pres?opc=comp";
                 data = "idpuesto=" + idDestino;
                 data += "&dest=" + destino;
                 data += "&iddetp=" + idDetPres;
@@ -1191,7 +1191,7 @@ $(document).ready(function () {
         loadModalSolPres();
     });
     $("#spbtn").click(function () {
-        $.ajax("../../pres?opc=regSFP", {
+        $.ajax("pres?opc=regSFP", {
             data: {
                 idpp: idPrePuesto,
                 ntra: $("#sntra").val(),
@@ -1208,7 +1208,7 @@ $(document).ready(function () {
                     });
                     $("#solPresModal").modal('hide');
                     setTimeout(function () {
-                        window.location.href = "../../pres?opc=solfpview";
+                        window.location.href = "pres?opc=solfpview";
                     }, 3000);
 
                 } else {
@@ -1229,7 +1229,7 @@ $(document).ready(function () {
         $("#sppto").text($(".select-puesto option:selected").text());
         //alert($(".select_req option:selected").text());
         $("#spreq").text($("#nom_req option:selected").text());
-        $.ajax("../../pres?opc=getTempByIdPres", {
+        $.ajax("pres?opc=getTempByIdPres", {
             data: {
                 idp: idPresupuesto
             },
@@ -1279,7 +1279,7 @@ $(document).ready(function () {
     }
 
     $(".select_dir").change(function () {
-        $.post("../../Direccion_Puesto", "opc=Listar_dir_dep&" + "id=" + $(this).val(), function (objJson) {
+        $.post("Direccion_Puesto", "opc=Listar_dir_dep&" + "id=" + $(this).val(), function (objJson) {
             b.empty();
 
             if (objJson.rpta == -1) {
@@ -1306,7 +1306,7 @@ $(document).ready(function () {
 
 
     $("#Selec_Area").change(function () {
-        $.post("../../Direccion_Puesto", "opc=Listar_sec&" + "id_are=" + $("#Selec_Area").val(), function (objJson) {
+        $.post("Direccion_Puesto", "opc=Listar_sec&" + "id_are=" + $("#Selec_Area").val(), function (objJson) {
             d.empty();
             var list = objJson.lista;
             d.append("<option value='' > [SELECCIONE] </option>");
@@ -1322,7 +1322,7 @@ $(document).ready(function () {
     });
 
     $("#select_sec").change(function () {
-        $.post("../../Direccion_Puesto", "opc=Listar_pu_id&" + "id=" + $("#select_sec").val(), function (objJson) {
+        $.post("Direccion_Puesto", "opc=Listar_pu_id&" + "id=" + $("#select_sec").val(), function (objJson) {
             e.empty();
             if (objJson.rpta == -1) {
                 alert(objJson.mensaje);
@@ -1345,7 +1345,7 @@ $(document).ready(function () {
     });
     $("#btn-registrar").click(function () {
         var pr = $("#select-proceso").val();
-        $.post("../../paso", $("#form-paso").serialize(), function () {
+        $.post("paso", $("#form-paso").serialize(), function () {
             Listar_Paso(pr);
         });
         $("#btn-registrar").val("Registrar Paso");
@@ -1355,7 +1355,7 @@ $(document).ready(function () {
     });
     function Listar_dep() {
         var s = $("#selec_dep");
-        $.post("../../Direccion_Puesto", "opc=Listar", function (objJson) {
+        $.post("Direccion_Puesto", "opc=Listar", function (objJson) {
             s.empty();
             var lista = objJson.lista;
             s.append("<option value='' > [SELECCIONE] </option>");
@@ -1366,7 +1366,7 @@ $(document).ready(function () {
     }
     function Listar_centro_costo() {
         var x = $("#fila-agregar");
-        $.post("../../centro_costo", "opc=Listar_centro_id&" + "id_dgp=" + $("#id_dgp").val(), function (objJson) {
+        $.post("centro_costo", "opc=Listar_centro_id&" + "id_dgp=" + $("#id_dgp").val(), function (objJson) {
             var lista = objJson.lista;
             var numero = 1;
             x.append('<div  class="row centro-costo_' + numero + '" >');

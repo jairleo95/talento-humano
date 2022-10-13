@@ -42,7 +42,7 @@ $(document).ready(function () {
         $('.enviar').click(
                 function () {
                     //alert("Funcion : "+idFuncion+ " detalle: "+$('.deFunc').val() + " estado: "+es.val()+ " Puesto: " +idPuesto+ " tipo: "+ ti.val());
-                    $.post("../../funcion", "opc=edit_function" + "&id_fun=" + idFuncion + "&de_fun=" + $('.deFunc').val() + "&es_fun=" + es.val() + "&id_pu=" + idPuesto + "&ti_funcion=" + ti.val(), function () {
+                    $.post("funcion", "opc=edit_function" + "&id_fun=" + idFuncion + "&de_fun=" + $('.deFunc').val() + "&es_fun=" + es.val() + "&id_pu=" + idPuesto + "&ti_funcion=" + ti.val(), function () {
                         llenar_tabla();
                         doc.empty();
                     });
@@ -98,7 +98,7 @@ $(document).ready(function () {
             $('.del').click(function () {
                 valor = $(this).val();
                 idFuncion = $(".btnIdFun" + valor).val();
-                $.post("../../funcion", "opc=del_fun" + "&id_fun=" + idFuncion, function () {
+                $.post("funcion", "opc=del_fun" + "&id_fun=" + idFuncion, function () {
                     llenar_tabla();
                 });
             });
@@ -109,7 +109,7 @@ $(document).ready(function () {
 
 
     function llenar_puesto() {
-        $.post("../../funcion", "opc=list_pu", function (objJson) {
+        $.post("funcion", "opc=list_pu", function (objJson) {
             pu.empty();
             pu.append("<option value='0'>--Seleccione--</option>");
             var list = objJson.lista;

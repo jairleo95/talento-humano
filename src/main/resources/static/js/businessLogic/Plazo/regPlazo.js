@@ -6,7 +6,7 @@
 
 function validar_fechas() {
     var data = "tipo=" + $(".tipo").val() + "&req=" + $(".req").val() + "&dias=" + $(".tolerancia").val() + "&dep=" + $(".dep_tolerancia").val();
-    $.post("../../../plazo_dgp", "opc=fecha_habilitada&" + data, function (objJson) {
+    $.post("plazo_dgp", "opc=fecha_habilitada&" + data, function (objJson) {
         var fecha = objJson.fecha;
         $(".desde").attr("min", fecha);
         if ($(".desde").val() == "") {
@@ -23,7 +23,7 @@ function listar() {
     b.empty();
     var text_html = "";
     b.append("<tr><td colspan='9'>Cargando...</td></tr>");
-    $.post("../../../plazo_dgp", $(".form_plazo").serialize() + "&opc=Listar_Plazo", function (objJson) {
+    $.post("plazo_dgp", $(".form_plazo").serialize() + "&opc=Listar_Plazo", function (objJson) {
         b.empty();
         var lista = objJson.lista;
         if (objJson.rpta == -1) {
@@ -88,7 +88,7 @@ function listar() {
                     }, function (ButtonPressed) {
                         if (ButtonPressed === "Si") {
                             $.ajax({
-                                url: "../../../plazo_dgp",
+                                url: "plazo_dgp",
                                 data: "opc=Eliminar&plz=" + valor,
                                 type: "POST"
                             }).done(function () {
@@ -111,7 +111,7 @@ function listar() {
 }
 $(document).ready(function () {
     pageSetUp();
-    $.sound_path = "../../../sound/", $.sound_on = !0, jQuery(document).ready(function () {
+    $.sound_path = "sound/", $.sound_on = !0, jQuery(document).ready(function () {
         $("body").append("<div id='divSmallBoxes'></div>"), $("body").append("<div id='divMiniIcons'></div><div id='divbigBoxes'></div>")
     });
     $(".btnAgregar").show(300);
@@ -153,7 +153,7 @@ $(document).ready(function () {
         }
     });
     listar();
-    $.post("../../../requerimiento", "opc=Listar_tp", function (objJson) {
+    $.post("requerimiento", "opc=Listar_tp", function (objJson) {
         var tp = $(".planilla");
         tp.empty();
         var lista = objJson.lista;
@@ -185,7 +185,7 @@ $(document).ready(function () {
         listar();
     });
     $(".planilla").change(function () {
-        $.post("../../../requerimiento", "opc=Listar_req_id&id=" + $(this).val(), function (objJson) {
+        $.post("requerimiento", "opc=Listar_req_id&id=" + $(this).val(), function (objJson) {
             var req = $(".req");
             req.empty();
             var lista = objJson.lista;
@@ -213,7 +213,7 @@ $(document).ready(function () {
                 if ($(".form_plazo").valid()) {
                     $.ajax({
                         type: "post",
-                        url: "../../../plazo_dgp",
+                        url: "plazo_dgp",
                         data: "opc=Registrar&" + $("#form-plazo").serialize()
                     }).done(function (objJson) {
                         if (objJson.rpta == -1) {
@@ -249,12 +249,12 @@ $(document).ready(function () {
         validar_fechas();
     });
 
-    list_select($(".direccion"), "../../../Direccion_Puesto", "opc=Listar_direccion");
+    list_select($(".direccion"), "Direccion_Puesto", "opc=Listar_direccion");
     $(".direccion").change(function () {
-        list_select($(".departamento"), "../../../Direccion_Puesto", "opc=Listar_dir_dep&" + "id=" + $(this).val());
+        list_select($(".departamento"), "Direccion_Puesto", "opc=Listar_dir_dep&" + "id=" + $(this).val());
     });
     $(".departamento").change(function () {
-        list_select($(".area"), "../../../Direccion_Puesto", "opc=Listar_area2&" + "id=" + $(this).val());
+        list_select($(".area"), "Direccion_Puesto", "opc=Listar_area2&" + "id=" + $(this).val());
     });
 
 });

@@ -6,19 +6,19 @@
 
 function SelectorListaContrato(objSelector, idtr, idc) {
     $.ajax({
-        url: "../../contrato", type: 'POST', data: "opc=SelectorListaContrato&idtr=" + idtr + "&idc=" + idc,
+        url: "contrato", type: 'POST', data: "opc=SelectorListaContrato&idtr=" + idtr + "&idc=" + idc,
         success: function (data, textStatus, jqXHR) {
             if (data.rpta) {
                 objSelector.append(data.html);
                 $(".anno").change(function () {
-                    window.location.href = '../../contrato?opc=actualizar&idtr=' + $(".idtr").val() + '&idc=' + $(this).val();
+                    window.location.href = 'contrato?opc=actualizar&idtr=' + $(".idtr").val() + '&idc=' + $(this).val();
                 });
             }
         }
     });
 }
 $(document).ready(function () {
-    $.sound_path = "../../sound/", $.sound_on = !0, jQuery(document).ready(function () {
+    $.sound_path = "sound/", $.sound_on = !0, jQuery(document).ready(function () {
         $("body").append("<div id='divSmallBoxes'></div>"), $("body").append("<div id='divMiniIcons'></div><div id='divbigBoxes'></div>");
     });
     SelectorListaContrato($(".SelectorListaContrato"), $(".idtr").val(), $(".idc").val());
@@ -33,7 +33,7 @@ $(document).ready(function () {
     $(".ck_habilitar_is").click(function () {
         if ($(".ck_habilitar_is").prop('checked')) {
             $.ajax({
-                url: "../../contrato",
+                url: "contrato",
                 data: "opc=Habilitar_is&id=" + $(".id_contrato").val() + "&estado=1"
             }).done(function () {
                 $.smallBox({
@@ -56,7 +56,7 @@ $(document).ready(function () {
             });
         } else {
             $.ajax({
-                url: "../../contrato",
+                url: "contrato",
                 data: "opc=Habilitar_is&id=" + $(".id_contrato").val() + "&estado=2"
             }).done(function () {
                 $.smallBox({

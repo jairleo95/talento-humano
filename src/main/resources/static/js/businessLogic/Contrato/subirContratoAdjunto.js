@@ -35,7 +35,7 @@
                     myDropzone.removeAllFiles();
                 });
                 myDropzone.on("addedfile", function (file) {
-                    /* $.post("../../contrato_adjunto", "idc=" + $(".idc").val() + "&archivo=" + file.name, function (mensaje) {
+                    /* $.post('contrato_adjunto", "idc=" + $(".idc").val() + "&archivo=" + file.name, function (mensaje) {
                      alert(mensaje);
                      });*/
 
@@ -45,7 +45,7 @@
                     jForm.append("archivo", file);
                     $.ajax({
                         type: "POST",
-                        url: "../../contrato_adjunto",
+                        url: "contrato_adjunto",
                         cache: false,
                         processData: false,
                         contentType: false,

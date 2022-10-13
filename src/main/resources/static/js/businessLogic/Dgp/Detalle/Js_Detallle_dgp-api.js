@@ -18,12 +18,12 @@
                     $(".lb_fecha_solicitud").text("Fecha de Inicio :");
                     $(".tipo_fecha").val("date");
                 }
-                list_select($(".plazo"), "../../plazo_dgp?opc=List_id_plazo", $(".solicitud_plazo").serialize() + "&id=" + $(".dgp").val(), "1", $(".tipo").val());
+                list_select($(".plazo"), "plazo_dgp?opc=List_id_plazo", $(".solicitud_plazo").serialize() + "&id=" + $(".dgp").val(), "1", $(".tipo").val());
 
             }
             $(document).ready(function () {
                 pageSetUp();
-                $.sound_path = "../../sound/", $.sound_on = !0, jQuery(document).ready(function () {
+                $.sound_path = "sound/", $.sound_on = !0, jQuery(document).ready(function () {
                     $("body").append("<div id='divSmallBoxes'></div>"), $("body").append("<div id='divMiniIcons'></div><div id='divbigBoxes'></div>")
                 });
                 $(".btn_terminar").click(function () {
@@ -42,7 +42,7 @@
                 $(".btn_solicitud").click(function () {
                     var body_modal = $(".body_mdal_sol");
                     body_modal.empty();
-                    $.post("../../solicitud_requerimiento", "opc=Val_Envio_Solicitud&iddgp=" + $(".dgp").val(), function (objJson) {
+                    $.post("solicitud_requerimiento", "opc=Val_Envio_Solicitud&iddgp=" + $(".dgp").val(), function (objJson) {
                         var html = objJson.html;
                         body_modal.append(html);
                         if (objJson.estado) {
@@ -61,7 +61,7 @@
                                 }, function (ButtonPressed) {
                                     if (ButtonPressed === "Si") {
                                         $.ajax({
-                                            url: "../../solicitud_requerimiento",
+                                            url: "solicitud_requerimiento",
                                             type: "post",
                                             data: $(".solicitud_plazo").serialize() + "&opc=Registrar_solicitud" + "&iddgp=" + $(".dgp").val()
                                         }).done(function () {
@@ -78,7 +78,7 @@
                                             $(".aviso_cumplimiento").append('<div class="alert alert-success fade in div_dgp"><i class="fa-fw fa fa-check"></i>Usted tiene una solicitud en proceso, una vez que se haya autorizado se podrá procesar el <strong>requerimiento</strong>.</div>');
                                             $(".aviso_cumplimiento").show(200);
                                             /*vuelve a cargar el selector para evitar enviar solicitudes del mismo plazo*/
-                                            //list_select($(".plazo"), "../../plazo_dgp?opc=List_id_plazo", $(".solicitud_plazo").serialize(), "1", $(".tipo").val());
+                                            //list_select($(".plazo"), plazo_dgp?opc=List_id_plazo", $(".solicitud_plazo").serialize(), "1", $(".tipo").val());
                                             $.smallBox({
                                                 title: "Exito!",
                                                 content: "<i class='fa fa-clock-o'></i> <i>La solicitud ha sido enviada exitosamente...</i>",

@@ -1,6 +1,6 @@
 function listCentroCostoByDepartamento(x, opc, arr_cc) {
     var centro_costo = $(".centro_costo" + x);
-    $.post("../../centro_costo?opc=Listar_CC", "&id_dep=" + $(".cc-dep" + x).val(), function (objJson) {
+    $.post("centro_costo?opc=Listar_CC", "&id_dep=" + $(".cc-dep" + x).val(), function (objJson) {
         centro_costo.empty();
         centro_costo.append("<option value=''>[CENTRO COSTO]</option>");
         if (objJson.rpta === -1) {
@@ -82,7 +82,7 @@ function contarElementosCC() {
 
 function listar_cc(num, opc, arr_cc) {
     var select_cc = $(".select-cc");
-    $.post("../../centro_costo?opc=Listar_cc", function (objJson) {
+    $.post("centro_costo?opc=Listar_cc", function (objJson) {
         if (objJson.rpta === -1) {
             alert(objJson.mensaje);
             return;
@@ -94,7 +94,7 @@ function listar_cc(num, opc, arr_cc) {
         }
     });
     var cc_dir = $(".cc-dir" + num);
-    $.post("../../centro_costo?opc=Listar_dir", function (objJson) {
+    $.post("centro_costo?opc=Listar_dir", function (objJson) {
         if (objJson.rpta === -1) {
             alert(objJson.mensaje);
             return;
@@ -117,11 +117,11 @@ function listar_cc(num, opc, arr_cc) {
         listar_dep_cc(num, "0", arr_cc);
     });
     $(".cc-dep" + num).change(function () {
-        list_select($(".cc-area" + num), "../../Direccion_Puesto", "opc=Listar_area2&id=" + $(this).val());
+        list_select($(".cc-area" + num), "Direccion_Puesto", "opc=Listar_area2&id=" + $(this).val());
         listCentroCostoByDepartamento(num, "0", arr_cc);
     });
     $(".cc-area" + num).change(function () {
-        list_select($(".cc-seccion" + num), "../../Direccion_Puesto", "opc=Listar_sec2&id=" + $(this).val());
+        list_select($(".cc-seccion" + num), "Direccion_Puesto", "opc=Listar_sec2&id=" + $(this).val());
         listCentroCostoByArea($(this).val(), $(".centro_costo" + num));
     });
     $(".cc-seccion" + num).change(function () {
@@ -144,7 +144,7 @@ function listCentoCostoByDGP(iddgp, idContrato) {
     };
     var ag = 1;
     var x = $("#fila-agregar");
-    $.post("../../centro_costo", data, function (objJson) {
+    $.post("centro_costo", data, function (objJson) {
         var lista = objJson.lista;
         x.empty();
         var PorcentajeTotal = 0;
@@ -214,7 +214,7 @@ function listCentoCostoByDGP(iddgp, idContrato) {
             if (msg === true) {
                 var numero = $(this).val();
                 $.ajax({
-                    url: "../../centro_costo"
+                    url: "centro_costo"
                     , data: "opc=Eliminar_det_cc&" + "id_dcc=" + $(".id_dcc" + numero).val()
                     , type: "POST", success: function (data, textStatus, jqXHR) {
                         if (data.rpta === "1") {
@@ -262,7 +262,7 @@ function remover(rem) {
 
 function listar_cc_mod(num, opc, arr_cc) {
     var cc_dir = $(".cc-dir" + num);
-    $.post("../../centro_costo?opc=Listar_dir", function (objJson) {
+    $.post("centro_costo?opc=Listar_dir", function (objJson) {
         if (objJson.rpta === -1) {
             alert(objJson.mensaje);
             return;
@@ -285,12 +285,12 @@ function listar_cc_mod(num, opc, arr_cc) {
         listar_dep_cc(num, "0", arr_cc);
     });
     $(".cc-dep" + num).change(function () {
-        list_select($(".cc-area" + num), "../../Direccion_Puesto", "opc=Listar_area2&id=" + $(this).val());
+        list_select($(".cc-area" + num), "Direccion_Puesto", "opc=Listar_area2&id=" + $(this).val());
         listCentroCostoByDepartamento(num, "0", arr_cc);
     });
     $(".cc-area" + num).change(function () {
         console.log("cambiado area mod")
-        list_select($(".cc-seccion" + num), "../../Direccion_Puesto", "opc=Listar_sec2&id=" + $(this).val());
+        list_select($(".cc-seccion" + num), "Direccion_Puesto", "opc=Listar_sec2&id=" + $(this).val());
         listCentroCostoByArea($(this).val(), $(".centro_costo" + num));
     });
     $(".cc-seccion" + num).change(function () {
@@ -312,7 +312,7 @@ function agrgar_atrib(num) {
 
 function listar_cc2(num, dir, dep, cc, area, seccion) {
     console.log("print cc item :" + num);
-    $.post("../../centro_costo?opc=Listar_dir", function (objJson) {
+    $.post("centro_costo?opc=Listar_dir", function (objJson) {
         if (objJson.rpta === -1) {
             alert(objJson.mensaje);
             return;
@@ -334,12 +334,12 @@ function listar_cc2(num, dir, dep, cc, area, seccion) {
         listar_dep_cc2(num);
     });
     $(".cc-dep" + num).change(function () {
-        list_select($(".cc-area" + num), "../../Direccion_Puesto", "opc=Listar_area2&id=" + $(this).val());
+        list_select($(".cc-area" + num), "Direccion_Puesto", "opc=Listar_area2&id=" + $(this).val());
         // listCentroCostoByDepartamento(num, "0", arr_cc);
     });
     $(".cc-area" + num).change(function () {
         console.log("change area " + num)
-        list_select($(".cc-seccion" + num), "../../Direccion_Puesto", "opc=Listar_sec2&id=" + $(this).val());
+        list_select($(".cc-seccion" + num), "Direccion_Puesto", "opc=Listar_sec2&id=" + $(this).val());
         listCentroCostoByArea($(this).val(), $(".centro_costo" + num));
     });
     $(".cc-seccion" + num).change(function () {
@@ -349,7 +349,7 @@ function listar_cc2(num, dir, dep, cc, area, seccion) {
 
 function listar_dep_cc2(x, dep, cc, area, seccion) {
     var cc_dep = $(".cc-dep" + x);
-    $.post("../../centro_costo?opc=Listar_dep", "&id_dir=" + $(".cc-dir" + x).val(), function (objJson) {
+    $.post("centro_costo?opc=Listar_dep", "&id_dir=" + $(".cc-dir" + x).val(), function (objJson) {
         cc_dep.empty();
         cc_dep.append("<option value=''>[DEPARTAMENTO]</option>");
         if (objJson.rpta === -1) {
@@ -364,8 +364,8 @@ function listar_dep_cc2(x, dep, cc, area, seccion) {
                     /*new lines!*/
                     listCentroCostoByArea(area, $(".centro_costo" + x), true, cc);
                     listCentroCostoBySeccion(seccion, $(".centro_costo" + x), cc, true);
-                    list_select($(".cc-area" + x), "../../Direccion_Puesto", "opc=Listar_area2&id=" + dep, "1", area);
-                    list_select($(".cc-seccion" + x), "../../Direccion_Puesto", "opc=Listar_sec2&id=" + area, "1", seccion);
+                    list_select($(".cc-area" + x), "Direccion_Puesto", "opc=Listar_area2&id=" + dep, "1", area);
+                    list_select($(".cc-seccion" + x), "Direccion_Puesto", "opc=Listar_sec2&id=" + area, "1", seccion);
                     /*end new lines*/
 
                 } else {
@@ -378,7 +378,7 @@ function listar_dep_cc2(x, dep, cc, area, seccion) {
 function listar_centro_costo3(x, cc) {
 
     var centro_costo = $(".centro_costo" + x);
-    $.post("../../centro_costo?opc=Listar_CC", "&id_dep=" + $(".cc-dep" + x).val(), function (objJson) {
+    $.post("centro_costo?opc=Listar_CC", "&id_dep=" + $(".cc-dep" + x).val(), function (objJson) {
         centro_costo.empty();
         centro_costo.append("<option value=''>[CENTRO COSTO]</option>");
         if (objJson.rpta === -1) {
@@ -400,7 +400,7 @@ function listar_centro_costo3(x, cc) {
 function listar_centro_costo2(x, opc, arr_cc) {
 
     var centro_costo = $(".centro_costo" + x);
-    $.post("../../centro_costo?opc=Listar_CC", "&id_dep=" + $(".cc-dep" + x).val(), function (objJson) {
+    $.post("centro_costo?opc=Listar_CC", "&id_dep=" + $(".cc-dep" + x).val(), function (objJson) {
         centro_costo.empty();
         centro_costo.append("<option value=''>[CENTRO COSTO]</option>");
         if (objJson.rpta === -1) {
@@ -428,7 +428,7 @@ function listar_centro_costo2(x, opc, arr_cc) {
 function listar_dep_cc(x, opc, arr_cc) {
 
     var cc_dep = $(".cc-dep" + x);
-    $.post("../../centro_costo?opc=Listar_dep", "&id_dir=" + $(".cc-dir" + x).val(), function (objJson) {
+    $.post("centro_costo?opc=Listar_dep", "&id_dir=" + $(".cc-dir" + x).val(), function (objJson) {
         cc_dep.empty();
         cc_dep.append("<option value=''>[DEPARTAMENTO]</option>");
         if (objJson.rpta == -1) {
@@ -454,7 +454,7 @@ function listar_dep_cc(x, opc, arr_cc) {
 
 
 function listCentroCostoByArea(area, cc, opc, id) {
-    $.post("../../centro_costo", "opc=Lista_cc_area&id=" + area, function (objJson) {
+    $.post("centro_costo", "opc=Lista_cc_area&id=" + area, function (objJson) {
         if (objJson.rpta === -1) {
             alert(objJson.mensaje);
             return;
@@ -481,7 +481,7 @@ function listCentroCostoByArea(area, cc, opc, id) {
 }
 
 function listCentroCostoBySeccion(seccion, cc, id, opcEdit) {
-    $.post("../../centro_costo", "opc=Lista_cc_seccion&id=" + seccion, function (objJson) {
+    $.post("centro_costo", "opc=Lista_cc_seccion&id=" + seccion, function (objJson) {
         if (objJson.rpta === -1) {
             alert(objJson.mensaje);
             return;

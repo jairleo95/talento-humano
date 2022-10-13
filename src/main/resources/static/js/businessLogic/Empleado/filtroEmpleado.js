@@ -36,7 +36,7 @@ function  initJobsFilters(datatable) {
     $(".selectSeccion").change(function () {
         seccion = $(this).val();
         datatable.ajax.reload();
-        //  list_select($(".select-puesto"), "../../Direccion_Puesto", "opc=Listar_pu_id&id=" + $(".selectSeccion").val(), "3");
+        //  list_select($(".select-puesto"), "Direccion_Puesto", "opc=Listar_pu_id&id=" + $(".selectSeccion").val(), "3");
     });
 }
 

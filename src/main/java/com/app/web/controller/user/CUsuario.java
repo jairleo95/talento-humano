@@ -11,10 +11,14 @@ import com.app.dao.ListaDAO;
 import java.util.HashMap;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -30,12 +34,13 @@ import com.app.dao_imp.InterfaceRolDAO;
 import com.app.dao_imp.InterfaceTrabajadorDAO;
 import com.app.dao_imp.InterfaceUbigeoDAO;
 import com.app.dao_imp.InterfaceUsuarioDAO;
+import org.springframework.web.servlet.ModelAndView;
 
 /**
  *
  * @author joserodrigo
  */
-@RestController
+@Controller
 @RequestMapping("Usuario")
 public class CUsuario {
 
@@ -47,8 +52,22 @@ public class CUsuario {
     InterfaceDireccionDAO dir = new DireccionDAO();
     InterfaceTrabajadorDAO tr = new TrabajadorDAO();
 
+
+    @RequestMapping
+    public ModelAndView process(HttpServletRequest request){
+        String opc = request.getParameter("opc");
+        HttpSession sesion = request.getSession(true);
+        if ("Reg_Usuario".equals(opc)) {
+            sesion.setAttribute("List_Usuario", usu.List_Usuario());
+            sesion.setAttribute("Listar_Emp", emp.Listar_Emp());
+            sesion.setAttribute("List_Rol", rol.List_Rol());
+            sesion.setAttribute("List_Usuario_var", usu.List_Usuario_var());
+        }
+        return new ModelAndView("Usuario/Reg_Usuario");
+    }
+
     @PostMapping
-    public ResponseEntity<?> process(HttpServletRequest request){
+    public ResponseEntity<?> process(HttpServletRequest request, HttpServletResponse response){
 
         String opc = request.getParameter("opc");
         Map<String, Object> rpta = new HashMap<String, Object>();
@@ -59,15 +78,8 @@ public class CUsuario {
             if (opc.equals("fieldUniqueSave")) {
                 String userName = request.getParameter("fieldUnique");
                 rpta.put("exists", usu.validateIfUserNameExists(userName));
+            }
 
-            }
-            if ("Reg_Usuario".equals(opc)) {
-                sesion.setAttribute("List_Usuario", usu.List_Usuario());
-                sesion.setAttribute("Listar_Emp", emp.Listar_Emp());
-                sesion.setAttribute("List_Rol", rol.List_Rol());
-                sesion.setAttribute("List_Usuario_var", usu.List_Usuario_var());
-                ///response.sendRedirect("views/Usuario/Reg_Usuario.jsp");
-            }
             if ("Registrar Usuario".equals(opc)) {
                 String id_empleado = request.getParameter("IDEMPLEADO");
                 String id_rol = request.getParameter("IDROLES");
@@ -83,7 +95,7 @@ public class CUsuario {
                 String id_usuario = request.getParameter("id_Usuaio");
                 System.out.print(id_usuario);
                 sesion.setAttribute("List_ID_User", usu.List_ID_User(id_usuario));
-                ///response.sendRedirect("views/Usuario/Cambiar_Clave.jsp");
+                response.sendRedirect("views/Usuario/Cambiar_Clave.jsp");
             }
             if ("Modificar_clave_2".equals(opc)) {
                 String id_usuario = request.getParameter("iduser");
@@ -91,7 +103,7 @@ public class CUsuario {
                 String pw_an = request.getParameter("passwordNew2");
                 usu.Mod_Pw(id_usuario, No_Usuario, pw_an);
                 sesion.setAttribute("List_Usuario_var", usu.List_Usuario_var());
-                ///response.sendRedirect("views/Usuario/Reg_Usuario.jsp");
+                response.sendRedirect("views/Usuario/Reg_Usuario.jsp");
             }
             if ("Mod_Usuario_con".equals(opc)) {
                 String id_usuario = request.getParameter("id_Usuaio");
@@ -99,7 +111,7 @@ public class CUsuario {
                 sesion.setAttribute("List_Usuario_var_id", usu.List_Usuario_var_id(id_usuario));
                 sesion.setAttribute("List_Rol", rol.List_Rol());
                 sesion.setAttribute("List_Usuario_var", usu.List_Usuario_var());
-                ///response.sendRedirect("views/Usuario/Mod_Usuario_rol.jsp");
+                response.sendRedirect("views/Usuario/Mod_Usuario_rol.jsp");
             }
             if ("Mod_Usuario_con_2".equals(opc)) {
                 String id_usuario = request.getParameter("ID_USUARIO");
@@ -107,7 +119,7 @@ public class CUsuario {
                 String no_user = request.getParameter("USUARIO");
                 usu.Mod_rol_usuario(id_usuario, IDROLES, no_user);
                 sesion.setAttribute("List_Usuario_var", usu.List_Usuario_var());
-                ///response.sendRedirect("views/Usuario/Reg_Usuario.jsp");
+                response.sendRedirect("views/Usuario/Reg_Usuario.jsp");
             }
             if ("Activar_Usuario_con".equals(opc)) {
                 String id_usuario = request.getParameter("id_Usuaio");

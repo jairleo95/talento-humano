@@ -47,7 +47,7 @@ $(".click").hover(function (e) {
 //--------------------- jalar comentarios --------------
 function sendAjaxComment(parm) {
     var idDgp = $('.idDgp').val();
-    var url1 = '../../comentario?iddgp=';
+    var url1 = 'comentario?iddgp=';
     var url = url1.trim() + idDgp + '&opc=list';
     var tipo = parm;
     var ln = 0;
@@ -76,9 +76,9 @@ function sendAjaxComment(parm) {
                     console.log("XDcantidad coment " + cant_coment + " ln: " + ln + "" + "idx" + idx);
 
                     if (objt.ar_foto == null || objt.ar_foto == "") {
-                        img += "../../img/avatar_default.jpg";
+                        img += "img/avatar_default.jpg";
                     } else {
-                        img += "../../views/Usuario/Fotos/" + objt.ar_foto;
+                        img += "views/Usuario/Fotos/" + objt.ar_foto;
                     }
                     //     console.log("papu :D"+cant_coment+"idx"+idx);
                     if (cant_coment == 1) {
@@ -139,7 +139,7 @@ function Registrar() {
     // get inputs
     var idDgp = $('.idDgp').val();
     var cometario = $('.mensaje').val();
-    var url1 = '../../comentario?opc=COMENTAR&iddgp=';
+    var url1 = 'comentario?opc=COMENTAR&iddgp=';
     var url = url1.trim() + idDgp + '&coment=' + cometario.trim();
     $.ajax({
         url: url,

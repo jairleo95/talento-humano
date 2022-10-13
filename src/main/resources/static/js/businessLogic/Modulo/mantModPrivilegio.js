@@ -7,7 +7,7 @@
 
  function Listar() {
             var a = $("#list");
-            $.post("../../modulo", "opc=lis_pr_mod_x_id&" + "id_modulo=" + $("#selec_modulo").val(), function(objJson) {
+            $.post("modulo", "opc=lis_pr_mod_x_id&" + "id_modulo=" + $("#selec_modulo").val(), function(objJson) {
 
                 a.empty();
                 var lista = objJson.lista;
@@ -38,14 +38,14 @@
                         }
                         $(".btn_desactivar").click(
                                 function() {
-                                    $.post("../../modulo", "opc=desactivar_pri_mod&" + "id_privilegio=" + $(this).val(), function() {
+                                    $.post("modulo", "opc=desactivar_pri_mod&" + "id_privilegio=" + $(this).val(), function() {
                                         Listar();
                                     });
 
                                 });
                         $(".btn_activar").click(
                                 function() {
-                                    $.post("../../modulo", "opc=activar_pri_mod&" + "id_pr=" + $(this).val(), function() {
+                                    $.post("modulo", "opc=activar_pri_mod&" + "id_pr=" + $(this).val(), function() {
                                         Listar();
                                     });
                                 });
@@ -65,7 +65,7 @@
             //list_Priv_mod();
             function list_modulo() {
                 var mo = $("#selec_modulo");
-                $.post("../../modulo", "opc=lis_mod", function(objJson) {
+                $.post("modulo", "opc=lis_mod", function(objJson) {
                     mo.empty();
                     var lista = objJson.lista;
                     mo.append("<option value''>[SELECCIONAR]</option>");
@@ -77,7 +77,7 @@
             }
             function list_Priv() {
                 var mo = $("#selec_priv");
-                $.post("../../modulo", "opc=lis_req", function(objJson) {
+                $.post("modulo", "opc=lis_req", function(objJson) {
                     mo.empty();
                     var lista = objJson.lista;
                     mo.append("<option value=''>[SELECCIONAR]</option>");
@@ -94,7 +94,7 @@
 
             $("#btn_prv").click(
                     function() {
-                        $.post("../../modulo", $(".form-modulo").serialize(), function(objJson) {
+                        $.post("modulo", $(".form-modulo").serialize(), function(objJson) {
                             //alert(objJson.rpta);
                             //alert($(".form-modulo").serialize());
                             Listar();

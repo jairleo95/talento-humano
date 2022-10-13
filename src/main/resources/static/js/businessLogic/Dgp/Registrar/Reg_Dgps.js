@@ -222,7 +222,7 @@ function mostrar_horario_edit() {
     );
 }
 function listar_tipo_horario() {
-    $.post("../../formato_horario", "opc=Listar_Tip_Horario", function (objJson) {
+    $.post("formato_horario", "opc=Listar_Tip_Horario", function (objJson) {
         if (objJson.rpta == -1) {
             alert(objJson.mensaje);
             return;
@@ -305,7 +305,7 @@ function list_horario(valor) {
     } else {
         var dias_semana = new Array("lun", "mar", "mie", "jue", "vie", "sab", "dom");
         $(".tr-dia").remove();
-        $.post("../../formato_horario", "opc=Listar_Horario&id=" + valor, function (objJson) {
+        $.post("formato_horario", "opc=Listar_Horario&id=" + valor, function (objJson) {
             var lista = objJson.lista;
             var text_html = '';
             var primera_fila = 0;
@@ -464,7 +464,7 @@ function showEsDiezmo() {
     obj.hide(100);
     obj.empty();
     $.ajax({
-        url: "../../trabajador", data: "opc=ShowEsDiezmoTrabajador&id=" + $(".idtr").val(), type: 'POST', success: function (data, textStatus, jqXHR) {
+        url: "trabajador", data: "opc=ShowEsDiezmoTrabajador&id=" + $(".idtr").val(), type: 'POST', success: function (data, textStatus, jqXHR) {
             if (data.rpta) {
                 obj.append(data.html);
                 obj.show(100);
@@ -477,7 +477,7 @@ function showEsDiezmo() {
                         if (ButtonPressed === "Si") {
                             if ($(".cbkDiezmo").prop("checked")) {
                                 $.ajax({
-                                    url: "../../trabajador", data: "opc=UpdateEsDiezmo&id=" + $(".idtr").val() + "&estado=0", type: 'POST', success: function (data, textStatus, jqXHR) {
+                                    url: "trabajador", data: "opc=UpdateEsDiezmo&id=" + $(".idtr").val() + "&estado=0", type: 'POST', success: function (data, textStatus, jqXHR) {
                                         if (data.status) {
                                             $(".cbkDiezmo").prop("checked", false);
                                             $.smallBox({
@@ -493,7 +493,7 @@ function showEsDiezmo() {
                                 });
                             } else {
                                 $.ajax({
-                                    url: "../../trabajador", data: "opc=UpdateEsDiezmo&id=" + $(".idtr").val() + "&estado=1", type: 'POST', success: function (data, textStatus, jqXHR) {
+                                    url: "trabajador", data: "opc=UpdateEsDiezmo&id=" + $(".idtr").val() + "&estado=1", type: 'POST', success: function (data, textStatus, jqXHR) {
                                         if (data.status) {
                                             $(".cbkDiezmo").prop("checked", true);
                                             $.smallBox({
@@ -518,20 +518,20 @@ function showEsDiezmo() {
 }
 function RegDGPAditionalPermissions() {
     $.ajax({
-        url: "../../dgp", type: 'POST', data: "opc=RegDGPAditionalPermissions",
+        url: "dgp", type: 'POST', data: "opc=RegDGPAditionalPermissions",
         success: function (data, textStatus, jqXHR) {
             if (data.filterAnyJobs) {
                 var aditionalFilters = $(".aditionalFilters");
                 aditionalFilters.append(data.filterAnyJobsHTML);
                 /*load data and events*/
-                list_select($(".selectDireccion"), "../../Direccion_Puesto", "opc=Listar_direccion", "3");
+                list_select($(".selectDireccion"), "Direccion_Puesto", "opc=Listar_direccion", "3");
                 $(".selectDireccion").change(function () {
-                    list_select($(".selectDepartamento"), "../../Direccion_Puesto", "opc=Listar&id_dir=" + $(".selectDireccion").val(), "3");
+                    list_select($(".selectDepartamento"), "Direccion_Puesto", "opc=Listar&id_dir=" + $(".selectDireccion").val(), "3");
                     $(".selectDepartamento .select-area .select-seccion,.select-puesto").val("");
                     $(".chosen-select").trigger("chosen:updated");
                 });
                 $(".selectDepartamento").change(function () {
-                    list_select($(".select-area"), "../../Direccion_Puesto", "opc=Listar_area2&id=" + $(".selectDepartamento").val(), "3");
+                    list_select($(".select-area"), "Direccion_Puesto", "opc=Listar_area2&id=" + $(".selectDepartamento").val(), "3");
                     $(".select-area .select-seccion,.select-puesto").val("");
                     $(".chosen-select").trigger("chosen:updated");
                     //evaluar presupuesto de Departamento
@@ -554,7 +554,7 @@ function RegDGPAditionalPermissions() {
  try {
  var psaldo = 0;
  var psntra = 0;
- var url = '../../pres?opc=actual';
+ var url = 'pres?opc=actual';
  var data = 'idDes=' + idDestino;
  $.ajax(url, {
  data: data,
@@ -571,7 +571,7 @@ function RegDGPAditionalPermissions() {
  //constratos realizados
  var pmonto = 0;
  var pntra = 0;
- var url = '../../pres?opc=comp';
+ var url = 'pres?opc=comp';
  var data = 'idDes=' + idDestino;
  $.ajax(url, {
  data: data,
@@ -661,7 +661,7 @@ function loadPresupuesto(idDestino, destino) {
     var url = "";
     var data = "";
     if (destino === 2) {
-        url = "../../pres?opc=comp";
+        url = "pres?opc=comp";
         data = "idDes=" + idDestino;
         data += "&dest=" + destino;
         data += "&idreq=" + $('#nom_req').val();
@@ -680,7 +680,7 @@ function loadPresupuesto(idDestino, destino) {
             }
         });
     } else if (destino === 1) {
-        url = "../../pres?opc=comp";
+        url = "pres?opc=comp";
         data = "idDes=" + idDestino;
         data += "&dest=" + destino;
         data += "&idreq=" + $('#nom_req').val();
@@ -704,7 +704,7 @@ function loadPresupuesto(idDestino, destino) {
         });
     } else if (destino === 3) {
         console.log(idDestino);
-        url = "../../pres?opc=comp";
+        url = "pres?opc=comp";
         data = "idpuesto=" + idDestino;
         data += "&dest=" + destino;
         data += "&iddetp=" + idDetPres;
@@ -908,7 +908,7 @@ $(".btnPresModal").click(function () {
 });
 
 $("#spbtn").click(function () {
-    $.ajax("../../pres?opc=regSFP", {
+    $.ajax("pres?opc=regSFP", {
         data: {
             idpp: idPrePuesto,
             ntra: $("#sntra").val(),
@@ -925,7 +925,7 @@ $("#spbtn").click(function () {
                 });
                 $("#solPresModal").modal('hide');
                 setTimeout(function () {
-                    window.location.href = "../../pres?opc=solfpview";
+                    window.location.href = "pres?opc=solfpview";
                 }, 3000);
 
             } else {
@@ -947,7 +947,7 @@ function loadModalSolPres() {
     $("#sppto").text($(".select-puesto option:selected").text());
     //alert($(".select_req option:selected").text());
     $("#spreq").text($("#nom_req option:selected").text());
-    $.ajax("../../pres?opc=getTempByIdPres", {
+    $.ajax("pres?opc=getTempByIdPres", {
         data: {
             idp: idPresupuesto
         },
@@ -998,11 +998,11 @@ function disabledNext() {
 
 function  initJobsFilters(aditionalFIlters) {
     if (!aditionalFIlters) {
-        list_select($(".select-area"), "../../Direccion_Puesto", "opc=List_Area_RDGP", "3");
+        list_select($(".select-area"), "Direccion_Puesto", "opc=List_Area_RDGP", "3");
     }
 
     $(".select-area").change(function () {
-        list_select($(".select-seccion"), "../../Direccion_Puesto", "opc=Listar_sec2&id=" + $(".select-area").val(), "3");
+        list_select($(".select-seccion"), "Direccion_Puesto", "opc=Listar_sec2&id=" + $(".select-area").val(), "3");
         $(".select-seccion,.select-puesto").val("");
         $(".chosen-select").trigger("chosen:updated");
         /*Filtrar Centro de costo*/
@@ -1012,7 +1012,7 @@ function  initJobsFilters(aditionalFIlters) {
         loadPresupuesto($(".select-area").val(), 1);
     });
     $(".select-seccion").change(function () {
-        list_select($(".select-puesto"), "../../Direccion_Puesto", "opc=Listar_pu_id&id=" + $(".select-seccion").val() + "&esL=1", "3");
+        list_select($(".select-puesto"), "Direccion_Puesto", "opc=Listar_pu_id&id=" + $(".select-seccion").val() + "&esL=1", "3");
         cargar_horarios($('.t_horario'));
         //list_cc_seccion($(this).val(), $(".centro_costo1"));
     });
@@ -1029,7 +1029,7 @@ function  initJobsFilters(aditionalFIlters) {
 $(document).ready(function () {
     pageSetUp();
     $(".btnPresModal").hide();
-    $.sound_path = "../../sound/", $.sound_on = !0, jQuery(document).ready(function () {
+    $.sound_path = "sound/", $.sound_on = !0, jQuery(document).ready(function () {
         $("body").append("<div id='divSmallBoxes'></div>"), $("body").append("<div id='divMiniIcons'></div><div id='divbigBoxes'></div>")
     });
     $("#bono_pu").numeric();
@@ -1049,7 +1049,7 @@ $(document).ready(function () {
     var t = $(".alert_1");
     listar_mensaje_plazo("1", t, s);
     var lista_dgp = $(".btn-list-req");
-    $.post("../../dgp", "opc=Listar_Req&idtr=" + $(".id_tr").val(), function (objJson) {
+    $.post("dgp", "opc=Listar_Req&idtr=" + $(".id_tr").val(), function (objJson) {
         if (objJson.rpta === -1) {
             alert(objJson.mensaje);
             return;
@@ -1065,7 +1065,7 @@ $(document).ready(function () {
         }
     });
     lista_dgp.change(function () {
-        $.post("../../dgp", "opc=Listar_Datos&idc=" + $(this).val(), function (objJson) {
+        $.post("dgp", "opc=Listar_Datos&idc=" + $(this).val(), function (objJson) {
             if (objJson.rpta == -1) {
                 alert(objJson.mensaje);
                 return;
@@ -1086,7 +1086,7 @@ $(document).ready(function () {
                 $("#subscription").val(lis_datos[v].gen_cuenta);
             }
         });
-        $.post("../../centro_costo", "opc=Cargar_cc_DGP&id_c=" + $(this).val(), function (objJson) {
+        $.post("centro_costo", "opc=Cargar_cc_DGP&id_c=" + $(this).val(), function (objJson) {
             var lista = objJson.lista;
             for (var i = 0; i < lista.length; i++) {
                 var dep_actual = $(".dep_actual").val();

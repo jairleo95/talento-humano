@@ -1,0 +1,26 @@
+
+G
+java:S1444"1Make this "public static VERSION_CSS" field final(¯Ò¥
+K
+java:S1444"0Make this "public static VERSION_JS" field final(öµ–ïùÿÿÿÿ
+g	java:S101"MRename this class name to match the regular expression '^[A-Z][a-zA-Z0-9]*$'.(ÂáÀ”ùÿÿÿÿ
+m
+java:S1104"WMake VERSION_CSS a static final constant or non-public and provide accessors if needed.(¯Ò¥
+q
+java:S1104"VMake VERSION_JS a static final constant or non-public and provide accessors if needed.(öµ–ïùÿÿÿÿ
+l
+java:S3008"VRename this field "VERSION_CSS" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¯Ò¥
+p
+java:S3008"URename this field "VERSION_JS" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(öµ–ïùÿÿÿÿ
+t	java:S115"ZRename this constant name to match the regular expression '^[A-Z][A-Z0-9]*(_[A-Z0-9]+)*$'.(ÕÍÒşÿÿÿÿ
+t	java:S115"ZRename this constant name to match the regular expression '^[A-Z][A-Z0-9]*(_[A-Z0-9]+)*$'.(Üôßêıÿÿÿÿ
+o	java:S115"ZRename this constant name to match the regular expression '^[A-Z][A-Z0-9]*(_[A-Z0-9]+)*$'.(Ë„Âó
+t	java:S115"ZRename this constant name to match the regular expression '^[A-Z][A-Z0-9]*(_[A-Z0-9]+)*$'.(›¥ç´üÿÿÿÿ
+8
+java:S2386"Make this member "protected".(ËÂÌ÷ıÿÿÿÿ
+U
+java:S1118":Add a private constructor to hide the implicit public one.(ÂáÀ”ùÿÿÿÿ
+S
+java:S1197"8Move the array designator from the variable to the type.(ËÂÌ÷ıÿÿÿÿ
+V	java:S125"<This block of commented-out lines of code should be removed.(Õ¬—ïüÿÿÿÿ
+V	java:S125$"<This block of commented-out lines of code should be removed.(Ù”À¸ùÿÿÿÿ

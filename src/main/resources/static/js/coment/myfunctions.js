@@ -56,7 +56,7 @@ var insert = true;
 //--------------------- jalar comentarios --------------
         function sendAjax(parm) {
         var idDgp = $('.idDgp').val();
-        var url1 = '../../comentario?iddgp=';
+        var url1 = 'comentario?iddgp=';
 	var url = url1.trim()+idDgp+'&opc=list';
         var tipo = parm;
         var ln = 0;
@@ -131,7 +131,7 @@ var insert = true;
 	// get inputs
 	var idDgp = $('.idDgp').val();
 	var cometario = $('.mensaje').val();
-        var url1 = '../../comentario?opc=COMENTAR&iddgp=';
+        var url1 = 'comentario?opc=COMENTAR&iddgp=';
 	var url = url1.trim()+idDgp+'&coment='+cometario.trim();
 	$.ajax({
 		url: url,

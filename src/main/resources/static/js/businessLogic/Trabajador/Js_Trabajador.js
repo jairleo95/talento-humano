@@ -112,7 +112,7 @@ function Listar_Cod_APS() {
     var row_cod_aps = $(".row_cod_aps");
     row_cod_aps.empty();
     $.ajax({
-        url: "../../empleado", data: "opc=ShowAPS&idtr=" + $(".idtr").val(), type: 'POST', success: function (data, textStatus, jqXHR) {
+        url: "empleado", data: "opc=ShowAPS&idtr=" + $(".idtr").val(), type: 'POST', success: function (data, textStatus, jqXHR) {
             row_cod_aps.append(data.value);
             $(".txtCodigoAPS").keypress(function (event) {
                 return /\d/.test(String.fromCharCode(event.keyCode));
@@ -129,13 +129,13 @@ function Actualizar_Cod_Huella() {
     var co_huella = $(".textCodHuella").val();
     if (co_huella !== "") {
         $.ajax({
-            url: "../../empleado",
+            url: "empleado",
             type: "POST",
             data: "opc=validar_huella&co_hue=" + co_huella
         }).done(function (e) {
             if (e.huella == 0) {
                 $.ajax({
-                    url: "../../empleado", data: "opc=reg_huella&idtr=" + $(".idtr").val() + "&cod=" + co_huella, type: 'POST', success: function (data, textStatus, jqXHR) {
+                    url: "empleado", data: "opc=reg_huella&idtr=" + $(".idtr").val() + "&cod=" + co_huella, type: 'POST', success: function (data, textStatus, jqXHR) {
                         if (data.rpta === "1") {
                             // Listar_Cod_Huella();
                             /*validar los botones de autorizar req*/                                     ValBtnAutorizarDgp($(".idtr").val(), $(".validacionBtnAutorizar"));
@@ -170,13 +170,13 @@ function Actualizar_Cod_APS() {
     var co_aps = $(".txtCodigoAPS").val();
     if (co_aps !== "") {
         $.ajax({
-            url: "../../empleado",
+            url: "empleado",
             type: "POST",
             data: "opc=validar_aps&co_aps=" + co_aps
         }).done(function (e) {
             if (e.aps === 0) {
                 $.ajax({
-                    url: "../../empleado", data: "opc=reg_aps&idtr=" + $(".idtr").val() + "&cod=" + co_aps, type: 'POST', success: function (data, textStatus, jqXHR) {
+                    url: "empleado", data: "opc=reg_aps&idtr=" + $(".idtr").val() + "&cod=" + co_aps, type: 'POST', success: function (data, textStatus, jqXHR) {
                         if (data.rpta === "1") {
                             // Listar_Cod_Huella();
                             /*validar los botones de autorizar req*/
@@ -226,7 +226,7 @@ $(document).ready(function () {
     ShowCbk_Procesar_Ind($(".dgp").val());
     initAutorizacion();
     pageSetUp();
-    $.sound_path = "../../sound/", $.sound_on = !0, jQuery(document).ready(function () {
+    $.sound_path = "sound/", $.sound_on = !0, jQuery(document).ready(function () {
         $("body").append("<div id='divSmallBoxes'></div>"), $("body").append("<div id='divMiniIcons'></div><div id='divbigBoxes'></div>");
     });
     $(".tab_detalle_trabajador li").click(function () {

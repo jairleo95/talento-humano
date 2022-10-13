@@ -75,11 +75,7 @@ public class CAutorizacion {
                         System.out.println("Enter to Autorizacion DGP");
 
                         V_Autorizar_Dgp vAut = autDGP.get(0);
-                        System.out.println("1 :" + vAut.getNu_pasos());
-                        System.out.println("2 :" + vAut.getId_pasos());
-                        System.out.println("3 :" + vAut.getCo_pasos());
-                        System.out.println("4 :" + vAut.getId_detalle_req_proceso());
-                        System.out.println("5 :" + idp);
+
                         /*Cambiar con un trigger al momento de insertar (esta generando mucho retrazo)*/
                         //  dgp.VAL_DGP_PASOS();
                         /*Autorización*/
@@ -114,12 +110,6 @@ public class CAutorizacion {
                         if (autAcademico.size() == 1) {
 
                             V_Autorizar_Dgp vAutAcademico = autAcademico.get(0);
-                            System.out.println("Academico");
-                            System.out.println("1 :" + vAutAcademico.getNu_pasos());
-                            System.out.println("2 :" + vAutAcademico.getId_pasos());
-                            System.out.println("3 :" + vAutAcademico.getCo_pasos());
-                            System.out.println("4 :" + vAutAcademico.getId_detalle_req_proceso());
-                            System.out.println("5 :" + idp);
 
                             /*Autorización*/
                             a.Insert_Autorizacion("", iddgp, estado, vAutAcademico.getNu_pasos(), "", iduser, "", "", vAutAcademico.getCo_pasos(), idp, vAutAcademico.getId_detalle_req_proceso(), vAutAcademico.getId_pasos());
@@ -246,7 +236,7 @@ public class CAutorizacion {
                     if (opc.equals("Autorizacion_CD")) {
                         String idpu = e.Id_Puesto_Personal(ide);
                         session.setAttribute("List_Autorizacion_Academico", a.List_Autorizacion_Academico(idpu, iduser, ""));
-                        ///response.sendRedirect("views/Academico/Autorizar_Carga_Academica.html");
+                        ///response.sendRedirect("views/Academico/Autorizar_Carga_Academica.jsp");
                     }
                     if (opc.equals("headerTableAutorizacionCA")) {
                         String htmlHeader = "";

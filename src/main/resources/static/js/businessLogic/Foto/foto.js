@@ -73,7 +73,7 @@ function fileOnload(e) {
 function getAvatar(tipo, idtra) {
     console.log("geAvatar");
     $.ajax({
-        url: "../../foto",
+        url: "foto",
         type: "POST",
         data: "opc=getfoto&tipo=" + tipo + "&idtra=" + idtra,
         success: getImagen,
@@ -156,7 +156,7 @@ function initFoto() {
             if (this.files[0].size <= 500000) {
                 var objDivDialog = $(".div_dialog");
                 objDivDialog.empty();
-                $.ajax({url: "../../trabajador", data: "opc=ShowDialogFotoTrabajador&id=" + idtrl, type: 'POST', async: false, success: function (data, textStatus, jqXHR) {
+                $.ajax({url: "trabajador", data: "opc=ShowDialogFotoTrabajador&id=" + idtrl, type: 'POST', async: false, success: function (data, textStatus, jqXHR) {
                         if (data.rpta == "1") {
                             objDivDialog.append(data.html);
                             $(".dialog-message").dialog({
@@ -191,7 +191,7 @@ function initFoto() {
 
                                 $.ajax({
                                     type: "POST",
-                                    url: "../../foto",
+                                    url: "foto",
                                     cache: false,
                                     processData: false,
                                     contentType: false,

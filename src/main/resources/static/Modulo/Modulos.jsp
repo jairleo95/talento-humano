@@ -78,6 +78,6 @@
                 </nav>
             </div>
         </div><!-- /container -->
-        <script src="../js/businessLogic/Modulo/modulos.js?v=<%=globalProperties.VERSION_JS%>" type="text/javascript"></script>
+        <script src="js/businessLogic/Modulo/modulos.js?v=<%=globalProperties.VERSION_JS%>" type="text/javascript"></script>
     </body>
 </html>

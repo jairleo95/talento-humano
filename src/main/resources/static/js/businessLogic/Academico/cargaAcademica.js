@@ -513,7 +513,7 @@ function ProcesarCargaAcademica() {
         }, type: "POST"
     }).done(function (data) {
         if (data.rpta) {
-            //   window.location.href = "../../carga_academica?opc=Reporte_Carga_Academica";
+            //   window.location.href = carga_academica?opc=Reporte_Carga_Academica";
         }
     });
 }
