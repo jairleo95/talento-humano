@@ -1,6 +1,0 @@
-resaltar sueldo  en contratacion
-total remunerativo agregar el presupuestado
-resaltar el mensaje de fecha
-agregar una plantilla en general para todas las areas
-un reporte por tiempo que se demora en autorizar un requerimeinto(en general y por requerimeintog)
-un campo mas para el mes de plazo en el reporte de impresion contratomasivo0.+
