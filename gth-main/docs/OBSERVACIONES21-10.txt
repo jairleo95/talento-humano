@@ -1,0 +1,22 @@
+campos obligatorios debe adjuntar y mostrar mensaje
+
+NO PUEDE CAMBIAR LA FECHA DE INICIO NI DE CESE DE CONTRATO
+agregar una columna  para la demora de autorizaciones
+
+ENVIO DE CORREO PARA VER LA CONEXION
+
+VALIDAR EN LA CONDICION LOS TIPOS C1,C2,C3 (TIEMPO COMPLETO), 
+SOLO LOS QUE SON C 
+Y PARA M E PARA EL ADMINISTRADOR
+
+EN FORMA MASIVA LA CARGA ES UNA FECHA PARA TODOS.
+ADJUNTAR TODO LA CARGA PAR AUN CONTRATO
+en el horario especificar es a nivel de trabajador no de usuario, en formato de horario hacer la correcion de que los campos de dep y area soean opcionales
+cuando es editar volver a cargar lo que ya tienen en los datos
+
+autorizado por en fecha de modificacion del detalle de dgp cambiarle a autorizado por, mostrar horario en detalle de req, en las autorizaciones
+
+enviar un correo de las observaciones del servidor
+
+agregar en los datos completados los campos opcionales deben omitir
+AGREGAR EL ITEM DE REQUERIMIENTO PROFESIONAL EN EL DETALLE DE TRABAJADOR
