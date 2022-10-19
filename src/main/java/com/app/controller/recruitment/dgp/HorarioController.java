@@ -11,11 +11,13 @@ import com.app.persistence.dao_imp.InterfaceHorarioDAO;
 import com.app.persistence.dao_imp.InterfaceListaDAO;
 import com.app.domain.model.V_Horario;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.http.HttpStatus;
@@ -38,7 +40,7 @@ public class HorarioController {
     InterfaceListaDAO Ilis = new ListaDAO();
 
     @PostMapping
-    public ResponseEntity<?> process(HttpServletRequest request) {
+    public ResponseEntity<?> process(HttpServletRequest request, HttpServletResponse response) {
         Map<String, Object> rpta = new HashMap<String, Object>();
 
         HttpSession sesion = request.getSession();
@@ -83,7 +85,7 @@ public class HorarioController {
                 sesion.setAttribute("List_V_Horario", IHor.List_V_Horario(ID_DGP));
                 sesion.setAttribute("List_H", Ilis.List_H());
 //out.print(ID_DGP);
-                ///response.sendRedirect("views/Dgp/Horario/Detalle_Horario.html?iddgp=" + ID_DGP + "&idtr=" + ID_TRABAJJADOR + "&P2=1");
+                response.sendRedirect("views/Dgp/Horario/Detalle_Horario.html?iddgp=" + ID_DGP + "&idtr=" + ID_TRABAJJADOR + "&P2=1");
             }
 
             if (opc.equals("Listar")) {
@@ -91,7 +93,7 @@ public class HorarioController {
                 sesion.setAttribute("List_V_Horario", IHor.List_V_Horario(ID_DGP));
                 sesion.setAttribute("List_H", Ilis.List_H());
 
-                ///response.sendRedirect("views/Dgp/Horario/Detalle_Horario.html");
+                response.sendRedirect("views/Dgp/Horario/Detalle_Horario.html");
 
             }
             if (opc.equals("Listar2")) {
@@ -117,6 +119,8 @@ public class HorarioController {
         } catch (NumberFormatException e) {
             rpta.put("rpta", "-1");
             rpta.put("mensaje", e.getMessage());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
 
         return new ResponseEntity<>(rpta, HttpStatus.OK);

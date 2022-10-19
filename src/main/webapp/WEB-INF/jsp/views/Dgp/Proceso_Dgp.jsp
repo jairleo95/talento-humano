@@ -20,7 +20,7 @@
 <jsp:useBean class="java.util.ArrayList" id="Det_Autorizacion" scope="session" />
 <%@page import="com.app.domain.model.X_List_De_Autorizacion"%>
 <jsp:useBean class="java.util.ArrayList" id="LIST_DGP_PROCESO" scope="session" />
-<link href='../../css/Css_Bootstrap/fileinput.css' media='all' rel='stylesheet' type='text/css' />
+<link href='css/Css_Bootstrap/fileinput.css' media='all' rel='stylesheet' type='text/css' />
 
 
     <%
@@ -99,7 +99,7 @@
 
                                         <div class="tab-content padding-10">
                                             <div class="tab-pane dae in active" id="hr1">
-                                                <table id="dt_basic" class="table table-striped table-bordered table-hover" width="100%">
+                                                <table id="dt_status_process" class="table table-striped table-bordered table-hover" width="100%">
                                                     <thead>
                                                         <tr>
                                                             <th data-hide="phone">Nro</th>
@@ -168,7 +168,7 @@
                                                                 String iddrp = r.getId_detalle_req_proceso();
                                                                 String iddep = r.getId_departamento();
                                                             %>
-                                                            <div class="new-progress prog_aut"  data-value="&dgp=<%=dgp%>&idrp=<%=iddrp%>&iddep=<%=iddep%>" >
+                                                            <div class="new-progress prog_aut"  data-dgp="<%=dgp%>" data-iddrp="<%=iddrp%>" data-iddep="<%=iddep%>" >
                                                                 <img src="img/ajax-loader/horizontal_fountain.gif" />
                                                             </div>
 
@@ -529,10 +529,10 @@
     </div>
 
     <!--BUSINESS LOGIC PLUGINS-->
-    <script src="js/coment/comenth.js?v=<%=globalProperties.VERSION_JS%>" type="text/javascript"></script>
-    <script src="js/businessLogic/Horario/horario.js?v=<%=globalProperties.VERSION_JS%>" type="text/javascript"></script>
-    <script src='../../js/businessLogic/Trabajador/RegDocumentoDGP.js?v=<%=globalProperties.VERSION_JS%>' type='text/javascript'></script>
-    <script src="js/businessLogic/Dgp/statusProcessDGP.js?v=<%=globalProperties.VERSION_JS%>" type="text/javascript"></script>
+    <script src="js/coment/comenth.js" type="text/javascript"></script>
+    <script src="js/businessLogic/Horario/horario.js" type="text/javascript"></script>
+    <script src='js/businessLogic/Trabajador/RegDocumentoDGP.js' type='text/javascript'></script>
+    <script src="js/businessLogic/Dgp/statusProcessDGP.js" type="text/javascript"></script>
 
 </body>
 

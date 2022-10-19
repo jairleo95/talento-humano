@@ -20,7 +20,7 @@
         <link rel="stylesheet" type="text/css" media="screen" href="css/demo.min.css">
         <style>
             .caja{
-                background:transparent url(../../img/Gifloader.GIF) center no-repeat;
+                background:transparent url(img/Gifloader.GIF) center no-repeat;
             }
         </style>
     </head>

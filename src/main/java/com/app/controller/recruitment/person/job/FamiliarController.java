@@ -23,6 +23,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import com.app.persistence.dao.Datos_Hijo_TrabajadorDAO;
 import com.app.persistence.dao.Padre_Madre_ConyugueDAO;
@@ -43,7 +44,7 @@ public class FamiliarController {
     InterfaceTipo_DocumentoDAO td = new Tipo_DocumentoDAO();
 
     @PostMapping
-    public ResponseEntity<?> process(HttpServletRequest request) {
+    public ResponseEntity<?> process(HttpServletRequest request, HttpServletResponse response) {
         HttpSession sesion = request.getSession(true);
 
         String user = (String) sesion.getAttribute("IDUSER");
@@ -68,7 +69,7 @@ public class FamiliarController {
                 sesion.setAttribute("LISTA_HIJOS", h.LISTA_HIJOS(ID_TRABAJADOR));
                 sesion.setAttribute("LISTA_HIJO", h.LISTA_HIJOS(ID_TRABAJADOR));
                 sesion.setAttribute("ListaridTrabajador", tr.ListaridTrabajador(ID_TRABAJADOR));
-                ///response.sendRedirect("views/Trabajador/Familiar/Detalle_Familiar.html?idtr=" + ID_TRABAJADOR);
+                response.sendRedirect("views/Trabajador/Familiar/Detalle_Familiar.html?idtr=" + ID_TRABAJADOR);
             }
             if (opc.equals("Registrar Padres")) {
                 String AP_NOMBRES_PADRE = request.getParameter("APELLIDOS_NOMBRES_PADRE");
@@ -81,14 +82,14 @@ public class FamiliarController {
                 sesion.setAttribute("LISTA_HIJOS", h.LISTA_HIJOS(ID_TRABAJADOR));
                 sesion.setAttribute("LISTA_HIJO", h.LISTA_HIJOS(ID_TRABAJADOR));
                 sesion.setAttribute("ListaridTrabajador", tr.ListaridTrabajador(ID_TRABAJADOR));
-                ///response.sendRedirect("views/Trabajador/Familiar/Detalle_Familiar.html?idtr=" + ID_TRABAJADOR);
+                response.sendRedirect("views/Trabajador/Familiar/Detalle_Familiar.html?idtr=" + ID_TRABAJADOR);
             }
             if (opc.equals("Detalle_Familiar")) {
                 String idtr = request.getParameter("idtr");
                 sesion.setAttribute("LISTA_HIJOS", h.LISTA_HIJOS(idtr));
                 sesion.setAttribute("LISTA_HIJO", h.LISTA_HIJOS(idtr));
                 sesion.setAttribute("Lista_Tipo_Doc", td.Listar_tipo_doc());
-                ///response.sendRedirect("views/Trabajador/Familiar/Detalle_Familiar.html?idtr=" + idtr);
+                response.sendRedirect("views/Trabajador/Familiar/Detalle_Familiar.html?idtr=" + idtr);
             }
             if (opc.equals("Listar_Hijo_id_tr")) {
                 String idtr = request.getParameter("idtr");
@@ -119,21 +120,21 @@ public class FamiliarController {
                 h.INSERT_DATOS_HIJO_TRABAJADOR(ID_DATOS_HIJOS_TRABAJADOR, ID_TRABAJADOR, AP_PATERNO, AP_MATERNO, NO_HIJO_TRABAJADOR, FE_NACIMIENTO, ES_SEXO, ES_TIPO_DOC, NU_DOC,
                         ES_PRESENTA_DOCUMENTO, ES_INSCRIPCION_VIG_ESSALUD, ES_ESTUDIO_NIV_SUPERIOR, user, FE_CREACION, US_MODIF, FE_MODIF, IP_USUARIO, ES_DATOS_HIJO_TRABAJADOR);
                 sesion.setAttribute("LISTA_HIJO", h.LISTA_HIJOS(ID_TRABAJADOR));
-                ///response.sendRedirect("views/Trabajador/Familiar/Reg_Datos_Hijo.html?idtr=" + idtr);
+                response.sendRedirect("views/Trabajador/Familiar/Reg_Datos_Hijo.html?idtr=" + idtr);
             }
             if (opc.equals("eliminar")) {
                 String id_hijo = request.getParameter("idhijo");
                 String id_tr = request.getParameter("idtr");
                 h.ELIMINAR_HIJO(id_hijo, id_tr);
                 sesion.setAttribute("LISTA_HIJO", h.LISTA_HIJOS(id_tr));
-                ///response.sendRedirect("views/Trabajador/Familiar/Detalle_Familiar.html?idtr=" + id_tr);
+                response.sendRedirect("views/Trabajador/Familiar/Detalle_Familiar.html?idtr=" + id_tr);
             }
             if (opc.equals("modificar")) {
                 String idhijo = request.getParameter("idhijo");
                 String idtr = request.getParameter("idtr");
                 sesion.setAttribute("Lista_hijo_individual", h.LISTA_HIJO(idhijo, idtr));
                 sesion.setAttribute("Listar_tipo_doc", td.Listar_tipo_doc());
-                ///response.sendRedirect("views/Trabajador/Familiar/Mod_Datos_Hijos.html?idtr=" + idtr);
+                response.sendRedirect("views/Trabajador/Familiar/Mod_Datos_Hijos.html?idtr=" + idtr);
 
             }
             if (opc.equals("MODIFICAR HIJO")) {
@@ -153,7 +154,7 @@ public class FamiliarController {
                 //sesion.setAttribute("List_PMC", pmc.List_PMC(idtr));
                 sesion.setAttribute("LISTA_HIJOS", h.LISTA_HIJOS(idtr));
                 sesion.setAttribute("LISTA_HIJO", h.LISTA_HIJOS(idtr));
-                ///response.sendRedirect("views/Trabajador/Familiar/Detalle_Familiar.html?idtr=" + idtr);
+                response.sendRedirect("views/Trabajador/Familiar/Detalle_Familiar.html?idtr=" + idtr);
             }
             if (opc.equals("Editar_Familiar")) {
                 String idtr = request.getParameter("idtra");
@@ -161,7 +162,7 @@ public class FamiliarController {
                 sesion.setAttribute("ListaridTrabajador", tr.ListaridTrabajador(idtr));
                 sesion.setAttribute("Listar_tipo_doc", td.Listar_tipo_doc());
                 // out.print(tr.ListaridTrabajador(idtr).size()+"   "+idtr);
-                ///response.sendRedirect("views/Trabajador/Familiar/Mod_Familiar.html?idtr=" + idtr);
+                response.sendRedirect("views/Trabajador/Familiar/Mod_Familiar.html?idtr=" + idtr);
             }
             if (opc.equals("Modificar_Padre_madre")) {
                 String idtr = request.getParameter("idtr");
@@ -170,7 +171,7 @@ public class FamiliarController {
                 pmc.MOD_PADRES(padre, madre, idtr, user);
                 //sesion.setAttribute("List_PMC", pmc.List_PMC(idtr));
                 sesion.setAttribute("ListaridTrabajador", tr.ListaridTrabajador(idtr));
-                ///response.sendRedirect("views/Trabajador/Familiar/Detalle_Familiar.html?idtr=" + idtr);
+                response.sendRedirect("views/Trabajador/Familiar/Detalle_Familiar.html?idtr=" + idtr);
             }
             if (opc.equals("List_Padre")) {
                 String idtr = request.getParameter("id");
@@ -180,7 +181,7 @@ public class FamiliarController {
             }
             if (opc.equals("Modificar_Padres")) {
                 String idtr = request.getParameter("idtr");
-                ///response.sendRedirect("views/Trabajador/Familiar/Reg_Padres.html?opc=Mod&idtr=" + idtr);
+                response.sendRedirect("views/Trabajador/Familiar/Reg_Padres.html?opc=Mod&idtr=" + idtr);
             }
             if (opc.equals("MODIFICAR_PMC")) {
                 try {
@@ -202,7 +203,7 @@ public class FamiliarController {
                     sesion.setAttribute("ListaridTrabajador", tr.ListaridTrabajador(ID_TRABAJADOR));
                     sesion.setAttribute("LISTA_HIJOS", h.LISTA_HIJOS(ID_TRABAJADOR));
                     sesion.setAttribute("LISTA_HIJO", h.LISTA_HIJOS(ID_TRABAJADOR));
-                    ///response.sendRedirect("views/Trabajador/Familiar/Detalle_Familiar.html?idtr=" + ID_TRABAJADOR);
+                    response.sendRedirect("views/Trabajador/Familiar/Detalle_Familiar.html?idtr=" + ID_TRABAJADOR);
                 } catch (ParseException ex) {
                     Logger.getLogger(FamiliarController.class.getName()).log(Level.SEVERE, null, ex);
                 }

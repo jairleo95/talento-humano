@@ -18,6 +18,7 @@ import javax.servlet.http.HttpSession;
 
 import com.app.config.UserMachineProperties;
 import com.app.controller.util.DateFormat;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -71,6 +72,7 @@ import com.app.controller.inbox.Permission;
 
 @RestController
 @RequestMapping("dgp")
+@Slf4j
 public class DGPController {
 
     InterfaceRequerimientoDAO requerimientoDAO = new RequerimientoDAO();
@@ -99,6 +101,7 @@ public class DGPController {
         String opc = request.getParameter("opc");
 
         Map<String, Object> rpta = new HashMap<String, Object>();
+        rpta.put("status", false);
 
         //session parameters
         String iddir = (String) session.getAttribute("IDDIR");
@@ -167,7 +170,7 @@ public class DGPController {
                     if (mes >= 9 && dia > 9) {
                         fe_subs = año + "-" + (mes + 1) + "-" + dia;
                     }
-                    ////response.sendRedirect("views/Contrato/Reg_Contrato.html?num=" + asig + "&id_direc=" + id_dir + "&fe_subs=" + fe_subs);
+                    response.sendRedirect("views/Contrato/Reg_Contrato.html?num=" + asig + "&id_direc=" + id_dir + "&fe_subs=" + fe_subs);
 
                 } else if (num == 0 & idrol.trim().equals("ROL-0006") & dgp.LIST_ID_DGP(ID_DGP).get(0).getEs_dgp().equals("1")) {
 
@@ -181,7 +184,7 @@ public class DGPController {
                     session.setAttribute("List_tipo_contrato", lista.List_tipo_contrato());
                     session.setAttribute("List_x_fun_x_idpu", funcion.List_x_fun_x_idpu(id_pu));
                     session.setAttribute("list_reg_labo", contrato.list_reg_labo());
-                    //// response.sendRedirect("views/Contrato/Detalle_Info_Contractualq.html?idtr=" + idtr + "&id_cto=" + id_cto);
+                     response.sendRedirect("views/Contrato/Detalle_Info_Contractualq.html?idtr=" + idtr + "&id_cto=" + id_cto);
                 } else {
                     String id_cto = contrato.Contrato_max(idtr);
                     String id_pu = puesto.puesto(id_cto);
@@ -193,11 +196,11 @@ public class DGPController {
                     session.setAttribute("List_x_fun_x_idpu", funcion.List_x_fun_x_idpu(id_pu));
                     session.setAttribute("List_tipo_contrato", lista.List_tipo_contrato());
                     session.setAttribute("list_reg_labo", contrato.list_reg_labo());
-                    ///response.sendRedirect("views/Contrato/Detalle_Info_Contractualq.html?idtr=" + idtr + "&id_cto=" + id_cto);
+                    response.sendRedirect("views/Contrato/Detalle_Info_Contractualq.html?idtr=" + idtr + "&id_cto=" + id_cto);
                 }
             } else {
 
-                ///response.sendRedirect("views/Dgp/Detalle_Dgp.html?idtr=" + ID_TRABAJADOR + "&num=" + num + "&idgp=" + ID_DGP);
+                response.sendRedirect("views/Dgp/Detalle_Dgp.html?idtr=" + ID_TRABAJADOR + "&num=" + num + "&idgp=" + ID_DGP);
 
             }
         }
@@ -205,20 +208,20 @@ public class DGPController {
         if (opc.equals("Listar")) {
             session.setAttribute("List_Det_Dgp", dgp.LIST_DET_DGP(iddep));
             session.setAttribute("List_Trb_Mod_Rel", tr.LIST_TRABAJADOR_MOD_REL());
-            //// response.sendRedirect("views/Dgp/List_Dgp.html?iddep");
+             response.sendRedirect("views/Dgp/List_Dgp.html?iddep");
 
         }
         if (opc.equals("Imprimir_det_proceso")) {
             String idrp = request.getParameter("idrp");
             String iddgp = request.getParameter("dgp");
             String dep = request.getParameter("iddep");
-            rpta.put("html", dgp.Imprimir_det_proceso(iddgp, idrp, dep));
-            rpta.put("rpta", "1");
+            //rpta.put("html", dgp.Imprimir_det_proceso(iddgp, idrp, dep));
+            rpta.put("status", true);
         }
         if (opc.equals("List_Dgp_Tr")) {
 
             session.setAttribute("LIST_ID_TRAB_DGP", dgp.LIST_ID_TRAB_DGP(idtr));
-            ////response.sendRedirect("views/Trabajador/List_Dgp_Trabajador.html");
+            response.sendRedirect("views/Trabajador/List_Dgp_Trabajador.html");
         }
 
         if (opc.equals("Seguimiento")) {
@@ -226,7 +229,7 @@ public class DGPController {
             /*corregir*/
             String idrp = requerimientoDAO.id_det_req_proc(iddgp);
             session.setAttribute("Det_Autorizacion", autorizacionDAO.List_Detalle_Autorizacion(iddgp, idrp));
-            ////response.sendRedirect("views/Dgp/Detalle_Seguimiento_Dgp.html");
+            response.sendRedirect("views/Dgp/Detalle_Seguimiento_Dgp.html");
         }
         if (opc.equals("SeguimientoH")) {
             String iddgp = request.getParameter("iddgp");
@@ -244,13 +247,13 @@ public class DGPController {
         if (opc.equals("filtrar")) {
             session.setAttribute("List_Area", areaDAO.List_Area_ID(iddep));
             session.setAttribute("Listar_Requerimiento", requerimientoDAO.Listar_Requerimiento());
-            ////response.sendRedirect("views/Dgp/Busc_Req_Autorizado.html");
+            response.sendRedirect("views/Dgp/Busc_Req_Autorizado.html");
         }
         if (opc.equals("User_Aut")) {
             String iddgp = request.getParameter("iddgp");
             session.setAttribute("USER_DGP", dgp.USER_DGP(iddgp));
 
-            ///response.sendRedirect("views/Dgp/User_Dgp.html");
+            response.sendRedirect("views/Dgp/User_Dgp.html");
         }
         if (opc.equals("Proceso")) {
 
@@ -305,10 +308,10 @@ public class DGPController {
         String idrol = (String) session.getAttribute("IDROL");
         String idtr = request.getParameter("idtr");
         String idreq = request.getParameter("idreq");
-        
+
         //check persmissions
         Permission permission = new Permission().getPermissions(idrol);
-        
+
         //PARA QUE EL RECTOR PUEDA VISUALIZAR TODOS LOS ESTADOS DE REQUERIMIENTOS DESCOMENTAR LA LINEA QUE ESTÁ DENTRO DE LA CONDICIONAL IF, 
         //VOLVER A COMENTAR PARA QUE EL RECTOR TENGA SUS PRIVILEGIOS POR DEFECTO//
         if(idpuesto.equals("PUT-000649")/*||idpuesto.equals("PUT-000638")*/){
@@ -516,7 +519,7 @@ public class DGPController {
                         }
                     }
                 }
-                ////response.sendRedirect("views/Dgp/Documento/Reg_Documento.html?pro=pr_dgp&idtr=" + ID_TRABAJADOR + "&iddgp=" + iddgp);
+                response.sendRedirect("views/Dgp/Documento/Reg_Documento.html?pro=pr_dgp&idtr=" + ID_TRABAJADOR + "&iddgp=" + iddgp);
             }
             if (opc.equals("Reg_form")) {
                 /* TEMPORAL*/
@@ -559,7 +562,7 @@ public class DGPController {
                 session.setAttribute("list_Cuenta_Sueldo", dgp.LIST_CUEN_SUEL(idtr));
                 session.setAttribute("fecha_maxima_plazo", plazo.fecha_maxima_plazo());
 
-                ////response.sendRedirect("views/Dgp/Reg_Dgp.html?idreq=" + idreq + "&es_cs=" + ES_CUENTA_SUELDO + "&as_f=" + dht.ASIGNACION_F(idtr));
+                response.sendRedirect("views/Dgp/Reg_Dgp.html?idreq=" + idreq + "&es_cs=" + ES_CUENTA_SUELDO + "&as_f=" + dht.ASIGNACION_F(idtr));
             }
             if (opc.equals("Reg_renuncia")) {
                 //   String iddeph = request.getParameter("idep");
@@ -594,7 +597,7 @@ public class DGPController {
                         session.setAttribute("LIST_DGP_PROCESO", dgp.LIST_DGP_PROCESO(iddep, "", "", false, false));
                     }
                 }
-                ///response.sendRedirect("views/Dgp/Proceso_Dgp.html?a=t");
+                response.sendRedirect("views/Dgp/Proceso_Dgp.html?a=t");
             }
             if (opc.equals("MODIFICAR REQUERIMIENTO")) {
                 String iddgp = request.getParameter("iddgp");
@@ -610,10 +613,10 @@ public class DGPController {
                 session.setAttribute("Listar_Requerimiento", requerimientoDAO.Listar_Requerimiento());
                 String redirect = request.getParameter("redirect");
                 if (redirect != null) {
-                    ///response.sendRedirect("views/Dgp/Editar_DGP.html?es_cs=" + ES_CUENTA_SUELDO + "&can_cc=" + can_cc + "&id_det_hor=" + id_d_hor.trim() + "&redirect=proceso_dgp");
+                    response.sendRedirect("views/Dgp/Editar_DGP.html?es_cs=" + ES_CUENTA_SUELDO + "&can_cc=" + can_cc + "&id_det_hor=" + id_d_hor.trim() + "&redirect=proceso_dgp");
 
                 } else {
-                    ///response.sendRedirect("views/Dgp/Editar_DGP.html?es_cs=" + ES_CUENTA_SUELDO + "&can_cc=" + can_cc + "&id_det_hor=" + id_d_hor.trim());
+                    response.sendRedirect("views/Dgp/Editar_DGP.html?es_cs=" + ES_CUENTA_SUELDO + "&can_cc=" + can_cc + "&id_det_hor=" + id_d_hor.trim());
                 }
             }
             if (opc.equals("Modificar")) {
@@ -806,18 +809,18 @@ public class DGPController {
                 String redireccionar = request.getParameter("redirect");
                 if (redireccionar != null) {
                     if (redireccionar.equals("proceso_dgp")) {
-                        ///response.sendRedirect("dgp?iddgp=" + ID_DGP + "&idtr=" + ID_TRABAJADOR + "&opc=rd");
+                        response.sendRedirect("dgp?iddgp=" + ID_DGP + "&idtr=" + ID_TRABAJADOR + "&opc=rd");
                     } else {
-                        ///response.sendRedirect("dgp?iddgp=" + ID_DGP + "&idtr=" + ID_TRABAJADOR + "&opc=Detalle");
+                        response.sendRedirect("dgp?iddgp=" + ID_DGP + "&idtr=" + ID_TRABAJADOR + "&opc=Detalle");
                     }
                 } else {
-                    ///response.sendRedirect("dgp?iddgp=" + ID_DGP + "&idtr=" + ID_TRABAJADOR + "&opc=Detalle");
+                    response.sendRedirect("dgp?iddgp=" + ID_DGP + "&idtr=" + ID_TRABAJADOR + "&opc=Detalle");
                 }
             }
             if (opc.equals("Incompleto")) {
 
                 session.setAttribute("List_Incomplet", dgp.List_Incomplet(iddep, permission.isAdmin()));
-                ///response.sendRedirect("views/Dgp/List_req_incompl.html");
+                response.sendRedirect("views/Dgp/List_req_incompl.html");
             }
 
         } catch (Exception e) {

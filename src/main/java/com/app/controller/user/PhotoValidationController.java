@@ -7,9 +7,11 @@ package com.app.controller.user;
 
 import com.app.persistence.dao_imp.InterfaceValidarFoto;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,7 +29,7 @@ import com.app.persistence.dao.ValidarFotoDAO;
 public class PhotoValidationController {
 
     @PostMapping
-    public ResponseEntity<?> process(HttpServletRequest request) {
+    public ResponseEntity<?> process(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
 
         String opc = request.getParameter("opc");
@@ -39,7 +41,7 @@ public class PhotoValidationController {
         InterfaceValidarFoto x = new ValidarFotoDAO();
         
         if(opc.equals("Index")){
-            ///response.sendRedirect("views/Reportes/Validar_Foto/Index.html");
+            response.sendRedirect("views/Reportes/Validar_Foto/Index.html");
         }
         if(opc.equals("getFotos")){
             rpta.put("Fotos_NoVal",x.ListFotos(estado));

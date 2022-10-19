@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.http.HttpStatus;
@@ -43,7 +44,7 @@ public class PlantillaContractualController {
     InterfaceFuncionDAO fu = new FuncionDAO();
 
     @PostMapping
-    public ResponseEntity<?> process(HttpServletRequest request) {
+    public ResponseEntity<?> process(HttpServletRequest request, HttpServletResponse response) {
 
         String opc = request.getParameter("opc");
 
@@ -65,7 +66,7 @@ public class PlantillaContractualController {
                 String no_arch = request.getParameter("Imprimir");
                 String id_con = request.getParameter("id_con");
                 session.setAttribute("List_contra_x_idcto", con.List_contra_x_idcto(id_con));
-                ///response.sendRedirect("views/Contrato/Formato_Plantilla/reg_formato.html?no_arc=" + no_arch);
+                response.sendRedirect("views/Contrato/Formato_Plantilla/reg_formato.html?no_arc=" + no_arch);
             }
             if (opc.equals("Imprimir")) {
                 String id_planti_con = request.getParameter("id_plan_contr");
@@ -77,7 +78,7 @@ public class PlantillaContractualController {
                 session.setAttribute("List_contra_x_idcto", con.List_contra_x_idcto(id_con));
                 session.setAttribute("List_Dom_D1_Id", l.List_Dom_D1_Id());
                 session.setAttribute("List_Dom_D5_Id", l.List_Dom_D5_Id());
-                ///response.sendRedirect("views/Contrato/Formato_Plantilla/reg_formato.html?no_arc=" + no_arch);
+                response.sendRedirect("views/Contrato/Formato_Plantilla/reg_formato.html?no_arc=" + no_arch);
             }
         } catch (Exception e) {
             rpta.put("rpta", "-1");

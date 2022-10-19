@@ -16,6 +16,7 @@ import java.util.Map;
 import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.http.HttpStatus;
@@ -42,7 +43,7 @@ public class FormatoHorarioController {
 
 
     @PostMapping
-    public ResponseEntity<?> process(HttpServletRequest request) {
+    public ResponseEntity<?> process(HttpServletRequest request, HttpServletResponse response) {
 
         HttpSession sesion = request.getSession(true);
 
@@ -101,7 +102,7 @@ public class FormatoHorarioController {
             if (opc.equals("Listar_Formato")) {
                 sesion.setAttribute("List_Tipo_Horario", Ifh.Listar_Tipo_Horario());
                 sesion.setAttribute("Listar_Direccion", di.Listar_Direccion());
-                ///response.sendRedirect("views/Formato_Horario/Detalle_Formato_Horario.html");
+                response.sendRedirect("views/Formato_Horario/Detalle_Formato_Horario.html");
             }
             if (opc.equals("LFH")) {
                 List<Map<String, ?>> lista = Ifh.List_Tipo_Horarios();
@@ -196,7 +197,7 @@ public class FormatoHorarioController {
 
                 }
                 sesion.setAttribute("List_Tipo_Horario", Ifh.Listar_Tipo_Horario());
-                ///response.sendRedirect("views/Formato_Horario/Detalle_Formato_Horario.html");
+                response.sendRedirect("views/Formato_Horario/Detalle_Formato_Horario.html");
 
             }
             if (opc.equals("LISTAR_FORMATO_HORARIO")) {
@@ -204,7 +205,7 @@ public class FormatoHorarioController {
                 String nofor = request.getParameter("nofor");
                 sesion.setAttribute("LISTAR_FORMATO_HORARIO", Ifh.Listar_Formato_Horario(ID_TIPO_HORARIO));
                 sesion.setAttribute("List_D", Ifh.List_D());
-                ///response.sendRedirect("views/Formato_Horario/List_Formato_Horario.html?nofor=" + nofor + "");
+                response.sendRedirect("views/Formato_Horario/List_Formato_Horario.html?nofor=" + nofor + "");
             }
             if (opc.equals("Listar_Tip_Horario")) {
                 String id = request.getParameter("sec");

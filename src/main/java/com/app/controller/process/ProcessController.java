@@ -14,7 +14,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,6 +27,8 @@ import com.app.persistence.dao.ProcesoDAO;
  *
  * @author ALFA 3
  */
+
+@Slf4j
 @RestController
 @RequestMapping("Proceso")
 public class ProcessController {
@@ -98,15 +102,14 @@ public class ProcessController {
 
     //todo: refactor this
     @PostMapping("register")
-     public ResponseEntity<?> process(HttpServletRequest request) {
+     public ResponseEntity<?> process(HttpServletRequest request, HttpServletResponse response) {
         Map<String, Object> rpta = new HashMap<String, Object>();
 
         try {
             String opc = request.getParameter("opc");
 
             if (opc.equals("Mantenimiento")) {
-                ////response.sendRedirect("views/Dgp/Plazo/Reg_Plazo_Dgp.html");
-
+                response.sendRedirect("views/Dgp/Plazo/Reg_Plazo_Dgp.html");
             }
             if (opc.equals("Eliminar")) {
 
@@ -115,7 +118,7 @@ public class ProcessController {
                 String id = request.getParameter("id");
                 String es = request.getParameter("es");
                 p.statupdate(id, es);
-                System.out.println("All is right in controller " + es + " " + id);
+                log.info("All is right in controller " + es + " " + id);
             }
             if (opc.equals("insertDetalleReqProceso")) {
                 DetalleReqProceso drp = new DetalleReqProceso();

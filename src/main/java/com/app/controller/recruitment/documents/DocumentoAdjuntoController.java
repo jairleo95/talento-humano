@@ -6,12 +6,14 @@
 package com.app.controller.recruitment.documents;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.app.persistence.dao.ContratoDAO;
@@ -42,9 +44,9 @@ public class DocumentoAdjuntoController {
     InterfaceContratoDAO c = new ContratoDAO();
 
     @PostMapping(produces = MediaType.TEXT_HTML_VALUE)
-    protected ResponseEntity<?> process(HttpServletRequest request) throws FileUploadException, InterruptedException {
+    protected ResponseEntity<?> process(HttpServletRequest request, HttpServletResponse response) throws FileUploadException, InterruptedException, IOException {
 
-        ///response.setContentType("text/html;charset=UTF-8");
+        response.setContentType("text/html;charset=UTF-8");
 
         String dgp = request.getParameter("iddgp");
         String idtr = request.getParameter("idtr");
@@ -59,7 +61,7 @@ public class DocumentoAdjuntoController {
                 String id_c = request.getParameter("idc");
                 c.Eliminar_Contratos_firmados(id_c);
                 int coun_doc = c.Count_doc_con(request.getParameter("idc"));
-                ///response.sendRedirect("views/Contrato/Formato_Plantilla/Subir_Contrato_Firmado.html?idc=" + id_c + "&coun_doc=" + coun_doc);
+                response.sendRedirect("views/Contrato/Formato_Plantilla/Subir_Contrato_Firmado.html?idc=" + id_c + "&coun_doc=" + coun_doc);
                 //out.print(coun_doc + id_c);
             }
         } else {
@@ -160,9 +162,9 @@ public class DocumentoAdjuntoController {
 
             int coun_doc = c.Count_doc_con(idc);
             if (coun_doc > 0) {
-                ///response.sendRedirect("views/Contrato/Formato_Plantilla/Subir_Contrato_Firmado.html?idc=" + idc + "&coun_doc=" + coun_doc);
+                response.sendRedirect("views/Contrato/Formato_Plantilla/Subir_Contrato_Firmado.html?idc=" + idc + "&coun_doc=" + coun_doc);
             } else {
-                ///response.sendRedirect("views/Contrato/Formato_Plantilla/Subir_Contrato_Firmado.html?idc=" + idc + "&coun_doc=" + coun_doc);
+                response.sendRedirect("views/Contrato/Formato_Plantilla/Subir_Contrato_Firmado.html?idc=" + idc + "&coun_doc=" + coun_doc);
             }
         }
         // }

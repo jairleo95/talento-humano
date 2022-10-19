@@ -114,7 +114,7 @@ function getAvatar(tipo, idtra) {
                     if (obj.EFOTO === "2") {
                         /* your photo rechazada*/
                         $('.modal').modal('show');
-                        $('.borde').attr('src', '../../img/Desaprobado.png');
+                        $('.borde').attr('src', 'img/Desaprobado.png');
 
                         var padre = $(window.parent.document.getElementById('foto_usuario'));
                         var idtra = $(window.parent.document.getElementById('id_trabajador')).val();

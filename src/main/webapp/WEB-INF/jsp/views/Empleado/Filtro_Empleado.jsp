@@ -6,7 +6,7 @@
     String id_user_1 = (String) sesion_1.getAttribute("IDUSER");
     if (id_user_1 != null) {
 %>
-<link rel="stylesheet" media="screen" href="../css/chosen.css" type="text/css" >
+<link rel="stylesheet" media="screen" href="css/chosen.css" type="text/css" >
 <!-- widget grid -->
 <section id="widget-grid" class="">
     <!-- row -->

@@ -66,7 +66,7 @@ function initDatatableAuthorizedRequirements() {
         tablet: 1024,
         phone: 480
     };
-    var uriAuthorizedRequirements = "autorizacion";
+    var uriAuthorizedRequirements = "inbox";
     var otable = $('#authorizedRequirements').DataTable({
         "processing": true,
         "serverSide": true,
@@ -199,7 +199,7 @@ function listar_autorizados(mes, anno) {
 /*CARGA ACADEMICA*/
 function loadDatatableCargaAcademica() {
     $.ajax({
-        url: "autorizacion", data: "opc=headerTableAutorizacionCA", type: 'POST', success: function (data, textStatus, jqXHR) {
+        url: "inbox", data: "opc=headerTableAutorizacionCA", type: 'POST', success: function (data, textStatus, jqXHR) {
             if (data.access) {
                 $(".tHeadAutCA").append(data.htmlHeader);
                 $(".tBodyAutCA").append(data.htmlBody);
@@ -276,7 +276,7 @@ function procesarFirmas(callback, callbackOnItem) {
                         console.log("status firma updated:" + data.rpta);
                         $.ajax({
                             async: false,
-                            url: "autorizacion",
+                            url: "inbox",
                             type: "POST", success: function (data, textStatus, jqXHR) {
                                 if (data.rpta) {
                                     console.log("autorizado!");
@@ -310,13 +310,13 @@ function procesarFirmas(callback, callbackOnItem) {
     if (typeof callback !== 'undefined') {
         callback();
     } else {
-        //  window.location.href = "autorizacion";
+        //  window.location.href = "inbox";
     }
 
 }
 function refreshCurrentPage() {
     console.log("redirecto to autorizacion");
-    window.location.href = "autorizacion";
+    window.location.href = "inbox";
 }
 function procesarSendToRemu(callback) {
     console.log("enter to procesarSendToRemu function");
@@ -396,7 +396,7 @@ function processAutorizacionMasive(values, callback) {
     console.log("::enter to processAutorizacionMasive function");
     $.ajax({
         async: false,
-        url: "autorizacion",
+        url: "inbox",
         data: "opc=Aceptar" + values,
         type: "POST", success: function (data, textStatus, jqXHR) {
             if (data.rpta) {
@@ -418,7 +418,7 @@ function sendEmail(dataURL, callback) {
     /*open modal*/
     $.ajax({
         //  async: false,
-        url: "autorizacion",
+        url: "inbox",
         type: "POST", success: function (data, textStatus, jqXHR) {
             if (data.status) {
                 statusBarAut.text("Correos enviados!").fadeOut('slow');
@@ -501,7 +501,7 @@ $(document).ready(function () {
     });
 
     // listar_autorizados(mes, anno);
-    initDatatableAuthorizedRequirements();
+    //initDatatableAuthorizedRequirements();//todo: review
     /* BASIC ;*/
     var responsiveHelper_dt_basic = undefined;
     var breakpointDefinition = {
@@ -625,7 +625,7 @@ $(document).ready(function () {
                                 if (objJson.rpta) {
                                     $.ajax({
                                         async: false,
-                                        url: "autorizacion",
+                                        url: "inbox",
                                         type: "POST", success: function (objJson, textStatus, jqXHR) {
                                             if (objJson.rpta) {
                                                 var table = new $.fn.dataTable.Api('#dt_basic1');

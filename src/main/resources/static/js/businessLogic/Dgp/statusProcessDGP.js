@@ -73,11 +73,11 @@ function listHistory(at) {
                             var html = '<div id="divEs" class="alert alert-danger alert-block">';
                             html += '<a class="close" data-dismiss="alert" href="#">×</a>';
                             html += ' <h4 class="alert-heading">DGP fuera de Proceso!</h4>';
-                            html += '<p>El DGP se ha rechazado por un Usuario... <a href="../../autorizacion?opc=HDGP&iddgp=' + id + '&ID' + id1
-                                    + '" class="btn btn-primary"><strong><i class="fa fa-arrow-circle-right"></i> Habilitar</strong></a>  <a href="../../dgp?opc=MODIFICAR REQUERIMIENTO&iddgp='
+                            html += '<p>El DGP se ha rechazado por un Usuario... <a href="autorizacion?opc=HDGP&iddgp=' + id + '&ID' + id1
+                                    + '" class="btn btn-primary"><strong><i class="fa fa-arrow-circle-right"></i> Habilitar</strong></a>  <a href="dgp?opc=MODIFICAR REQUERIMIENTO&iddgp='
                                     + id + '" class="btn btn-primary id-dgp "><strong><i class="fa fa-pencil-square-o"></i> Editar DGP</strong></a> <a data-toggle="modal" class="btn btn-primary" onclick="ListarMotivo()" data-toggle="modal" data-target="#myModalComentario"><i class="glyphicon glyphicon-remove"></i> Ver Motivo</a>';
                             if (rol === "ROL-0001") {
-                                html += '<a href="../../autorizacion?opc=eliminarDGP&iddgp=' + id + '" class="btn btn-danger"><strong><i class="fa fa-arrow-circle-right"></i> Eliminar DGP</strong></a>';
+                                html += '<a href="autorizacion?opc=eliminarDGP&iddgp=' + id + '" class="btn btn-danger"><strong><i class="fa fa-arrow-circle-right"></i> Eliminar DGP</strong></a>';
                             }
                             //  alert(+lista[i].us_no_puesto+);                                                                                                                                                                                                                                                                                                                                                                                
                             html += '</p>';
@@ -145,22 +145,31 @@ function closedthis2() {
     });
 }
 function printDetProceso(objProgAut, postData) {
-    objProgAut.empty();
-    objProgAut.append('<img src="../../img/ajax-loader/horizontal_fountain.gif" />');
+
+}
+function getProcessStatus(postData) {
+//    objProgAut.empty();
+//    objProgAut.append('<img src="img/ajax-loader/horizontal_fountain.gif" />');
     $.ajax({
-        url: "dgp",
-        data: "opc=Imprimir_det_proceso" + postData,
+        url: "process/status",
+        dataType: 'json',
+        data: JSON.stringify({"dgps": postData}),
+        contentType: "application/json",
         type: 'POST', async: true,
         success: function (data, textStatus, jqXHR) {
-            if (data.rpta === "1") {
-                objProgAut.hide();
-                objProgAut.empty();
-                objProgAut.append(data.html);
-                objProgAut.show(250);
-                objProgAut.find(".new-circle").popover({trigger: 'hover click'});
-            } else {
-                console.log('ocurrio un error al obtener el detalle del proceso');
-            }
+//            if (data.status) {
+//                objProgAut.hide();
+//                objProgAut.empty();
+//                objProgAut.append(data.html);
+//                objProgAut.show(250);
+//                objProgAut.find(".new-circle").popover({trigger: 'hover click'});
+//            } else {
+//                objProgAut.hide();
+//                objProgAut.empty();
+//                objProgAut.append('Error al obtener el detalle del proceso.');
+//                objProgAut.show();
+//                console.log('Ocurrio un error al obtener el detalle del proceso');
+//            }
         }
     });
 }
@@ -171,7 +180,7 @@ function initStatusProcessDGP() {
         tablet: 1024,
         phone: 480
     };
-    var table_req = $('#dt_basic').dataTable({
+    var table_req = $('#dt_status_process').dataTable({
         "sDom": "<'dt-toolbar'<'col-xs-12 col-sm-6'f><'col-sm-6 col-xs-12 hidden-xs'l>r>" +
                 "t" +
                 "<'dt-toolbar-footer'<'col-sm-6 col-xs-12 hidden-xs'i><'col-xs-12 col-sm-6'p>>",
@@ -179,7 +188,7 @@ function initStatusProcessDGP() {
         "preDrawCallback": function () {
             // Initialize the responsive datatables helper once.
             if (!responsiveHelper_dt_basic) {
-                responsiveHelper_dt_basic = new ResponsiveDatatablesHelper($('#dt_basic'), breakpointDefinition);
+                responsiveHelper_dt_basic = new ResponsiveDatatablesHelper($('#dt_status_process'), breakpointDefinition);
             }
         },
         "rowCallback": function (nRow) {
@@ -191,11 +200,17 @@ function initStatusProcessDGP() {
     });
 
     /* END BASIC */
+
     var rows = table_req.fnGetNodes();
+    var data =[];
     for (var i = 0; i < rows.length; i++) {
-        var obj = $(rows[i]).find(".prog_aut");
-        printDetProceso(obj, obj.data("value"));
+        var row = $(rows[i]).find(".prog_aut");
+        data[i] = {
+                    "iddgp": row.data("dgp"),"iddrp": row.data("iddrp"), "iddep": row.data("iddep")
+                   };
     }
+    getProcessStatus(data);
+
     var responsiveHelperCAacademico = undefined;
     var varTableCAcademica = $(".tableEsCargaAcademica").dataTable({
         "ajax": {
@@ -279,8 +294,8 @@ function initStatusProcessDGP() {
             // var rows = varTableCAcademica.fnGetNodes();
             //   for (var i = 0; i < rows.length; i++) {
             //  var obj = $(rows[i]).find(".prog_aut");
-            printDetProceso($('td:eq(4)', row), "&dgp=" + data.id_dgp + "&idrp=" + data.id_detalle_req_proceso + "&iddep=" + data.id_departamento);
-            $('td:eq(4)', row).addClass("new-progress");
+//            printDetProceso($('td:eq(4)', row), "&dgp=" + data.id_dgp + "&idrp=" + data.id_detalle_req_proceso + "&iddep=" + data.id_departamento);
+//            $('td:eq(4)', row).addClass("new-progress");
             // }
 
         }, "drawCallback": function (oSettings) {
@@ -294,19 +309,8 @@ function initStatusProcessDGP() {
 }
 $(document).ready(function () {
     pageSetUp();
-    $.sound_path = "../../sound/", $.sound_on = !0, jQuery(document).ready(function () {
-        $("body").append("<div id='divSmallBoxes'></div>"), $("body").append("<div id='divMiniIcons'></div><div id='divbigBoxes'></div>")
-    });
-    $('#coment-s1').click(function () {
-        console.log("jalar comentario");
-        $.get('../../comentario?iddgp=DGP-000119&opc=Comentar_Dgp', function (responseJson) {
-            var $select = $('.comentarios');
-            $select.find('h2').remove();
-            $.each(responseJson, function (value) {
-                $('<p>').text(value).appendTo($select);
-            });
-        });
-    });
+    console.log('Entering to statusdgp')
+
     $(".seeDocuments").click(function () {
         $('.modalDocument').modal({keyboard: false, backdrop: 'static'});
         $('.modalDocument').modal('show');
@@ -314,12 +318,12 @@ $(document).ready(function () {
 
         idtr = $(this).data("idtr");
         iddgp = $(this).data("iddgp");
-        pathRequest = "../../";
+        pathRequest = "";
         showDocuments(iddgp, idtr, false, false);
         return false;
     });
-    initStatusProcessDGP();
     $(".btnHorario").click(function () {
         listHorario($(this).data("valor"));
     });
+    initStatusProcessDGP();
 });

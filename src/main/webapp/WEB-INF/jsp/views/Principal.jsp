@@ -306,7 +306,7 @@
                                 }
                                 if (!id_rol.trim().equals("ROL-0013")) {
                                     if (dp.getNo_link().trim().equals("Procesar Requerimiento")) {%>
-                        <a href="<%=dp.getDi_url()%>" target="myframe" title="<%=dp.getNo_link()%>" class="link"  data-value="<%=dp.getIc_link().trim()%>" id="link"><i class="<%=dp.getIc_link().trim()%> "></i> <span class="menu-item-parent"><%=dp.getNo_link()%></span></a>
+                                    <a href="<%=dp.getDi_url()%>" target="myframe" title="<%=dp.getNo_link()%>" class="link"  data-value="<%=dp.getIc_link().trim()%>" id="link"><i class="<%=dp.getIc_link().trim()%> "></i> <span class="menu-item-parent"><%=dp.getNo_link()%></span></a>
                             <%} else if (dp.getNo_link().trim().equals("Reporte de trabajadores")) {%>
                         <a href="#" class="repEmployees"><i class="fa fa-lg fa-fw fa-users"></i>    Trabajadores</a>
 

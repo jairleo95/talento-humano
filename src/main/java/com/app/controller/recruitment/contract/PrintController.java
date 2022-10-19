@@ -18,6 +18,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.http.HttpStatus;
@@ -39,7 +40,7 @@ public class PrintController {
     InterfacePlantillaContractualDAO pl = new PlantillaContractualDAO();
 
     @PostMapping
-    public ResponseEntity<?> process(HttpServletRequest request){
+    public ResponseEntity<?> process(HttpServletRequest request, HttpServletResponse response){
 
         Map<String, Object> rpta = new HashMap<String, Object>();
         String opc = request.getParameter("opc");
@@ -54,7 +55,7 @@ public class PrintController {
                     list.add(id_con[i]);
                 }
                 sesion.setAttribute("lista", list);
-                ////response.sendRedirect("views/Contrato/Formato_Plantilla/Impresion_Masiva.html");
+                response.sendRedirect("views/Contrato/Formato_Plantilla/Impresion_Masiva.html");
                 // out.print(list.get(0).toString());
             }
             if (opc.equals("Imprimir1")) {
@@ -84,7 +85,7 @@ public class PrintController {
                 }
                 sesion.setAttribute("lista", list);
                 sesion.setAttribute("texto", texto);
-                ///response.sendRedirect("views/Contrato/Formato_Plantilla/Impresion_Masiva2.html");
+                response.sendRedirect("views/Contrato/Formato_Plantilla/Impresion_Masiva2.html");
                 // out.print(list.get(0).toString());
             }
             if (opc.equals("Listar_contrato")) {

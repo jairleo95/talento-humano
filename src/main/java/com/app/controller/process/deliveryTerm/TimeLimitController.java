@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.app.persistence.dao.Plazo_DgpDAO;
@@ -56,7 +57,7 @@ public class TimeLimitController {
         if (opc.equals("Ver_detalle_plazo")) {
             String iddgp = request.getParameter("iddgp");
             sesion.setAttribute("Lista_detalle_plazo", pl.Lista_detalle_plazo(iddgp));
-            ///response.sendRedirect("views/Dgp/Plazo/Detalle_Plazo.html");
+            //response.sendRedirect("views/Dgp/Plazo/Detalle_Plazo.html");
         }
         if (opc.equals("List_id_plazo")) {
             String id = request.getParameter("tipo");
@@ -78,14 +79,14 @@ public class TimeLimitController {
     }
 
     @PostMapping
-    public ResponseEntity<?> add(HttpServletRequest request) {
+    public ResponseEntity<?> add(HttpServletRequest request, HttpServletResponse response) {
 
         Map<String, Object> rpta = new HashMap<String, Object>();
         HttpSession session = request.getSession(true);
         try {
             String opc = request.getParameter("opc");
             if (opc.equals("Mantenimiento")) {
-                ///response.sendRedirect("views/Dgp/Plazo/Reg_Plazo_Dgp.html");
+                response.sendRedirect("views/Dgp/Plazo/Reg_Plazo_Dgp.html");
             }
             if (opc.equals("Registrar")) {
                 String NO_PLAZO = request.getParameter("nombre_plazo");

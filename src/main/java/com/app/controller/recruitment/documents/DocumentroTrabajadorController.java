@@ -13,6 +13,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.app.persistence.dao_imp.InterfaceDocumentoDAO;
@@ -43,7 +44,7 @@ public class DocumentroTrabajadorController {
     InterfaceDocumentoDAO d = new DocumentoDAO();
 
     @PostMapping(produces = MediaType.TEXT_HTML_VALUE)
-    public ResponseEntity<?> processRequest(HttpServletRequest request) {
+    public ResponseEntity<?> processRequest(HttpServletRequest request, HttpServletResponse response) {
 
         String dgp = request.getParameter("iddgp");
         String idtr = request.getParameter("idtr");
@@ -67,9 +68,9 @@ public class DocumentroTrabajadorController {
                     String url = "views/Trabajador/Documento/Reg_Documento.html?n_nac=" + s + "&num_ad=" + num_ad + "&idtr=" + idtr;
                     if (pr != null) {
                         url += "&pro=pr_dgp&P2=TRUE";
-                        ///response.sendRedirect(url);
+                        response.sendRedirect(url);
                     } else {
-                        ///response.sendRedirect("views/Trabajador/Documento/Reg_Documento.html?n_nac=" + s + "&num_ad=" + num_ad + "&idtr=" + idtr);
+                        response.sendRedirect("views/Trabajador/Documento/Reg_Documento.html?n_nac=" + s + "&num_ad=" + num_ad + "&idtr=" + idtr);
                     }
 
                 }
@@ -81,7 +82,7 @@ public class DocumentroTrabajadorController {
                     session.setAttribute("List_Hijos", d.List_Hijos(idtr));
                     session.setAttribute("List_Conyugue", d.List_Conyugue(idtr));
 
-                    ///response.sendRedirect("views/Dgp/Documento/Reg_Documento.html?n_nac=" + i + "&num_ad=" + num_ad);
+                    response.sendRedirect("views/Dgp/Documento/Reg_Documento.html?n_nac=" + i + "&num_ad=" + num_ad);
                 }
                 if (opc.equals("Reg_Pro_Dgp")) {
                     session.setAttribute("List_doc_req_pla", d.List_doc_req_pla(dgp, idtr));
@@ -90,7 +91,7 @@ public class DocumentroTrabajadorController {
                     session.setAttribute("List_Hijos", d.List_Hijos(idtr));
                     session.setAttribute("List_Conyugue", d.List_Conyugue(idtr));
 
-                    ///response.sendRedirect("views/Dgp/Documento/Reg_Documento.html?n_nac=" + i + "&num_ad=" + num_ad + "&pro=pr_dgp");
+                    response.sendRedirect("views/Dgp/Documento/Reg_Documento.html?n_nac=" + i + "&num_ad=" + num_ad + "&pro=pr_dgp");
                 }
 
                 if (("Listar_doc").equals(opc)) {
@@ -103,9 +104,9 @@ public class DocumentroTrabajadorController {
                     int num_ad = d.List_Adventista(idtr);
                     int count = d.count_documentos_x_tra(idtr);
                     if (count > 0) {
-                       /// response.sendRedirect("views/Trabajador/Documento/Reg_Documento.html?n_nac=" + s + "&num_ad=" + num_ad + "&Vol=volver&idtr=" + idtr);
+                        response.sendRedirect("views/Trabajador/Documento/Reg_Documento.html?n_nac=" + s + "&num_ad=" + num_ad + "&Vol=volver&idtr=" + idtr);
                     } else {
-                        ///response.sendRedirect("views/Trabajador/Documento/Reg_Documento.html?n_nac=" + s + "&num_ad=" + num_ad + "&idtr=" + idtr);
+                        response.sendRedirect("views/Trabajador/Documento/Reg_Documento.html?n_nac=" + s + "&num_ad=" + num_ad + "&idtr=" + idtr);
                     }
 
                 }
@@ -263,7 +264,7 @@ public class DocumentroTrabajadorController {
                     if (dt != null) {
                         url += "&dt=" + dt;
                     }
-                    ///response.sendRedirect(url);
+                    response.sendRedirect(url);
 
                 } else {
                     String url = "views/Trabajador/Documento/Reg_Documento.html?n_nac=" + s + "&num_ad=" + num_ad + "&idtr=" + idtr + "&pro=pr_dgp&P2=TRUE";
@@ -273,7 +274,7 @@ public class DocumentroTrabajadorController {
                     if (dt != null) {
                         url += "&dt=" + dt;
                     }
-                    ///response.sendRedirect(url);
+                    response.sendRedirect(url);
                 }
             }
         } catch (Exception e) {

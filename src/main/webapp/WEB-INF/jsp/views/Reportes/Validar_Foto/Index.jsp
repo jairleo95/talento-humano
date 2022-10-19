@@ -359,7 +359,7 @@
             var idtr = $('.id-tr').val();
             $.ajax({
                 type: 'POST',
-                url: '../../../validar_foto',
+                url: 'validar_foto',
                 data: 'opc=validar&idtr=' + idtr + '&estado=1',
                 success: function (r) {
 
@@ -372,7 +372,7 @@
             var idtr = $('.id-tr').val();
             $.ajax({
                 type: 'POST',
-                url: '../../../validar_foto',
+                url: 'validar_foto',
                 data: 'opc=validar&idtr=' + idtr + '&estado=2',
                 success: function (r) {
                 }

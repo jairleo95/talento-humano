@@ -107,7 +107,7 @@
         }
         function listar_autorizados(tipo_lista) {
 
-            $.post("autorizacion", "opc=ShowListProcesarReq&tipo_lista=" + tipo_lista, function (objJson) {
+            $.post("inbox", "opc=ShowListProcesarReq&tipo_lista=" + tipo_lista, function (objJson) {
                 var lista = objJson.lista;
                 if (objJson.rpta === -1) {
                     alert(objJson.mensaje);

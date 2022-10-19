@@ -4,6 +4,7 @@ import com.app.domain.model.Contrato;
 import com.app.config.UserMachineProperties;
 import com.app.controller.util.DateFormat;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -11,6 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.http.HttpStatus;
@@ -85,7 +87,7 @@ public class ContractController {
 
 
     @GetMapping
-    public ResponseEntity<?> read(HttpServletRequest request){
+    public ResponseEntity<?> read(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
         Map<String, Object> rpta = new HashMap<String, Object>();
 
@@ -120,7 +122,7 @@ public class ContractController {
                         sesion.removeAttribute("List_tipo_contrato");
                         sesion.removeAttribute("list_reg_labo");
                     }
-                    ///response.sendRedirect("views/Contrato/Detalle_Info_Contractualq.html?idtr=" + idtr + "&id_cto=" + id_cto);
+                    response.sendRedirect("views/Contrato/Detalle_Info_Contractualq.html?idtr=" + idtr + "&id_cto=" + id_cto);
                 }
                 if (opc.equals("SelectorListaContrato")) {
                     String id_Trabajador = request.getParameter("idtr");
@@ -195,19 +197,19 @@ public class ContractController {
                     sesion.setAttribute("list_Condicion_contrato", l.list_Condicion_contrato());
                     sesion.setAttribute("List_grup_ocu", gr.List_grup_ocu());
                     sesion.setAttribute("List_tipo_contrato", l.List_tipo_contrato());
-                    ///response.sendRedirect("views/Contrato/Reg_Casos_Especiales.html?idtr=" + idtr + "&nom=" + nom + "&cant_hijos=" + cant_hijos + "&fe_subs=" + fe_subs + "&co_ap=" + co_aps + "&co_hu=" + co_hu);
+                    response.sendRedirect("views/Contrato/Reg_Casos_Especiales.html?idtr=" + idtr + "&nom=" + nom + "&cant_hijos=" + cant_hijos + "&fe_subs=" + fe_subs + "&co_ap=" + co_aps + "&co_hu=" + co_hu);
                 }
 
                 if (opc.equals("Ver_Plantilla")) {
                     String idc = request.getParameter("idc");
                     sesion.setAttribute("LIST_DAT_TR_PLANTILLA", tr.LIST_DAT_TR_PLANTILLA(idc));
-                    ///response.sendRedirect("views/Contrato/Plantilla/Editor_Plantilla.html");
+                    response.sendRedirect("views/Contrato/Plantilla/Editor_Plantilla.html");
                 }
 
                 if (opc.equals("Ver Plantilla")) {
                     String idc = request.getParameter("idc");
                     sesion.setAttribute("LIST_DAT_TR_PLANTILLA", tr.LIST_DAT_TR_PLANTILLA(idc));
-                    ///response.sendRedirect("views/Contrato/Plantilla/Editor_Plantilla.html");
+                    response.sendRedirect("views/Contrato/Plantilla/Editor_Plantilla.html");
                 }
 
                 if (opc.equals("REG_CASOS_ESP")) {
@@ -372,12 +374,12 @@ public class ContractController {
                     //  int num_ad = doc.List_Adventista(ID_TRABAJADOR);
                     sesion.setAttribute("List_Hijos", doc.List_Hijos(ID_TRABAJADOR));
                     sesion.setAttribute("List_Conyugue", doc.List_Conyugue(ID_TRABAJADOR));
-                    ///response.sendRedirect("views/Dgp/Documento/Reg_Documento.html?pro=casosEspeciales&idtr=" + ID_TRABAJADOR + "&P2=TRUE&ms=ok");
+                    response.sendRedirect("views/Dgp/Documento/Reg_Documento.html?pro=casosEspeciales&idtr=" + ID_TRABAJADOR + "&P2=TRUE&ms=ok");
                 }
 
                 if (opc.equals("Reporte_CE")) {
                     sesion.setAttribute("List_Casos_Esp", con.LIST_CASOS_ESPECIALES());
-                    ///response.sendRedirect("views/Contrato/Filtro_Contrato_CE.html");
+                    response.sendRedirect("views/Contrato/Filtro_Contrato_CE.html");
                 }
 
                 if (opc.equals("Buscar")) {
@@ -391,10 +393,10 @@ public class ContractController {
                         if (busc != null) {
                             sesion.setAttribute("ListarTrabajador2", tr.Buscar_Ficha_Trabajador(iddep, dni, nom, ape_pat, ape_mat));
                             ///getServletContext().setAttribute(nom, dgp.VAL_OPC_DGP(dni));
-                            ///response.sendRedirect("views/Contrato/Gen_Contrato_CE.html");
+                            response.sendRedirect("views/Contrato/Gen_Contrato_CE.html");
                         }
                     } else {
-                        ///response.sendRedirect("views/Contrato/Gen_Contrato_CE.html");
+                        response.sendRedirect("views/Contrato/Gen_Contrato_CE.html");
 
                     }
                 }
@@ -406,7 +408,7 @@ public class ContractController {
                 if (opc.equals("filtrar")) {
                     sesion.setAttribute("Listar_Direccion", dir.Listar_Direccion());
                     sesion.setAttribute("List_Area_ID", area.List_Area_ID(iddep));
-                    ///response.sendRedirect("views/Contrato/Busc_Contrato.html");
+                    response.sendRedirect("views/Contrato/Busc_Contrato.html");
                 }
 
             }
@@ -416,7 +418,7 @@ public class ContractController {
     }
 
     @PostMapping
-    public ResponseEntity<?> process(HttpServletRequest request){
+    public ResponseEntity<?> process(HttpServletRequest request, HttpServletResponse response){
 
         Map<String, Object> rpta = new HashMap<String, Object>();
 
@@ -430,7 +432,7 @@ public class ContractController {
                 if (opc != null) {
 
                     if (opc.equals("casos_especiales")) {
-                        ///response.sendRedirect("views/Contrato/Gen_Contrato_CE.html");
+                        response.sendRedirect("views/Contrato/Gen_Contrato_CE.html");
                     }
                     if (opc.equals("enviar")) {
                         String iddgp = request.getParameter("iddgp");
@@ -463,7 +465,7 @@ public class ContractController {
                         if (mes >= 9 && dia > 9) {
                             fe_subs = año + "-" + (mes + 1) + "-" + dia;
                         }
-                        ///response.sendRedirect("views/Contrato/Reg_Contrato.html?num=" + num + "&id_direc=" + id_dir + "&fe_subs=" + fe_subs);
+                        response.sendRedirect("views/Contrato/Reg_Contrato.html?num=" + num + "&id_direc=" + id_dir + "&fe_subs=" + fe_subs);
                     }
                     if (opc.equals("Editar")) {
                         String idcon = request.getParameter("idc");
@@ -509,7 +511,7 @@ public class ContractController {
 
                         }
 
-                        /// response.sendRedirect("views/Contrato/Editar_Contrato.html?num=" + num + "&id_direc=" + id_dir + "&fe_subs=" + fe_subs + "&id_mod=" + id_modalidad + "&num_cc=" + num_cc);
+                         response.sendRedirect("views/Contrato/Editar_Contrato.html?num=" + num + "&id_direc=" + id_dir + "&fe_subs=" + fe_subs + "&id_mod=" + id_modalidad + "&num_cc=" + num_cc);
                     }
                     if (opc.equals("MODIFICAR CONTRATO")) {
                         String ID_CONTRATO = request.getParameter("id_contrato");
@@ -646,7 +648,7 @@ public class ContractController {
                         sesion.setAttribute("List_tipo_contrato", l.List_tipo_contrato());
                         sesion.setAttribute("list_reg_labo", con.list_reg_labo());
                         // con.VALIDAR_FE_HASTA_CON();
-                        ///response.sendRedirect("views/Contrato/Detalle_Info_Contractualq.html?idtr=" + ID_TRABAJADOR + "&id_cto=" + ID_CONTRATO);
+                        response.sendRedirect("views/Contrato/Detalle_Info_Contractualq.html?idtr=" + ID_TRABAJADOR + "&id_cto=" + ID_CONTRATO);
                     }
                     if (opc.equals("SI_CONNTRATO")) {
                         String idtr = request.getParameter("idtr");
@@ -663,17 +665,17 @@ public class ContractController {
                         sesion.setAttribute("list_Condicion_contrato", l.list_Condicion_contrato());
                         sesion.setAttribute("List_tipo_contrato", l.List_tipo_contrato());
                         sesion.setAttribute("list_reg_labo", con.list_reg_labo());
-                        ///response.sendRedirect("views/Contrato/Imprimir_Subir_Contrato.html?idtr=" + idtr);
+                        response.sendRedirect("views/Contrato/Imprimir_Subir_Contrato.html?idtr=" + idtr);
                     }
                     if (opc.equals("Subir_Contrato")) {
 
-                        ///response.sendRedirect("views/Contrato/Subir_Contrato_Adjunto.html?idc=" + request.getParameter("idc"));
+                        response.sendRedirect("views/Contrato/Subir_Contrato_Adjunto.html?idc=" + request.getParameter("idc"));
                     }
 
                     if (opc.equals("Subir_Contrato2")) {
                         int coun_doc = con.Count_doc_con(request.getParameter("idc"));
                         String id_con = request.getParameter("idc");
-                        ///response.sendRedirect("views/Contrato/Formato_Plantilla/Subir_Contrato_Firmado.html?idc=" + id_con + "&coun_doc=" + coun_doc);
+                        response.sendRedirect("views/Contrato/Formato_Plantilla/Subir_Contrato_Firmado.html?idc=" + id_con + "&coun_doc=" + coun_doc);
                     }
 
                     if (opc.equals("Actualizar_Firma")) {
@@ -695,7 +697,7 @@ public class ContractController {
                         sesion.setAttribute("List_tipo_contrato", l.List_tipo_contrato());
                         sesion.setAttribute("list_reg_labo", con.list_reg_labo());
                         sesion.setAttribute("List_x_fun_x_idpu", fu.List_x_fun_x_idpu(id_pu));
-                        ///response.sendRedirect("views/Contrato/Detalle_Info_Contractualq.html?idtr=" + idtr.trim() + "&id_cto=" + id_cto);
+                        response.sendRedirect("views/Contrato/Detalle_Info_Contractualq.html?idtr=" + idtr.trim() + "&id_cto=" + id_cto);
                     }
 
                     if (opc.equals("REGISTRAR CONTRATO")) {
@@ -818,7 +820,7 @@ public class ContractController {
                         sesion.setAttribute("List_Planilla", pl.List_Planilla(ID_DIRECCION, ID_DEPARTAMENTO, ID_SEC, ID_PUESTO, ID_AREA));
                         sesion.setAttribute("List_ID_User", usu.List_ID_User(US_CREACION));
                         sesion.setAttribute("List_x_fun_x_idpu", fu.List_x_fun_x_idpu(ID_PUESTO));
-                        ///response.sendRedirect("views/Contrato/Detalle_Info_Contractualq.html?idtr=" + idtr1.trim() + "&id_cto=" + id_cto);
+                        response.sendRedirect("views/Contrato/Detalle_Info_Contractualq.html?idtr=" + idtr1.trim() + "&id_cto=" + id_cto);
                     }
 
                     if (opc.equals("Habilitar_is")) {
@@ -831,7 +833,7 @@ public class ContractController {
                         con.validar_contrato(id_cto);
                     }
                     if (opc.equals("gen_cont")) {
-                        ///response.sendRedirect("views/Contrato/Gen_Contrato_CE.html");
+                        response.sendRedirect("views/Contrato/Gen_Contrato_CE.html");
                     }
 
                 }

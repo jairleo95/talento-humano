@@ -63,7 +63,7 @@ function initAutorizacion() {
 function ValBtnAutorizarDgp(trabajador, divBotones) {
     divBotones.empty();
     $.ajax({
-        url: "autorizacion", data: "opc=ValBtnAutorizacion&trabajador=" + trabajador, type: 'POST', success: function (data, textStatus, jqXHR) {
+        url: "", data: "opc=ValBtnAutorizacion&trabajador=" + trabajador, type: 'POST', success: function (data, textStatus, jqXHR) {
             if (data.rpta === "1") {
                 divBotones.append(data.data);
                 $(".btn-autor").click(function (e) {
@@ -75,7 +75,7 @@ function ValBtnAutorizarDgp(trabajador, divBotones) {
                         if (ButtonPressed === "Si") {
                             //$(".form-aut").submit();
                             $(".btn-autor").attr("disabled", "disabled");
-                            $.ajax({url: "autorizacion",
+                            $.ajax({url: "inbox",
                                 data: $(".form-aut").serialize(),
                                 type: 'POST',
                                 success: function (data, textStatus, jqXHR) {
@@ -107,7 +107,7 @@ function ShowCbk_Procesar_Ind(iddgp) {
     div.empty();
     div2.empty();
     $.ajax({
-        url: "autorizacion", data: "opc=ShowCkbEstado_procesarIndiviual&iddgp=" + iddgp, type: 'POST', success: function (data, textStatus, jqXHR) {
+        url: "inbox", data: "opc=ShowCkbEstado_procesarIndiviual&iddgp=" + iddgp, type: 'POST', success: function (data, textStatus, jqXHR) {
             if (data.rpta === "1") {
                 div.append(data.ckbAsigFam);
                 div2.append(data.ckbEs_Sis);
@@ -136,7 +136,7 @@ function procesar_req_individual(ckb, tipo, iddgp) {
     } else {
         estado = false;
     }
-    var url = (tipo === 1) ? "../../autorizacion?opc=UpdateStatusDgp_Procesar&tipo=1&estado=" + estado : "../../autorizacion?opc=UpdateStatusDgp_Procesar&tipo=2&estado=" + estado;
+    var url = (tipo === 1) ? "autorizacion?opc=UpdateStatusDgp_Procesar&tipo=1&estado=" + estado : "autorizacion?opc=UpdateStatusDgp_Procesar&tipo=2&estado=" + estado;
     $.ajax({
         url: url, data: {json: array_id_dgp}, type: 'POST', dataType: 'json', success: function (data, textStatus, jqXHR) {
             if (data.rpta === "1") {

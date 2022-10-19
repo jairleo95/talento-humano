@@ -10,10 +10,12 @@ import com.app.persistence.dao.PresupuestoDAO;
 import com.app.persistence.dao_imp.InterfaceDireccionDAO;
 import com.app.persistence.dao_imp.InterfacePresupuestoDAO;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.http.HttpStatus;
@@ -35,7 +37,7 @@ public class PresupuestoController {
     InterfacePresupuestoDAO pD = new PresupuestoDAO();
 
     @PostMapping
-    public ResponseEntity<?> process(HttpServletRequest request) {
+    public ResponseEntity<?> process(HttpServletRequest request, HttpServletResponse response) throws IOException {
         HttpSession session = request.getSession(true);
         //int opc = Integer.parseInt(request.getParameter("opc"));
         String opc = request.getParameter("opc");
@@ -58,19 +60,19 @@ public class PresupuestoController {
         switch (opc) {
             case "gest":
                 //response.sendRedirect("views/Presupuesto/Gpresupuesto.html");
-                ///response.sendRedirect("views/Presupuesto/Gestionar_Presupuesto.html");
+                response.sendRedirect("views/Presupuesto/Gestionar_Presupuesto.html");
                 break;
             case "solfpview":
-                ///response.sendRedirect("views/Presupuesto/List_Fuera_Presupuesto.html");
+                response.sendRedirect("views/Presupuesto/List_Fuera_Presupuesto.html");
                 break;
             case "statusSFPview":
-                ///response.sendRedirect("views/Presupuesto/statusSFP.html");
+                response.sendRedirect("views/Presupuesto/statusSFP.html");
                 break;
             case "resumenPresView":
-                ///response.sendRedirect("views/Presupuesto/reporteResumenPresupuesto.html");
+                response.sendRedirect("views/Presupuesto/reporteResumenPresupuesto.html");
                 break;
             case "resumenDetPresView":
-                ///response.sendRedirect("views/Presupuesto/resumenDetalladoPresupuesto.html");
+                response.sendRedirect("views/Presupuesto/resumenDetalladoPresupuesto.html");
                 break;
             case "listSFPP":
                 list = pD.listSolFP();

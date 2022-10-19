@@ -12,6 +12,7 @@ import com.app.domain.model.Lis_Doc_tra;
 import com.app.domain.model.Padre_Madre_Conyugue;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -19,6 +20,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.fileupload.FileItem;
@@ -45,7 +47,7 @@ public class DocumentoController {
     InterfaceDocumentoDAO d = new DocumentoDAO();
 
     @GetMapping
-    public ResponseEntity<?> read(HttpServletRequest request) {
+    public ResponseEntity<?> read(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
         String dgp = request.getParameter("iddgp");
         String idtr = request.getParameter("idtr");
@@ -68,10 +70,10 @@ public class DocumentoController {
             sesion.setAttribute("List_Hijos", d.List_Hijos(idtr));
             sesion.setAttribute("List_Conyugue", d.List_Conyugue(idtr));
 
-            ///response.sendRedirect("views/Dgp/Documento/Reg_Documento.html?n_nac=" + i + "&num_ad=" + num_ad + "&idtr=" + idtr + "&iddgp=" + dgp);
+            response.sendRedirect("views/Dgp/Documento/Reg_Documento.html?n_nac=" + i + "&num_ad=" + num_ad + "&idtr=" + idtr + "&iddgp=" + dgp);
         }
         if (opc.equals("ReqIncompletoNextStep")) {
-            /// response.sendRedirect("views/Dgp/Documento/Reg_Documento.html?" + "idtr=" + idtr + "&iddgp=" + dgp + "&pro=pr_dgp");
+             response.sendRedirect("views/Dgp/Documento/Reg_Documento.html?" + "idtr=" + idtr + "&iddgp=" + dgp + "&pro=pr_dgp");
         }
         if (opc.equals("listDocument")) {
             System.out.println("enter to listDocument");
@@ -108,7 +110,7 @@ public class DocumentoController {
             InterfaceDocumentoDAO doc_ = new DocumentoDAO();
             // String id_dgp = "";
             String html = "";
-            html += " <form action='../../../documento' method='post' enctype='multipart/form-data'  class='form_dgp_doc' >";
+            html += " <form action='documento' method='post' enctype='multipart/form-data'  class='form_dgp_doc' >";
 
             int i = 0;
             for (int z = 0; z < listDocumentsByIdtr.size(); z++) {
@@ -181,7 +183,7 @@ public class DocumentoController {
                         htmlDoca += "<div class=''>";
                         if (d.getEs_documento_adjunto() != null & (permissionEditDocument)) {
                             htmlDoca += "<a type='button'  class='btn btn-danger btn-sm  elimi'"
-                                    + " href='../../../documento?opc=Eliminar&id_doc=" + d.getId_documento_adjunto()
+                                    + " href='documento?opc=Eliminar&id_doc=" + d.getId_documento_adjunto()
                                     + "&iddgp=" + d.getId_dgp()
                                     + "&idtr=" + d.getId_trabajador()
                                     + "'><i class='fa fa-trash-o'></i></a>";
@@ -261,7 +263,7 @@ public class DocumentoController {
 
                         htmlCOFE += " <div class='' >";
                         if (d.getEs_documento_adjunto() != null & (permissionEditDocument)) {
-                            htmlCOFE += " <a type='button'  class='btn btn-danger btn-sm  elimi' href='../../../documento?opc=Eliminar&id_doc="
+                            htmlCOFE += " <a type='button'  class='btn btn-danger btn-sm  elimi' href='documento?opc=Eliminar&id_doc="
                                     + d.getId_documento_adjunto() + "&iddgp=" + d.getId_dgp()
                                     + "&idtr=" + d.getId_trabajador() + "'><i class='fa fa-trash-o'></i></a>";
                         }
@@ -350,7 +352,7 @@ public class DocumentoController {
                         htmlConyugue += " <div class=''>";
                         if (d.getEs_documento_adjunto() != null & (permissionEditDocument)) {
 
-                            htmlConyugue += " <a type='button'  class='btn btn-danger btn-sm  elimi' href='../../../documento?opc=Eliminar&id_doc="
+                            htmlConyugue += " <a type='button'  class='btn btn-danger btn-sm  elimi' href='documento?opc=Eliminar&id_doc="
                                     + d.getId_documento_adjunto() + "&iddgp=" + d.getId_dgp()
                                     + "&idtr=" + d.getId_trabajador() + "'><i class='fa fa-trash-o'></i></a>";
                         }
@@ -433,7 +435,7 @@ public class DocumentoController {
                                 htmlDNIH += " <div class=''>";
                                 if (d.getEs_documento_adjunto() != null & (permissionEditDocument)) {
 
-                                    htmlDNIH += " <a type='button'  class='btn btn-danger btn-sm  elimi' href='../../../documento?opc=Eliminar&id_doc="
+                                    htmlDNIH += " <a type='button'  class='btn btn-danger btn-sm  elimi' href='documento?opc=Eliminar&id_doc="
                                             + d.getId_documento_adjunto() + "&iddgp=" + d.getId_dgp()
                                             + "&idtr=" + d.getId_trabajador() + "'><i class='fa fa-trash-o'></i></a>";
                                 }
@@ -508,7 +510,7 @@ public class DocumentoController {
 
                                 htmlSecondDNIH += " <div class='' >";
                                 if (d.getEs_documento_adjunto() != null & (permissionEditDocument)) {
-                                    htmlSecondDNIH += " <a type='button'  class='btn btn-danger btn-sm  elimi' href='../../../documento?opc=Eliminar&id_doc="
+                                    htmlSecondDNIH += " <a type='button'  class='btn btn-danger btn-sm  elimi' href='documento?opc=Eliminar&id_doc="
                                             + d.getId_documento_adjunto() + "&iddgp=" + d.getId_dgp()
                                             + "&idtr=" + d.getId_trabajador() + "'><i class='fa fa-trash-o'></i></a>";
                                 }
@@ -585,7 +587,7 @@ public class DocumentoController {
 
                                 htmlHijoFaltante += " <div class='' >";
                                 if ((permissionEditDocument)) {
-                                            /* htmlHijoFaltante += " <a type='button'  class='btn btn-danger btn-sm  elimi' href='../../../documento?opc=Eliminar&id_doc="
+                                            /* htmlHijoFaltante += " <a type='button'  class='btn btn-danger btn-sm  elimi' href='documento?opc=Eliminar&id_doc="
                                                     + d.getId_documento_adjunto() + "&iddgp=" + d.getId_dgp()
                                                     + "&idtr=" + d.getId_trabajador() + "'><i class='fa fa-trash-o'></i></a>";*/
                                 }
@@ -668,7 +670,7 @@ public class DocumentoController {
                     htmlOtherItem += "<div class=''>";
                     if (d.getEs_documento_adjunto() != null & (permissionEditDocument)) {
                         htmlOtherItem += "<a type='button'  class='btn btn-danger btn-sm  elimi'"
-                                + " href='../../../documento?opc=Eliminar&id_doc=" + d.getId_documento_adjunto()
+                                + " href='documento?opc=Eliminar&id_doc=" + d.getId_documento_adjunto()
                                 + "&iddgp=" + d.getId_dgp()
                                 + "&idtr=" + d.getId_trabajador()
                                 + "'><i class='fa fa-trash-o'></i></a>";
@@ -717,10 +719,10 @@ public class DocumentoController {
             html += "<div class='row'>";
             html += "<div class='col-md-12'>";
 
-            html += (enterToDGPProcess) ? "<a class='btn btn-success pull-right btn_continuar_det' href='../../../dgp?iddgp=" + dgp + "&idtr=" + idtr + "&opc=rd'>Continuar<i class='fa fa-arrow-circle-right'></i></a>"
+            html += (enterToDGPProcess) ? "<a class='btn btn-success pull-right btn_continuar_det' href='dgp?iddgp=" + dgp + "&idtr=" + idtr + "&opc=rd'>Continuar<i class='fa fa-arrow-circle-right'></i></a>"
                     : "";
-            html += (enterToRegTrabajador) ? "<a class='btn btn-success pull-right btn_continuar_det' href='../../../trabajador?idtr=" + idtr + "&opc=list_reg_tra'>Continuar<i class='fa fa-arrow-circle-right'></i></a>" : "";
-            html += (enterToCasosEspecialesProcess) ? "<a class='btn btn-success pull-right btn_continuar_det' href='../../../contrato?idtr=" + idtr + "&opc=Detalle_Contractual'>Continuar<i class='fa fa-arrow-circle-right'></i></a>" : "";
+            html += (enterToRegTrabajador) ? "<a class='btn btn-success pull-right btn_continuar_det' href='trabajador?idtr=" + idtr + "&opc=list_reg_tra'>Continuar<i class='fa fa-arrow-circle-right'></i></a>" : "";
+            html += (enterToCasosEspecialesProcess) ? "<a class='btn btn-success pull-right btn_continuar_det' href='contrato?idtr=" + idtr + "&opc=Detalle_Contractual'>Continuar<i class='fa fa-arrow-circle-right'></i></a>" : "";
 
             html += "  <button type='button' class='btn btn-primary btn_reg_doc pull-right' style='display:none'> <i class='fa fa-plus-square'></i>Registrar</button>";
 
@@ -736,7 +738,7 @@ public class DocumentoController {
     }
 
     @PostMapping
-    public ResponseEntity<?> process(HttpServletRequest request) {
+    public ResponseEntity<?> process(HttpServletRequest request, HttpServletResponse response) {
 
         String dgp = request.getParameter("iddgp");
         String idtr = request.getParameter("idtr");
@@ -758,7 +760,7 @@ public class DocumentoController {
                     sesion.setAttribute("List_Hijos", d.List_Hijos(idtr));
                     sesion.setAttribute("List_doc_req_pla", d.List_doc_req_pla(dgp, idtr));
                     sesion.setAttribute("List_Conyugue", d.List_Conyugue(idtr));
-                    ///response.sendRedirect("views/Dgp/Documento/Reg_Documento.html?n_nac=" + s + "&num_ad=" + num_ad + "&idtr=" + idtr + "&iddgp=" + dgp + "&pro=pr_dgp&a=e");
+                    response.sendRedirect("views/Dgp/Documento/Reg_Documento.html?n_nac=" + s + "&num_ad=" + num_ad + "&idtr=" + idtr + "&iddgp=" + dgp + "&pro=pr_dgp&a=e");
 
                 }
 

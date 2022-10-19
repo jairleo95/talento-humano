@@ -18,10 +18,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.google.gson.Gson;
+
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.app.persistence.dao.Datos_Hijo_TrabajadorDAO;
@@ -66,7 +69,7 @@ public class PersonController {
     InterfaceHist_Estado_CivilDAO ec = new Hist_Estado_CivilDAO();
     InterfaceDatos_Hijo_Trabajador h = new Datos_Hijo_TrabajadorDAO();
 
-    @GetMapping("diezmo")
+    @PostMapping("diezmo")
     public ResponseEntity<?> diezmo(HttpServletRequest request) {
         Map<String, Object> rpta = new HashMap<String, Object>();
         String opc = request.getParameter("opc");
@@ -111,7 +114,7 @@ public class PersonController {
         return new ResponseEntity<>(rpta, HttpStatus.OK);
     }
 
-    @GetMapping("afp")
+    @PostMapping("afp")
     public ResponseEntity<?> afp(HttpServletRequest request) {
         Map<String, Object> rpta = new HashMap<String, Object>();
         String opc = request.getParameter("opc");
@@ -164,7 +167,7 @@ public class PersonController {
         return new ResponseEntity<>(rpta, HttpStatus.OK);
     }
 
-    @GetMapping("tiHoraPago")
+    @PostMapping("tiHoraPago")
     public ResponseEntity<?> tiHoraPago(HttpServletRequest request) {
         Map<String, Object> rpta = new HashMap<String, Object>();
         String opc = request.getParameter("opc");
@@ -203,14 +206,15 @@ public class PersonController {
         return new ResponseEntity<>(rpta, HttpStatus.OK);
     }
 
-    @GetMapping
-    public ResponseEntity<?> read(HttpServletRequest request) {
+    @RequestMapping
+    public ResponseEntity<?> read(HttpServletRequest request, HttpServletResponse response) throws IOException {
         Map<String, Object> rpta = new HashMap<String, Object>();
         String opc = request.getParameter("opc");
 
         HttpSession session = request.getSession(true);
         String user = (String) session.getAttribute("IDUSER");
         String iddep = (String) session.getAttribute("DEPARTAMENTO_ID");
+        String Text = (String) session.getAttribute("text");
 
         if (user != null) {
 
@@ -225,12 +229,12 @@ public class PersonController {
                     String busc = (String) request.getParameter("busc");
                     if (busc != null) {
                         session.setAttribute("ListarTrabajador2", tr.Buscar_Trabajador_Requerimiento(iddep, dni, nom, ape_pat, ape_mat, id_req));
-                        ///no va getServletContext().setAttribute(nom, dgp.VAL_OPC_DGP(dni));
+                        //no va getServletContext().setAttribute(nom, dgp.VAL_OPC_DGP(dni));
 
-                        ////  response.sendRedirect("views/Dgp/Generar_Dgp.html?text=" + Text);
+                        response.sendRedirect("views/Dgp/Generar_Dgp.html?text=" + Text);
                     }
                 } else {
-                    //// response.sendRedirect("views/Dgp/Generar_Dgp.html?text=" + Text);
+                     response.sendRedirect("views/Dgp/Generar_Dgp.html?text=" + Text);
 
                 }
             }
@@ -246,10 +250,10 @@ public class PersonController {
                 System.out.println(nom);
                 if (("Buscar".equals(Buscar) & (!"".equals(dni) | !"".equals(nom) | !"".equals(ape_mat) | !"".equals(ape_pat)))) {
                     session.setAttribute("ListarTrabajador", tr.Buscar_Ficha_Trabajador(iddep, dni, nom, ape_pat, ape_mat));
-                    ///getServletContext().setAttribute(nom, dgp.VAL_OPC_DGP(dni));
-                    ////response.sendRedirect("views/Trabajador/Ficha_Trabajador.jsp");
+                    //getServletContext().setAttribute(nom, dgp.VAL_OPC_DGP(dni));
+                    response.sendRedirect("Ficha_Trabajador");
                 } else {
-                    ///response.sendRedirect("views/Trabajador/Ficha_Trabajador.jsp");
+                    response.sendRedirect("Ficha_Trabajador");
                 }
             }
             if ("list".equals(opc)) {
@@ -262,9 +266,9 @@ public class PersonController {
                 session.setAttribute("Listar_tipo_doc", tdoc.Listar_tipo_doc());
                 session.setAttribute("id_empleadox_ide", em.id_empleadox_ide(idtr));
                 if (request.getParameter("dgp") != null) {
-                    ////response.sendRedirect("views/Trabajador/Detalle_Trabajador.html?idtr=" + idtr + "&dgp=" + request.getParameter("dgp"));
+                    response.sendRedirect("Detalle_Trabajador?idtr=" + idtr + "&dgp=" + request.getParameter("dgp"));
                 } else {
-                    ////response.sendRedirect("views/Trabajador/Detalle_Trabajador.html?idtr=" + idtr);
+                    response.sendRedirect("Detalle_Trabajador?idtr=" + idtr);
                 }
             }
             if ("list_reg_tra".equals(opc)) {
@@ -280,7 +284,7 @@ public class PersonController {
                 session.setAttribute("List_tipo_institucion", cu.List_Tipo_Ins());
                 session.setAttribute("List_Ubigeo", ub.List_Distrito());
                 session.setAttribute("Listar_tipo_doc", tdoc.Listar_tipo_doc());
-                ////    response.sendRedirect("views/Trabajador/Detalle_Trabajador.html?idtr=" + idtr.trim() + "&ms=" + me);
+                    response.sendRedirect("views/Trabajador/Detalle_Trabajador.html?idtr=" + idtr.trim() + "&ms=" + me);
             }
             if (opc.equals("Mostrar_Cod_APS")) {
                 String idtr = request.getParameter("tr");
@@ -366,7 +370,7 @@ public class PersonController {
                 session.setAttribute("List_Dom_D1_Id", li.List_Dom_D1_Id());
                 session.setAttribute("List_Dom_D5_Id", li.List_Dom_D5_Id());
                 session.setAttribute("List_Dom_D3_Id", li.List_Dom_D3_Id());
-                ///response.sendRedirect("views/Trabajador/Aspecto_Social.html?idtr=" + idtr);
+                response.sendRedirect("Trabajador/Aspecto_Social.html?idtr=" + idtr);
             }
         }
 
@@ -374,7 +378,7 @@ public class PersonController {
     }
 
     @PutMapping
-    public ResponseEntity<?> update(HttpServletRequest request){
+    public ResponseEntity<?> update(HttpServletRequest request, HttpServletResponse response) throws IOException {
         Map<String, Object> rpta = new HashMap<String, Object>();
         String opc = request.getParameter("opc");
         HttpSession session = request.getSession(true);
@@ -383,7 +387,7 @@ public class PersonController {
         if ("actualizar".equals(opc)) {
             String idtr = request.getParameter("idtr");
             session.setAttribute("ListaridTrabajador", tr.ListaridTrabajador(idtr));
-            ////response.sendRedirect("views/Trabajador/Detalle_Trabajador.html?idtr=" + idtr.trim());
+            response.sendRedirect("views/Trabajador/Detalle_Trabajador.html?idtr=" + idtr.trim());
         }
         if ("edit_perfil".equals(opc)) {
             String idtr = tr.ID_TRB(iduser);
@@ -394,7 +398,7 @@ public class PersonController {
             session.setAttribute("List_Ubigeo", ub.List_Distrito());
             session.setAttribute("Listar_tipo_doc", tdoc.Listar_tipo_doc());
             session.setAttribute("id_empleadox_ide", em.id_empleadox_ide(idtr));
-            ///response.sendRedirect("views/Trabajador/Detalle_Trabajador.html?edit=ok&idtr=" + idtr);
+            response.sendRedirect("views/Trabajador/Detalle_Trabajador.html?edit=ok&idtr=" + idtr);
         }
         if (opc.equals("Modificar_Dat_Gen")) {
             String edit = request.getParameter("editar");
@@ -441,9 +445,9 @@ public class PersonController {
             tr.MOD_DAT_GEN(AP_PATERNO, AP_MATERNO, NO_TRABAJADOR, TI_DOC, NU_DOC, ES_CIVIL, FE_NAC, ID_NACIONALIDAD, ID_DEPARTAMENTO, ID_PROVINCIA, ID_DISTRITO, TE_TRABAJADOR, CL_TRA, DI_CORREO_PERSONAL, DI_CORREO_INST, CO_SISTEMA_PENSIONARIO, ES_SEXO, LI_GRUPO_SANGUINEO, ID_NO_AFP, ES_AFILIADO_ESSALUD, LI_TIPO_TRABAJADOR, ES_FACTOR_RH, idtr, US_MODIF, IP_USUARIO);
             session.setAttribute("ListaridTrabajador", tr.ListaridTrabajador(idtr));
             if (edit.equals("ok")) {
-                ////response.sendRedirect("views/Trabajador/Datos_Generales.html?idtr=" + idtr + "&edit=" + edit);
+                response.sendRedirect("views/Trabajador/Datos_Generales.html?idtr=" + idtr + "&edit=" + edit);
             } else {
-                ////    response.sendRedirect("views/Trabajador/Datos_Generales.html?idtr=" + idtr);
+                response.sendRedirect("views/Trabajador/Datos_Generales.html?idtr=" + idtr);
             }
         }
         if (opc.equals("Editar_Dat_Gen")) {
@@ -455,7 +459,7 @@ public class PersonController {
             session.setAttribute("List_Provincia", ub.List_Provincia());
             session.setAttribute("List_Distrito", ub.List_DistritoTra());
             session.setAttribute("Listar_tipo_doc", tdoc.Listar_tipo_doc());
-            ///response.sendRedirect("views/Trabajador/Mod_Datos_Generales.html?idtr=" + idtr + "&edit=" + edit);
+            response.sendRedirect("views/Trabajador/Mod_Datos_Generales.html?idtr=" + idtr + "&edit=" + edit);
         }
 
         if (opc.equals("Editar_Asp_Acad")) {
@@ -475,7 +479,7 @@ public class PersonController {
             session.setAttribute("List_Universidad", li.List_Universidad());
             session.setAttribute("List_Carrera", li.List_Carrera());
             session.setAttribute("List_Situacion_Educativa", li.List_Situacion_Educativa());
-            ///response.sendRedirect("views/Trabajador/Mod_Aspecto_Academico.html?idtr=" + idtr + "&edit=" + edit);
+            response.sendRedirect("views/Trabajador/Mod_Aspecto_Academico.html?idtr=" + idtr + "&edit=" + edit);
 
         }
         if (opc.equals("Modificar_Asp_Acad")) {
@@ -491,10 +495,8 @@ public class PersonController {
             String CO_UNIVERSITARIO = request.getParameter("CO_UNIVERSITARIO");
             String US_MODIF = iduser;
             String IP_USUARIO = tr.ip();
-            ////out.print("1");
             tr.MOD_ASPEC_ACADEM(LI_NIVEL_EDUCATIVO, REGIMEN, ES_INST_PERU, CARRERA, DE_ANNO_EGRESO, CM_OTROS_ESTUDIOS, CA_TIPO_HORA_PAGO_REFEERENCIAL, idtr, CO_UNIVERSITARIO, US_MODIF, IP_USUARIO);
             //MODIFICAR CUENTA SUELDO
-            ///out.print("2");
             String NO_BANCO = "";
             String NU_CUENTA = "";
             String NU_CUENTA_BANC = "";
@@ -513,13 +515,11 @@ public class PersonController {
                 } else {
                     ES_CUENTA_SUELDO = "1";
                 }
-                /// out.print("3");
                 tr.MOD_CUENTA_SUELDO(NO_BANCO, NU_CUENTA, NU_CUENTA_BANC, ES_GEM_NU_CUENTA, NO_BANCO_OTROS, idtr, ES_CUENTA_SUELDO);
-                ///out.print("4");
             }
             session.setAttribute("ListaridTrabajador", tr.ListaridTrabajador(idtr));
             session.setAttribute("List_Cuenta_Sueldo", tr.List_Cuenta_Sueldo(idtr));
-            ///response.sendRedirect("views/Trabajador/Aspecto_Academico.html?idtr=" + idtr);
+            response.sendRedirect("views/Trabajador/Aspecto_Academico.html?idtr=" + idtr);
 
         }
         if (opc.equals("Editar_Asp_Soc")) {
@@ -536,7 +536,7 @@ public class PersonController {
             session.setAttribute("List_Dom_D5_Id", li.List_Dom_D5_Id());
             session.setAttribute("List_Dom_D3_Id", li.List_Dom_D3_Id());
 
-            ///response.sendRedirect("views/Trabajador/Mod_Aspecto_Social.html?idtr=" + idtr);
+            response.sendRedirect("views/Trabajador/Mod_Aspecto_Social.html?idtr=" + idtr);
         }
         if (opc.equals("Modificar_Asp_Soc")) {
             String idtr = request.getParameter("idtr");
@@ -562,12 +562,12 @@ public class PersonController {
             String IP_USUARIO = tr.ip();
             tr.MOD_ASPEC_SOCIAL(LI_DI_DOM_A_D1, DI_DOM_A_D2, LI_DI_DOM_A_D3, DI_DOM_A_D4, LI_DI_DOM_A_D5, DI_DOM_A_D6, DI_DOM_A_REF, ID_DI_DOM_A_DISTRITO, LI_DI_DOM_LEG_D1, DI_DOM_LEG_D2, LI_DI_DOM_LEG_D3, DI_DOM_LEG_D4, LI_DI_DOM_LEG_D5, DI_DOM_LEG_D6, ID_DI_DOM_LEG_DISTRITO, CA_ING_QTA_CAT_EMPRESA, CA_ING_QTA_CAT_RUC, CA_ING_QTA_CAT_OTRAS_EMPRESAS, idtr, US_MODIF, IP_USUARIO);
             session.setAttribute("ListaridTrabajador", tr.ListaridTrabajador(idtr));
-            ///response.sendRedirect("views/Trabajador/Aspecto_Social.html?idtr=" + idtr);
+            response.sendRedirect("views/Trabajador/Aspecto_Social.html?idtr=" + idtr);
         }
         if ("Editar_Asp_Rel".equals(opc)) {
             String idtr = request.getParameter("idtr");
             session.setAttribute("ListaridTrabajador", tr.ListaridTrabajador(idtr));
-            ///response.sendRedirect("views/Trabajador/Historial_Religion/Mod_Asp_Religioso.jsp?idtr=" + idtr + "&iduser=" + iduser);
+            response.sendRedirect("views/Trabajador/Historial_Religion/Mod_Asp_Religioso.jsp?idtr=" + idtr + "&iduser=" + iduser);
         }
         if ("Modificar_Asp_Rel".equals(opc)) {
             String idtr = request.getParameter("idtr");
@@ -581,7 +581,7 @@ public class PersonController {
             tr.INSERT_HIST_RELIGION(null, LI_RELIGION, NO_IGLESIA, DE_CARGO, LI_AUTORIDAD, NO_AP_AUTORIDAD, CL_AUTORIDAD, "1", idtr, iduser, FE_MODIF);
             tr.MOD_ASP_REL(LI_RELIGION, NO_IGLESIA, DE_CARGO, LI_AUTORIDAD, NO_AP_AUTORIDAD, CL_AUTORIDAD, idtr, iduser, tr.ip());
             session.setAttribute("ListaridTrabajador", tr.ListaridTrabajador(idtr));
-            ///response.sendRedirect("views/Trabajador/Aspecto_Social.html");
+            response.sendRedirect("views/Trabajador/Aspecto_Social.html");
         }
 
 
@@ -589,7 +589,7 @@ public class PersonController {
     }
 
     @PostMapping
-    public void add(HttpServletRequest request) {
+    public void add(HttpServletRequest request, HttpServletResponse response) throws IOException {
         Map<String, Object> rpta = new HashMap<String, Object>();
         HttpSession session = request.getSession(true);
         String idrol = (String) session.getAttribute("IDROL");
@@ -614,7 +614,7 @@ public class PersonController {
                     session.setAttribute("Listar_zona", dir.Listar_zona());
                     session.setAttribute("Listar_tipo_doc", tdoc.Listar_tipo_doc());
                     session.setAttribute("list_año", li.lista_años());
-                   //// response.sendRedirect("views/Trabajador/Reg_Trabajador.html");
+                    response.sendRedirect("views/Trabajador/Reg_Trabajador.html");
                 }
                 if (opc.equals("Registrar")) {
                     String AP_PATERNO = request.getParameter("APELLIDO_P");
@@ -712,14 +712,14 @@ public class PersonController {
                     }
 
                     if (tr.val_nu_doc(NU_DOC)) {
-                       //// out.print("Trabajador ya existe!");
+//                        out.print("Trabajador ya existe!");
                     } else {
 
                         FE_NAC = DateFormat.toFormat3(FE_NAC);
                         FE_NAC_C = DateFormat.toFormat3(FE_NAC_C);
 
-                        ////out.println(" fecha nac :" + DateFormat.toFormat1(FE_NAC));
-                        ////out.println(" fecha nac C :" + DateFormat.toFormat1(FE_NAC_C));
+//                        out.println(" fecha nac :" + DateFormat.toFormat1(FE_NAC));
+//                        out.println(" fecha nac C :" + DateFormat.toFormat1(FE_NAC_C));
 
                         tr.INSERT_TRABAJADOR(null, AP_PATERNO, AP_MATERNO, NO_TRABAJADOR, TI_DOC, NU_DOC, ES_CIVIL, FE_NAC, ID_NACIONALIDAD, ID_DEPARTAMENTO, ID_PROVINCIA, ID_DISTRITO, TE_TRABAJADOR, CL_TRA, DI_CORREO_PERSONAL, DI_CORREO_INST, CO_SISTEMA_PENSIONARIO, LI_NIVEL_EDUCATIVO, REGIMEN, ES_INST_PERU, CARRERA, DE_ANNO_EGRESO, CM_OTROS_ESTUDIOS, ES_SEXO, LI_GRUPO_SANGUINEO, DE_REFERENCIA, LI_RELIGION, NO_IGLESIA, DE_CARGO, LI_AUTORIDAD, NO_AP_AUTORIDAD, CL_AUTORIDAD, ID_NO_AFP, ES_AFILIADO_ESSALUD, LI_TIPO_TRABAJADOR, CA_TIPO_HORA_PAGO_REFEERENCIAL, ES_FACTOR_RH, LI_DI_DOM_A_D1, DI_DOM_A_D2, LI_DI_DOM_A_D3, DI_DOM_A_D4, LI_DI_DOM_A_D5, DI_DOM_A_D6, DI_DOM_A_REF, ID_DI_DOM_A_DISTRITO, LI_DI_DOM_LEG_D1, DI_DOM_LEG_D2, LI_DI_DOM_LEG_D3, DI_DOM_LEG_D4, LI_DI_DOM_LEG_D5, DI_DOM_LEG_D6, ID_DI_DOM_LEG_DISTRITO, CA_ING_QTA_CAT_EMPRESA, CA_ING_QTA_CAT_RUC, CA_ING_QTA_CAT_OTRAS_EMPRESAS, CM_OBSERVACIONES, US_CREACION, FE_CREACION, US_MODIF, FE_MODIF, IP_USUARIO, AP_NOMBRES_PADRE, AP_NOMBRES_MADRE,
                                 ((ES_TRABAJA_UPEU_C!=null)? ES_TRABAJA_UPEU_C : "0"), AP_NOMBRES_C, FE_NAC_C, ID_TIPO_DOC_C, NU_DOC_C, LI_INSCRIPCION_VIG_ESSALUD_C,
@@ -756,18 +756,18 @@ public class PersonController {
                         int s = d.List_Req_nacionalidad(idtr);
                         int num_ad = d.List_Adventista(idtr);
                         int count = d.count_documentos_x_tra(idtr);
-                        //if (count > 0) {
-                           ///////////// response.sendRedirect("views/Dgp/Documento/Reg_Documento.html?pro=regTR&idtr=" + idtr);
-                      //  } else {
-                        //    response.sendRedirect("views/Trabajador/Documento/Reg_Documento.html?n_nac=" + s + "&num_ad=" + num_ad + "&idtr=" + idtr + "&pro=pr_dgp&P2=TRUE&dt=ok");
-                       // }
+                        if (count > 0) {
+                           response.sendRedirect("views/Dgp/Documento/Reg_Documento.html?pro=regTR&idtr=" + idtr);
+                        } else {
+                            response.sendRedirect("views/Trabajador/Documento/Reg_Documento.html?n_nac=" + s + "&num_ad=" + num_ad + "&idtr=" + idtr + "&pro=pr_dgp&P2=TRUE&dt=ok");
+                        }
                     }
                 }
 
                 if ("Documento_Trabajador".equals(opc)) {
                     String idtr = request.getParameter("idtr");
                     session.setAttribute("Lis_doc_trabajador_hab", d.Lis_doc_trabajador_hab(idtr));
-                    ///response.sendRedirect("views/Trabajador/List_Doc_Trabajador.html?idtr=" + idtr);
+                    response.sendRedirect("views/Trabajador/List_Doc_Trabajador.html?idtr=" + idtr);
                 }
                 if ("aut".equals(opc)) {
                     String idtr = request.getParameter("idtr");
@@ -787,7 +787,7 @@ public class PersonController {
                     session.setAttribute("List_Auto_mostrar", li.List_Auto_mostrar(idrol));
                     session.setAttribute("List_", li.List_Auto_mostrar(idrol));
 
-                    ///response.sendRedirect("views/Trabajador/Detalle_Trabajador.html?idtr=" + idtr.trim() + "&aut=1&dgp=" + iddgp + "&p=" + puesto_id + "&c=" + cod + "&pas=" + idpasos + "&drp=" + drp + "&np=" + np + "&vnc=" + num_c_dgp + "&val_aps=" + val_aps + "&val_huella=" + val_huella);
+                    response.sendRedirect("views/Trabajador/Detalle_Trabajador.html?idtr=" + idtr.trim() + "&aut=1&dgp=" + iddgp + "&p=" + puesto_id + "&c=" + cod + "&pas=" + idpasos + "&drp=" + drp + "&np=" + np + "&vnc=" + num_c_dgp + "&val_aps=" + val_aps + "&val_huella=" + val_huella);
                 }
 
                 if ("reg_aps_masivo".equals(opc)) {
@@ -806,7 +806,7 @@ public class PersonController {
                 }
 
                 if (opc.equals("Form_Cambiar_Clave")) {
-                    ////response.sendRedirect("views/Usuario/Cambiar_Pwd.jsp");
+                    response.sendRedirect("Cambiar_Pwd");
                 }
                 if (opc.equals("Val_num_Doc")) {
                     String nu_doc = request.getParameter("doc");
@@ -815,7 +815,7 @@ public class PersonController {
                 }
 
                 if (opc.equals("reg_trb")) {
-                    ///response.sendRedirect("views/Trabajador/Ficha_Trabajador.jsp");
+                    response.sendRedirect("Ficha_Trabajador.jsp");
                 }
                 if (opc.equals("validar_cod_uni")) {
                     String cod_uni = request.getParameter("cod_uni");
@@ -834,7 +834,7 @@ public class PersonController {
 //                out.close();
             }
         } else {
-            // response.sendRedirect("/TALENTO_HUMANO/");
+             response.sendRedirect("/TALENTO_HUMANO/");
         }
     }
 }

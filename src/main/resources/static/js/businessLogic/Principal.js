@@ -300,12 +300,13 @@ function getAvatar(tipo, idtra) {
 
 function pageEvents() {
     $(".li-privilegio").click(function () {
-        var href = $(this).find('a').attr('href');
-        console.log('privilege:'+href);
-        $(".oldContent").hide();
-        $(".newContent").show();
-
-        loadURL(href, $(".newContent"));
+        var hrefValue = $(this).find('a').attr('href');
+        console.log('privilege:'+hrefValue);
+        if (hrefValue !=='#') {
+            $(".oldContent").hide();
+            $(".newContent").show();
+            loadURL(hrefValue, $(".newContent"));
+        }
     });
 
     $(".ReqPlanilla").click(function () {
@@ -355,10 +356,6 @@ function pageEvents() {
         $this.parents('.btn-group').find('.dropdown-toggle').html(selText + ' <span class="caret"></span>');
         $this.parents('.dropdown-menu').find('li').removeClass('active');
         $this.parent().addClass('active');
-    });
-
-    $(".hola2 ").click(function () {
-        $(".autorizacionList").click();
     });
 
     $(".autorizacionList").click(function () {

@@ -50,7 +50,7 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
         <% } %>
     <center><h3 class="text-danger" style="font-size: 26pt;">Plantilla Contractual</h3></center>
     <form class="ckeditor_form" action=../formato_plantilla" method="post">
-        <div id="wait"  align="center"><img src='../../../img/por-favor-espere.gif' width="100" height="100" /><br>Cargando..</div>
+        <div id="wait"  align="center"><img src='img/por-favor-espere.gif' width="100" height="100" /><br>Cargando..</div>
         <textarea cols="100" id="editor1" name="editor1" rows="10">
         </textarea>
         <div id="eButtons" >

@@ -12,10 +12,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -31,8 +33,8 @@ public class EmployeeController {
 
     InterfaceEmpleadoDAO Iem = new EmpleadoDAO();
 
-    @PostMapping
-    public ResponseEntity<?> process(HttpServletRequest request) {
+    @RequestMapping
+    public ResponseEntity<?> process(HttpServletRequest request, HttpServletResponse response) {
         Map<String, Object> rpta = new HashMap<String, Object>();
 
         HttpSession sesion = request.getSession(true);
@@ -48,12 +50,12 @@ public class EmployeeController {
                 sesion.setAttribute("LIST_EVALUACION", Iem.Listar_Evaluacion_Emp(ID_Empleado));
                 if (estado != null) {
                     if (estado.equals("1")) {
-                        ///response.sendRedirect("views/Empleado/List_Evaluacion_Emp.html?idemp=" + ID_Empleado);
+                        response.sendRedirect("views/Empleado/List_Evaluacion_Emp.html?idemp=" + ID_Empleado);
                     } else {
-                        ///response.sendRedirect("views/Empleado/Evaluacion_Empleado.html?idtr=" + ID_Trabajador);
+                        response.sendRedirect("views/Empleado/Evaluacion_Empleado.html?idtr=" + ID_Trabajador);
                     }
                 } else {
-                    ///response.sendRedirect("views/Empleado/Evaluacion_Empleado.html?idtr=" + ID_Trabajador);
+                    response.sendRedirect("views/Empleado/Evaluacion_Empleado.html?idtr=" + ID_Trabajador);
                 }
 
             }
@@ -65,12 +67,12 @@ public class EmployeeController {
                 String ID_EMPLEADO = Iem.ID_Empleado(ID_TRABAJADOR);
                 Iem.Insert_Evaluacion_Emp(ID_EVALUACION_EMP, ES_EVALUACION, RE_EVALUACION, ID_EMPLEADO);
                 sesion.setAttribute("LIST_EVALUACION", Iem.Listar_Evaluacion_Emp(ID_EMPLEADO));
-                ///response.sendRedirect("views/Empleado/List_Evaluacion_Emp.html?idemp=" + ID_EMPLEADO);
+                response.sendRedirect("views/Empleado/List_Evaluacion_Emp.html?idemp=" + ID_EMPLEADO);
             }
             if (opc.equals("Editar")) {
                 String ID_EMP = request.getParameter("idemp");
                 sesion.setAttribute("LIST_EVALUACION", Iem.Listar_Evaluacion_Emp(ID_EMP));
-                ///response.sendRedirect("views/Empleado/Mod_Evaluacion_Emp.html?idemp=" + ID_EMP);
+                response.sendRedirect("views/Empleado/Mod_Evaluacion_Emp.html?idemp=" + ID_EMP);
             }
 
             if (opc.equals("modificar")) {
@@ -78,12 +80,12 @@ public class EmployeeController {
                 String ID_EMPLEADO = request.getParameter("ID_EMPLEADO");
                 Iem.Mod_Evaluacion_emp(RE_EVALUACION, ID_EMPLEADO);
                 sesion.setAttribute("LIST_EVALUACION", Iem.Listar_Evaluacion_Emp(ID_EMPLEADO));
-                ///response.sendRedirect("views/Empleado/List_Evaluacion_Emp.html?idemp=" + ID_EMPLEADO);
+                response.sendRedirect("views/Empleado/List_Evaluacion_Emp.html?idemp=" + ID_EMPLEADO);
 
             }
 
             if (opc.equals("Reporte")) {
-                ///response.sendRedirect("views/Empleado/Filtro_Empleado.html");
+                response.sendRedirect("Filtro_Empleado");
             }
             if (opc.equals("getAllEmployees")) {
                 Datatable datatable = new Datatable();

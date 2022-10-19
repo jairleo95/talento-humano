@@ -6,18 +6,13 @@
     if (id_user != null) {
 %>
 <%@page import="com.app.persistence.dao.AutorizacionDAO"%>
-<%@page import="com.app.domain.model.Usuario"%>
-<%@page import="com.app.persistence.dao.DgpDAO"%>
-<%@page import="com.app.persistence.dao_imp.InterfaceDgpDAO"%>
 <%@page import="com.app.persistence.dao_imp.InterfaceAutorizacionDAO"%>
 <%@page import="com.app.domain.model.V_Autorizar_Dgp"%>
 <jsp:useBean id="List_id_Autorizacion" scope="session" class="java.util.ArrayList"/>
-<html>
-    <head>
 
-        <link href="css/Css_Bootstrap/fileinput.css" media="all" rel="stylesheet" type="text/css" />
-        <link href="css/businessLogic/Dgp/autorizarRequerimiento.css" rel="stylesheet" type="text/css"/>
-    </head>
+<link href="css/Css_Bootstrap/fileinput.css" media="all" rel="stylesheet" type="text/css" />
+<link href="css/businessLogic/Dgp/autorizarRequerimiento.css" rel="stylesheet" type="text/css"/>
+
     <%
         int t = List_id_Autorizacion.size();
     %>
@@ -436,7 +431,8 @@
                             <div id="alerta_dgp">
                             </div>
                             <!-- Widget ID (each widget will need unique ID)-->
-                            <div class="jarviswidget jarviswidget-color-red" id="wid-id-1"  data-widget-editbutton="false"  data-widget-deletebutton="false" data-widget-fullscreenbutton="false">
+                            <div class="jarviswidget jarviswidget-color-red" id="wid-id-1"
+                                    data-widget-editbutton="false"  data-widget-deletebutton="false" data-widget-fullscreenbutton="false">
                                 <!-- widget options:
                                 usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
                 
@@ -625,11 +621,28 @@
 
     <!--===========================Modal======================= -->
 
-    <!--BUSINESS LOGIC PLUGINS -->
-    <script src="js/coment/comenth.js?v=<%=globalProperties.VERSION_JS%>" type="text/javascript"></script>
-    <script type="text/javascript" src="js/Js_Formulario/Js_Form.js?v=<%=globalProperties.VERSION_JS%>"></script>
-    <script type="text/javascript" src="js/businessLogic/Horario/horario.js?v=<%=globalProperties.VERSION_JS%>"></script>
-    <script type="text/javascript" src="js/businessLogic/Autorizacion/inboxAuthorization.js?v=<%=globalProperties.VERSION_JS%>"></script>
+        <script src="js/plugin/datatables/jquery.dataTables.min.js"></script>
+        <script src="js/plugin/datatables/dataTables.colVis.min.js"></script>
+        <script src="js/plugin/datatables/dataTables.bootstrap.min.js"></script>
+        <script src="js/plugin/datatable-responsive/datatables.responsive.min.js"></script>
+
+        <script type="text/javascript" src="js/JQuery/jquery.numeric.js"></script>
+        <script src="js/plugin/delete-table-row/delete-table-row.min.js"></script>
+
+        <script src="js/plugin/summernote/summernote.min.js"></script>
+        <script src="js/plugin/select2/select2.min.js"></script>
+
+        <script src="js/plugin/jquery-form/jquery-form.min.js"></script>
+
+        <script src="js/bootstrap/fileinput.js" type="text/javascript"></script>
+        <script src="js/bootstrap/es.js" type="text/javascript"></script>
+
+
+        <!--BUSINESS LOGIC PLUGINS -->
+        <script src="js/coment/comenth.js" type="text/javascript"></script>
+        <script type="text/javascript" src="js/Js_Formulario/Js_Form.js"></script>
+        <script type="text/javascript" src="js/businessLogic/Horario/horario.js"></script>
+        <script type="text/javascript" src="js/businessLogic/Autorizacion/inboxAuthorization.js"></script>
 </body>
 </html>
 <%

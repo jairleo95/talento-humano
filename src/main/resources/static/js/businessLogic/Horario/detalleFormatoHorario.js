@@ -12,7 +12,7 @@
                     };
                     $.ajax({
                         async: false,
-                        url: '../../formato_horario?opc=statupdate',
+                        url: 'formato_horario?opc=statupdate',
                         data: datos,
                         type: 'POST'
                     });
@@ -23,7 +23,7 @@
                     };
                     $.ajax({
                         async: false,
-                        url: '../../formato_horario?opc=statupdate',
+                        url: 'formato_horario?opc=statupdate',
                         data: datos,
                         type: 'POST'
                     });
@@ -297,7 +297,7 @@
                                 t += "<td id='" + lista[i].iddep + "' class='dep" + x + "'>" + lista[i].dep + "</td>";
                                 t += "<td id='" + lista[i].idarea + "' class='area" + x + "'>" + lista[i].area + "</td>";
                                 t += "<td id='" + lista[i].idseccion + "' class='seccion" + x + "'>" + lista[i].seccion + "</td>";
-                                t += "<td><a class='btn btn-link btnVer' target='_blanck' href='../../formato_horario?opc=LISTAR_FORMATO_HORARIO&idth=" + lista[i].id + "&nofor=" + lista[i].nombre + "'><span><i class='fa fa-eye'></i></span></a>";
+                                t += "<td><a class='btn btn-link btnVer' target='_blanck' href='formato_horario?opc=LISTAR_FORMATO_HORARIO&idth=" + lista[i].id + "&nofor=" + lista[i].nombre + "'><span><i class='fa fa-eye'></i></span></a>";
                                 t += "<a id='" + x + "' class='btn btn-link btnEditar' href='#'><span><i class='fa fa-pencil'></i></span></a>";
                                 t += "<a class='btn btn-link btnEliminar' href='#'><span><i class='fa fa-times'></i></span></a></td>";
                                 var info = 'statupdate("' + lista[i].id + '",$(this))';
@@ -347,7 +347,7 @@
                                     buttons: '[No][Si]'
                                 }, function (ButtonPressed) {
                                     if (ButtonPressed === "Si") {
-                                        $.post('../../formato_horario?opc=eliminar_fh&ID_HORARIO=' + id, function () {
+                                        $.post('formato_horario?opc=eliminar_fh&ID_HORARIO=' + id, function () {
                                             cargar_tabla();
                                             $.smallBox({
                                                 title: "Notificacion",

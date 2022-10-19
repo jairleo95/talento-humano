@@ -111,7 +111,7 @@ function init() {
         $("#ipuesto").attr("value", id);
         $(".cPuestoT").empty();
         $(".cPuestoT").append("<small>Puesto de : </small> <strong>" + $(".select_puesto option:selected").text() + "</strong>");
-///////////////////////////////////////////////////////////////////////////////
+
         var objJson = listDetPuesto($(".select_puesto").val());
         if (objJson !== null) {
             if (objJson.detTPuesto.length > 0) {
@@ -143,7 +143,7 @@ function init() {
         $("#fe_f").attr("value", f_f[0]);
         $("#fe_i").attr("value", f_i[0]);
         $("#itemp").attr("value", id);
-        /////////////////////////////////////////////////////////////////
+        /
         var idDestino = $("#iDestino").val();
         var c_c = $(".select_cc").val();
         var tip = $("#tipo_p").val();

@@ -13,6 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.http.HttpStatus;
@@ -31,7 +32,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class MCCostoController {
 
     @PostMapping
-    public ResponseEntity<?> processRequest(HttpServletRequest request) {
+    public ResponseEntity<?> processRequest(HttpServletRequest request, HttpServletResponse response) {
         Map<String, Object> rpta = new HashMap<String, Object>();
         String opc = request.getParameter("opc");
         HttpSession sesion = request.getSession(true);
@@ -39,7 +40,7 @@ public class MCCostoController {
         InterfaceCentroCosto cc = new CentroCostoDAO();
         try {
             if (opc.equals("menu")) {
-                ///response.sendRedirect("views/CCosto/MantCCosto.html");
+                response.sendRedirect("views/CCosto/MantCCosto.html");
             }
             if (opc.equals("list_ccosto")) {
                 String id = request.getParameter("id");

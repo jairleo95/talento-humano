@@ -8,6 +8,7 @@ package com.app.controller.recruitment.person.job;
 import java.util.HashMap;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import com.app.persistence.dao.AreaDAO;
 import com.app.persistence.dao.DireccionDAO;
@@ -44,14 +45,14 @@ public class JobController {
     InterfacePuestoDAO pu= new PuestoDAO();
 
     @PostMapping
-    public ResponseEntity<?> process(HttpServletRequest request) {
+    public ResponseEntity<?> process(HttpServletRequest request, HttpServletResponse response) {
 
         Map<String, Object> rpta = new HashMap<String, Object>();
 
         try {
             String opc = request.getParameter("opc");
             if (opc.equals("menu")) {
-                ///response.sendRedirect("views/Puesto/Menu_puesto.html");
+                response.sendRedirect("views/Puesto/Menu_puesto.html");
             }
             //----DIRECCION
             if (opc.equals("list_direccion")) {

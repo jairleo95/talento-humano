@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,8 +31,8 @@ public class AcademicImboxController {
     InterfaceAutorizacionDAO a = new AutorizacionDAO();
     InterfaceCorreoDAO correo = new CorreoDAO();
 
-    @PostMapping
-    public ResponseEntity<?> academicProcess(HttpServletRequest request) {
+    @RequestMapping
+    public ResponseEntity<?> academicProcess(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
         HttpSession session = request.getSession(true);
         CCriptografiar cr = new CCriptografiar();
@@ -58,7 +60,7 @@ public class AcademicImboxController {
                     if (opc.equals("Autorizacion_CD")) {
                         String idpu = e.Id_Puesto_Personal(ide);
                         session.setAttribute("List_Autorizacion_Academico", a.List_Autorizacion_Academico(idpu, iduser, ""));
-                        ///response.sendRedirect("views/Academico/Autorizar_Carga_Academica.jsp");
+                        response.sendRedirect("Autorizar_Carga_Academica");
                     }
                     if (opc.equals("headerTableAutorizacionCA")) {
                         String htmlHeader = "";
@@ -149,13 +151,13 @@ public class AcademicImboxController {
                             htmlBody += "  <i class='fa fa-caret-down'></i>";
                             htmlBody += "  </button>";
                             htmlBody += " <ul class='dropdown-menu'>";
-                            htmlBody += "  <li><a href='../../dgp?iddgp=" + autCA.getId_dgp().trim() + "&opc=Seguimiento'>Ver Proceso</a></li>";
-                            htmlBody += "  <li><a href='../../documento?iddgp=" + autCA.getId_dgp().trim() + "&idtr=" + autCA.getId_trabajador().trim() + "&opc=Ver_Documento'>Ver Documentos</a></li>";
+                            htmlBody += "  <li><a href='dgp?iddgp=" + autCA.getId_dgp().trim() + "&opc=Seguimiento'>Ver Proceso</a></li>";
+                            htmlBody += "  <li><a href='documento?iddgp=" + autCA.getId_dgp().trim() + "&idtr=" + autCA.getId_trabajador().trim() + "&opc=Ver_Documento'>Ver Documentos</a></li>";
                             htmlBody += "   <li><a  data-valor='" + autCA.getId_dgp().trim() + ";" + autCA.getId_trabajador().trim() + ";" + autCA.getAp_paterno() + " " + autCA.getAp_materno() + " "
                                     + autCA.getNo_trabajador() + "' class='click' data-toggle='modal' data-target='#myModal' data-backdrop='static' data-keyboard='false' onclick='sendAjax('')' >Comentario</a></li>";
                             if (Integer.parseInt(autCA.getElab_contrato()) > 0) {
                                 htmlBody += "<li>";
-                                htmlBody += "  <a href='../../contrato?idtr=" + autCA.getId_trabajador().trim() + "&opc=Detalle_Contractual'>Ver Contrato</a></li>";
+                                htmlBody += "  <a href='contrato?idtr=" + autCA.getId_trabajador().trim() + "&opc=Detalle_Contractual'>Ver Contrato</a></li>";
                             }
                             htmlBody += "   <li class='divider'></li>";
                             htmlBody += " <li>";
@@ -163,7 +165,7 @@ public class AcademicImboxController {
 
                             int num = autCA.getVal_dgp_cotrato();
 
-                            htmlBody += "   <a href='../../trabajador?idtr=" + autCA.getId_trabajador() + "&IDDETALLE_REQ_PROCESO=" + autCA.getId_detalle_req_proceso()
+                            htmlBody += "   <a href='trabajador?idtr=" + autCA.getId_trabajador() + "&IDDETALLE_REQ_PROCESO=" + autCA.getId_detalle_req_proceso()
                                     + "&iddetalle_dgp=" + autCA.getId_dgp() + "&p=" + autCA.getId_puesto() + "&cod=" + autCA.getCo_pasos() + "&idpasos=" + autCA.getId_pasos() + "&autorizacion=1&opc=aut&nup=" + autCA.getNu_pasos() + "'>";
 
                             if (idrol != null) {
@@ -190,11 +192,11 @@ public class AcademicImboxController {
                             htmlBody += "  </td>   ";
                             if (autCA.getAr_foto() == null) {
                                 htmlBody += " <td>";
-                                htmlBody += " <img class='user_avatar_" + autCA.getId_trabajador() + "' src='../../img/avatar_default.jpg'  width='30'  height='30'>";
+                                htmlBody += " <img class='user_avatar_" + autCA.getId_trabajador() + "' src='img/avatar_default.jpg'  width='30'  height='30'>";
                                 htmlBody += "</td>";
                             } else {
                                 htmlBody += " <td>";
-                                htmlBody += "   <img class='user_avatar_" + autCA.getId_trabajador() + "' src='../../Archivo/Fotos/" + autCA.getAr_foto() + "'  width='30'  height='30'>";
+                                htmlBody += "   <img class='user_avatar_" + autCA.getId_trabajador() + "' src='Archivo/Fotos/" + autCA.getAr_foto() + "'  width='30'  height='30'>";
                                 htmlBody += " </td>";
                             }
                             htmlBody += "  <td >" + autCA.getAp_paterno() + " " + autCA.getAp_materno() + " " + autCA.getNo_trabajador() + "</td>";
@@ -209,7 +211,7 @@ public class AcademicImboxController {
                             htmlBody += "   <input type='hidden' class='correos_" + (f + 1) + " correoTrabajador' value='&IDTR=" + autCA.getId_trabajador() + "&co_inst=" + autCA.getDi_correo_inst()
                                     + "&co_pers=" + autCA.getDi_correo_personal() + "'/>";
                             htmlBody += " <td class='text-info'>";
-                            htmlBody += "    <a href='../../trabajador?idtr=" + autCA.getId_trabajador() + "&IDDETALLE_REQ_PROCESO=" + autCA.getId_detalle_req_proceso() + "&iddetalle_dgp=" + autCA.getId_dgp() + "&p="
+                            htmlBody += "    <a href='trabajador?idtr=" + autCA.getId_trabajador() + "&IDDETALLE_REQ_PROCESO=" + autCA.getId_detalle_req_proceso() + "&iddetalle_dgp=" + autCA.getId_dgp() + "&p="
                                     + autCA.getId_puesto() + "&cod=" + autCA.getCo_pasos() + "&idpasos=" + autCA.getId_pasos() + "+&autorizacion=1&opc=aut&nup=" + autCA.getNu_pasos() + "'>";
                             htmlBody += "       <strong>" + autCA.getDe_pasos() + "</strong>";
                             htmlBody += "   </a>";
@@ -243,10 +245,10 @@ public class AcademicImboxController {
                             if (iddep.equals("DPT-0019")) {
                                 htmlBody += "<td>";
                                 if (autCA.getVal_plazo() > 0) {
-                                    htmlBody += " <a href='../../plazo_dgp?opc=Ver_detalle_plazo&iddgp=" + autCA.getId_dgp() + "' class='label label-danger popoverPlazo'  data-toggle='popover' data-trigger='hover' data-placement='top' title='Record de plazos cumplidos' data-content=\"" + autCA.getVer_list_plazo() + "\" data-html='true'> <strong>No cumplio plazos</strong></a>";
+                                    htmlBody += " <a href='plazo_dgp?opc=Ver_detalle_plazo&iddgp=" + autCA.getId_dgp() + "' class='label label-danger popoverPlazo'  data-toggle='popover' data-trigger='hover' data-placement='top' title='Record de plazos cumplidos' data-content=\"" + autCA.getVer_list_plazo() + "\" data-html='true'> <strong>No cumplio plazos</strong></a>";
                                     htmlBody += " </td>";
                                 } else if (autCA.getVal_plazo() == 0) {
-                                    htmlBody += "   <a href='../../plazo_dgp?opc=Ver_detalle_plazo&iddgp=" + autCA.getId_dgp() + "' class='label label-primary popoverPlazo' data-toggle='popover' data-trigger='hover' data-placement='top' title='Record de plazos cumplidos' data-content=\"" + autCA.getVer_list_plazo() + "\" data-html='true'> <strong>Cumplio plazos</strong></a></td>";
+                                    htmlBody += "   <a href='plazo_dgp?opc=Ver_detalle_plazo&iddgp=" + autCA.getId_dgp() + "' class='label label-primary popoverPlazo' data-toggle='popover' data-trigger='hover' data-placement='top' title='Record de plazos cumplidos' data-content=\"" + autCA.getVer_list_plazo() + "\" data-html='true'> <strong>Cumplio plazos</strong></a></td>";
                                 }
                                 if (idrol.trim().equals("ROL-0006")) {
 
@@ -341,13 +343,13 @@ public class AcademicImboxController {
                         String idpu = e.Id_Puesto_Personal(ide);
                         session.setAttribute("List_id_Autorizacion", a.List_id_Autorizacion(idpu, iduser, ""));
                         session.setAttribute("List_id_Autorizados", a.List_Autorizados(idpu));
-                        /// response.sendRedirect("views/Dgp/Autorizar_Requerimiento.html?m=si");
+                         response.sendRedirect("views/Dgp/Autorizar_Requerimiento.html?m=si");
                     }
                     if (opc.equals("mens_cod_huella")) {
                         String idpu = e.Id_Puesto_Personal(ide);
                         session.setAttribute("List_id_Autorizacion", a.List_id_Autorizacion(idpu, iduser, ""));
                         session.setAttribute("List_id_Autorizados", a.List_Autorizados(idpu));
-                        ///response.sendRedirect("views/Dgp/Autorizar_Requerimiento.html?h=si");
+                        response.sendRedirect("views/Dgp/Autorizar_Requerimiento.html?h=si");
                     }
                     if (opc.equals("Enviar_Correo")) {
                         String emailSubject=request.getParameter("from");
@@ -473,7 +475,7 @@ public class AcademicImboxController {
                             text_html += "<tr>";
                             text_html += "<td>" + (i + 1) + "</td>";
                             text_html += "<td>" + x.get("mes") + " - " + x.get("anno") + "</td>";
-                            text_html += "<td><a href='../../trabajador?idtr=" + x.get("idtr") + "&opc=list&dgp=" + x.get("iddgp") + "'>" + x.get("ap_p") + " " + x.get("ap_m") + " " + x.get("nombre") + "</a></td>";
+                            text_html += "<td><a href='trabajador?idtr=" + x.get("idtr") + "&opc=list&dgp=" + x.get("iddgp") + "'>" + x.get("ap_p") + " " + x.get("ap_m") + " " + x.get("nombre") + "</a></td>";
                             text_html += "<td>" + x.get("puesto") + "</td>";
                             text_html += "<td>" + x.get("area") + "</td>";
                             text_html += "<td>" + x.get("dep") + "</td>";
@@ -496,7 +498,7 @@ public class AcademicImboxController {
                         rpta.put("html_table", html_table);
                     }
                     if (opc.equals("ListProcesarReq")) {
-                        ///response.sendRedirect("views/Dgp/Procesar_Req.html");
+                        response.sendRedirect("Procesar_Req");
                     }
                     if (opc.equals("UpdateStatusDgp_Procesar")) {
                         boolean estado = Boolean.parseBoolean(request.getParameter("estado"));
@@ -547,7 +549,7 @@ public class AcademicImboxController {
                     //  String idpu = e.Id_Puesto_Personal(ide);
                     session.setAttribute("List_id_Autorizacion", a.List_id_Autorizacion(idp, iduser, ""));
 
-                    ////response.sendRedirect("views/Dgp/Autorizar_Requerimiento.html");
+                    response.sendRedirect("views/Dgp/Autorizar_Requerimiento.html");
                 }
             } catch (Exception ex) {
                 rpta.put("rpta", "-1");
@@ -557,7 +559,7 @@ public class AcademicImboxController {
             }
 
         } else {
-            ////response.sendRedirect("/");
+            response.sendRedirect("/");
         }
         return new ResponseEntity<>(rpta , HttpStatus.OK);
     }

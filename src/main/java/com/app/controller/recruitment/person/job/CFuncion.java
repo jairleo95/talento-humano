@@ -16,6 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.http.HttpStatus;
@@ -38,7 +39,7 @@ public class CFuncion {
     InterfaceDireccionDAO di = new DireccionDAO();
 
     @PostMapping
-    protected ResponseEntity<?> process(HttpServletRequest request) {
+    protected ResponseEntity<?> process(HttpServletRequest request, HttpServletResponse response) {
         Map<String, Object> rpta = new HashMap<String, Object>();
         String opc = request.getParameter("opc");
         HttpSession sesion = request.getSession(true);
@@ -48,7 +49,7 @@ public class CFuncion {
         try {
             if (opc.equals("princpal_funcion")) {
                 sesion.setAttribute("Listar_Direccion", di.Listar_Direccion());
-                ///response.sendRedirect("views/Funciones/Otorgar_funciones.html");
+                response.sendRedirect("views/Funciones/Otorgar_funciones.html");
             }
             
             if (opc.equals("listar_x_puesto")) {
@@ -69,7 +70,7 @@ public class CFuncion {
             }
             if (opc.equals("otorgar_funciones")) {
                 sesion.setAttribute("Listar_Direccion", di.Listar_Direccion());
-                ///response.sendRedirect("views/Funciones/Otorgar_funciones.html");
+                response.sendRedirect("views/Funciones/Otorgar_funciones.html");
             }
             if (opc.equals("otorgar")) {
                 String id_puesto=request.getParameter("id_puesto");

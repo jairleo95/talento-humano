@@ -14,6 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.http.HttpStatus;
@@ -65,7 +66,7 @@ public class ReporteController {
 
 
     @PostMapping
-    public ResponseEntity<?> processRequest(HttpServletRequest request) {
+    public ResponseEntity<?> processRequest(HttpServletRequest request, HttpServletResponse response) {
 
         Map<String, Object> rpta = new HashMap<String, Object>();
         String opc = request.getParameter("opc");
@@ -81,7 +82,7 @@ public class ReporteController {
                 sesion.setAttribute("List_Nacionalidad", n.List_Nacionalidad());
                 sesion.setAttribute("List_SituacionEducativa", se.List_SituacionEducativa());
                 sesion.setAttribute("List_Carrera", ca.List_Carrera());
-                ///response.sendRedirect("views/Reportes/newjsp.jsp");
+                response.sendRedirect("views/Reportes/newjsp.jsp");
             }
             if (opc.equals("reporte_hijo")) {
                 String desde = request.getParameter("desde");
@@ -162,13 +163,13 @@ public class ReporteController {
 
             //viewss
             if (opc.equals("Reporte_padres_madres")) {
-                ///response.sendRedirect("views/Reportes/Reporte_Padres_Madres.jsp");
+                response.sendRedirect("views/Reportes/Reporte_Padres_Madres.jsp");
             }
             if (opc.equals("Reporte_datos")) {
                 //String iddep = (String) sesion.getAttribute("DEPARTAMENTO_ID");
                 /*sesion.setAttribute("Listar_Direccion", dir.Listar_Direccion());
                  sesion.setAttribute("List_Area_ID", area.List_Area_ID(iddep));*/
-                ///response.sendRedirect("views/Reportes/Reporte_Datos_Generales.jsp");
+                response.sendRedirect("views/Reportes/Reporte_Datos_Generales.jsp");
             }
             if (opc.equals("list_da")) {
                 String ps = request.getParameter("ps");
@@ -221,14 +222,14 @@ public class ReporteController {
                 rpta.put("respuesta", r.datosTrabajador(direccion, departamento, area, seccion, puesto));
             }
             if (opc.equals("Reporte_Datos_Hijos")) {
-                ///response.sendRedirect("views/Reportes/RTHijo.jsp");
+                response.sendRedirect("views/Reportes/RTHijo.jsp");
             }
 
             if (opc.equals("Reporte_Datos_cumpl")) {
-                ///response.sendRedirect("views/Reportes/Reporte_Cumpleanos.jsp");
+                response.sendRedirect("views/Reportes/Reporte_Cumpleanos.jsp");
             }
             if (opc.equals("Reporte_Navidad")) {
-                ///response.sendRedirect("views/Reportes/Reporte_para_navidad.jsp");
+                response.sendRedirect("views/Reportes/Reporte_para_navidad.jsp");
             }
         } catch (Exception e) {
             rpta.put("rpta", "-1");

@@ -14,10 +14,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import com.app.persistence.dao.AutorizacionDAO;
 import com.app.persistence.dao.DgpDAO;
@@ -40,7 +42,7 @@ public class AuthorizationController {
     InterfaceDgpDAO dgp = new DgpDAO();
 
     @PostMapping("core")
-    public ResponseEntity<?> coreProcess(HttpServletRequest request) {
+    public ResponseEntity<?> coreProcess(HttpServletRequest request, HttpServletResponse response) throws IOException {
         HttpSession session = request.getSession(true);
         String iduser = (String) session.getAttribute("IDUSER");
         String idp = (String) session.getAttribute("PUESTO_ID");
@@ -132,7 +134,7 @@ public class AuthorizationController {
                         session.setAttribute("LIST_DGP_PROCESO", dgp.LIST_DGP_PROCESO(iddep, "", "", false,false));
                     }
                     // sesion.setAttribute("LIST_DGP_PROCESO", dgp.LIST_DGP_PROCESO(iddep));
-                    //// response.sendRedirect("views/Dgp/Proceso_Dgp.html");
+                     response.sendRedirect("views/Dgp/Proceso_Dgp.html");
                 }
                 if (opc.equals("eliminarDGP")) {
                     String iddgp = request.getParameter("iddgp");
@@ -150,7 +152,7 @@ public class AuthorizationController {
                         session.setAttribute("LIST_DGP_PROCESO", dgp.LIST_DGP_PROCESO(iddep, "", "", false,false));
                     }
                     // sesion.setAttribute("LIST_DGP_PROCESO", dgp.LIST_DGP_PROCESO(iddep));
-                    /////response.sendRedirect("views/Dgp/Proceso_Dgp.html");
+                    response.sendRedirect("views/Dgp/Proceso_Dgp.html");
 
                 }
                 if (opc.equals("Rechazar")) {
@@ -187,12 +189,12 @@ public class AuthorizationController {
                     }
                     session.setAttribute("List_id_Autorizacion", a.List_id_Autorizacion(idp, iduser, ""));
                     session.setAttribute("List_id_Autorizados", a.List_Autorizados(idp));
-                    ///response.sendRedirect("views/Dgp/Autorizar_Requerimiento.html?r=ok");
+                    response.sendRedirect("views/Dgp/Autorizar_Requerimiento.html?r=ok");
                     session.setAttribute("List_id_Autorizacion", a.List_id_Autorizacion(idp, iduser, ""));
                     session.setAttribute("List_id_Autorizados", a.List_Autorizados(idp));
                     //out.print(id_autorizacion);
-                    ///response.sendRedirect("views/Dgp/Autorizar_Requerimiento.html?r=ok");
-                    /////out.print("correcto ");
+                    response.sendRedirect("views/Dgp/Autorizar_Requerimiento.html?r=ok");
+                   
                 }
             }
         }

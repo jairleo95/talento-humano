@@ -31,7 +31,7 @@ public class CommentaryController {
     }
 
 //-------------------------------------------------------------------------------------------
-    ///@PostMapping(produces = MediaType.TEXT_HTML_VALUE)
+    @PostMapping(produces = MediaType.TEXT_HTML_VALUE)
     protected void processRequest(HttpServletRequest request) {
 
         //response.setContentType("text/html;charset=UTF-8");

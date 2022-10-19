@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.http.HttpStatus;
@@ -32,7 +33,7 @@ public class RolController {
 
 
     @PostMapping
-    public ResponseEntity<?> process(HttpServletRequest request){
+    public ResponseEntity<?> process(HttpServletRequest request, HttpServletResponse response){
         Map<String, Object> rpta = new HashMap<String, Object>();
         String opc = request.getParameter("opc");
         HttpSession sesion = request.getSession(true);
@@ -40,7 +41,7 @@ public class RolController {
 
         try {
             if (opc.equals("mat_rol")) {
-                ///response.sendRedirect("views/Usuario/Rol_Privilegio/Reg_Roles.jsp");
+                response.sendRedirect("views/Usuario/Rol_Privilegio/Reg_Roles.jsp");
             }
             if (opc.equals("Listar_Rol")) {
                 List<Map<String, ?>> list = rol.List_rol();
@@ -51,7 +52,7 @@ public class RolController {
                 String idrol = request.getParameter("idrol");
                 sesion.setAttribute("Listar_Rol_id", rol.Listar_Rol_id(idrol));
                 sesion.setAttribute("List_Rol", rol.List_Rol());
-                ///response.sendRedirect("views/Usuario/Rol_Privilegio/Mod_Rol.jsp");
+                response.sendRedirect("views/Usuario/Rol_Privilegio/Mod_Rol.jsp");
             }
             if (opc.equals("Modificar")) {
                 String idrol = request.getParameter("id_rol");
@@ -59,25 +60,25 @@ public class RolController {
                 String Es_rol = request.getParameter("Es_rol");
                 rol.Mod_Rol(idrol, no_rol, Es_rol);
                 sesion.setAttribute("List_Rol", rol.List_Rol());
-                ///response.sendRedirect("views/Usuario/Rol_Privilegio/Reg_Roles.jsp");
+                response.sendRedirect("views/Usuario/Rol_Privilegio/Reg_Roles.jsp");
             }
             if (opc.equals("Activar_Rol")) {
                 String idrol = request.getParameter("idrol");
                 rol.Activar_Roles(idrol);
                 sesion.setAttribute("List_Rol", rol.List_Rol());
-                ///response.sendRedirect("views/Usuario/Rol_Privilegio/Reg_Roles.jsp");
+                response.sendRedirect("views/Usuario/Rol_Privilegio/Reg_Roles.jsp");
             }
             if (opc.equals("Desactivar_Rol")) {
                 String idrol = request.getParameter("idrol");
                 rol.Desactivar_Roles(idrol);
                 sesion.setAttribute("List_Rol", rol.List_Rol());
-                ///response.sendRedirect("views/Usuario/Rol_Privilegio/Reg_Roles.jsp");
+                response.sendRedirect("views/Usuario/Rol_Privilegio/Reg_Roles.jsp");
             }
             if (opc.equals("Eliminar_Rol")) {
                 String idrol = request.getParameter("idrol");
                 rol.Desactivar_Roles(idrol);
                 sesion.setAttribute("List_Rol", rol.List_Rol());
-                ///response.sendRedirect("views/Usuario/Rol_Privilegio/List_Roles.jsp");
+                response.sendRedirect("views/Usuario/Rol_Privilegio/List_Roles.jsp");
             }
             if (opc.equals("REGISTRAR")) {
                 String no_rol = request.getParameter("NOMBRE");
@@ -88,9 +89,8 @@ public class RolController {
                 } else {
                     rol.INSERT_ROLES(no_rol, ESTADO);
                 }
-                ///out.print(request.getParameter("ESTADO"));
                 sesion.setAttribute("List_Rol", rol.List_Rol());
-                ///response.sendRedirect("views/Usuario/Rol_Privilegio/Reg_Roles.jsp");
+                response.sendRedirect("views/Usuario/Rol_Privilegio/Reg_Roles.jsp");
             }
             rpta.put("status", true);
         } catch (Exception e) {

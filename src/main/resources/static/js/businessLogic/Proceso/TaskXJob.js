@@ -198,6 +198,6 @@ function initFormPuestoTask() {
         } else {
             alert("Completar campos requeridos...");
         }
-        ///alert($(".sl_puesto").val());
+        alert($(".sl_puesto").val());
     });
 }

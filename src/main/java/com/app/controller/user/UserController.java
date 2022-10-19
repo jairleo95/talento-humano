@@ -123,7 +123,7 @@ public class UserController {
                 System.out.print(id_usuario);
                 usu.Activar_usuario(id_usuario);
                 sesion.setAttribute("List_Usuario_var", usu.List_Usuario_var());
-                ///response.sendRedirect("views/Usuario/Reg_Usuario.jsp");
+                response.sendRedirect("views/Usuario/Reg_Usuario.jsp");
             }
 
             if ("Desac_Usuario_con".equals(opc)) {
@@ -131,7 +131,7 @@ public class UserController {
                 System.out.print(id_usuario);
                 usu.Desactivar_usuario(id_usuario);
                 sesion.setAttribute("List_Usuario_var", usu.List_Usuario_var());
-                ///response.sendRedirect("views/Usuario/Reg_Usuario.jsp");
+                response.sendRedirect("views/Usuario/Reg_Usuario.jsp");
             }
 
             if ("Quitar_acceso".equals(opc)) {
@@ -142,12 +142,12 @@ public class UserController {
                 String idUser = request.getParameter("id_usuario");
                 usu.Delete_Usuario(idUser);
                 sesion.setAttribute("List_Usuario_var", usu.List_Usuario_var());
-                ///response.sendRedirect("views/Usuario/List_Usuario.jsp");
+                response.sendRedirect("views/Usuario/List_Usuario.jsp");
             }
             if (opc.equals("Ver_Perfil")) {
                 String id = request.getParameter("id");
                 sesion.setAttribute("Lista_Usuarios", usu.Val_Usuario(id));
-                ///response.sendRedirect("views/Usuario/Perfil_Usuario.jsp");
+                response.sendRedirect("views/Usuario/Perfil_Usuario.jsp");
             }
 
             if (opc.equals("editar_Perfil")) {
@@ -162,7 +162,7 @@ public class UserController {
                 sesion.setAttribute("Listar_via", dir.Listar_via());
                 sesion.setAttribute("Listar_zona", dir.Listar_zona());
                 sesion.setAttribute("Lista_Usuarios", usu.Val_Usuario(id_user_1));
-                ///response.sendRedirect("views/Usuario/editarPerfil.jsp");
+                response.sendRedirect("views/Usuario/editarPerfil.jsp");
             }
 
             if ("Modificar".equals(opc)) {
@@ -185,7 +185,7 @@ public class UserController {
 
                 usu.Mod_perfil(id_user_1, NO_USUARIO, CLA_NUEVA, TE_TRABAJADOR, CL_TRABAJADOR, CORREO_PERSONAL, id_dep, id_prov, DIR_DOM_A_D1_ID, DIR_DOM_A_D2, DIR_DOM_A_D3_ID, DIR_DOM_A_D4, DIR_DOM_A_D5_ID, DIR_DOM_A_D6, DIR_DOM_A_REF, DIR_DOM_A_DISTRITO_ID, ID_TRABAJADOR, id_user_1, tr.ip());
                 sesion.setAttribute("Lista_Usuarios", usu.Val_Usuario(id_user_1));
-                ///response.sendRedirect("views/Usuario/Perfil_Usuario.jsp");
+                response.sendRedirect("views/Usuario/Perfil_Usuario.jsp");
             }
             if (opc.equals("Cambiar_clave")) {
                 String pwd_actual = request.getParameter("password1");

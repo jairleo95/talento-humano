@@ -139,9 +139,9 @@ public class DocumentoDAO implements InterfaceDocumentoDAO {
                 String tipo = rs.getString("NO_FILE").substring(rs.getString("NO_FILE").length() - 3, rs.getString("NO_FILE").length());
                 if (tipo.trim().equals("PDF") || tipo.equals("OCX") || tipo.equals("DOC")) {
                     if (tipo.equals("OCX") || tipo.equals("DOC")) {
-                        texto_html = texto_html + "<a class='mustang-gallery' title='" + rs.getString("NO_ORIGINAL") + "' href='" + Url_Archivo + "Archivo/" + rs.getString("NO_FILE") + "'><img src='../../Dgp/Documento/Archivo/word.png' style='width:100px;height:100px;' class='borde'><br>" + rs.getString("NO_ORIGINAL") + "</a>";
+                        texto_html = texto_html + "<a class='mustang-gallery' title='" + rs.getString("NO_ORIGINAL") + "' href='" + Url_Archivo + "Archivo/" + rs.getString("NO_FILE") + "'><img src='Dgp/Documento/Archivo/word.png' style='width:100px;height:100px;' class='borde'><br>" + rs.getString("NO_ORIGINAL") + "</a>";
                     } else {
-                        texto_html = texto_html + "<a class='mustang-gallery' title='" + rs.getString("NO_ORIGINAL") + "' href='" + Url_Archivo + "Archivo/" + rs.getString("NO_FILE") + "'><img src='../../Dgp/Documento/Archivo/pdf.png' style='width:100px;height:100px;' class='borde'><br>" + rs.getString("NO_ORIGINAL") + "</a>";
+                        texto_html = texto_html + "<a class='mustang-gallery' title='" + rs.getString("NO_ORIGINAL") + "' href='" + Url_Archivo + "Archivo/" + rs.getString("NO_FILE") + "'><img src='Dgp/Documento/Archivo/pdf.png' style='width:100px;height:100px;' class='borde'><br>" + rs.getString("NO_ORIGINAL") + "</a>";
                     }
                 } else {
 
@@ -399,7 +399,7 @@ public class DocumentoDAO implements InterfaceDocumentoDAO {
         String sql = "SELECT *  FROM RHVD_LIST_DOC_TRA  where  ID_TRABAJADOR='" + idtra + "'  ";
 
         if (iddgp != null) {
-       ///     sql += (!iddgp.equals("")) ? " and ID_DGP='" + iddgp + "' " : "";
+            sql += (!iddgp.equals("")) ? " and ID_DGP='" + iddgp + "' " : "";
         }
         sql += " ORDER BY nu_orden";
         List<Lis_Doc_tra> x = new ArrayList<Lis_Doc_tra>();

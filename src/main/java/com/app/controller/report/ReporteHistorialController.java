@@ -13,6 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.http.HttpStatus;
@@ -35,7 +36,7 @@ public class ReporteHistorialController {
     InterfaceListaDAO li = new ListaDAO();
 
     @PostMapping
-    public ResponseEntity<?> process(HttpServletRequest request) {
+    public ResponseEntity<?> process(HttpServletRequest request, HttpServletResponse response) {
 
         Map<String, Object> rpta = new HashMap<String, Object>();
         String opc = request.getParameter("opc");
@@ -45,7 +46,7 @@ public class ReporteHistorialController {
         try {
             if (opc.equals("hist_tra")) {
                 String pagina = "views/Reportes/Trabajador/Historial.html";
-                ///response.sendRedirect(pagina);
+                response.sendRedirect(pagina);
             }
             if (opc.equals("list_mod_fecha")) {
                 String FE_INICIO = request.getParameter("fe_inicio");
@@ -56,7 +57,7 @@ public class ReporteHistorialController {
             }
             if (opc.equals("mod_tra")) {
                 String ID_TRABAJADOR = request.getParameter("idtr");
-                ///response.sendRedirect("views/Reportes/Trabajador/detalleHistorial.html?idtr=" + ID_TRABAJADOR);
+                response.sendRedirect("views/Reportes/Trabajador/detalleHistorial.html?idtr=" + ID_TRABAJADOR);
             }
             if (opc.equals("list_mod_tra")) {
                 String ID_TRABAJADOR = request.getParameter("idtr");
@@ -66,7 +67,7 @@ public class ReporteHistorialController {
             }
             if (opc.equals("hist_es_civil")) {
                 sesion.setAttribute("List_Estado_Civil", li.List_Estado_Civil());
-                ///response.sendRedirect("views/Reportes/Trabajador/Historial_Est_Civil.html");
+                response.sendRedirect("views/Reportes/Trabajador/Historial_Est_Civil.html");
             }
             if (opc.equals("list_hist_es_civil")) {
                 String FE_INICIO = request.getParameter("fe_inicio");
@@ -83,7 +84,7 @@ public class ReporteHistorialController {
             if(opc.equals("Detalle_hist_ec")){
                 String idtr = request.getParameter("idtr"); 
                 String nombre = request.getParameter("name");
-                ///response.sendRedirect("views/Reportes/Trabajador/Det_Historial_Est_Civil.html?idtr=" + idtr + "&name="+ nombre  );
+                response.sendRedirect("views/Reportes/Trabajador/Det_Historial_Est_Civil.html?idtr=" + idtr + "&name="+ nombre  );
             }
             if(opc.equals("list_detalle_ec")){
                 String idtr = request.getParameter("idtr"); 
@@ -140,7 +141,7 @@ public class ReporteHistorialController {
                 String id_trabajador = request.getParameter("idtr");
                 String id_hijo = request.getParameter("idh");
                 String fecha_default = request.getParameter("fecha_default");
-                ///response.sendRedirect("views/Reportes/Hijo/Detalle_Comparacion.html?idtr=" + id_trabajador + "&idh=" + id_hijo + "&fecha_default=" + fecha_default);
+                response.sendRedirect("views/Reportes/Hijo/Detalle_Comparacion.html?idtr=" + id_trabajador + "&idh=" + id_hijo + "&fecha_default=" + fecha_default);
             }
             if (opc.equals("Listar_hijo_trabajador")) {
                 String id_trabajador = request.getParameter("idtr");
@@ -156,7 +157,7 @@ public class ReporteHistorialController {
                 rpta.put("rpta", "1");
             }
             if (opc.equals("Historial_Datos_Hijo")) {
-               ///response.sendRedirect("views/Reportes/Hijo/Historial_Hijo.html");
+               response.sendRedirect("views/Reportes/Hijo/Historial_Hijo.html");
             }
             if (opc.equals("proc_hist")) {
                 String idtra= request.getParameter("idtra");

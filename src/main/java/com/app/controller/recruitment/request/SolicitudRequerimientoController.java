@@ -8,10 +8,12 @@ package com.app.controller.recruitment.request;
 import com.app.persistence.dao_imp.InterfaceSolicitud_RequerimientoDAO;
 import com.app.controller.util.DateFormat;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.http.HttpStatus;
@@ -33,7 +35,7 @@ public class SolicitudRequerimientoController {
     InterfaceSolicitud_RequerimientoDAO s = new Solicitud_RequerimientoDAO();
 
     @PostMapping
-    public ResponseEntity<?> process(HttpServletRequest request){
+    public ResponseEntity<?> process(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
         String opc = request.getParameter("opc");
 
@@ -45,7 +47,7 @@ public class SolicitudRequerimientoController {
 
         if (opc.equals("Listar_Solicitud")) {
             sesion.setAttribute("Listar_solicitud", s.Listar_solicitud());
-            ///response.sendRedirect("views/Solicitud/Reporte_Solicitud.html");
+            response.sendRedirect("views/Solicitud/Reporte_Solicitud.html");
         }
         if (opc.equals("Listar_Sol_Pendientes")) {
             List<Map<String, ?>> list;
@@ -103,7 +105,7 @@ public class SolicitudRequerimientoController {
         if (opc.equals("Ver_Detalle_Solicitud")) {
             String id = request.getParameter("id");
             sesion.setAttribute("Detalle_Solicitud", s.Listar_solicitud_id(id));
-            ///response.sendRedirect("views/Solicitud/Detalle_Solicitud.html");
+            response.sendRedirect("views/Solicitud/Detalle_Solicitud.html");
         }
         if (opc.equals("Ver_Solicitud")) {
             String id = request.getParameter("id");

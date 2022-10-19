@@ -38,7 +38,7 @@ public class MainController {
     public ModelAndView process() {
         return new ModelAndView("/views/Proceso/Mant_Proceso.html");
         //return new ModelAndView("/views/Proceso/Mant_Paso.html");
-        ////return new ModelAndView("/views/Proceso/Menu_Mantenimiento.html");
+        //return new ModelAndView("/views/Proceso/Menu_Mantenimiento.html");
     }
 
     @RequestMapping(value = "/Mant_Paso")
@@ -52,7 +52,7 @@ public class MainController {
 
     @RequestMapping(value = "/Detalle_Trabajador")
     public ModelAndView workerDetails() {
-        return new ModelAndView("/views/Trabajador/Detalle_Trabajador.html");
+        return new ModelAndView("Trabajador/Detalle_Trabajador");
     }
     @RequestMapping(value = "/formato_plantilla")
     public ModelAndView formato_plantilla() {
@@ -65,7 +65,7 @@ public class MainController {
     }
     @RequestMapping(value = "/person")
     public ModelAndView person() {
-        return new ModelAndView("/views/Trabajador/Detalle_Trabajador.html");
+        return new ModelAndView("Trabajador/Detalle_Trabajador");
     }
     @RequestMapping(value = "/durations")
     public ModelAndView durations() {
@@ -96,6 +96,18 @@ public class MainController {
     @RequestMapping(value = "/Reg_Usuario")
     public ModelAndView Reg_Usuario() {
         return new ModelAndView("/views/Usuario/Reg_Usuario.html");
+    }
+    @RequestMapping(value = "/Filtro_Empleado")
+    public ModelAndView Filtro_Empleado() {
+        return new ModelAndView("Empleado/Filtro_Empleado");
+    }
+    @RequestMapping(value = "/Procesar_Req")
+    public ModelAndView Procesar_Req() {
+        return new ModelAndView("Dgp/Procesar_Req");
+    }
+    @RequestMapping(value = "/Autorizar_Carga_Academica")
+    public ModelAndView Autorizar_Carga_Academica() {
+        return new ModelAndView("Academico/Autorizar_Carga_Academica");
     }
 
 }
