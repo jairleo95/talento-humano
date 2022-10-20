@@ -343,7 +343,7 @@ public class AcademicImboxController {
                         String idpu = e.Id_Puesto_Personal(ide);
                         session.setAttribute("List_id_Autorizacion", a.List_id_Autorizacion(idpu, iduser, ""));
                         session.setAttribute("List_id_Autorizados", a.List_Autorizados(idpu));
-                         response.sendRedirect("views/Dgp/Autorizar_Requerimiento.html?m=si");
+                        response.sendRedirect("views/Dgp/Autorizar_Requerimiento.html?m=si");
                     }
                     if (opc.equals("mens_cod_huella")) {
                         String idpu = e.Id_Puesto_Personal(ide);
