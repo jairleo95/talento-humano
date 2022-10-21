@@ -15,9 +15,6 @@ import org.springframework.security.web.firewall.HttpFirewall;
  * Created by santjair on 2/12/2018.
  */
 
-
-
-
 @Configuration
 @EnableWebSecurity
 public class Security extends WebSecurityConfigurerAdapter {
@@ -65,18 +62,11 @@ public class Security extends WebSecurityConfigurerAdapter {
     }
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable()// TODO remove when thymeleaf is upgraded
-                //.httpBasic().and()
-                //.formLogin().loginPage("/login").defaultSuccessUrl("/").permitAll().and()
+        http.csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/").permitAll()
-                //.antMatchers("/users/login").permitAll()
-                //.antMatchers("/users/**").permitAll()
-                //.antMatchers("/logout").permitAll()
-                //.antMatchers("/register").permitAll()
-                .antMatchers("/resources/**").permitAll()
-                //.anyRequest()
-                //.authenticated()
+                .antMatchers("/**").permitAll()
+                .anyRequest()
+                .authenticated()
                 ;
     }
 }

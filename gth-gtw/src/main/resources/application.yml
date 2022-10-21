@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: gateway-service
+  cloud:dd
+    gateway:
+      routes:
+        - id: gth-ms
+          uri: http://localhost:8080/
+          predicates:
+            - Path=/gth/**
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"

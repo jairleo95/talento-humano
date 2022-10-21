@@ -1,6 +1,7 @@
 package com.app.dgp.controller;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
@@ -17,17 +18,20 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 @RequestMapping("process")
 public class ProcessStatusController {
-    // InterfaceDgpDAO dgpDAO = new DgpDAO();
+
+    private DGPRepository dgpRepository;
+    
+    public ProcessStatusController(DGPRepository dgpRepository){
+        this.dgpRepository = dgpRepository;
+    }
 
     @GetMapping("status")
-    public ResponseEntity<?> getStatus(){
-        return new ResponseEntity<>("{}", HttpStatus.OK);
+    public Collection<DGP> getDGPs(){
+        return dgpRepository.findAll();
     }
 
     @PostMapping("status")
     public ResponseEntity<?> postStatus(@RequestBody ProcessStatusRequest request){
-
-        log.info(request.getDgps().size()+"");
         List<String> html =  new ArrayList();
         request.getDgps().stream()
                 .limit(10).forEach(d ->{
