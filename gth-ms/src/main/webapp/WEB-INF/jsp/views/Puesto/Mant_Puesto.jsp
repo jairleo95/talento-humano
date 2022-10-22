@@ -1,0 +1,422 @@
+<%-- 
+    Document   : Mant_Puesto
+    Created on : 16/03/2015, 08:32:30 AM
+    Author     : Andres
+--%>
+<style>
+    .caja{
+        background:transparent url(../../img/Gifloader.GIF) center no-repeat;
+    }
+</style>
+    <div id="main" role="main" style="margin: 0px;">
+        <div id="content" >
+            <section id="widget-grid" class="">
+                <div class="row">
+                    <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-3" data-widget-editbutton="false">
+
+                            <div>
+                                <div class="jarviswidget-editbox">
+                                </div>
+                                <div class="widget-body no-padding">
+                                    <form class="smart-form form_f">
+                                        <fieldset>
+                                            <div class="row">
+                                                <section class="col col-12">
+                                                    <h2 class="titulo_t" value="1">Agregar Puesto</h2>
+                                                </section>
+                                            </div>
+                                            <div class="row">
+                                                <section class="col col-3">
+                                                    <label class="label">Nombre</label>
+                                                    <label class="input">
+                                                        <input class="inpNombre"type="text" placeholder="Escribir nombre de Puesto" required="" maxlength="100" name="name">
+                                                    </label>
+                                                </section>
+                                                <section class="col col-3">
+                                                    <label class="label">Nombre Corto</label>
+                                                    <label class="input">
+                                                        <input class="inpNCorto"type="text" placeholder="Escribir nombre Corto" required="" maxlength="20" name="name2">
+                                                    </label>
+                                                </section>
+                                                <section class="col col-3">
+                                                    <label class="label">Estado</label>
+                                                    <label class="select">
+                                                        <select class="inpEstado" required="0" name="est">
+                                                            <option value="">[Seleccione]</option>
+                                                            <option value="1">Hablilitado</option>
+                                                            <option value="2">Deshabilitado</option>
+                                                        </select>
+                                                        <i></i></label>
+                                                </section>
+                                                <section class="col col-3">
+                                                    <label class="label">Co. Grupo</label>
+                                                    <label class="input">
+                                                        <input class="inpCGrupo"type="text" placeholder="Co Grupo" required="" maxlength="5" name="cgru">
+                                                    </label>
+                                                </section>
+                                            </div>
+                                            <div class="row">
+                                                <section class="col col-3">
+                                                    <label class="label">Direccion</label>
+                                                    <label class="select">
+                                                        <select class="inpDireccion" required="0" name="dir">
+                                                            <option value="">[Seleccione]</option>
+                                                        </select>
+                                                        <i></i></label>
+                                                </section>
+                                                <section class="col col-3">
+                                                    <label class="label">Departamento</label>
+                                                    <label class="select">
+                                                        <select class="inpDep" required="0" name="dep">
+                                                            <option value="">[Seleccione]</option>
+                                                        </select>
+                                                        <i></i></label>
+                                                </section>
+                                                <section class="col col-3">
+                                                    <label class="label">Area</label>
+                                                    <label class="select">
+                                                        <select class="inpArea" required="0" name="are">
+                                                            <option value="">[Seleccione]</option>
+                                                        </select>
+                                                        <i></i></label>
+                                                </section>
+                                                <section class="col col-3">
+                                                    <label class="label">Seccion</label>
+                                                    <label class="select">
+                                                        <select class="inpSec" required="0" name="sec">
+                                                            <option value="">[Seleccione]</option>
+                                                        </select>
+                                                        <i></i></label>
+                                                </section>
+                                            </div>
+                                        </fieldset>
+                                        <footer>
+                                            <input class="inpId" type="hidden" value="">
+                                            <input type="submit" class="btn btn-primary btnAceptar" value="Aceptar">
+                                            <input type="reset" class="btn btn-default btnCancelar" value="Cancelar">
+                                        </footer>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+                <div class="row">
+                    <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-1" data-widget-editbutton="false">
+                            <header class="headerr">
+                                <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                                <h2>Lista de Puestos</h2>
+                            </header>
+                            <div>
+                                <div class="jarviswidget-editbox">
+                                </div>
+                                <div class="widget-body no-padding">
+                                    <div class="table-responsive div_t">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <script src="js/plugin/jquery-nestable/jquery.nestable.min.js"></script>
+    <script src="js/plugin/datatables/jquery.dataTables.min.js"></script>
+    <script src="js/plugin/datatables/dataTables.colVis.min.js"></script>
+    <script src="js/plugin/datatables/dataTables.tableTools.min.js"></script>
+    <script src="js/plugin/datatables/dataTables.bootstrap.min.js"></script>
+    <script src="js/plugin/datatable-responsive/datatables.responsive.min.js"></script>
+    <script src="js/Js_Mant_Puesto/Datatable_puesto.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('.inpEstado > option[value=1]').attr('selected', 'selected');
+            GifLoader($('.div_t'), "Espere..", 1);
+            var idDep = "", idDir = "", idArea = "", idSec = "", valNum;
+            cargar_direccion();
+
+            $('.inpDireccion').change(function () {
+                if ($(this).val() == "" && idDir == "") {
+                    GifLoader($('.div_t'), "Seleccione un Departamento", 2);
+                } else {
+                    idDir = $(this).val();
+                    cargar_dep(idDir);
+                }
+
+            });
+            $('.inpDep').change(function () {
+                if ($(this).val() == "" && idDep == "") {
+                    GifLoader($('.div_t'), "Seleccione un Area", 2);
+                } else {
+                    idDep = $(this).val();
+                    cargar_area(idDep);
+                }
+
+            });
+            $('.inpArea').change(function () {
+
+                if ($(this).val() == "" && idDep == "") {
+                    GifLoader($('.div_t'), "Seleccione un Area", 2);
+                } else {
+                    idArea = $(this).val();
+                    cargar_seccion(idArea);
+                }
+
+            });
+            $('.inpSec').change(function () {
+
+                if ($(this).val() == "" && idDep == "") {
+                    GifLoader($('.div_t'), "Seleccione un Area", 2);
+                } else {
+                    idSec = $(this).val();
+                    cargar_t(idSec);
+                }
+
+            });
+            function cargar_t(id) {
+                GifLoader($('.div_t'), "Espere..", 1);
+                $.post(Puesto", "opc=list_puesto_sec&id=" + id, function (objJson) {
+                    $('.headerr').show();
+                    var tabb = "";
+                    tabb += '<table class="table table-striped table-bordered table-hover tabla_t" width="100%"><thead><tr>';
+                    tabb += '<td>Nro</td><td>Nombre Puesto</td><td>Nombre Corto</td><td>Estado</td><td>Co. Grupo</td>';
+                    tabb += '<td>Acciones</td></tr></thead><tbody class="tbodys"></tbody></table>';
+                    $('.div_t').empty();
+                    $('.div_t').append(tabb);
+                    var t = $('.tbodys');
+                    var list = objJson.lista;
+                    var text = "";
+                    for (var i = 0; i < list.length; i++) {
+                        text += "<tr>";
+                        text += "<td class='valId" + (i + 1) + "' value='" + list[i].id + "'>" + (i + 1) + "</td>";
+                        text += "<td class='valNombre" + (i + 1) + "'>" + list[i].nombre + "</td>";
+                        if (list[i].ncorto != undefined) {
+                            text += "<td class='valNCorto" + (i + 1) + "'>" + list[i].ncorto + "</td>";
+                        } else {
+                            text += "<td class='valNCorto" + (i + 1) + "'>No Asignado</td>";
+                        }
+                        if (list[i].estado == 1) {
+                            text += "<td class='valEstado" + (i + 1) + "' value='1' style='background-color: #f0fff0;'>Habilitado</td>";
+                        } else if (list[i].estado == 2) {
+                            text += "<td class='valEstado" + (i + 1) + "' value='2' style='background-color: #fff0f0;'>Deshabilitado</td>";
+                        } else {
+                            text += "<td class='valEstado" + (i + 1) + "' value='3'>No Asignado</td>";
+                        }
+                        if (list[i].cgrupo != undefined) {
+                            text += "<td class='valCGrupo" + (i + 1) + "'>" + list[i].cgrupo + "</td>";
+                        } else {
+                            text += "<td class='valCGrupo" + (i + 1) + "'>00000</td>";
+                        }
+                        text += '<td><center><div class="btn-group"><button type="button" class="btn btn-warning dropdown-toggle" data-toggle="dropdown" aria-expanded="false">';
+                        text += 'Accion <span class="caret"></span></button><ul class="dropdown-menu" role="menu">';
+                        text += '<li><a class="btnEditar" value=' + (i + 1) + '>Editar</a></li>';
+                        if (list[i].estado == 1) {
+                            text += '<li><a class="btnDes" value=' + (i + 1) + '>Deshabilitar</a></li>';
+                        } else if (list[i].estado == 2) {
+                            text += '<li><a class="btnHab" value=' + (i + 1) + '>Habilitar</a></li>';
+                        }else if(list[i].estado==3){
+                            text += '<li><a class="btnHab" value=' + (i + 1) + '>Habilitar</a></li>';
+                            text += '<li><a class="btnDes" value=' + (i + 1) + '>Deshabilitar</a></li>';
+                        }
+                        text += '<li><a class="btnEliminar" value=' + (i + 1) + '>Eliminar</a></li>';
+                        text += '</ul></div></center></td>';
+                        text += "</tr>";
+                    }
+                    t.append(text);
+                    text = "";
+
+
+
+                    //----Acciones
+                    var id, nombre, ncorto, estado, cGrupo;
+                    idSec = $('.inpSec').val();
+                    $('.btnEditar').click(function () {
+                        valNum = $(this).attr('value');
+                        id = $('.valId' + valNum).attr('value');
+                        nombre = $('.valNombre' + valNum).text();
+                        ncorto = $('.valNCorto' + valNum).text();
+                        estado = $('.valEstado' + valNum).attr('value');
+                        cGrupo = $('.valCGrupo' + valNum).text();
+                        $('.inpId').val(id);
+                        $('.inpNombre').val(nombre);
+                        $('.inpNombre').focus();
+                        $('.inpNCorto').val(ncorto);
+                        $('.inpCGrupo').val(cGrupo);
+                        $('.inpEstado > option[value=' + estado + ']').attr('selected', 'selected');
+                        $('.titulo_t').text('Editar Puesto');
+                        $('.titulo_t').attr('value', '2');
+                    });
+                    $('.btnDes').click(function () {
+                        valNum = $(this).attr('value');
+                        id = $('.valId' + valNum).attr('value');
+                        desactivar(id, idSec);
+                    });
+                    $('.btnHab').click(function () {
+                        valNum = $(this).attr('value');
+                        id = $('.valId' + valNum).attr('value');
+                        activar(id, idSec);
+                    });
+                    $('.btnEliminar').click(function () {
+                        valNum = $(this).attr('value');
+                        id = $('.valId' + valNum).attr('value');
+                        eliminar(id, idSec);
+                    });
+                    $('.tabla_t').DataTable();
+                });
+            }
+            $('.btnAceptar').click(function () {
+                $('.form_f').validate({
+                    rules: {
+                        name: {required: true},
+                        name2: {required: true},
+                        cgru: {required: true},
+                        est: {required: 0},
+                        dir: {required: 0},
+                        dep: {required: 0},
+                        are: {required: 0},
+                        sec: {required: 0}
+                    },
+                    messages: {
+                        name: "Escribir nombre de Puesto",
+                        name2: "Escribir nombre Corto",
+                        cgru: "Escribir codigo de Grupo",
+                        est: "Seleccione Estado",
+                        dir: "Seleccione Direccion",
+                        dep: "Seleccione Departamento",
+                        are: "Seleccione Area",
+                        sec: "Seleccione Seccion"
+                    },
+                    submitHandler: function (form) {
+                        var id, nombre, ncorto, estado, cGrupo;
+                        id = $('.inpId').val();
+                        nombre = $('.inpNombre').val();
+
+                        ncorto = $('.inpNCorto').val();
+                        estado = $('.inpEstado').val();
+                        cGrupo = $('.inpCGrupo').val();
+                        if ($('.titulo_t').attr('value') == 1) {
+                            crear(nombre, ncorto, estado, cGrupo, idSec);
+                        } else if ($('.titulo_t').attr('value') == 2) {
+                            editar(id, nombre, ncorto, estado, cGrupo, idSec);
+                            $('.titulo_t').text('Agregar Puesto');
+                            $('.titulo_t').attr('value', '1');
+
+                        }
+                        $('.inpNombre').val("");
+                        $('.inpNCorto').val("");
+                        $('.inpCGrupo').val("");
+                    }
+                });
+            });
+            $('.btnCancelar').click(function(){
+                cargar_direccion();
+            });
+            function desactivar(id, idD) {
+                $.post(Puesto", "opc=desactivar_puesto&id=" + id, function () {
+                    cargar_t(idD);
+                });
+            }
+            function activar(id, idD) {
+                $.post(Puesto", "opc=activar_puesto&id=" + id, function () {
+                    cargar_t(idD);
+                });
+            }
+            function eliminar(id, idD) {
+                $.post(Puesto", "opc=eliminar_puesto&id=" + id, function () {
+                    cargar_t(idD);
+                });
+            }
+            function editar(id, nombre, ncorto, estado, cGrupo, idD) {
+                var data = "opc=editar_puesto&id=" + id + "&nombre=" + nombre + "&ncorto=" + ncorto + "&estado=" + estado + "&cGrupo=" + cGrupo + "&idSec=" + idD;
+                $.post(Puesto", data, function () {
+                    cargar_t(idD);
+                });
+            }
+            function crear(nombre, ncorto, estado, cGrupo, idD) {
+                var data = "opc=crear_puesto&&nombre=" + nombre + "&ncorto=" + ncorto + "&estado=" + estado + "&cGrupo=" + cGrupo + "&idSec=" + idD;
+                $.post(Puesto", data, function () {
+                    cargar_t(idD);
+                });
+            }
+            function GifLoader(contenedor, msg, action) {
+                $('.headerr').hide();
+                var text = "";
+                contenedor.empty();
+                if (action == 1) {
+                    text += "<div class='caja' style='height:250px; width:150px; margin:auto;'><center><h3>" + msg + "</h3></center></div>";
+                } else if (action == 2) {
+                    text += "<div style='height:150px; width:150px; margin:auto; padding-top:30px;'><center><h3>" + msg + "</h3></center></div>";
+                }
+                contenedor.append(text);
+            }
+            function cargar_direccion() {
+                var x = $('.inpDireccion');
+                x.empty();
+                x.append("<option value=''>Cargando..</option>");
+                $.post(Puesto", "opc=listar_dir_es", function (objJson) {
+                    x.empty();
+                    x.append("<option value=''>[Seleccione]</option>");
+                    var list = objJson.lista;
+                    for (var i = 0; i < list.length; i++) {
+                        x.append("<option class='dir" + (i + 1) + "' value=" + list[i].id + ">" + list[i].nombre + "</option>");
+                    }
+                    GifLoader($('.div_t'), "Seleccione una Direccion", 2);
+                });
+            }
+            function cargar_dep(idDir) {
+                var x = $('.inpDep');
+                var y = $('.inpArea');
+                var z = $('.inpSec');
+                y.empty();
+                x.empty();
+                z.empty();
+                x.append("<option value=''>Cargando..</option>");
+                y.append("<option value=''>[Seleccione]</option>");
+                z.append("<option value=''>[Seleccione]</option>");
+                $.post(Puesto", "opc=list_dep_es&id=" + idDir, function (objJson) {
+                    x.empty();
+                    x.append("<option value=''>[Seleccione]</option>");
+                    var list = objJson.lista;
+                    for (var i = 0; i < list.length; i++) {
+                        x.append("<option class='dep" + (i + 1) + "' value=" + list[i].id + ">" + list[i].nombre + "</option>");
+                    }
+                    GifLoader($('.div_t'), "Seleccione un Departamento", 2);
+                });
+            }
+            function cargar_area(idDep) {
+                var x = $('.inpArea');
+                var z = $('.inpSec');
+                x.empty();
+                z.empty();
+                x.append("<option value=''>Cargando..</option>");
+                z.append("<option value=''>[Seleccione]</option>");
+                $.post(Puesto", "opc=list_area_es&id=" + idDep, function (objJson) {
+                    x.empty();
+                    x.append("<option value=''>[Seleccione]</option>");
+                    var list = objJson.lista;
+                    for (var i = 0; i < list.length; i++) {
+                        x.append("<option class='ar" + (i + 1) + "' value=" + list[i].id + ">" + list[i].nombre + "</option>");
+                    }
+                    GifLoader($('.div_t'), "Seleccione un Area", 2);
+                });
+            }
+            function cargar_seccion(idArea) {
+                var x = $('.inpSec');
+                x.empty();
+                x.append("<option value=''>Cargando..</option>");
+                $.post(Puesto", "opc=list_sec_es&id=" + idArea, function (objJson) {
+                    x.empty();
+                    x.append("<option value=''>[Seleccione]</option>");
+                    var list = objJson.lista;
+                    for (var i = 0; i < list.length; i++) {
+                        x.append("<option class='sec" + (i + 1) + "' value=" + list[i].id + ">" + list[i].nombre + "</option>");
+                    }
+                    GifLoader($('.div_t'), "Seleccione una Seccion", 2);
+                });
+            }
+
+        });
+    </script>
