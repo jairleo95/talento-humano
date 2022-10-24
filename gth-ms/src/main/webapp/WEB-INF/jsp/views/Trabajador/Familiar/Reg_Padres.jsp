@@ -91,7 +91,7 @@
 
             var opc = $(".submit").val();
             if (opc === 'Modificar_Padre_madre') {
-                $.post(../familiar", "opc=List_Padre&id=" + $(".idtr").val(), function(objJson) {
+                $.post("familiar", "opc=List_Padre&id=" + $(".idtr").val(), function(objJson) {
                     var lista = objJson.lista;
                     $(".padre").val(lista[0].padre);
                     $(".madre").val(lista[0].madre);
@@ -519,7 +519,7 @@
                     function() {
 
 
-                        $.post(../ajax/Ajax_Conyugue/Ajax_Busc_Conyug.jsp", $("#frm_filtro").serialize(), function(objJson) {
+                        $.post("ajax/Ajax_Conyugue/Ajax_Busc_Conyug.jsp", $("#frm_filtro").serialize(), function(objJson) {
                             b.empty();
                             var list = objJson.lista;
                             for (var i = 0; i < list.length; i++) {

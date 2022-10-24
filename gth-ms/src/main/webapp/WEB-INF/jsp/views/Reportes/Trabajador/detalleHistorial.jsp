@@ -165,7 +165,7 @@
                                             var s = $('.s_fecha');
                                             s.empty();
                                             s.append("<option>[Espere..]</option>");
-                                            $.post(../RHistorial?", "opc=list_mod_tra&idtr=" + idtrab, function (objJson) {
+                                            $.post("RHistorial?", "opc=list_mod_tra&idtr=" + idtrab, function (objJson) {
                                                 var lista = objJson.lista;
                                                 if (lista.length < 1) {
                                                     s.empty();
@@ -191,7 +191,7 @@
                                             $('.jarviswidget-color-blue').hide('slow');
                                             $('.btnPro').hide();
 
-                                            $.post(../RHistorial?", "opc=list_hist_fecha&fe_modif=" + fe_hist + "&idtra=" + idtrab, function (objJson) {
+                                            $.post("RHistorial?", "opc=list_hist_fecha&fe_modif=" + fe_hist + "&idtra=" + idtrab, function (objJson) {
                                                 var lista = objJson.lista;
                                                 us_ip = objJson.us_ip;
                                                 us = lista[0].col60;
@@ -217,7 +217,7 @@
                                             $('.deta61').text(us_ip[0]);
                                         }
                                         function cargar_act() {
-                                            $.post(../RHistorial?", "opc=list_actual&idtra=" + idtrab, function (objJson) {
+                                            $.post("RHistorial?", "opc=list_actual&idtra=" + idtrab, function (objJson) {
                                                 var lista = objJson.lista;
                                                 nombres = " / " + lista[0].col4 + " " + lista[0].col2;
                                                 $('.n_tra').text(nombres);
@@ -252,12 +252,12 @@
                                             }, function (buttonPressed) {
                                                 if (buttonPressed === "Si") {
                                                     if ($('.ck_procesadoh').prop('checked')) {
-                                                        $.post(../RHistorial?", "opc=proc_hist&idtra=" + idtrab + "&fe_modif=" + fe, function () {
+                                                        $.post("RHistorial?", "opc=proc_hist&idtra=" + idtrab + "&fe_modif=" + fe, function () {
                                                             cargar_hist(fe);
                                                         });
                                                     }
                                                     if ($('.ck_procesadoa').prop('checked')) {
-                                                        $.post(../RHistorial?", "opc=proc_act&idtra=" + idtrab, function () {
+                                                        $.post("RHistorial?", "opc=proc_act&idtra=" + idtrab, function () {
                                                             cargar_hist(fe);
                                                         });
                                                     }

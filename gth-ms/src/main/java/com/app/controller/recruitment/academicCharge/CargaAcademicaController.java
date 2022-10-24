@@ -50,7 +50,7 @@ import com.app.persistence.dao_imp.InterfaceUbigeoDAO;
  * @author ALFA 3
  */
 @RestController
-@RequestMapping("carga_academica/procesess")
+@RequestMapping("carga_academica")
 public class CargaAcademicaController {
 
         InterfaceCarga_AcademicaDAO carga = new Carga_AcademicaDAO();

@@ -848,7 +848,7 @@
     <script src="js/chosen.jquery.js" type="text/javascript"></script>
 
     <!--Funciones globales-->
-    <script src="js/Js_Formulario/Js_Form.js" type="text/javascript"></script>
+    <script src="js/businessLogic/Js_Formulario/Js_Form.js" type="text/javascript"></script>
     <script src="js/businessLogic/CentroCosto/Js_centro_costo.js" type="text/javascript"></script>
     <script src="js/businessLogic/Plazo/Js_plazo_advertencia.js" type="text/javascript"></script>
     <script src="js/businessLogic/Dgp/editDGP.js" type="text/javascript"></script>

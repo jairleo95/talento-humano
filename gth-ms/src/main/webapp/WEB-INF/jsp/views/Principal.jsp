@@ -305,10 +305,11 @@
                             <%}
                                 }
                                 if (!id_rol.trim().equals("ROL-0013")) {
-                                    if (dp.getNo_link().trim().equals("Procesar Requerimiento")) {%>
-                                    <a href="<%=dp.getDi_url()%>" title="<%=dp.getNo_link()%>" class="link"  data-value="<%=dp.getIc_link().trim()%>" id="link"><i class="<%=dp.getIc_link().trim()%> "></i> <span class="menu-item-parent"><%=dp.getNo_link()%></span></a>
+                                    if (dp.getNo_link().trim().equals("Procesar Requerimiento")) {
+                                    %>
+                                   <a href="<%=dp.getDi_url()%>" title="<%=dp.getNo_link()%>" data-value="<%=dp.getIc_link().trim()%>" ><i class="<%=dp.getIc_link().trim()%> "></i> <span class="menu-item-parent"><%=dp.getNo_link()%></span></a>
                             <%} else if (dp.getNo_link().trim().equals("Reporte de trabajadores")) {%>
-                        <a href="#" class="repEmployees"><i class="fa fa-lg fa-fw fa-users"></i>    Trabajadores</a>
+                        <a href="#" class="repEmployees"><i class="fa fa-lg fa-fw fa-users"></i>Trabajadores</a>
 
                         <%} else {%>
                         <a href="<%=dp.getDi_url()%>" title="<%=dp.getNo_link()%>" data-value="<%=dp.getIc_link().trim()%>" ><i class="<%=dp.getIc_link().trim()%> "></i> <span class="menu-item-parent" ><%=dp.getNo_link()%></span></a>
@@ -407,7 +408,7 @@
         <div class="page-footer">
             <div class="row">
                 <div class="col-xs-12 col-sm-6">
-                    <span class="txt-color-white">AlphaTeam � 2017</span>
+                    <span class="txt-color-white">AlphaTeam � 2023</span>
                 </div>
                 <%if (false) {
                 %>

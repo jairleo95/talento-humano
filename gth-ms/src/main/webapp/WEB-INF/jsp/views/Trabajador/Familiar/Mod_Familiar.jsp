@@ -374,7 +374,7 @@
                 function() {
 
 
-                    $.post(../ajax/Ajax_Conyugue/Ajax_Busc_Conyug.jsp", $("#frm_filtro").serialize(), function(objJson) {
+                    $.post("ajax/Ajax_Conyugue/Ajax_Busc_Conyug.jsp", $("#frm_filtro").serialize(), function(objJson) {
                         b.empty();
                         var list = objJson.lista;
                         for (var i = 0; i < list.length; i++) {

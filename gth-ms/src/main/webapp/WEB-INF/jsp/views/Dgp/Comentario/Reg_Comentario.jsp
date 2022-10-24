@@ -9,7 +9,7 @@
         <br>
         <!--<label class="title">agregar comentarios</label>
         -->
-        <form class="form" action=../comentario" method="post">
+        <form class="form" action="comentario" method="post">
             <table class="table">
                 <input type="hidden" name="IDDETALLE_DGP" value="<%=request.getParameter("iddgp")%>" class="text-box" > 
                 <input type="hidden" name="IDAUTORIZACION"  value="<%%>" class="text-box" >

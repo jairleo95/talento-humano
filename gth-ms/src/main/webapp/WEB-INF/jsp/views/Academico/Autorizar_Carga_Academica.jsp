@@ -85,7 +85,7 @@
                 var b = $("#alerta_dgp");
                 // $("#alerta_dgp").hide();
                 function listar() {
-                    $.post(plazo_dgp", "opc=Listar", function (objJson) {
+                    $.post("plazo_dgp", "opc=Listar", function (objJson) {
                         b.empty();
                         var lista = objJson.lista;
                         if (objJson.rpta == -1) {

@@ -135,7 +135,7 @@
                 });
                 function cargar_t(id) {
                     GifLoader($('.div_t'), "Espere..", 1);
-                    $.post(Puesto", "opc=list_area_dep&id=" + id, function (objJson) {
+                    $.post("Puesto", "opc=list_area_dep&id=" + id, function (objJson) {
                         $('.headerr').show();
                         var tabb = "";
                         tabb += '<table class="table table-striped table-bordered table-hover tabla_t" width="100%"><thead><tr>';
@@ -249,29 +249,29 @@
 
                 });
                 function desactivar(id, idD) {
-                    $.post(Puesto", "opc=desactivar_area&id=" + id, function () {
+                    $.post("Puesto", "opc=desactivar_area&id=" + id, function () {
                         cargar_t(idD);
                     });
                 }
                 function activar(id, idD) {
-                    $.post(Puesto", "opc=activar_area&id=" + id, function () {
+                    $.post("Puesto", "opc=activar_area&id=" + id, function () {
                         cargar_t(idD);
                     });
                 }
                 function eliminar(id, idD) {
-                    $.post(Puesto", "opc=eliminar_area&id=" + id, function () {
+                    $.post("Puesto", "opc=eliminar_area&id=" + id, function () {
                         cargar_t(idD);
                     });
                 }
                 function editar(id, nombre, ncorto, estado, idD) {
                     var data = "opc=editar_area&id=" + id + "&nombre=" + nombre + "&ncorto=" + ncorto + "&estado=" + estado + "&idDep=" + idD;
-                    $.post(Puesto", data, function () {
+                    $.post("Puesto", data, function () {
                         cargar_t(idD);
                     });
                 }
                 function crear(nombre, ncorto, estado, idD) {
                     var data = "opc=crear_area&&nombre=" + nombre + "&ncorto=" + ncorto + "&estado=" + estado + "&idDep=" + idD;
-                    $.post(Puesto", data, function () {
+                    $.post("Puesto", data, function () {
                         cargar_t(idD);
                     });
                 }
@@ -290,7 +290,7 @@
                     var x = $('.inpDireccion');
                     x.empty();
                     x.append("<option value=''>Cargando..</option>");
-                    $.post(Puesto", "opc=listar_dir_es", function (objJson) {
+                    $.post("Puesto", "opc=listar_dir_es", function (objJson) {
                         x.empty();
                         x.append("<option value=''>[Seleccione]</option>");
                         var list = objJson.lista;
@@ -304,7 +304,7 @@
                     var x = $('.inpDep');
                     x.empty();
                     x.append("<option value=''>Cargando..</option>");
-                    $.post(Puesto", "opc=list_dep_es&id=" + idDir, function (objJson) {
+                    $.post("Puesto", "opc=list_dep_es&id=" + idDir, function (objJson) {
                         x.empty();
                         x.append("<option value=''>[Seleccione]</option>");
                         var list = objJson.lista;

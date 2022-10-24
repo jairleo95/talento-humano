@@ -235,7 +235,7 @@
         <script src="js/plugin/jquery-form/jquery-form.min.js"></script>
         <script src="js/chosen.jquery.js" type="text/javascript"></script>
         <script src="js/businessLogic/Horario/horario-api.js" type="text/javascript"></script>
-        <script src="js/Js_Formulario/Js_Form.js" type="text/javascript"></script>
+        <script src="js/businessLogic/Js_Formulario/Js_Form.js" type="text/javascript"></script>
          
         <script src="js/businessLogic/Horario/detalleFormatoHorario.js" type="text/javascript"></script>
 

@@ -498,7 +498,7 @@
         <script type="text/javascript" src="js/shadowbox/shadowbox.js" ></script>
         <script  type="text/javascript" src="js/libs/jquery.session.js"></script>
 
-        <script  type="text/javascript" src="js/Js_Formulario/Js_Form.js?"></script>
+        <script  type="text/javascript" src="js/businessLogic/Js_Formulario/Js_Form.js?"></script>
         <script type="text/javascript" src="js/businessLogic/Autorizacion/Js_Autorizacion.js"></script>
         <script type="text/javascript" src="js/Js_Academico/Js_Carga_Academica.js"></script>
         <script type="text/javascript" src="js/businessLogic/Foto/foto.js"></script>

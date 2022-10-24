@@ -550,7 +550,7 @@
                  "sMessage": "Generado por AlfaTeam <i>(presiona Esc para cerrar)</i>"
                  }
                  ],
-                 "sSwfPath": js/plugin/datatables/swf/copy_csv_xls_pdf.swf"
+                 "sSwfPath": "js/plugin/datatables/swf/copy_csv_xls_pdf.swf"
                  },
                  "autoWidth": true
                  });

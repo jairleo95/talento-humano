@@ -639,8 +639,8 @@
 
 
         <!--BUSINESS LOGIC PLUGINS -->
-        <script src="js/coment/comenth.js" type="text/javascript"></script>
-        <script type="text/javascript" src="js/Js_Formulario/Js_Form.js"></script>
+        <script src="js/businessLogic/coment/comenth.js" type="text/javascript"></script>
+        <script type="text/javascript" src="js/businessLogic/Js_Formulario/Js_Form.js"></script>
         <script type="text/javascript" src="js/businessLogic/Horario/horario.js"></script>
         <script type="text/javascript" src="js/businessLogic/Autorizacion/inboxAuthorization.js"></script>
 </body>

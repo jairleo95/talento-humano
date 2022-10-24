@@ -59,9 +59,13 @@ public class MainController {
         return new ModelAndView("/views/Contrato/Formato_Plantilla/Reg_Formato_Plantilla.html");
     }
 
-    @RequestMapping(value = "/dgps/failed")
+    @RequestMapping(value = "/List_req_incompl")
     public ModelAndView List_req_incompl() {
-        return new ModelAndView("/views/Dgp/List_req_incompl.html");
+        return new ModelAndView("Dgp/List_req_incompl");
+    }
+    @RequestMapping(value = "/List_Dgp")
+    public ModelAndView List_Dgp() {
+        return new ModelAndView("Dgp/List_Dgp");
     }
     @RequestMapping(value = "/person")
     public ModelAndView person() {
@@ -114,5 +118,34 @@ public class MainController {
     public ModelAndView Validar_Foto() {
         return new ModelAndView("Reportes/Validar_Foto/validar_foto");
     }
+    @RequestMapping(value = "/Gen_Contrato_CE")
+    public ModelAndView Gen_Contrato_CE() {
+        return new ModelAndView("Contrato/Gen_Contrato_CE");
+    }
+    @RequestMapping(value = "/Filtro_Contrato_CE")
+    public ModelAndView Filtro_Contrato_CE() {
+        return new ModelAndView("Contrato/Filtro_Contrato_CE");
+    }
+    @RequestMapping(value = "/hist_tra")
+    public ModelAndView Historial() {
+        return new ModelAndView("Reportes/Trabajador/Historial");
+    }
+    @RequestMapping(value = "/Historial_Est_Civil")
+    public ModelAndView Historial_Est_Civil() {
+        return new ModelAndView("Reportes/Trabajador/Historial_Est_Civil");
+    }
+    @RequestMapping(value = "/Reg_Contrato")
+    public ModelAndView Reg_Contrato() {
+        return new ModelAndView("Contrato/Reg_Contrato");
+    }
+    @RequestMapping(value = "/Detalle_Info_Contractualq")
+    public ModelAndView Detalle_Info_Contractualq() {
+        return new ModelAndView("Contrato/Detalle_Info_Contractualq");
+    }
+    @RequestMapping(value = "/Detalle_Dgp")
+    public ModelAndView Detalle_Dgp() {
+        return new ModelAndView("Dgp/Detalle_Dgp");
+    }
+
 
 }

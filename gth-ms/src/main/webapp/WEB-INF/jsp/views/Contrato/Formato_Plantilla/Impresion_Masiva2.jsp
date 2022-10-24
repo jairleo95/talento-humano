@@ -161,7 +161,7 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
         function procesar_texto(valor, asa) {
             // var editor = CKEDITOR.instances.editor1;
 
-            $.post(../Imprimir", "opc=Listar_contrato&" + "id=" + valor, function (objJson) {
+            $.post("Imprimir", "opc=Listar_contrato&" + "id=" + valor, function (objJson) {
                 var Lista = objJson.lista;
                 var texto = asa;
                 //alert(Lista.length)

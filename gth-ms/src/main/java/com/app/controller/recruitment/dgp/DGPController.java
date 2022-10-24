@@ -170,7 +170,7 @@ public class DGPController {
                     if (mes >= 9 && dia > 9) {
                         fe_subs = año + "-" + (mes + 1) + "-" + dia;
                     }
-                    response.sendRedirect("views/Contrato/Reg_Contrato.html?num=" + asig + "&id_direc=" + id_dir + "&fe_subs=" + fe_subs);
+                    response.sendRedirect("Reg_Contrato?num=" + asig + "&id_direc=" + id_dir + "&fe_subs=" + fe_subs);
 
                 } else if (num == 0 & idrol.trim().equals("ROL-0006") & dgp.LIST_ID_DGP(ID_DGP).get(0).getEs_dgp().equals("1")) {
 
@@ -184,7 +184,7 @@ public class DGPController {
                     session.setAttribute("List_tipo_contrato", lista.List_tipo_contrato());
                     session.setAttribute("List_x_fun_x_idpu", funcion.List_x_fun_x_idpu(id_pu));
                     session.setAttribute("list_reg_labo", contrato.list_reg_labo());
-                     response.sendRedirect("views/Contrato/Detalle_Info_Contractualq.html?idtr=" + idtr + "&id_cto=" + id_cto);
+                     response.sendRedirect("Detalle_Info_Contractualq?idtr=" + idtr + "&id_cto=" + id_cto);
                 } else {
                     String id_cto = contrato.Contrato_max(idtr);
                     String id_pu = puesto.puesto(id_cto);
@@ -196,19 +196,23 @@ public class DGPController {
                     session.setAttribute("List_x_fun_x_idpu", funcion.List_x_fun_x_idpu(id_pu));
                     session.setAttribute("List_tipo_contrato", lista.List_tipo_contrato());
                     session.setAttribute("list_reg_labo", contrato.list_reg_labo());
-                    response.sendRedirect("views/Contrato/Detalle_Info_Contractualq.html?idtr=" + idtr + "&id_cto=" + id_cto);
+                    response.sendRedirect("Detalle_Info_Contractualq?idtr=" + idtr + "&id_cto=" + id_cto);
                 }
             } else {
 
-                response.sendRedirect("views/Dgp/Detalle_Dgp.html?idtr=" + ID_TRABAJADOR + "&num=" + num + "&idgp=" + ID_DGP);
+                response.sendRedirect("Detalle_Dgp?idtr=" + ID_TRABAJADOR + "&num=" + num + "&idgp=" + ID_DGP);
 
             }
+        }
+        if (opc.equals("Incompleto")) {
+            session.setAttribute("List_Incomplet", dgp.List_Incomplet(iddep, permission.isAdmin()));
+            response.sendRedirect("List_req_incompl");
         }
 
         if (opc.equals("Listar")) {
             session.setAttribute("List_Det_Dgp", dgp.LIST_DET_DGP(iddep));
             session.setAttribute("List_Trb_Mod_Rel", tr.LIST_TRABAJADOR_MOD_REL());
-             response.sendRedirect("views/Dgp/List_Dgp.html?iddep");
+            response.sendRedirect("List_Dgp");
 
         }
         if (opc.equals("Imprimir_det_proceso")) {
@@ -287,7 +291,7 @@ public class DGPController {
             session.setAttribute("Cargar_dcc_dgp", cc.Cargar_dcc_dgp(ID_DGP));
             int num = dgp.VALIDAR_DGP_CONTR(ID_DGP, ID_TRABAJADOR);
             session.setAttribute("LIST_ID_USER", usuario.List_ID_User(iduser));
-            response.sendRedirect("Dgp/Detalle_Dgp.html?idtr=" + ID_TRABAJADOR + "&num=" + num + "&iddgp=" + ID_DGP + "&opc=reg_doc");
+            response.sendRedirect("Dgp/Detalle_Dgp?idtr=" + ID_TRABAJADOR + "&num=" + num + "&iddgp=" + ID_DGP + "&opc=reg_doc");
         }
 
         return new ResponseEntity<>(rpta, HttpStatus.OK);
@@ -816,11 +820,6 @@ public class DGPController {
                 } else {
                     response.sendRedirect("dgp?iddgp=" + ID_DGP + "&idtr=" + ID_TRABAJADOR + "&opc=Detalle");
                 }
-            }
-            if (opc.equals("Incompleto")) {
-
-                session.setAttribute("List_Incomplet", dgp.List_Incomplet(iddep, permission.isAdmin()));
-                response.sendRedirect("views/Dgp/List_req_incompl.html");
             }
 
         } catch (Exception e) {

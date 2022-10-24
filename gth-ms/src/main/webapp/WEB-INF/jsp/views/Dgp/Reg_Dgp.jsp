@@ -829,7 +829,7 @@
     <script src="js/plugin/pfnotify/pnotify.custom.min.js" type="text/javascript"></script>
 
     <!-- BUSINESS LOGIC PLUGINS-->
-    <script src="js/Js_Formulario/Js_Form.js" type="text/javascript"></script>
+    <script src="js/businessLogic/Js_Formulario/Js_Form.js" type="text/javascript"></script>
     <script src="js/businessLogic/Dgp/Registrar/Reg_Dgps.js" type="text/javascript" ></script>
     <script src="js/businessLogic/Horario/horarioTemplate.js" type="text/javascript"></script>
     <script src="js/businessLogic/Plazo/Js_plazo_advertencia.js" type="text/javascript"></script>

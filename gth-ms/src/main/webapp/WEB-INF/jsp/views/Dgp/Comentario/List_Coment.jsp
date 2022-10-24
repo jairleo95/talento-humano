@@ -6,41 +6,32 @@
 %>
 <%@page import="com.app.domain.model.X_List_Comen_DGP"%>
 <jsp:useBean id="List_Comentario_DGP" class="java.util.ArrayList" scope="session"/>
-<!DOCTYPE html >
-<html>
-    <head>
-        <meta charset="windows-1252">
-        <title>Comentarios DGP</title>
-        <style>
-            .Coment{
-                padding:5px;
-                border:solid 1px #6b00c5;
-                border-radius:5px;
-                background-color: #fcfcfc; 
-                height: 200px;
-                width: 300px;
-                margin: 5px;
-            }
-            td{
+    <style>
+        .Coment{
+            padding:5px;
+            border:solid 1px #6b00c5;
+            border-radius:5px;
+            background-color: #fcfcfc;
+            height: 200px;
+            width: 300px;
+            margin: 5px;
+        }
+        td{
 
-                padding: 10px;
-            }
-            .tab{
-                border-radius: 13px;
-                background-color: white;
-                text-align: center;
-            }
-            .Coment:focus{
-                box-shadow:0 0 13px #6b00c5;
-            }
-            .Coment:hover{
-                background-color: white;
-            }
-        </style>
-    </head>
-
-    <body>
-
+            padding: 10px;
+        }
+        .tab{
+            border-radius: 13px;
+            background-color: white;
+            text-align: center;
+        }
+        .Coment:focus{
+            box-shadow:0 0 13px #6b00c5;
+        }
+        .Coment:hover{
+            background-color: white;
+        }
+    </style>
     <center>
 
         <%
@@ -67,8 +58,6 @@
 
 
     </center>
-</body>
-</html>
 <%} else {
         out.print("<script> window.parent.location.href = '/TALENTO_HUMANO/';</script>");
     }

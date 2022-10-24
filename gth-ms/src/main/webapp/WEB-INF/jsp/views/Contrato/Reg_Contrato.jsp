@@ -739,7 +739,7 @@
         <script type="text/javascript" src="js/libs/jquery.numeric.js"></script>
         <!--BUSINESS LOGIC PLUGINS-->
         <script type="text/javascript" src="js/businessLogic/CentroCosto/Js_centro_costo.js" ></script>
-        <script type="text/javascript" src="js/Js_Formulario/Js_Form.js"></script>
+        <script type="text/javascript" src="js/businessLogic/Js_Formulario/Js_Form.js"></script>
         <script type="text/javascript" src="js/businessLogic/Horario/horario.js"></script>
         <script type="text/javascript" src="js/businessLogic/Contrato/RegContrato.js"></script>
     </body>

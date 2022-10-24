@@ -41,7 +41,7 @@ import com.app.persistence.dao.DocumentoDAO;
  * @author Jair
  */
 @RestController
-@RequestMapping("Documento")
+@RequestMapping("documents")
 public class DocumentoController {
 
     InterfaceDocumentoDAO d = new DocumentoDAO();
@@ -53,16 +53,10 @@ public class DocumentoController {
         String idtr = request.getParameter("idtr");
         String opc = request.getParameter("opc");
 
-
         HttpSession sesion = request.getSession(true);
         String rol = (String) sesion.getAttribute("IDROL");
 
         Map<String, Object> rpta = new HashMap<String, Object>();
-
-        boolean permissionEditDocument = false;
-        if (rol.trim().equals("ROL-0002") | rol.trim().equals("ROL-0003") | rol.trim().equals("ROL-0005") | rol.trim().equals("ROL-0007") | rol.trim().equals("ROL-0001")) {
-            permissionEditDocument = true;
-        }
 
         if (opc.equals("Ver_Documento")) {
             int i = d.List_Req_nacionalidad(idtr);
@@ -75,7 +69,22 @@ public class DocumentoController {
         if (opc.equals("ReqIncompletoNextStep")) {
              response.sendRedirect("views/Dgp/Documento/Reg_Documento.html?" + "idtr=" + idtr + "&iddgp=" + dgp + "&pro=pr_dgp");
         }
-        if (opc.equals("listDocument")) {
+
+        return new ResponseEntity<>(rpta, HttpStatus.OK);
+    }
+    @PostMapping("upload")
+    public ResponseEntity<?> document(HttpServletRequest request, HttpServletResponse response){
+            HttpSession sesion = request.getSession(true);
+            String rol = (String) sesion.getAttribute("IDROL");
+            String dgp = request.getParameter("iddgp");
+            String idtr = request.getParameter("idtr");
+        Map<String, Object> rpta = new HashMap<String, Object>();
+            boolean permissionEditDocument = false;
+
+
+            if (rol.trim().equals("ROL-0002") | rol.trim().equals("ROL-0003") | rol.trim().equals("ROL-0005") | rol.trim().equals("ROL-0007") | rol.trim().equals("ROL-0001")) {
+                permissionEditDocument = true;
+            }
             System.out.println("enter to listDocument");
             System.out.println("permissionEditDocument:" + permissionEditDocument);
             //    Boolean enterToProcessDGP = false;
@@ -691,7 +700,7 @@ public class DocumentoController {
 
             }
             int countItem = 0;
-            System.out.println("tamaño de lista:" + listDocumentItem.size());
+            System.out.println("document list:" + listDocumentItem.size());
             for (int s = 0; s < listDocumentItem.size(); s++) {
                 if (!listDocumentItem.get(s).equals("")) {
                     if (countItem == 0) {
@@ -732,8 +741,6 @@ public class DocumentoController {
             rpta.put("htmlListDocument", html);
 
             rpta.put("status", true);
-        }
-
         return new ResponseEntity<>(rpta, HttpStatus.OK);
     }
 

@@ -919,7 +919,7 @@ data-widget-sortable="false"
     <script type="text/javascript" src="js/libs/jquery.numeric.js"></script>
     <script src="js/jquery-ui.js" type="text/javascript"></script>
     <script src="js/jquery.mask.js" type="text/javascript"></script>
-    <script src="js/Js_Formulario/Js_Form.js" type="text/javascript"></script>
+    <script src="js/businessLogic/Js_Formulario/Js_Form.js" type="text/javascript"></script>
     <script>$(document).ready(function() {
     $('#doc').click(function() {
     // $('#doc').val("");

@@ -260,7 +260,7 @@
             </div>
 
 <!-- BUSINESS LOGIC PLUGINS -->
-<script src="js/Js_Formulario/Js_Form.js" type="text/javascript"></script>
+<script src="js/businessLogic/Js_Formulario/Js_Form.js" type="text/javascript"></script>
 <script src="js/businessLogic/Dgp/Detalle/Js_Detallle_dgp-api.js" type="text/javascript" charset="UTF-8"></script>
     
 </html>

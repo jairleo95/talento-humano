@@ -35,7 +35,7 @@ public class ReporteHistorialController {
     InterfaceReporte_HistorialDAO re = new Reporte_HistorialDAO();
     InterfaceListaDAO li = new ListaDAO();
 
-    @PostMapping
+    @RequestMapping
     public ResponseEntity<?> process(HttpServletRequest request, HttpServletResponse response) {
 
         Map<String, Object> rpta = new HashMap<String, Object>();
@@ -45,8 +45,7 @@ public class ReporteHistorialController {
 
         try {
             if (opc.equals("hist_tra")) {
-                String pagina = "views/Reportes/Trabajador/Historial.html";
-                response.sendRedirect(pagina);
+                response.sendRedirect("hist_tra");
             }
             if (opc.equals("list_mod_fecha")) {
                 String FE_INICIO = request.getParameter("fe_inicio");
@@ -67,7 +66,7 @@ public class ReporteHistorialController {
             }
             if (opc.equals("hist_es_civil")) {
                 sesion.setAttribute("List_Estado_Civil", li.List_Estado_Civil());
-                response.sendRedirect("views/Reportes/Trabajador/Historial_Est_Civil.html");
+                response.sendRedirect("Historial_Est_Civil");
             }
             if (opc.equals("list_hist_es_civil")) {
                 String FE_INICIO = request.getParameter("fe_inicio");

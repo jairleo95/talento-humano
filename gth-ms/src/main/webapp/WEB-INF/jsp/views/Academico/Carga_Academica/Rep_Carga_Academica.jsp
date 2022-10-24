@@ -5,14 +5,14 @@
             <div class="row">
                 <div class="col-md-8">
                     <h1>
-                        <span class="semi-bold">Reporte</span> <i class="ultra-light">Carga Académica</i> (Docentes)
+                        <span class="semi-bold">Reporte</span> <i class="ultra-light">Carga Acadï¿½mica</i> (Docentes)
                         <sup class="badge bg-color-red bounceIn animated">v 2.0</sup> <br>
-                        <small class="text-danger slideInRight fast animated"><strong>Inicio de contratación</strong></small></h1>
+                        <small class="text-danger slideInRight fast animated"><strong>Inicio de contrataciï¿½n</strong></small></h1>
                 </div>
                 <div class="col-md-4">
                     <br>
                     <button type="button" style="display: none" class="btn btn-danger btn-lg btn-circle pull-right btnStopSyncUpAcargaAcademica"  ><i class="fa fa-remove"></i></button>
-                    <button type="button" class="btn btn-primary btn-lg btn-circle pull-right btnInitUpdateCAData" disabled="disabled" rel="tooltip" data-placement="top" data-original-title="Iniciar Actualizacion de Carga académica"  >
+                    <button type="button" class="btn btn-primary btn-lg btn-circle pull-right btnInitUpdateCAData" disabled="disabled" rel="tooltip" data-placement="top" data-original-title="Iniciar Actualizacion de Carga acadï¿½mica"  >
                         <i class="fa fa-refresh fa-lg"></i></button>
                     <button type="button" class="btn btn-primary btn-lg btn-circle pull-right btnUpdateCAData"><i class="fa fa-download"></i></button>
                 </div>  
@@ -27,13 +27,13 @@
                  data-widget-deletebutton="false">
                 <header>
                     <span class="widget-icon"> <i class="glyphicon glyphicon-user txt-color-darken"></i> </span>
-                    <h2>Carga Académica</h2>
+                    <h2>Carga Acadï¿½mica</h2>
                     <ul class="nav nav-tabs pull-right in" id="myTab"> 
                         <li class="active">
                             <a data-toggle="tab" href="#s1"><i class="fa fa-user"></i> <span class="hidden-mobile hidden-tablet">Usuarios RRHH</span></a>
                         </li>
                         <li>
-                            <a data-toggle="tab" href="#s2"><i class="fa fa-users"></i> <span class="hidden-mobile hidden-tablet">Usuarios Académico</span></a>
+                            <a data-toggle="tab" href="#s2"><i class="fa fa-users"></i> <span class="hidden-mobile hidden-tablet">Usuarios Acadï¿½mico</span></a>
                         </li>
                     </ul>
                 </header>
@@ -53,13 +53,13 @@
                                 <tr>
                                     <th></th>
                                     <th>Tipo Doc.</th>
-                                    <th>N° Documento</th>
+                                    <th>Nï¿½ Documento</th>
                                     <th style="width: 16%">Apellidos y Nombres</th>
                                     <th>Facultad</th>
                                     <th>Escuela</th>
-                                    <th>Situación Educativa</th>
-                                    <th>Profesión Docente</th>
-                                    <th>Condición</th>
+                                    <th>Situaciï¿½n Educativa</th>
+                                    <th>Profesiï¿½n Docente</th>
+                                    <th>Condiciï¿½n</th>
                                     <th>Ciclo</th>
                                     <th>Inicio</th>
                                     <th>Cese</th>
@@ -110,7 +110,7 @@
                 loadScript("js/plugin/datatables/dataTables.tableTools.min.js", function () {
                     loadScript("js/plugin/datatables/dataTables.bootstrap.min.js", function () {
                         loadScript("js/plugin/datatable-responsive/datatables.responsive.min.js", function () {
-                            loadScript("js/Js_Formulario/Js_Form.js", function () {
+                            loadScript("js/businessLogic/Js_Formulario/Js_Form.js", function () {
                                 loadScript("js/businessLogic/Academico/cargaAcademica.js", pagefunction);
                             });
                         });

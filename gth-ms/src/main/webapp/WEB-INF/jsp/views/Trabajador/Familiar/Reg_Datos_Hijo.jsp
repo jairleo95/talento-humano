@@ -138,7 +138,7 @@
 <!-- PAGE RELATED PLUGIN(S) -->
 <script type="text/javascript" src="js/libs/jquery.numeric.js"></script>
 <script src="js/plugin/jquery-form/jquery-form.min.js"></script>
-<script src="js/Js_Formulario/Js_Form.js"></script>
+<script src="js/businessLogic/Js_Formulario/Js_Form.js"></script>
 <script src="js/businessLogic/Hijos/regDatosHijos.js"></script>
 
 <%} else {

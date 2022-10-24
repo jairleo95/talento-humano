@@ -1010,7 +1010,7 @@ function goBack() {
             $(document).ready(function () {
 
               
-                $.sound_path = ../sound/", $.sound_on = !0, jQuery(document).ready(function () {
+                $.sound_path = "sound/", $.sound_on = !0, jQuery(document).ready(function () {
                     $("body").append("<div id='divSmallBoxes'></div>"), $("body").append("<div id='divMiniIcons'></div><div id='divbigBoxes'></div>")
                 });
 

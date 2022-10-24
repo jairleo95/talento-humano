@@ -165,7 +165,7 @@ if (id_user_ != null) {
 $(document).ready(
         function () {
             pageSetUp();
-            $.post(../familiar", "opc=Listar_Hijo_id_tr&idtr=<%=request.getParameter("idtr")%>", function (objJson) {
+            $.post("familiar", "opc=Listar_Hijo_id_tr&idtr=<%=request.getParameter("idtr")%>", function (objJson) {
                 var texto_html = '';
                 var div = $(".listar_hijos");
                 if (objJson.rpta == -1) {

@@ -55,7 +55,7 @@
                                     <!-- end widget edit box -->
 
                                     <!-- widget content -->
-                                    <div class="widget-body no-padding">
+                                    <div class="widget-body">
 
                                         <table id="dt_basic" class="table table-striped table-bordered table-hover" width="100%">
                                             <thead>			                

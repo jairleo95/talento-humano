@@ -6,18 +6,7 @@
 %>
 <%@page import="com.app.domain.model.V_Ficha_Trab_Num_C"%>
 <jsp:useBean id="ListarTrabajador2" scope="session" class="java.util.ArrayList"/>
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="windows-1252">
-        <link type="text/css" rel="stylesheet" href="css/Css_Reporte/Reportes.css">
-        <link rel="stylesheet" href="css/bootstrap.min.css">
-            <link rel="stylesheet" type="text/css" media="screen" href="css/smartadmin-production-plugins.min.css">
-        <link rel="stylesheet" type="text/css" media="screen" href="css/smartadmin-production.min.css">
-        <link rel="stylesheet" type="text/css" media="screen" href="css/smartadmin-skins.min.css">
-        <title></title>
-    </head>
-    <body>
+ <link type="text/css" rel="stylesheet" href="css/Css_Reporte/Reportes.css">
     <center>
         <div class="spacing" >
             <center><h1 class="spacing" style="font-weight: bold;">
@@ -56,7 +45,7 @@
                     <br>
                     <input class="btn btn-primary"  type="submit" name="busqueda"  value="Buscar">
                     <a href="?cancel=true&text=<%=text%>" class="btn btn-primary" role="button">Cancelar</a>
-                    <a href=contrato?opc=Reporte_CE" class="btn btn-success" role="button">Contratos Especiales</a>
+                    <a href="contrato?opc=Reporte_CE" class="btn btn-success" role="button">Contratos Especiales</a>
                 </div>
 
             </form>
@@ -122,9 +111,6 @@
         <?}}?>
 
     </center>
-
-</body>
-</html>
 
 <%} else {
         out.print("<script> window.parent.location.href = '/TALENTO_HUMANO/';</script>");

@@ -17,7 +17,7 @@
                 <link rel="stylesheet" href="css/Css_DGP/estilos.css" />
                 <link rel="stylesheet" href="css/Css_DGP//chosen.css">
                 <script src="js/businessLogic/Dgp/abc.js"></script>
-                <script src="js/Js_Formulario/organictabs.jquery.js"></script>
+                <script src="js/businessLogic/Js_Formulario/organictabs.jquery.js"></script>
                 <style type="text/css">
 
             .submit{

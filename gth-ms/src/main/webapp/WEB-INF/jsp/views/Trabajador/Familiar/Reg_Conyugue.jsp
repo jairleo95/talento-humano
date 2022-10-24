@@ -201,7 +201,7 @@
     <!-- PAGE RELATED PLUGIN(S) -->
        
     <script src="js/plugin/jquery-form/jquery-form.min.js"></script>
-    <script src="js/Js_Formulario/Js_Form.js" type="text/javascript"></script>
+    <script src="js/businessLogic/Js_Formulario/Js_Form.js" type="text/javascript"></script>
     <script type="text/javascript" src="js/libs/jquery.numeric.js"></script>
 
     <script type="text/javascript">
@@ -246,7 +246,7 @@
         var b = $(".tbodys");
         $("#btnfiltrar").click(
                 function() {
-                    $.post(../ajax/Ajax_Conyugue/Ajax_Busc_Conyug.jsp", $("#frm_filtro").serialize(), function(objJson) {
+                    $.post("ajax/Ajax_Conyugue/Ajax_Busc_Conyug.jsp", $("#frm_filtro").serialize(), function(objJson) {
                         b.empty();
                         var list = objJson.lista;
                         for (var i = 0; i < list.length; i++) {

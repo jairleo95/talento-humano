@@ -270,15 +270,15 @@
                             if ((iddep.equals("DPT-0019") || idrol.trim().equals("ROL-0012") || idrol.trim().equals("ROL-0005"))) {
                     %>
                     <li>
-                        <a href="../../contrato?idtr=<%=idtr%>&opc=Detalle_Contractual" target="myframe2"  ><i class="fa fa-file-text fa-gear"></i> Información Contractual </a>
+                        <a href="../../contrato?idtr=<%=idtr%>&opc=Detalle_Contractual" target="myframe2"  ><i class="fa fa-file-text fa-gear"></i> Informaciï¿½n Contractual </a>
                     </li>
                     <%}
                         }%>
                     <li >
-                        <a href="Datos_Generales.jsp?edit=<%=edit%>" target="myframe2"  ><i class="fa fa-male fa-gear"></i> Información General </a>
+                        <a href="Datos_Generales.jsp?edit=<%=edit%>" target="myframe2"  ><i class="fa fa-male fa-gear"></i> Informaciï¿½n General </a>
                     </li>
                     <li>
-                        <a href="Aspecto_Academico.jsp?edit=<%=edit%>" target="myframe2"><i class="fa fa-graduation-cap fa-gear"></i> Aspecto Académico</a>
+                        <a href="Aspecto_Academico.jsp?edit=<%=edit%>" target="myframe2"><i class="fa fa-graduation-cap fa-gear"></i> Aspecto Acadï¿½mico</a>
                     </li>
                     <li >
                         <a href="../../trabajador?idtr=<%=idtr%>&opc=Listar_Asp_Social" target="myframe2"><i class="fa fa-home fa-gear"></i> Aspecto Social </a>
@@ -293,13 +293,13 @@
                     </li>
                     <%}%>
                     <li>
-                        <a href="../../trabajador?idtr=<%=idtr%>&opc=Documento_Trabajador" target="myframe2"><i class="fa fa-file fa-gear"></i> Documentación </a>
+                        <a href="../../trabajador?idtr=<%=idtr%>&opc=Documento_Trabajador" target="myframe2"><i class="fa fa-file fa-gear"></i> Documentaciï¿½n </a>
                     </li>
 
                     <%if (idrol.trim().equals("ROL-0007") | ID_ROL.trim().equals("ROL-0001")) {
                     %>
                     <li >
-                        <a href="../../empleado?opc=Eva_Emp&idtr=<%=idtr%>" target="myframe2"><i class="fa fa-file-text fa-gear"></i> Evaluación de Empleado</a>
+                        <a href="../../empleado?opc=Eva_Emp&idtr=<%=idtr%>" target="myframe2"><i class="fa fa-file-text fa-gear"></i> Evaluaciï¿½n de Empleado</a>
                     </li>
                     <%}%>
                     <%if (idtr.equals(idtr_session)) {
@@ -308,9 +308,9 @@
                     <li>
                         <%if (cl.trim().equals(user.trim())) {
                         %>
-                        <a href="../../trabajador?opc=Form_Cambiar_Clave" target="myframe2" rel="" data-placement="top" data-original-title="<h1><b>One</b> <em>Really</em> big tip!</h1>" data-html="true" ><i class="fa fa-lock"></i> Contraseña <span class="badge bg-color-red pull-right inbox-badge">¡Cambiar!</span></a>
+                        <a href="../../trabajador?opc=Form_Cambiar_Clave" target="myframe2" rel="" data-placement="top" data-original-title="<h1><b>One</b> <em>Really</em> big tip!</h1>" data-html="true" ><i class="fa fa-lock"></i> Contraseï¿½a <span class="badge bg-color-red pull-right inbox-badge">ï¿½Cambiar!</span></a>
                         <%} else {%>
-                        <a href="../../trabajador?opc=Form_Cambiar_Clave" target="myframe2"  ><i class="fa fa-lock"></i> Contraseña</a>
+                        <a href="../../trabajador?opc=Form_Cambiar_Clave" target="myframe2"  ><i class="fa fa-lock"></i> Contraseï¿½a</a>
                         <%}%>
                     </li>
                     <%}%>
@@ -584,7 +584,7 @@
 
         <!-- PAGE RELATED PLUGIN(S) 
         <script src="../../js/plugin/bootstrap-progressbar/bootstrap-progressbar.min.js"></script>
-        <script src="../../js/Js_Formulario/Js_Form.js" type="text/javascript"></script>
+        <script src="../../js/businessLogic/Js_Formulario/Js_Form.js" type="text/javascript"></script>
         
         
         <script src="../../js/plugin/bootstrap-wizard/jquery.bootstrap.wizard.min.js"></script>
@@ -622,7 +622,7 @@
 
         function closedthis() {
             $.smallBox({
-                title: "¡Ficha de trabajador registrada correctamente!",
+                title: "ï¿½Ficha de trabajador registrada correctamente!",
                 content: "ya puede visualizar toda la informacion del trabajador...",
                 color: "#739E73",
                 iconSmall: "fa fa-check fa-2x fadeInRight animated",
@@ -631,7 +631,7 @@
         }
         function closedthis2() {
             $.smallBox({
-                title: "¡Contrato Especial registrado con exito!",
+                title: "ï¿½Contrato Especial registrado con exito!",
                 content: "ya puede visualizar el contrato en Detalle del Trabajador",
                 color: "#739E73",
                 iconSmall: "fa fa-check fa-2x fadeInRight animated",
@@ -681,8 +681,8 @@
 
             $(".btn-conti").click(function (e) {
                 $.SmartMessageBox({
-                    title: "Alerta de Confirmación",
-                    content: "¿Está totalmente seguro de rechazar este requerimiento?",
+                    title: "Alerta de Confirmaciï¿½n",
+                    content: "ï¿½Estï¿½ totalmente seguro de rechazar este requerimiento?",
                     buttons: '[No][Si]'
                 }, function (ButtonPressed) {
                     if (ButtonPressed === "Si") {
@@ -725,8 +725,8 @@
             /*AUTORIZACIONES*/
             $(".btn-autor").click(function (e) {
                 $.SmartMessageBox({
-                    title: "¡Alerta de Confirmación!",
-                    content: "¿Está totalmente seguro de autorizar este requerimiento?",
+                    title: "ï¿½Alerta de Confirmaciï¿½n!",
+                    content: "ï¿½Estï¿½ totalmente seguro de autorizar este requerimiento?",
                     buttons: '[No][Si]'
                 }, function (ButtonPressed) {
                     if (ButtonPressed === "Si") {
@@ -741,8 +741,8 @@
             });
             $(".btn-rech").click(function (e) {
                 $.SmartMessageBox({
-                    title: "Alerta de Confirmación!",
-                    content: "¿Está totalmente seguro de rechazar este requerimiento?",
+                    title: "Alerta de Confirmaciï¿½n!",
+                    content: "ï¿½Estï¿½ totalmente seguro de rechazar este requerimiento?",
                     buttons: '[No][Si]'
                 }, function (ButtonPressed) {
                     if (ButtonPressed === "Si") {
@@ -835,7 +835,7 @@
                                 modal: true,
                                 height: 600,
                                 width: 630,
-                                title: "<div class='widget-header'><h4><i class='icon-ok'></i>¿ Seguro que desea cambiar ?</h4></div>",
+                                title: "<div class='widget-header'><h4><i class='icon-ok'></i>ï¿½ Seguro que desea cambiar ?</h4></div>",
                                 buttons: [{
                                         html: "Cancel",
                                         "class": "btn btn-default",
@@ -871,7 +871,7 @@
                                         console.log(objJson);
                                         if (objJson.rpta === "-1") {
                                             $.smallBox({
-                                                title: "¡Alerta!",
+                                                title: "ï¿½Alerta!",
                                                 content: "<i class='fa fa-clock-o'></i> <i>Ha ocurrido un error al procesar su imagen...</i>",
                                                 color: "#C46A69",
                                                 iconSmall: "fa fa-cloud bounce animated",
@@ -895,8 +895,8 @@
                                                 $(".ver_foto").show(200);
                                                 //$(".form-subir-foto").remove();
                                                 $.smallBox({
-                                                    title: "¡Felicitaciones!",
-                                                    content: "<i class='fa fa-clock-o'></i> <i>Su imagen se ha subido con éxito...</i>",
+                                                    title: "ï¿½Felicitaciones!",
+                                                    content: "<i class='fa fa-clock-o'></i> <i>Su imagen se ha subido con ï¿½xito...</i>",
                                                     color: "#296191",
                                                     iconSmall: "fa fa-cloud bounce animated",
                                                     timeout: 6000
@@ -914,7 +914,7 @@
 
 
             } else {
-                alert("Archivo no permitido, su tamaño debe ser menor a 500 KB");
+                alert("Archivo no permitido, su tamaï¿½o debe ser menor a 500 KB");
                 $(this).val('');
             }
         });

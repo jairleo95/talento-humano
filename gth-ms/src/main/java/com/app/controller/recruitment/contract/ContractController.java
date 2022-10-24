@@ -211,6 +211,9 @@ public class ContractController {
                     sesion.setAttribute("LIST_DAT_TR_PLANTILLA", tr.LIST_DAT_TR_PLANTILLA(idc));
                     response.sendRedirect("views/Contrato/Plantilla/Editor_Plantilla.html");
                 }
+                if (opc.equals("casos_especiales")) {
+                    response.sendRedirect("Gen_Contrato_CE");
+                }
 
                 if (opc.equals("REG_CASOS_ESP")) {
 
@@ -379,7 +382,7 @@ public class ContractController {
 
                 if (opc.equals("Reporte_CE")) {
                     sesion.setAttribute("List_Casos_Esp", con.LIST_CASOS_ESPECIALES());
-                    response.sendRedirect("views/Contrato/Filtro_Contrato_CE.html");
+                    response.sendRedirect("Filtro_Contrato_CE");
                 }
 
                 if (opc.equals("Buscar")) {
@@ -393,10 +396,10 @@ public class ContractController {
                         if (busc != null) {
                             sesion.setAttribute("ListarTrabajador2", tr.Buscar_Ficha_Trabajador(iddep, dni, nom, ape_pat, ape_mat));
                             ///getServletContext().setAttribute(nom, dgp.VAL_OPC_DGP(dni));
-                            response.sendRedirect("views/Contrato/Gen_Contrato_CE.html");
+                            response.sendRedirect("Gen_Contrato_CE");
                         }
                     } else {
-                        response.sendRedirect("views/Contrato/Gen_Contrato_CE.html");
+                        response.sendRedirect("Gen_Contrato_CE");
 
                     }
                 }
@@ -430,10 +433,7 @@ public class ContractController {
         try {
             if (iduser != null) {
                 if (opc != null) {
-
-                    if (opc.equals("casos_especiales")) {
-                        response.sendRedirect("views/Contrato/Gen_Contrato_CE.html");
-                    }
+                    
                     if (opc.equals("enviar")) {
                         String iddgp = request.getParameter("iddgp");
                         String idtr = request.getParameter("idtr");
@@ -833,7 +833,7 @@ public class ContractController {
                         con.validar_contrato(id_cto);
                     }
                     if (opc.equals("gen_cont")) {
-                        response.sendRedirect("views/Contrato/Gen_Contrato_CE.html");
+                        response.sendRedirect("Gen_Contrato_CE");
                     }
 
                 }

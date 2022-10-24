@@ -8,9 +8,6 @@
 <%@page import="com.app.domain.model.X_List_det_dgp"%>
 <jsp:useBean id="List_Det_Dgp" scope="session" class="java.util.ArrayList"/>  
 <jsp:useBean id="List_Trb_Mod_Rel" scope="session" class="java.util.ArrayList"/>  
-
-        <!-- MAIN PANEL -->
-        <div id="main" role="main" style="margin-left: 0px;">
             <!-- MAIN CONTENT -->
             <div id="content">
                 <!-- widget grid -->
@@ -21,7 +18,6 @@
 
                         <!-- NEW WIDGET START -->
                         <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-
 
                             <div class="jarviswidget jarviswidget-color-darken" id="wid-id-0" data-widget-editbutton="false">
 
@@ -50,7 +46,7 @@
                                     </div>
                                     <!-- end widget edit box -->
                                     <!-- widget content -->
-                                    <div class="widget-body no-padding">
+                                    <div class="widget-body">
                                         <table id="dt_basic" class="table table-striped table-bordered table-hover" >
                                             <thead>
                                                 <tr>
@@ -160,9 +156,9 @@
                                     <!-- end widget edit box -->
 
                                     <!-- widget content -->
-                                    <div class="widget-body no-padding">
+                                    <div class="widget-body">
 
-                                        <table id="datatable_tabletools2" class="table table-striped table-bordered table-hover" width="100%">
+                                        <table id="dt_modified_employees" class="table table-striped table-bordered table-hover" width="100%">
                                             <thead>
                                                 <tr>
                                                     <th data-hide="phone">ID</th>
@@ -235,17 +231,14 @@
             </div>
             <!-- END MAIN CONTENT -->
 
-        </div>
-        <!-- END MAIN PANEL -->
+    <script src="js/plugin/datatables/jquery.dataTables.min.js"></script>
+    <script src="js/plugin/datatables/dataTables.colVis.min.js"></script>
+    <script src="js/plugin/datatables/dataTables.tableTools.min.js"></script>
+    <script src="js/plugin/datatables/dataTables.bootstrap.min.js"></script>
+    <script src="js/plugin/datatable-responsive/datatables.responsive.min.js"></script>
 
 
-        <script src="js/plugin/datatables/jquery.dataTables.min.js"></script>
-        <script src="js/plugin/datatables/dataTables.colVis.min.js"></script>
-        <script src="js/plugin/datatables/dataTables.tableTools.min.js"></script>
-        <script src="js/plugin/datatables/dataTables.bootstrap.min.js"></script>
-        <script src="js/plugin/datatable-responsive/datatables.responsive.min.js"></script>
-
-        <script type="text/javascript">
+<script type="text/javascript">
 
     // DO NOT REMOVE : GLOBAL FUNCTIONS!
 
@@ -299,7 +292,7 @@
                         "sMessage": "Generado por AlfaTeam <i>(presiona Esc para cerrar)</i>"
                     }
                 ],
-                "sSwfPath": js/plugin/datatables/swf/copy_csv_xls_pdf.swf"
+                "sSwfPath": "js/plugin/datatables/swf/copy_csv_xls_pdf.swf"
             },
             "autoWidth": true,
             "preDrawCallback": function () {
@@ -319,14 +312,10 @@
         /* END BASIC */
         /* TABLETOOLS */
 
-
-
         /* END COLUMN SHOW - HIDE */
-
+        var responsiveHelper_dt_modified_employees = undefined;
         /* TABLETOOLS */
-        $('#datatable_tabletools2').dataTable({
-            // Tabletools options: 
-            //   https://datatables.net/extensions/tabletools/button_options
+        $('#dt_modified_employees').dataTable({
             "sDom": "<'dt-toolbar'<'col-xs-12 col-sm-6'f><'col-sm-6 col-xs-6 hidden-xs'T>r>" +
                     "t" +
                     "<'dt-toolbar-footer'<'col-sm-6 col-xs-12 hidden-xs'i><'col-sm-6 col-xs-12'p>>",
@@ -346,20 +335,20 @@
                         "sMessage": "Generado por AlfaTeam <i>(presiona Esc para cerrar)</i>"
                     }
                 ],
-                "sSwfPath": js/plugin/datatables/swf/copy_csv_xls_pdf.swf"
+                "sSwfPath": "js/plugin/datatables/swf/copy_csv_xls_pdf.swf"
             },
             "autoWidth": true,
             "preDrawCallback": function () {
                 // Initialize the responsive datatables helper once.
-                if (!responsiveHelper_datatable_tabletools) {
-                    responsiveHelper_datatable_tabletools = new ResponsiveDatatablesHelper($('#datatable_tabletools2'), breakpointDefinition);
+                if (!responsiveHelper_dt_modified_employees) {
+                    responsiveHelper_dt_modified_employees = new ResponsiveDatatablesHelper($('#dt_modified_employees'), breakpointDefinition);
                 }
             },
             "rowCallback": function (nRow) {
-                responsiveHelper_datatable_tabletools.createExpandIcon(nRow);
+                responsiveHelper_dt_modified_employees.createExpandIcon(nRow);
             },
             "drawCallback": function (oSettings) {
-                responsiveHelper_datatable_tabletools.respond();
+                responsiveHelper_dt_modified_employees.respond();
             }
         });
 

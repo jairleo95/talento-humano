@@ -91,7 +91,7 @@
             list_modulo();
             function list_modulo() {
                 var mo = $(".select_modulo");
-                $.post(../modulo", "opc=lis_mod", function(objJson) {
+                $.post("modulo", "opc=lis_mod", function(objJson) {
                     mo.empty();
                     var lista = objJson.lista;
                     mo.append("<option value''>[SELECCIONAR]</option>");
@@ -106,7 +106,7 @@
                     });
             function Listar() {
                 var a = $(".tbodys");
-                $.post(../modulo", "opc=lis_pr_mod_x_id&" + "id_modulo=" + $("#select_modulo").val(), function(objJson) {
+                $.post("modulo", "opc=lis_pr_mod_x_id&" + "id_modulo=" + $("#select_modulo").val(), function(objJson) {
 
                     a.empty();
                     var lista = objJson.lista;

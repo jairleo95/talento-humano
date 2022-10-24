@@ -302,7 +302,7 @@
     <script src="js/plugin/bootstrap-wizard/jquery.bootstrap.wizard.min.js"></script>
     <script src="js/plugin/fuelux/wizard/wizard.min.js"></script>-->
     <script type="text/javascript" src="js/libs/jquery.numeric.js"></script>
-    <script src="js/Js_Formulario/Js_Form.js" type="text/javascript"></script>
+    <script src="js/businessLogic/Js_Formulario/Js_Form.js" type="text/javascript"></script>
     <script src="js/businessLogic/Hijos/modDatosHijos.js" type="text/javascript"></script>
     </body>
     </html>

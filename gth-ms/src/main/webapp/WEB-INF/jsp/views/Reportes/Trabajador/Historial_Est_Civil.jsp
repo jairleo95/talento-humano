@@ -88,7 +88,7 @@
 <script type="text/javascript">
     $(document).ready(function() {
         pageSetUp();
-        $.sound_path = ../sound/", $.sound_on = !0, jQuery(document).ready(function() {
+        $.sound_path = "sound/", $.sound_on = !0, jQuery(document).ready(function() {
             $("body").append("<div id='divSmallBoxes'></div>"), $("body").append("<div id='divMiniIcons'></div><div id='divbigBoxes'></div>")
         });
         $(".btn_pro_reg").click(function() {
@@ -174,7 +174,7 @@
         jQuery.each(data, function(index, field) {
             d += "&" + field.name + "=" + field.value;
         });
-        $.post(../RHistorial?", d, function(objJson) {
+        $.post("RHistorial?", d, function(objJson) {
             var lista = objJson.lista;
             //alert(lista)
             if (lista.length < 1) {

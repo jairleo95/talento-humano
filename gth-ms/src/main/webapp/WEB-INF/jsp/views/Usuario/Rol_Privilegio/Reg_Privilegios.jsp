@@ -45,7 +45,7 @@
         list_modulo();    
         function list_modulo() {
                 var mo = $(".select_modulo");
-                $.post(../modulo", "opc=lis_mod", function(objJson) {
+                $.post("modulo", "opc=lis_mod", function(objJson) {
                     mo.empty();
                     var lista = objJson.lista;
                     mo.append("<option value=''>[SELECCIONAR]</option>");

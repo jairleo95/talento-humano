@@ -53,7 +53,7 @@
 <script type="text/javascript">
     $(document).ready(function() {
         pageSetUp();
-        $.sound_path = ../sound/", $.sound_on = !0, jQuery(document).ready(function() {
+        $.sound_path = "sound/", $.sound_on = !0, jQuery(document).ready(function() {
             $("body").append("<div id='divSmallBoxes'></div>"), $("body").append("<div id='divMiniIcons'></div><div id='divbigBoxes'></div>")
         });
         ListarEC();
@@ -115,7 +115,7 @@
         var id = $('.idtra').val();
         var d = "opc=list_detalle_ec";
         d += "&idtr=" + id;
-        $.post(../RHistorial?", d, function(objJson) {
+        $.post("RHistorial?", d, function(objJson) {
             var lista = objJson.lista;
 
             // alert(lista);

@@ -163,7 +163,7 @@ and open the template in the editor.
                 listar_tabla();
                 $('.reg').click(function () {
                     var data = $('.formm').serialize();
-                    $.post(../Roles?opc=REGISTRAR", data, function () {
+                    $.post("Roles?opc=REGISTRAR", data, function () {
                         list_rol();
                         $.smallBox({
                             title: "Crear Rol",
@@ -175,7 +175,7 @@ and open the template in the editor.
                     });
                 });
                 function list_rol() {
-                    $.post(../Roles?opc=Listar_Rol", function (objJson) {
+                    $.post("Roles?opc=Listar_Rol", function (objJson) {
 
                         var lista = objJson.data;
 
@@ -223,7 +223,7 @@ and open the template in the editor.
                         buttons: '[No][Si]'
                     }, function (ButtonPressed) {
                         if (ButtonPressed === "Si") {
-                            $.post(../Roles?opc=Modificar", "id_rol=" + idrol + "&Nombre_Rol=" + nrol + "&Es_rol=" + esrol, function () {
+                            $.post("Roles?opc=Modificar", "id_rol=" + idrol + "&Nombre_Rol=" + nrol + "&Es_rol=" + esrol, function () {
                                 list_rol();
                                 $.smallBox({
                                     title: "Editar Rol",
@@ -258,7 +258,7 @@ and open the template in the editor.
                     $('.cont_t').append(text);
                 }
                 function listar_tabla() {
-                    $.post(../Privilegio?opc=ListPrivilegio", function (objJson) {
+                    $.post("Privilegio?opc=ListPrivilegio", function (objJson) {
                         var lista = objJson.Lista;
                     });
                 }

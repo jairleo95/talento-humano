@@ -291,7 +291,7 @@
     <script src="js/plugin/fastclick/fastclick.min.js"></script>
 
     <!-- PAGE RELATED PLUGIN(S) -->
-    <script src="js/Js_Formulario/Js_Form.js" type="text/javascript"></script>
+    <script src="js/businessLogic/Js_Formulario/Js_Form.js" type="text/javascript"></script>
     <script src="js/plugin/jquery-nestable/jquery.nestable.min.js"></script>
     <script src="js/plugin/datatables/jquery.dataTables.min.js"></script>
     <script src="js/plugin/datatables/dataTables.colVis.min.js"></script>

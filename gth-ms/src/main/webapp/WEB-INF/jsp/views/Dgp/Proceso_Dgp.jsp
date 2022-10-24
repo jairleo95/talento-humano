@@ -529,7 +529,7 @@
     </div>
 
     <!--BUSINESS LOGIC PLUGINS-->
-    <script src="js/coment/comenth.js" type="text/javascript"></script>
+    <script src="js/businessLogic/coment/comenth.js" type="text/javascript"></script>
     <script src="js/businessLogic/Horario/horario.js" type="text/javascript"></script>
     <script src='js/businessLogic/Trabajador/RegDocumentoDGP.js' type='text/javascript'></script>
     <script src="js/businessLogic/Dgp/statusProcessDGP.js" type="text/javascript"></script>

@@ -237,7 +237,7 @@ Author     : JAIR
     <!-- Voice command : plugin 
     <script src="js/speech/voicecommand.min.js"></script>-->
 
-    <script src="js/Js_Formulario/Js_Form.js" type="text/javascript"></script>
+    <script src="js/businessLogic/Js_Formulario/Js_Form.js" type="text/javascript"></script>
     <!--Business Logic-->
     <script src="js/businessLogic/Plazo/regPlazo.js" type="text/javascript"></script>
 </html>

@@ -18,13 +18,13 @@
                                     <section class="col col-sm-6">
                                         <label>Desde:</label>
                                         <label class="input"> <i class="icon-append fa fa-calendar"></i>
-                                            <input type="text"  placeholder="Seleccionar Fecha" class="datepicker" id="dtp1" data-dateformat='dd/mm/yy' name="fe_inicio">
+                                            <input type="text"  placeholder="Seleccionar Fecha" class="datepicker fe_desde" id="dtp1" data-dateformat='dd/mm/yy' name="fe_inicio">
                                         </label>
                                     </section>
                                     <section class="col col-sm-6">
                                         <label>Hasta:</label>
                                         <label class="input"> <i class="icon-append fa fa-calendar"></i>
-                                            <input type="text"  placeholder="Seleccionar Fecha" class="datepicker" id="dtp2" data-dateformat='dd/mm/yy' name="fe_fin">
+                                            <input type="text"  placeholder="Seleccionar Fecha" class="datepicker fe_hasta" id="dtp2" data-dateformat='dd/mm/yy' name="fe_fin">
                                         </label>
                                     </section>
                                 </div>
@@ -100,12 +100,8 @@
         });
         $('.tabla_t').DataTable();
         $('.btnEnviar').click(function () {
-            var data = $('.form_f').serializeArray();
-            var d = "opc=list_mod_fecha";
-            jQuery.each(data, function (index, field) {
-                d += "&" + field.name + "=" + field.value;
-            });
-            $.post(../RHistorial?", d, function (objJson) {
+            var data = 'fe_inicio='+$('.fe_desde').val()+'&fe_fin='+$('.fe_hasta').val()
+            $.post("RHistorial", data, function (objJson) {
                 var lista = objJson.lista;
                 if (lista.length < 1) {
                     $.smallBox({

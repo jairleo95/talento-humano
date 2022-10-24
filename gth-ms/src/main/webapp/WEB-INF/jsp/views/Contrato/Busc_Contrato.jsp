@@ -199,7 +199,7 @@
                                     if (opc == 'Listar_pu_id') {
                                         var a = $(".selectpu");
                                     }
-                                    $.post(Direccion_Puesto", "opc=" + opc.trim() + "&id=" + id.trim(), function (objJson) {
+                                    $.post("Direccion_Puesto", "opc=" + opc.trim() + "&id=" + id.trim(), function (objJson) {
                                         var list = objJson.lista;
                                         a.empty();
                                         a.append("<option value=''>[Seleccione]</option>");

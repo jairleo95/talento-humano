@@ -106,7 +106,7 @@
                 $(document).ready(function () {
                     $('.btnmod').click(function () {
                         var data = $('.formm').serialize();
-                        $.post(../Roles?opc=Modificar", data, function () {
+                        $.post("Roles?opc=Modificar", data, function () {
                             alert(data);
                         });
                     });

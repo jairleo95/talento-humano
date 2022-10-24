@@ -164,7 +164,7 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
         }
         function procesar_texto(valor, asa) {
             // var editor = CKEDITOR.instances.editor1;
-            $.post(../Imprimir", "opc=Listar_contrato&" + "id=" + valor, function (objJson) {
+            $.post("Imprimir", "opc=Listar_contrato&" + "id=" + valor, function (objJson) {
                 var Lista = objJson.lista;
                 var texto = asa;
                 //alert(Lista.length)
@@ -406,7 +406,7 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
             ExecuteCommand('print');
         }
         function procesar_texto_1(plan, valor) {
-            $.post(../formato_plantilla", "opc=Listar2&id=" + plan.trim(), function (objJson) {
+            $.post("formato_plantilla", "opc=Listar2&id=" + plan.trim(), function (objJson) {
                 var imprimir = objJson.imprimir;
                 //var editor2 = editor.getData();
                 imprimir = imprimir + '<div style="page-break-after: always;"><span style="display:none">&nbsp;</span></div>';

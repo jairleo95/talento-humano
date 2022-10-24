@@ -96,7 +96,7 @@
                     }
                 });
                 pageSetUp();
-                $.sound_path = ../sound/", $.sound_on = !0, jQuery(document).ready(function () {
+                $.sound_path = "sound/", $.sound_on = !0, jQuery(document).ready(function () {
                     $("body").append("<div id='divSmallBoxes'></div>"), $("body").append("<div id='divMiniIcons'></div><div id='divbigBoxes'></div>")
                 });
                 $(".btn_procesar").click(function () {
@@ -166,7 +166,7 @@
                 if ($('.form_f').valid()) {
                     var data = $('.form_f').serialize();
                     var d = "&opc=Filtro_hijo";
-                    $.post(../RHistorial", data + d, function (objJson) {
+                    $.post("RHistorial", data + d, function (objJson) {
                         var lista = objJson.lista;
                         if (objJson.rpta == -1) {
                             alert(objJson.mensaje);

@@ -10,14 +10,15 @@ var enterToDGPProcess = false;
 /*defaul path*/
 var pathRequest = "";
 function validateShadowBox() {
-    Shadowbox.init({
-        overlayOpacity: 0.9
-    });
-    Shadowbox.setup("a.mustang-gallery", {
-        gallery: "mustang",
-        continuous: true,
-        counterType: "skip"
-    });
+//todo: fix shadowbox bug
+//    Shadowbox.init({
+//        overlayOpacity: 0.9
+//    });
+//    Shadowbox.setup("a.mustang-gallery", {
+//        gallery: "mustang",
+//        continuous: true,
+//        counterType: "skip"
+//    });
 }
 function nobackbutton() {
 
@@ -185,7 +186,6 @@ function showDocuments(dgp, idtr, casosEspeciales, enterToDGPProcess, callback) 
     console.log("::enter to showDocuments function::");
     var objDiv = $(".listDocument");
     var data = {
-        "opc": "listDocument",
         "iddgp": dgp,
         "idtr": idtr,
         "casosEspeciales": casosEspeciales,
@@ -198,7 +198,7 @@ function showDocuments(dgp, idtr, casosEspeciales, enterToDGPProcess, callback) 
     };
     objDiv.append('<img src=' + pathRequest + 'img/load.gif" class="img-responsive center-block"/>');
     $.ajax({
-        url: pathRequest + "documento", type: 'POST', data: data, success: function (data, textStatus, jqXHR) {
+        url: pathRequest + "documents/upload", type: 'POST', data: data, success: function (data, textStatus, jqXHR) {
             if (data.status) {
                 objDiv.empty();
                 objDiv.append(data.htmlListDocument);

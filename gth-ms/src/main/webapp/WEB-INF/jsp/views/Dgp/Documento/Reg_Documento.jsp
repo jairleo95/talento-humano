@@ -237,16 +237,16 @@
         <script src='js/plugin/jquery-form/jquery-form.min.js'></script>
         <!--<script src='http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js'></script>-->
         <script src='js/bootstrap/fileinput.js' type='text/javascript'></script>
+        <script type='text/javascript' src='js/shadowbox/shadowbox.js'></script>
         <!--  <script src='http://netdna.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js' type='text/javascript'></script>-->
         <script src='js/bootstrap/es.js' type='text/javascript'></script>
         <script src='js/notification/SmartNotification.min.js'></script>
-        <script type='text/javascript' src='js/shadowbox/shadowbox.js'></script>
 
         <script src='js/businessLogic/Trabajador/RegDocumentoDGP.js' type='text/javascript'></script>
         <script>
             $(document).ready(function () {
                 pageSetUp();
-                $.sound_path = ../sound/", $.sound_on = !0, jQuery(document).ready(function () {
+                $.sound_path = "sound/", $.sound_on = !0, jQuery(document).ready(function () {
                     $("body").append("<div id='divSmallBoxes'></div>"), $("body").append("<div id='divMiniIcons'></div><div id='divbigBoxes'></div>");
                 });
 

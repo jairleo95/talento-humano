@@ -220,7 +220,7 @@
                 listar_tabla();
 
                 function listar_tabla() {
-                    $.post(../Privilegio?opc=ListPrivilegio", function (objJson) {
+                    $.post("Privilegio?opc=ListPrivilegio", function (objJson) {
 
                         var lista = objJson.Lista;
                         if (lista.length > 0) {
@@ -266,7 +266,7 @@
                         }
                     }
                     if (z = true) {
-                        $.post(../Privilegio?opc=REGISTRAR_PRIVILEGIO", data, function () {
+                        $.post("Privilegio?opc=REGISTRAR_PRIVILEGIO", data, function () {
                             listar_tabla();
                             $.smallBox({
                                 title: "Crear Privilegio",
@@ -290,7 +290,7 @@
                     /**/
                 });
                 function listar_modulo() {
-                    $.post(../Privilegio?opc=ListModulo", function (objJson) {
+                    $.post("Privilegio?opc=ListModulo", function (objJson) {
                         var lista = objJson.Lista;
                         if (lista.length > 0) {
                             var t = "";

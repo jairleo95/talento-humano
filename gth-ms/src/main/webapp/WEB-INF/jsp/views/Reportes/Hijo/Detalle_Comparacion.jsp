@@ -90,12 +90,12 @@
 <script src="js/plugin/datatables/dataTables.tableTools.min.js"></script>
 <script src="js/plugin/datatables/dataTables.bootstrap.min.js"></script>
 <script src="js/plugin/datatable-responsive/datatables.responsive.min.js"></script>
-<script src="js/Js_Formulario/Js_Form.js" type="text/javascript"></script>
+<script src="js/businessLogic/Js_Formulario/Js_Form.js" type="text/javascript"></script>
 
 <script src="js/businessLogic/Hijos/Dinamico.js" type="text/javascript"></script>
 <script type="text/javascript">
     function listar_fec_sin_repetir(fecha_default) {
-        $.post(../RHistorial", "opc=Fe_Modif_Hijo2&hijo=" + $(".idh").val() + "&fecha=" + fecha_default, function (objJson) {
+        $.post("RHistorial", "opc=Fe_Modif_Hijo2&hijo=" + $(".idh").val() + "&fecha=" + fecha_default, function (objJson) {
             var select2 = $(".fecha2");
             var lista = objJson.lista;
             select2.append("<option value=''>Cargando...</option>");
@@ -115,7 +115,7 @@
         var texto_html = "";
         GifLoader(tbody, " Por Favor Espere un Momento..", 1);
         tbody.empty();
-        $.post(../RHistorial", "opc=Comparar_dato_Hijo&id=" + $(".idh").val() + "&fecha1=" + $(".fecha1").val() + "&fecha2=" + $(".fecha2").val(), function (objJson) {
+        $.post("RHistorial", "opc=Comparar_dato_Hijo&id=" + $(".idh").val() + "&fecha1=" + $(".fecha1").val() + "&fecha2=" + $(".fecha2").val(), function (objJson) {
             var lista = objJson.lista;
             if (lista[0].ap_p != lista[1].ap_p) {
                 texto_html += "<tr class='danger'>";
