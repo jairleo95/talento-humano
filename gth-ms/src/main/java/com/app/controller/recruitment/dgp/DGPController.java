@@ -523,7 +523,7 @@ public class DGPController {
                         }
                     }
                 }
-                response.sendRedirect("views/Dgp/Documento/Reg_Documento.html?pro=pr_dgp&idtr=" + ID_TRABAJADOR + "&iddgp=" + iddgp);
+                response.sendRedirect("Reg_Documento?pro=pr_dgp&idtr=" + ID_TRABAJADOR + "&iddgp=" + iddgp);
             }
             if (opc.equals("Reg_form")) {
                 /* TEMPORAL*/

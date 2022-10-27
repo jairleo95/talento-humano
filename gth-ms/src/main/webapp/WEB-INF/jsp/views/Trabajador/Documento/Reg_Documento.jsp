@@ -164,7 +164,7 @@
                                     <div class="widget-body no-padding">
 
 
-                                        <form action=../documento_trabajador" method="post" enctype="multipart/form-data" class="smart-form formDocument"  >
+                                        <form action="documento_trabajador" method="post" enctype="multipart/form-data" class="smart-form formDocument"  >
 
 
 

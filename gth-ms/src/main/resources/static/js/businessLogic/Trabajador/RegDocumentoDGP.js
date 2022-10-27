@@ -71,7 +71,7 @@ function initFormRegDocument(request) {
         var data = new FormData($('.form_dgp_doc')[0]);
         if (validateSizeFile()) {
             $.ajax({
-                url: pathRequest + "documento", type: 'POST',
+                url: pathRequest + "document", type: 'POST',
                 success: function (data, textStatus, jqXHR) {
                     if (data.status) {
                         $.smallBox({

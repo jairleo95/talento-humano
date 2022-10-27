@@ -757,7 +757,7 @@ public class PersonController {
                         int num_ad = d.List_Adventista(idtr);
                         int count = d.count_documentos_x_tra(idtr);
                         if (count > 0) {
-                           response.sendRedirect("views/Dgp/Documento/Reg_Documento.html?pro=regTR&idtr=" + idtr);
+                           response.sendRedirect("Reg_Documento?pro=regTR&idtr=" + idtr);
                         } else {
                             response.sendRedirect("views/Trabajador/Documento/Reg_Documento.html?n_nac=" + s + "&num_ad=" + num_ad + "&idtr=" + idtr + "&pro=pr_dgp&P2=TRUE&dt=ok");
                         }

@@ -173,7 +173,7 @@
                                             %>
                                     <a href="dgp?opc=MODIFICAR REQUERIMIENTO&iddgp=<%=d.getId_dgp().trim()%>" class="btn btn-primary btn-labeled"><span class="btn-label"><i class="fa fa-pencil-square-o"></i></span> Editar DGP</a>
                                             <%}%>
-                                    <a class="btn btn-primary btn-labeled" href="documento?iddgp=<%=d.getId_dgp().trim()%>&idtr=<%=d.getId_trabajador().trim()%>&opc=Ver_Documento"><span class="btn-label"><i class="glyphicon glyphicon-info-sign"></i></span>Ver Documentos</a>
+                                    <a class="btn btn-primary btn-labeled" href="documents?iddgp=<%=d.getId_dgp().trim()%>&idtr=<%=d.getId_trabajador().trim()%>&opc=Ver_Documento"><span class="btn-label"><i class="glyphicon glyphicon-info-sign"></i></span>Ver Documentos</a>
                                     <a class="btn btn-primary btn-labeled" href=horario?iddgp=<%=d.getId_dgp()%>&opc=Listar"><span class="btn-label"><i class="glyphicon glyphicon-info-sign"></i></span>Ver Horario</a>
                                     <a href="dgp?opc=MODIFICAR REQUERIMIENTO&iddgp=<%=d.getId_dgp().trim()%>" class="btn btn-primary btn-labeled"><span class="btn-label"><i class="fa fa-pencil-square-o"></i></span> Editar DGP</a>
                                             <%}%>

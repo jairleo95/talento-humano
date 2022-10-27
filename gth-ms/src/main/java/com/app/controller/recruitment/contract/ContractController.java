@@ -377,7 +377,7 @@ public class ContractController {
                     //  int num_ad = doc.List_Adventista(ID_TRABAJADOR);
                     sesion.setAttribute("List_Hijos", doc.List_Hijos(ID_TRABAJADOR));
                     sesion.setAttribute("List_Conyugue", doc.List_Conyugue(ID_TRABAJADOR));
-                    response.sendRedirect("views/Dgp/Documento/Reg_Documento.html?pro=casosEspeciales&idtr=" + ID_TRABAJADOR + "&P2=TRUE&ms=ok");
+                    response.sendRedirect("Reg_Documento?pro=casosEspeciales&idtr=" + ID_TRABAJADOR + "&P2=TRUE&ms=ok");
                 }
 
                 if (opc.equals("Reporte_CE")) {
@@ -411,7 +411,7 @@ public class ContractController {
                 if (opc.equals("filtrar")) {
                     sesion.setAttribute("Listar_Direccion", dir.Listar_Direccion());
                     sesion.setAttribute("List_Area_ID", area.List_Area_ID(iddep));
-                    response.sendRedirect("views/Contrato/Busc_Contrato.html");
+                    response.sendRedirect("Busc_Contrato");
                 }
 
             }

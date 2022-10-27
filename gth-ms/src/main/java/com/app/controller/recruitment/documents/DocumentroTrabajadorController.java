@@ -82,7 +82,7 @@ public class DocumentroTrabajadorController {
                     session.setAttribute("List_Hijos", d.List_Hijos(idtr));
                     session.setAttribute("List_Conyugue", d.List_Conyugue(idtr));
 
-                    response.sendRedirect("views/Dgp/Documento/Reg_Documento.html?n_nac=" + i + "&num_ad=" + num_ad);
+                    response.sendRedirect("Reg_Documento?n_nac=" + i + "&num_ad=" + num_ad);
                 }
                 if (opc.equals("Reg_Pro_Dgp")) {
                     session.setAttribute("List_doc_req_pla", d.List_doc_req_pla(dgp, idtr));
@@ -91,7 +91,7 @@ public class DocumentroTrabajadorController {
                     session.setAttribute("List_Hijos", d.List_Hijos(idtr));
                     session.setAttribute("List_Conyugue", d.List_Conyugue(idtr));
 
-                    response.sendRedirect("views/Dgp/Documento/Reg_Documento.html?n_nac=" + i + "&num_ad=" + num_ad + "&pro=pr_dgp");
+                    response.sendRedirect("Reg_Documento?n_nac=" + i + "&num_ad=" + num_ad + "&pro=pr_dgp");
                 }
 
                 if (("Listar_doc").equals(opc)) {

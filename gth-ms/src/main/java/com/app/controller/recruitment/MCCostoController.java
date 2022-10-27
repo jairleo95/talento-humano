@@ -31,7 +31,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("Costo")
 public class MCCostoController {
 
-    @PostMapping
+    @RequestMapping
     public ResponseEntity<?> processRequest(HttpServletRequest request, HttpServletResponse response) {
         Map<String, Object> rpta = new HashMap<String, Object>();
         String opc = request.getParameter("opc");
@@ -40,7 +40,7 @@ public class MCCostoController {
         InterfaceCentroCosto cc = new CentroCostoDAO();
         try {
             if (opc.equals("menu")) {
-                response.sendRedirect("views/CCosto/MantCCosto.html");
+                response.sendRedirect("MantCCosto");
             }
             if (opc.equals("list_ccosto")) {
                 String id = request.getParameter("id");

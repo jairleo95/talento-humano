@@ -146,6 +146,18 @@ public class MainController {
     public ModelAndView Detalle_Dgp() {
         return new ModelAndView("Dgp/Detalle_Dgp");
     }
+    @RequestMapping(value = "/Reg_Documento")
+    public ModelAndView Reg_Documento() {
+        return new ModelAndView("Dgp/Documento/Reg_Documento");
+    }
+    @RequestMapping(value = "/Busc_Contrato")
+    public ModelAndView Busc_Contrato() {
+        return new ModelAndView("Contrato/Busc_Contrato");
+    }
+    @RequestMapping(value = "/MantCCosto")
+    public ModelAndView MantCCosto() {
+        return new ModelAndView("CCosto/MantCCosto");
+    }
 
 
 }

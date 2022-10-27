@@ -8,7 +8,7 @@
 <jsp:useBean id="List_Rol" scope="session" class="java.util.ArrayList"/>
 <div class="row">
     <center>
-        <h1>Mantenimiento a Usuarios de  Personal</h1>
+        <h1>Mantenimiento a Usuarios</h1>
         <a href="ListaUsuario.jsp">New</a>
         <hr>
     </center>
