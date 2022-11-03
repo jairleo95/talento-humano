@@ -19,11 +19,11 @@ import com.app.config.globalProperties;
  */
 public class ScheduledTest {
 
-    private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+    private final ScheduledExecutorService executorService = Executors.newScheduledThreadPool(1);
     //  Object obj[] = null;
 
     public ScheduledFuture runForAnHour(final ServletContext c) {
-        Runnable beeper = new Runnable() {
+        Runnable runnable = new Runnable() {
             public void run() {
                 System.out.println("---------------Actualizando Carga Academica :::");
                 InterfaceCarga_AcademicaDAO a = new Carga_AcademicaDAO();
@@ -32,17 +32,17 @@ public class ScheduledTest {
 
             }
         };
-        final ScheduledFuture beeperHandle = scheduler.scheduleAtFixedRate(beeper, 0, 120, TimeUnit.SECONDS);
+        final ScheduledFuture scheduledFuture = executorService.scheduleAtFixedRate(runnable, 0, 120, TimeUnit.SECONDS);
         // obj[0] = scheduler;
-        scheduler.schedule(new Runnable() {
+        executorService.schedule(new Runnable() {
             public void run() {
                 c.setAttribute("runnableCA", null);
                 System.out.println("------Stopping task.::::");
-                beeperHandle.cancel(true);
+                scheduledFuture.cancel(true);
                 System.out.println("------Task Stopped.::::");
             }
         }, 2000, TimeUnit.SECONDS);
 
-        return beeperHandle;
+        return scheduledFuture;
     }
 }
