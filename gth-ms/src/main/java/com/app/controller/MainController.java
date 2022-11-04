@@ -73,7 +73,7 @@ public class MainController {
     }
     @RequestMapping(value = "/durations")
     public ModelAndView durations() {
-        return new ModelAndView("/views/Dgp/Plazo/Reg_Plazo_Dgp.html");
+        return new ModelAndView("/Dgp/Plazo/Reg_Plazo_Dgp");
     }
     @RequestMapping(value = "/formato_horario")
     public ModelAndView schedule() {

@@ -12,7 +12,7 @@ public interface IUserService {
 
     Flux<User> findAll();
 
-    // Mono<User> findById(String id);
+    Mono<User> findById(String id);
     
     Flux<User> findByUsername(String name);
 }

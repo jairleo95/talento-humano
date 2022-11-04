@@ -304,7 +304,4 @@ public class CargaAcademicaController {
         }
         return new ResponseEntity<>(dataMap, HttpStatus.OK);
     }
-
-
-
 }

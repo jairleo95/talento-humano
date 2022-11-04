@@ -11,7 +11,7 @@ import lombok.ToString;
 @ToString
 @Getter
 @Setter
-@Document(collation = "users")
+@Document(collection = "users")
 public class User {
     
     @Id

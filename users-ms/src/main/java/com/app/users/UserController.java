@@ -1,6 +1,7 @@
 package com.app.users;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,7 +20,7 @@ import javax.validation.Valid;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("users")
+@RequestMapping("api/v1/users")
 public class UserController {
 
     @Autowired
@@ -28,6 +29,13 @@ public class UserController {
     @GetMapping
     public Flux<User> getAll(){
         return userService.findAll();
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Mono<User>> getById(@PathVariable("id") String id){
+        Mono<User> user = this.userService.findById(id);
+        return new ResponseEntity<Mono<User>>(user, user != null ? HttpStatus.OK : HttpStatus.NOT_FOUND);
+
     }
 
     @PostMapping

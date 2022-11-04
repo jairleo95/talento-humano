@@ -42,5 +42,9 @@ public class UserService implements IUserService{
     public Flux<User> findByUsername(String name) {
         return this.repository.findByUsername(name);
     }
-    
+
+    @Override
+    public Mono<User> findById(String id) {
+        return this.repository.findById(id).switchIfEmpty(Mono.empty());
+    }
 }
