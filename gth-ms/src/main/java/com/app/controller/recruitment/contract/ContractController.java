@@ -1,6 +1,6 @@
 package com.app.controller.recruitment.contract;
 
-import com.app.domain.model.Contrato;
+import com.app.domain.model.Contract;
 import com.app.config.UserMachineProperties;
 import com.app.controller.util.DateFormat;
 
@@ -39,24 +39,24 @@ import com.app.persistence.dao.PuestoDAO;
 import com.app.persistence.dao.Sub_ModalidadDAO;
 import com.app.persistence.dao.TrabajadorDAO;
 import com.app.persistence.dao.UsuarioDAO;
-import com.app.persistence.dao_imp.InterfaceAreaDAO;
-import com.app.persistence.dao_imp.InterfaceCentro_CostosDAO;
-import com.app.persistence.dao_imp.InterfaceContratoDAO;
-import com.app.persistence.dao_imp.InterfaceDatos_Hijo_Trabajador;
-import com.app.persistence.dao_imp.InterfaceDetalle_Centro_Costo;
-import com.app.persistence.dao_imp.InterfaceDgpDAO;
-import com.app.persistence.dao_imp.InterfaceDireccionDAO;
-import com.app.persistence.dao_imp.InterfaceDocumentoDAO;
-import com.app.persistence.dao_imp.InterfaceEmpleadoDAO;
-import com.app.persistence.dao_imp.InterfaceFuncionDAO;
-import com.app.persistence.dao_imp.InterfaceGrupo_ocupacionesDAO;
-import com.app.persistence.dao_imp.InterfaceHorarioDAO;
-import com.app.persistence.dao_imp.InterfaceListaDAO;
-import com.app.persistence.dao_imp.InterfacePlantillaDAO;
-import com.app.persistence.dao_imp.InterfacePuestoDAO;
-import com.app.persistence.dao_imp.InterfaceSub_ModalidadDAO;
-import com.app.persistence.dao_imp.InterfaceTrabajadorDAO;
-import com.app.persistence.dao_imp.InterfaceUsuarioDAO;
+import com.app.persistence.dao_imp.IAreaDAO;
+import com.app.persistence.dao_imp.ICentro_CostosDAO;
+import com.app.persistence.dao_imp.IContratoDAO;
+import com.app.persistence.dao_imp.IDatosHijoTrabajador;
+import com.app.persistence.dao_imp.IDetalleCentroCosto;
+import com.app.persistence.dao_imp.IDgpDAO;
+import com.app.persistence.dao_imp.IDireccionDAO;
+import com.app.persistence.dao_imp.IDocumentoDAO;
+import com.app.persistence.dao_imp.IEmpleadoDAO;
+import com.app.persistence.dao_imp.IFuncionDAO;
+import com.app.persistence.dao_imp.IGrupo_ocupacionesDAO;
+import com.app.persistence.dao_imp.IHorarioDAO;
+import com.app.persistence.dao_imp.IListaDAO;
+import com.app.persistence.dao_imp.IPlantillaDAO;
+import com.app.persistence.dao_imp.IPuestoDAO;
+import com.app.persistence.dao_imp.ISub_ModalidadDAO;
+import com.app.persistence.dao_imp.ITrabajadorDAO;
+import com.app.persistence.dao_imp.IUsuarioDAO;
 
 /**
  *
@@ -66,24 +66,24 @@ import com.app.persistence.dao_imp.InterfaceUsuarioDAO;
 @RequestMapping("contrato")
 public class ContractController {
 
-    InterfaceDgpDAO dgp = new DgpDAO();
-    InterfacePuestoDAO puesto = new PuestoDAO();
-    InterfaceHorarioDAO horarioDAO = new HorarioDAO();
-    InterfaceDatos_Hijo_Trabajador dht = new Datos_Hijo_TrabajadorDAO();
-    InterfaceContratoDAO con = new ContratoDAO();
-    InterfaceListaDAO l = new ListaDAO();
-    InterfaceDetalle_Centro_Costo dcc = new Detalle_Centro_Costo_DAO();
-    InterfaceAreaDAO area = new AreaDAO();
-    InterfaceEmpleadoDAO emp = new EmpleadoDAO();
-    InterfacePlantillaDAO pl = new PlantillaDAO();
-    InterfaceUsuarioDAO usu = new UsuarioDAO();
-    InterfaceTrabajadorDAO tr = new TrabajadorDAO();
-    InterfaceCentro_CostosDAO cc = new Centro_CostoDAO();
-    InterfaceDireccionDAO dir = new DireccionDAO();
-    InterfaceGrupo_ocupacionesDAO gr = new GrupoOcupacionesDAO();
-    InterfaceSub_ModalidadDAO sub = new Sub_ModalidadDAO();
-    InterfaceDocumentoDAO doc = new DocumentoDAO();
-    InterfaceFuncionDAO fu = new FuncionDAO();
+    IDgpDAO dgp = new DgpDAO();
+    IPuestoDAO puesto = new PuestoDAO();
+    IHorarioDAO horarioDAO = new HorarioDAO();
+    IDatosHijoTrabajador datosHijoTrabajadorDAO = new Datos_Hijo_TrabajadorDAO();
+    IContratoDAO contratoDAO = new ContratoDAO();
+    IListaDAO listaDAO = new ListaDAO();
+    IDetalleCentroCosto detalleCentroCostoDao = new Detalle_Centro_Costo_DAO();
+    IAreaDAO areaDAO = new AreaDAO();
+    IEmpleadoDAO empleadoDAO = new EmpleadoDAO();
+    IPlantillaDAO plantillaDAO = new PlantillaDAO();
+    IUsuarioDAO usuarioDAO = new UsuarioDAO();
+    ITrabajadorDAO trabajadorDAO = new TrabajadorDAO();
+    ICentro_CostosDAO centroCostoDAO = new Centro_CostoDAO();
+    IDireccionDAO direccionDAO = new DireccionDAO();
+    IGrupo_ocupacionesDAO grupoOcupacionesDAO = new GrupoOcupacionesDAO();
+    ISub_ModalidadDAO subModalidadDAO = new Sub_ModalidadDAO();
+    IDocumentoDAO doc = new DocumentoDAO();
+    IFuncionDAO funcionDAO = new FuncionDAO();
 
 
     @GetMapping
@@ -92,35 +92,35 @@ public class ContractController {
         Map<String, Object> rpta = new HashMap<String, Object>();
 
         String opc = request.getParameter("opc");
-        HttpSession sesion = request.getSession(true);
-        String iduser = (String) sesion.getAttribute("IDUSER");
-        String iddep = (String) sesion.getAttribute("DEPARTAMENTO_ID");
+        HttpSession session = request.getSession(true);
+        String iduser = (String) session.getAttribute("IDUSER");
+        String iddep = (String) session.getAttribute("DEPARTAMENTO_ID");
 
         if (iduser != null) {
             if (opc != null) {
 
                 if (opc.equals("Detalle_Contractual")) {
                     String idtr = request.getParameter("idtr");
-                    String id_cto = con.Contrato_max(idtr);
+                    String id_cto = contratoDAO.Contrato_max(idtr);
                     if (id_cto != null) {
                         String id_pu = puesto.puesto(id_cto);
-                        sesion.setAttribute("List_x_fun_x_idpu", fu.List_x_fun_x_idpu(id_pu));
-                        sesion.setAttribute("Lis_c_c_id_contr", cc.Lis_c_c_id_contr(id_cto));
-                        sesion.setAttribute("List_contra_x_idcto", con.List_contra_x_idcto(id_cto));
-                        sesion.setAttribute("List_Situacion_Actual", l.List_Situacion_Actual());
-                        sesion.setAttribute("List_Usuario", usu.List_Usuario());
-                        sesion.setAttribute("list_Condicion_contrato", l.list_Condicion_contrato());
-                        sesion.setAttribute("List_tipo_contrato", l.List_tipo_contrato());
-                        sesion.setAttribute("list_reg_labo", con.list_reg_labo());
+                        session.setAttribute("List_x_fun_x_idpu", funcionDAO.List_x_fun_x_idpu(id_pu));
+                        session.setAttribute("Lis_c_c_id_contr", centroCostoDAO.Lis_c_c_id_contr(id_cto));
+                        session.setAttribute("List_contra_x_idcto", contratoDAO.List_contra_x_idcto(id_cto));
+                        session.setAttribute("List_Situacion_Actual", listaDAO.List_Situacion_Actual());
+                        session.setAttribute("List_Usuario", usuarioDAO.List_Usuario());
+                        session.setAttribute("list_Condicion_contrato", listaDAO.list_Condicion_contrato());
+                        session.setAttribute("List_tipo_contrato", listaDAO.List_tipo_contrato());
+                        session.setAttribute("list_reg_labo", contratoDAO.list_reg_labo());
                     } else {
-                        sesion.removeAttribute("List_x_fun_x_idpu");
-                        sesion.removeAttribute("Lis_c_c_id_contr");
-                        sesion.removeAttribute("List_contra_x_idcto");
-                        sesion.removeAttribute("List_Situacion_Actual");
-                        sesion.removeAttribute("List_Usuario");
-                        sesion.removeAttribute("list_Condicion_contrato");
-                        sesion.removeAttribute("List_tipo_contrato");
-                        sesion.removeAttribute("list_reg_labo");
+                        session.removeAttribute("List_x_fun_x_idpu");
+                        session.removeAttribute("Lis_c_c_id_contr");
+                        session.removeAttribute("List_contra_x_idcto");
+                        session.removeAttribute("List_Situacion_Actual");
+                        session.removeAttribute("List_Usuario");
+                        session.removeAttribute("list_Condicion_contrato");
+                        session.removeAttribute("List_tipo_contrato");
+                        session.removeAttribute("list_reg_labo");
                     }
                     response.sendRedirect("views/Contrato/Detalle_Info_Contractualq.html?idtr=" + idtr + "&id_cto=" + id_cto);
                 }
@@ -128,9 +128,9 @@ public class ContractController {
                     String id_Trabajador = request.getParameter("idtr");
                     String idc = request.getParameter("idc");
                     String html = "";
-                    List<Contrato> lista = con.ListaSelectorContrato(id_Trabajador);
+                    List<Contract> lista = contratoDAO.ListaSelectorContrato(id_Trabajador);
                     html += "<select name='ida' class='select anno form-control'>";
-                    for (Contrato lista1 : lista) {
+                    for (Contract lista1 : lista) {
                         lista1.getCa_asig_familiar();
                         if (idc.equals(lista1.getId_contrato())) {
                             html += "<option selected='' value='" + lista1.getId_contrato() + "'>De " + lista1.getFe_desde() + " Hasta " + ((lista1.getFe_hasta() != null) ? lista1.getFe_hasta() : " Indefinido") + "</option>";
@@ -144,7 +144,7 @@ public class ContractController {
                 }
 
                 if (opc.equals("List_ti_contrato")) {
-                    rpta.put("lista", l.List_tipo_contrato());
+                    rpta.put("lista", listaDAO.List_tipo_contrato());
                     rpta.put("rpta", 1);
                 }
 
@@ -153,12 +153,12 @@ public class ContractController {
                     String US_CREACION = iduser;
                     String idtr = request.getParameter("idtr");
                     String nom = request.getParameter("nom");
-                    int cant_hijos = dht.ASIGNACION_F(idtr);
+                    int cant_hijos = datosHijoTrabajadorDAO.ASIGNACION_F(idtr);
                     String co_aps = "";
                     String co_hu = "";
                     if (idtr != null) {
-                        co_aps = tr.Cod_aps_x_idt(idtr);
-                        co_hu = tr.Cod_huella_x_idt(idtr);
+                        co_aps = trabajadorDAO.Cod_aps_x_idt(idtr);
+                        co_hu = trabajadorDAO.Cod_huella_x_idt(idtr);
                         if (co_aps != null) {
                         } else {
                             co_aps = "--";
@@ -169,46 +169,46 @@ public class ContractController {
                         }
                     }
                     Calendar fecha = new GregorianCalendar();
-                    int año = fecha.get(Calendar.YEAR);
-                    int mes = fecha.get(Calendar.MONTH);
-                    int dia = fecha.get(Calendar.DAY_OF_MONTH);
+                    int year = fecha.get(Calendar.YEAR);
+                    int month = fecha.get(Calendar.MONTH);
+                    int day = fecha.get(Calendar.DAY_OF_MONTH);
                     String fe_subs = "";
-                    if (mes < 9 && dia < 9) {
-                        fe_subs = año + "-" + "0" + (mes + 1) + "-" + "0" + dia;
+                    if (month < 9 && day < 9) {
+                        fe_subs = year + "-" + "0" + (month + 1) + "-" + "0" + day;
                     }
 
-                    if (mes < 9 && dia > 9) {
-                        fe_subs = año + "-" + "0" + (mes + 1) + "-" + dia;
+                    if (month < 9 && day > 9) {
+                        fe_subs = year + "-" + "0" + (month + 1) + "-" + day;
                     }
 
-                    if (mes >= 9 && dia < 9) {
-                        fe_subs = año + "-" + (mes + 1) + "-" + "0" + dia;
+                    if (month >= 9 && day < 9) {
+                        fe_subs = year + "-" + (month + 1) + "-" + "0" + day;
                     }
-                    if (mes >= 9 && dia > 9) {
-                        fe_subs = año + "-" + (mes + 1) + "-" + dia;
+                    if (month >= 9 && day > 9) {
+                        fe_subs = year + "-" + (month + 1) + "-" + day;
                     }
-                    sesion.setAttribute("Listar_Direccion", dir.Listar_Direccion());
-                    sesion.setAttribute("List_Jefe", l.List_Jefe());
-                    sesion.setAttribute("List_Situacion_Actual", l.List_Situacion_Actual());
-                    sesion.setAttribute("list_reg_labo", con.list_reg_labo());
-                    sesion.setAttribute("List_modalidad", con.List_modalidad());
-                    sesion.setAttribute("List_Puesto", puesto.List_Puesto());
-                    sesion.setAttribute("List_ID_User", usu.List_ID_User(US_CREACION));
-                    sesion.setAttribute("list_Condicion_contrato", l.list_Condicion_contrato());
-                    sesion.setAttribute("List_grup_ocu", gr.List_grup_ocu());
-                    sesion.setAttribute("List_tipo_contrato", l.List_tipo_contrato());
+                    session.setAttribute("Listar_Direccion", direccionDAO.Listar_Direccion());
+                    session.setAttribute("List_Jefe", listaDAO.List_Jefe());
+                    session.setAttribute("List_Situacion_Actual", listaDAO.List_Situacion_Actual());
+                    session.setAttribute("list_reg_labo", contratoDAO.list_reg_labo());
+                    session.setAttribute("List_modalidad", contratoDAO.List_modalidad());
+                    session.setAttribute("List_Puesto", puesto.List_Puesto());
+                    session.setAttribute("List_ID_User", usuarioDAO.List_ID_User(US_CREACION));
+                    session.setAttribute("list_Condicion_contrato", listaDAO.list_Condicion_contrato());
+                    session.setAttribute("List_grup_ocu", grupoOcupacionesDAO.List_grup_ocu());
+                    session.setAttribute("List_tipo_contrato", listaDAO.List_tipo_contrato());
                     response.sendRedirect("views/Contrato/Reg_Casos_Especiales.html?idtr=" + idtr + "&nom=" + nom + "&cant_hijos=" + cant_hijos + "&fe_subs=" + fe_subs + "&co_ap=" + co_aps + "&co_hu=" + co_hu);
                 }
 
                 if (opc.equals("Ver_Plantilla")) {
                     String idc = request.getParameter("idc");
-                    sesion.setAttribute("LIST_DAT_TR_PLANTILLA", tr.LIST_DAT_TR_PLANTILLA(idc));
+                    session.setAttribute("LIST_DAT_TR_PLANTILLA", trabajadorDAO.LIST_DAT_TR_PLANTILLA(idc));
                     response.sendRedirect("views/Contrato/Plantilla/Editor_Plantilla.html");
                 }
 
                 if (opc.equals("Ver Plantilla")) {
                     String idc = request.getParameter("idc");
-                    sesion.setAttribute("LIST_DAT_TR_PLANTILLA", tr.LIST_DAT_TR_PLANTILLA(idc));
+                    session.setAttribute("LIST_DAT_TR_PLANTILLA", trabajadorDAO.LIST_DAT_TR_PLANTILLA(idc));
                     response.sendRedirect("views/Contrato/Plantilla/Editor_Plantilla.html");
                 }
                 if (opc.equals("casos_especiales")) {
@@ -313,11 +313,11 @@ public class ContractController {
 
                     ID_DETALLE_HORARIO = horarioDAO.Insert_Det_Hor_Casos_Esp(null, ID_DGP, ES_DETALLE_HORARIO, iduser, FE_CREACION, US_MODIF, FE_MODIF, ID_TIPO_HORARIO, ES_MOD_FARMATO, ca_ho_total);
 
-                    for (int i = 0; i < dia.size(); i++) {
+                    for (String s : dia) {
                         for (int j = 0; j < 10; j++) {
-                            String hora_desde = request.getParameter("HORA_DESDE_" + dia.get(i) + j);
-                            String hora_hasta = request.getParameter("HORA_HASTA_" + dia.get(i) + j);
-                            String d = request.getParameter("DIA_" + dia.get(i) + j);
+                            String hora_desde = request.getParameter("HORA_DESDE_" + s + j);
+                            String hora_hasta = request.getParameter("HORA_HASTA_" + s + j);
+                            String d = request.getParameter("DIA_" + s + j);
 
                             if (hora_desde != null & d != null & hora_hasta != null) {
                                 if (!hora_hasta.equals("") & !hora_desde.equals("") & !d.equals("")) {
@@ -332,25 +332,25 @@ public class ContractController {
                     FE_HASTA = DateFormat.toFormat3(FE_HASTA);
                     System.out.println("FE_HASTA: " + FE_HASTA);
                     //    out.println("Nueva fecha :" + DateFormat.toFormat1(FE_HASTA));
-                    con.INSERT_CONTRATO(ID_CONTRATO, ID_DGP, FE_DESDE, FE_HASTA, FE_CESE, ID_FUNC, LI_CONDICION, CA_SUELDO, CA_REINTEGRO, CA_ASIG_FAMILIAR, HO_SEMANA,
+                    contratoDAO.INSERT_CONTRATO(ID_CONTRATO, ID_DGP, FE_DESDE, FE_HASTA, FE_CESE, ID_FUNC, LI_CONDICION, CA_SUELDO, CA_REINTEGRO, CA_ASIG_FAMILIAR, HO_SEMANA,
                             NU_HORAS_LAB, DIA_CONTRATO, TI_TRABAJADOR, LI_REGIMEN_LABORAL, ES_DISCAPACIDAD, TI_CONTRATO, LI_REGIMEN_PENSIONARIO, ES_CONTRATO_TRABAJADOR, US_CREACION,
                             FE_CREACION, US_MODIF, FE_MODIF, US_IP, FE_VACACIO_INI, FE_VACACIO_FIN, ES_CONTRATO, ID_FILIAL, ID_PUESTO, CA_BONO_ALIMENTO, LI_TIPO_CONVENIO, ES_FIRMO_CONTRATO, NU_CONTRATO,
                             DE_OBSERVACION, ES_APOYO, TI_HORA_PAGO, NU_DOCUMENTO, ES_ENTREGAR_DOC_REGLAMENTOS, ES_REGISTRO_HUELLA, DE_REGISTRO_SISTEM_REMU, ID_TRABAJADOR, CA_SUELDO_TOTAL, ID_REGIMEN_LABORAL,
                             ID_MODALIDAD, ID_SUB_MODALIDAD, CO_GR_OCUPACION, FE_SUSCRIPCION, CO_TI_MONEDA, CO_TI_REM_VARIAB, DE_REMU_ESPECIE, DE_RUC_EMP_TRAB, CO_SUCURSAL, DE_MYPE, ES_TI_CONTRATACION, CA_BEV,
                             ID_TIPO_PLANILLA, ES_REMUNERACION_PROCESADO, ID_DETALLE_HORARIO, ID_PLANTILLA_CONTRACTUAL, ca_bonificacion_p, ES_MFL, PRACTICANTE, situacionEspecial);
-                    emp.VALIDAR_EMPLEADO(ID_TRABAJADOR);
+                    empleadoDAO.VALIDAR_EMPLEADO(ID_TRABAJADOR);
                     //--------- COD HUELLA y APS ------------
                     String aps = request.getParameter("cod_aps");
                     if (!aps.equals("")) {
                         int cod_aps = Integer.parseInt(aps);
-                        emp.Reg_aps(ID_TRABAJADOR, cod_aps);
+                        empleadoDAO.Reg_aps(ID_TRABAJADOR, cod_aps);
                     }
                     String huella = request.getParameter("cod_hue");
                     if (!huella.equals("")) {
                         int cod_hue = Integer.parseInt(huella);
-                        emp.Reg_cod_huella(ID_TRABAJADOR, cod_hue);
+                        empleadoDAO.Reg_cod_huella(ID_TRABAJADOR, cod_hue);
                     }
-                    String idcto = con.MAX_ID_CONTRATO();
+                    String idcto = contratoDAO.MAX_ID_CONTRATO();
                     //--------- CENTRO COSTOS --------------
                     /*Actualizando centro de costo*/
                     System.out.println("::Agregando  Centro de costos....");
@@ -361,27 +361,26 @@ public class ContractController {
                         String ID_CENTRO_COSTO = request.getParameter("CENTRO_COSTOS_" + g);
                         double porcentaje = Double.parseDouble(request.getParameter("PORCENTAJE_" + g));
                         if (ID_CENTRO_COSTO != null && porcentaje != 0.0) {
-                            dcc.INSERT_DETALLE_CENTRO_COSTO(null, null, porcentaje, "1", iduser, null, null, null, UserMachineProperties.getAll(), idcto, ID_CENTRO_COSTO);
+                            detalleCentroCostoDao.INSERT_DETALLE_CENTRO_COSTO(null, null, porcentaje, "1", iduser, null, null, null, UserMachineProperties.getAll(), idcto, ID_CENTRO_COSTO);
                         }
                     }
 
                     //------------- HORARIO ------------
-                    sesion.setAttribute("List_Jefe", l.List_Jefe());
-                    sesion.setAttribute("List_Situacion_Actual", l.List_Situacion_Actual());
-                    sesion.setAttribute("List_ID_User", usu.List_ID_User(US_CREACION));
-                    sesion.setAttribute("list_Condicion_contrato", l.list_Condicion_contrato());
-                    sesion.setAttribute("List_tipo_contrato", l.List_tipo_contrato());
+                    session.setAttribute("List_Jefe", listaDAO.List_Jefe());
+                    session.setAttribute("List_Situacion_Actual", listaDAO.List_Situacion_Actual());
+                    session.setAttribute("List_ID_User", usuarioDAO.List_ID_User(US_CREACION));
+                    session.setAttribute("list_Condicion_contrato", listaDAO.list_Condicion_contrato());
+                    session.setAttribute("List_tipo_contrato", listaDAO.List_tipo_contrato());
                     //   sesion.setAttribute("List_tipo_contrato", doc.List_Adventista(idcto));
-                    sesion.setAttribute("Lis_doc_trabajador", doc.Lis_doc_trabajador(ID_TRABAJADOR));
-                    // int i = doc.List_Req_nacionalidad(ID_TRABAJADOR);
+                    session.setAttribute("Lis_doc_trabajador", doc.Lis_doc_trabajador(ID_TRABAJADOR));
                     //  int num_ad = doc.List_Adventista(ID_TRABAJADOR);
-                    sesion.setAttribute("List_Hijos", doc.List_Hijos(ID_TRABAJADOR));
-                    sesion.setAttribute("List_Conyugue", doc.List_Conyugue(ID_TRABAJADOR));
+                    session.setAttribute("List_Hijos", doc.List_Hijos(ID_TRABAJADOR));
+                    session.setAttribute("List_Conyugue", doc.List_Conyugue(ID_TRABAJADOR));
                     response.sendRedirect("Reg_Documento?pro=casosEspeciales&idtr=" + ID_TRABAJADOR + "&P2=TRUE&ms=ok");
                 }
 
                 if (opc.equals("Reporte_CE")) {
-                    sesion.setAttribute("List_Casos_Esp", con.LIST_CASOS_ESPECIALES());
+                    session.setAttribute("List_Casos_Esp", contratoDAO.LIST_CASOS_ESPECIALES());
                     response.sendRedirect("Filtro_Contrato_CE");
                 }
 
@@ -394,7 +393,7 @@ public class ContractController {
                     if (("Buscar".equals(Buscar) & (!"".equals(dni) | !"".equals(nom) | !"".equals(ape_mat) | !"".equals(ape_pat)))) {
                         String busc = (String) request.getParameter("busc");
                         if (busc != null) {
-                            sesion.setAttribute("ListarTrabajador2", tr.Buscar_Ficha_Trabajador(iddep, dni, nom, ape_pat, ape_mat));
+                            session.setAttribute("ListarTrabajador2", trabajadorDAO.Buscar_Ficha_Trabajador(iddep, dni, nom, ape_pat, ape_mat));
                             ///getServletContext().setAttribute(nom, dgp.VAL_OPC_DGP(dni));
                             response.sendRedirect("Gen_Contrato_CE");
                         }
@@ -405,12 +404,12 @@ public class ContractController {
                 }
 
                 if (opc.equals("Buscar")) {
-                    sesion.setAttribute("List_Area", area.List_Area());
+                    session.setAttribute("List_Area", areaDAO.List_Area());
                 }
 
                 if (opc.equals("filtrar")) {
-                    sesion.setAttribute("Listar_Direccion", dir.Listar_Direccion());
-                    sesion.setAttribute("List_Area_ID", area.List_Area_ID(iddep));
+                    session.setAttribute("Listar_Direccion", direccionDAO.Listar_Direccion());
+                    session.setAttribute("List_Area_ID", areaDAO.List_Area_ID(iddep));
                     response.sendRedirect("Busc_Contrato");
                 }
 
@@ -440,12 +439,12 @@ public class ContractController {
                         String id_dir = puesto.List_Puesto_x_iddgp(iddgp);
                         sesion.setAttribute("LIST_ID_DGP", dgp.LIST_ID_DGP(iddgp));
                         sesion.setAttribute("List_Puesto", puesto.List_Puesto());
-                        sesion.setAttribute("Listar_Direccion", dir.Listar_Direccion());
-                        sesion.setAttribute("List_modalidad", con.List_modalidad());
-                        sesion.setAttribute("list_reg_labo", con.list_reg_labo());
-                        sesion.setAttribute("List_centro_costo", cc.List_centro_costo());
-                        sesion.setAttribute("List_grup_ocu", gr.List_grup_ocu());
-                        int num = dht.ASIGNACION_F(idtr);
+                        sesion.setAttribute("Listar_Direccion", direccionDAO.Listar_Direccion());
+                        sesion.setAttribute("List_modalidad", contratoDAO.List_modalidad());
+                        sesion.setAttribute("list_reg_labo", contratoDAO.list_reg_labo());
+                        sesion.setAttribute("List_centro_costo", centroCostoDAO.List_centro_costo());
+                        sesion.setAttribute("List_grup_ocu", grupoOcupacionesDAO.List_grup_ocu());
+                        int num = datosHijoTrabajadorDAO.ASIGNACION_F(idtr);
                         Calendar fecha = new GregorianCalendar();
                         int año = fecha.get(Calendar.YEAR);
                         int mes = fecha.get(Calendar.MONTH);
@@ -470,22 +469,22 @@ public class ContractController {
                     if (opc.equals("Editar")) {
                         String idcon = request.getParameter("idc");
                         String idtr = request.getParameter("idtr");
-                        sesion.setAttribute("List_contrato", con.List_contrato(idcon));
-                        sesion.setAttribute("Listar_Direccion", dir.Listar_Direccion());
-                        sesion.setAttribute("Lis_c_c_id_contr", cc.Lis_c_c_id_contr(idcon));
-                        sesion.setAttribute("List_contra_x_idcto", con.List_contra_x_idcto(idcon));
-                        sesion.setAttribute("List_Situacion_Actual", l.List_Situacion_Actual());
-                        sesion.setAttribute("List_Usuario", usu.List_Usuario());
-                        sesion.setAttribute("list_Condicion_contrato", l.list_Condicion_contrato());
-                        sesion.setAttribute("List_tipo_contrato", l.List_tipo_contrato());
-                        sesion.setAttribute("list_reg_labo", con.list_reg_labo());
-                        sesion.setAttribute("List_modalidad", con.List_modalidad());
-                        sesion.setAttribute("List_grup_ocu", gr.List_grup_ocu());
+                        sesion.setAttribute("List_contrato", contratoDAO.List_contrato(idcon));
+                        sesion.setAttribute("Listar_Direccion", direccionDAO.Listar_Direccion());
+                        sesion.setAttribute("Lis_c_c_id_contr", centroCostoDAO.Lis_c_c_id_contr(idcon));
+                        sesion.setAttribute("List_contra_x_idcto", contratoDAO.List_contra_x_idcto(idcon));
+                        sesion.setAttribute("List_Situacion_Actual", listaDAO.List_Situacion_Actual());
+                        sesion.setAttribute("List_Usuario", usuarioDAO.List_Usuario());
+                        sesion.setAttribute("list_Condicion_contrato", listaDAO.list_Condicion_contrato());
+                        sesion.setAttribute("List_tipo_contrato", listaDAO.List_tipo_contrato());
+                        sesion.setAttribute("list_reg_labo", contratoDAO.list_reg_labo());
+                        sesion.setAttribute("List_modalidad", contratoDAO.List_modalidad());
+                        sesion.setAttribute("List_grup_ocu", grupoOcupacionesDAO.List_grup_ocu());
                         String id_dg = request.getParameter("id_dg");
                         String id_dir = puesto.List_Puesto_x_id_con(idcon);
-                        String id_modalidad = sub.id_mod_x_id_con(idcon);
-                        int num_cc = cc.count_cc_x_id_cont(idcon);
-                        int num = dht.ASIGNACION_F(idtr);
+                        String id_modalidad = subModalidadDAO.id_mod_x_id_con(idcon);
+                        int num_cc = centroCostoDAO.count_cc_x_id_cont(idcon);
+                        int num = datosHijoTrabajadorDAO.ASIGNACION_F(idtr);
 
                         if (id_dg != null) {
                             sesion.setAttribute("LIST_ID_DGP", dgp.LIST_ID_DGP(id_dg));
@@ -590,7 +589,7 @@ public class ContractController {
                         FE_DESDE = DateFormat.toFormat3(FE_DESDE);
                         FE_HASTA = DateFormat.toFormat3(FE_HASTA);
                         String situacionEspecial = request.getParameter("situacionEspecial");
-                        con.MODIFICAR_CONTRATO(ID_CONTRATO, ID_DGP, FE_DESDE, FE_HASTA, FE_CESE, ID_FUNC, LI_CONDICION, CA_SUELDO, CA_REINTEGRO, CA_ASIG_FAMILIAR, HO_SEMANA, NU_HORAS_LAB, DIA_CONTRATO,
+                        contratoDAO.MODIFICAR_CONTRATO(ID_CONTRATO, ID_DGP, FE_DESDE, FE_HASTA, FE_CESE, ID_FUNC, LI_CONDICION, CA_SUELDO, CA_REINTEGRO, CA_ASIG_FAMILIAR, HO_SEMANA, NU_HORAS_LAB, DIA_CONTRATO,
                                 TI_TRABAJADOR, LI_REGIMEN_LABORAL, ES_DISCAPACIDAD, TI_CONTRATO, LI_REGIMEN_PENSIONARIO, ES_CONTRATO_TRABAJADOR, US_CREACION, FE_CREACION, US_MODIF, FE_MODIF,
                                 US_IP, FE_VACACIO_INI, FE_VACACIO_FIN, ES_CONTRATO, ID_FILIAL, ID_PUESTO, CA_BONO_ALIMENTO, LI_TIPO_CONVENIO, ES_FIRMO_CONTRATO, NU_CONTRATO, DE_OBSERVACION,
                                 ES_APOYO, TI_HORA_PAGO, NU_DOCUMENTO, ES_ENTREGAR_DOC_REGLAMENTOS, ES_REGISTRO_HUELLA, DE_REGISTRO_SISTEM_REMU, ID_TRABAJADOR, CA_SUELDO_TOTAL, ID_REGIMEN_LABORAL,
@@ -612,7 +611,7 @@ public class ContractController {
 
                                     System.out.println("Modificando centro de costo:" + id_dt_cen_c);
 
-                                    dcc.Modificar_Centro_Costo_porc(id_dt_cen_c, porcen, iduser);
+                                    detalleCentroCostoDao.Modificar_Centro_Costo_porc(id_dt_cen_c, porcen, iduser);
                                 } else {
                                     System.out.println(":: No se encontraron los id");
                                 }
@@ -626,7 +625,7 @@ public class ContractController {
                                     String centro_c_nuevo = request.getParameter("CENTRO_COSTOS_" + (cant_inicial + i));
 
                                     System.out.println("***Agregando centro de costo:" + centro_c_nuevo);
-                                    dcc.INSERT_DETALLE_CENTRO_COSTO("", "", porc_nuevo, "1", iduser, "", "", "", UserMachineProperties.getAll(),
+                                    detalleCentroCostoDao.INSERT_DETALLE_CENTRO_COSTO("", "", porc_nuevo, "1", iduser, "", "", "", UserMachineProperties.getAll(),
                                             ID_CONTRATO, centro_c_nuevo);
                                     System.out.println("***Centro de costo agregado**");
 
@@ -638,33 +637,33 @@ public class ContractController {
                         //out.print("2");
                         //  if (ID_CONTRATO != null) {
 
-                        sesion.setAttribute("List_x_fun_x_idpu", fu.List_x_fun_x_idpu(ID_PUESTO));
-                        sesion.setAttribute("Lis_c_c_id_contr", cc.Lis_c_c_id_contr(ID_CONTRATO));
-                        sesion.setAttribute("List_contra_x_idcto", con.List_contra_x_idcto(ID_CONTRATO));
+                        sesion.setAttribute("List_x_fun_x_idpu", funcionDAO.List_x_fun_x_idpu(ID_PUESTO));
+                        sesion.setAttribute("Lis_c_c_id_contr", centroCostoDAO.Lis_c_c_id_contr(ID_CONTRATO));
+                        sesion.setAttribute("List_contra_x_idcto", contratoDAO.List_contra_x_idcto(ID_CONTRATO));
                         // }
-                        sesion.setAttribute("List_Situacion_Actual", l.List_Situacion_Actual());
-                        sesion.setAttribute("List_Usuario", usu.List_Usuario());
-                        sesion.setAttribute("list_Condicion_contrato", l.list_Condicion_contrato());
-                        sesion.setAttribute("List_tipo_contrato", l.List_tipo_contrato());
-                        sesion.setAttribute("list_reg_labo", con.list_reg_labo());
+                        sesion.setAttribute("List_Situacion_Actual", listaDAO.List_Situacion_Actual());
+                        sesion.setAttribute("List_Usuario", usuarioDAO.List_Usuario());
+                        sesion.setAttribute("list_Condicion_contrato", listaDAO.list_Condicion_contrato());
+                        sesion.setAttribute("List_tipo_contrato", listaDAO.List_tipo_contrato());
+                        sesion.setAttribute("list_reg_labo", contratoDAO.list_reg_labo());
                         // con.VALIDAR_FE_HASTA_CON();
                         response.sendRedirect("views/Contrato/Detalle_Info_Contractualq.html?idtr=" + ID_TRABAJADOR + "&id_cto=" + ID_CONTRATO);
                     }
                     if (opc.equals("SI_CONNTRATO")) {
                         String idtr = request.getParameter("idtr");
                         /*mostrar el ultimo contrato registrado*/
-                        String id_cto = con.Contrato_max(idtr);
+                        String id_cto = contratoDAO.Contrato_max(idtr);
                         if (id_cto != null) {
                             String id_pu = puesto.puesto(id_cto);
-                            sesion.setAttribute("List_x_fun_x_idpu", fu.List_x_fun_x_idpu(id_pu));
-                            sesion.setAttribute("Lis_c_c_id_contr", cc.Lis_c_c_id_contr(id_cto));
-                            sesion.setAttribute("List_contra_x_idcto", con.List_contra_x_idcto(id_cto));
+                            sesion.setAttribute("List_x_fun_x_idpu", funcionDAO.List_x_fun_x_idpu(id_pu));
+                            sesion.setAttribute("Lis_c_c_id_contr", centroCostoDAO.Lis_c_c_id_contr(id_cto));
+                            sesion.setAttribute("List_contra_x_idcto", contratoDAO.List_contra_x_idcto(id_cto));
                         }
-                        sesion.setAttribute("List_Situacion_Actual", l.List_Situacion_Actual());
-                        sesion.setAttribute("List_Usuario", usu.List_Usuario());
-                        sesion.setAttribute("list_Condicion_contrato", l.list_Condicion_contrato());
-                        sesion.setAttribute("List_tipo_contrato", l.List_tipo_contrato());
-                        sesion.setAttribute("list_reg_labo", con.list_reg_labo());
+                        sesion.setAttribute("List_Situacion_Actual", listaDAO.List_Situacion_Actual());
+                        sesion.setAttribute("List_Usuario", usuarioDAO.List_Usuario());
+                        sesion.setAttribute("list_Condicion_contrato", listaDAO.list_Condicion_contrato());
+                        sesion.setAttribute("List_tipo_contrato", listaDAO.List_tipo_contrato());
+                        sesion.setAttribute("list_reg_labo", contratoDAO.list_reg_labo());
                         response.sendRedirect("views/Contrato/Imprimir_Subir_Contrato.html?idtr=" + idtr);
                     }
                     if (opc.equals("Subir_Contrato")) {
@@ -673,7 +672,7 @@ public class ContractController {
                     }
 
                     if (opc.equals("Subir_Contrato2")) {
-                        int coun_doc = con.Count_doc_con(request.getParameter("idc"));
+                        int coun_doc = contratoDAO.Count_doc_con(request.getParameter("idc"));
                         String id_con = request.getParameter("idc");
                         response.sendRedirect("views/Contrato/Formato_Plantilla/Subir_Contrato_Firmado.html?idc=" + id_con + "&coun_doc=" + coun_doc);
                     }
@@ -681,7 +680,7 @@ public class ContractController {
                     if (opc.equals("Actualizar_Firma")) {
                         String idtr = request.getParameter("IDTR");
                         String iddgp = request.getParameter("IDDETALLE_DGP");
-                        con.UPDATE_FIRMA(idtr, iddgp);
+                        contratoDAO.UPDATE_FIRMA(idtr, iddgp);
                         rpta.put("rpta", true);
                     }
 
@@ -689,14 +688,14 @@ public class ContractController {
                         String idtr = request.getParameter("idtr");
                         String id_cto = request.getParameter("idc");
                         String id_pu = puesto.puesto(id_cto);
-                        sesion.setAttribute("Lis_c_c_id_contr", cc.Lis_c_c_id_contr(id_cto));
-                        sesion.setAttribute("List_contra_x_idcto", con.List_contra_x_idcto(id_cto));
-                        sesion.setAttribute("List_Situacion_Actual", l.List_Situacion_Actual());
-                        sesion.setAttribute("List_Usuario", usu.List_Usuario());
-                        sesion.setAttribute("list_Condicion_contrato", l.list_Condicion_contrato());
-                        sesion.setAttribute("List_tipo_contrato", l.List_tipo_contrato());
-                        sesion.setAttribute("list_reg_labo", con.list_reg_labo());
-                        sesion.setAttribute("List_x_fun_x_idpu", fu.List_x_fun_x_idpu(id_pu));
+                        sesion.setAttribute("Lis_c_c_id_contr", centroCostoDAO.Lis_c_c_id_contr(id_cto));
+                        sesion.setAttribute("List_contra_x_idcto", contratoDAO.List_contra_x_idcto(id_cto));
+                        sesion.setAttribute("List_Situacion_Actual", listaDAO.List_Situacion_Actual());
+                        sesion.setAttribute("List_Usuario", usuarioDAO.List_Usuario());
+                        sesion.setAttribute("list_Condicion_contrato", listaDAO.list_Condicion_contrato());
+                        sesion.setAttribute("List_tipo_contrato", listaDAO.List_tipo_contrato());
+                        sesion.setAttribute("list_reg_labo", contratoDAO.list_reg_labo());
+                        sesion.setAttribute("List_x_fun_x_idpu", funcionDAO.List_x_fun_x_idpu(id_pu));
                         response.sendRedirect("views/Contrato/Detalle_Info_Contractualq.html?idtr=" + idtr.trim() + "&id_cto=" + id_cto);
                     }
 
@@ -782,7 +781,7 @@ public class ContractController {
                         }
                         String situacionEspecial = request.getParameter("situacionEspecial");
 
-                        con.INSERT_CONTRATO(ID_CONTRATO, ID_DGP, FE_DESDE, FE_HASTA, FE_CESE, ID_FUNC, LI_CONDICION, CA_SUELDO, CA_REINTEGRO, CA_ASIG_FAMILIAR, HO_SEMANA, NU_HORAS_LAB,
+                        contratoDAO.INSERT_CONTRATO(ID_CONTRATO, ID_DGP, FE_DESDE, FE_HASTA, FE_CESE, ID_FUNC, LI_CONDICION, CA_SUELDO, CA_REINTEGRO, CA_ASIG_FAMILIAR, HO_SEMANA, NU_HORAS_LAB,
                                 DIA_CONTRATO, TI_TRABAJADOR, LI_REGIMEN_LABORAL, ES_DISCAPACIDAD, TI_CONTRATO, LI_REGIMEN_PENSIONARIO, ES_CONTRATO_TRABAJADOR, US_CREACION, FE_CREACION,
                                 US_MODIF, FE_MODIF, US_IP, FE_VACACIO_INI, FE_VACACIO_FIN, ES_CONTRATO, ID_FILIAL, ID_PUESTO, CA_BONO_ALIMENTO, LI_TIPO_CONVENIO, ES_FIRMO_CONTRATO,
                                 NU_CONTRATO, DE_OBSERVACION, ES_APOYO, TI_HORA_PAGO, NU_DOCUMENTO, ES_ENTREGAR_DOC_REGLAMENTOS, ES_REGISTRO_HUELLA, DE_REGISTRO_SISTEM_REMU, ID_TRABAJADOR,
@@ -802,35 +801,35 @@ public class ContractController {
 
 
                         String idtr1 = ID_TRABAJADOR;
-                        String id_cto = con.Contrato_max(idtr1);
+                        String id_cto = contratoDAO.Contrato_max(idtr1);
                         /*Modificar Centro de Costo*/
                         if (cantidad_centro > 0) {
                             for (int c = 0; c < cantidad_centro; c++) {
                                 String ID_DET_CEN_COS = request.getParameter("id_dcc" + (c + 1));
-                                cc.Mod_det_centro(ID_DET_CEN_COS, id_cto);
+                                centroCostoDAO.Mod_det_centro(ID_DET_CEN_COS, id_cto);
                             }
                         }
-                        sesion.setAttribute("List_contra_x_idcto", con.List_contra_x_idcto(id_cto));
-                        sesion.setAttribute("List_Situacion_Actual", l.List_Situacion_Actual());
-                        sesion.setAttribute("List_Usuario", usu.List_Usuario());
-                        sesion.setAttribute("list_Condicion_contrato", l.list_Condicion_contrato());
-                        sesion.setAttribute("List_tipo_contrato", l.List_tipo_contrato());
-                        sesion.setAttribute("list_reg_labo", con.list_reg_labo());
-                        sesion.setAttribute("List_Jefe", l.List_Jefe());
-                        sesion.setAttribute("List_Planilla", pl.List_Planilla(ID_DIRECCION, ID_DEPARTAMENTO, ID_SEC, ID_PUESTO, ID_AREA));
-                        sesion.setAttribute("List_ID_User", usu.List_ID_User(US_CREACION));
-                        sesion.setAttribute("List_x_fun_x_idpu", fu.List_x_fun_x_idpu(ID_PUESTO));
+                        sesion.setAttribute("List_contra_x_idcto", contratoDAO.List_contra_x_idcto(id_cto));
+                        sesion.setAttribute("List_Situacion_Actual", listaDAO.List_Situacion_Actual());
+                        sesion.setAttribute("List_Usuario", usuarioDAO.List_Usuario());
+                        sesion.setAttribute("list_Condicion_contrato", listaDAO.list_Condicion_contrato());
+                        sesion.setAttribute("List_tipo_contrato", listaDAO.List_tipo_contrato());
+                        sesion.setAttribute("list_reg_labo", contratoDAO.list_reg_labo());
+                        sesion.setAttribute("List_Jefe", listaDAO.List_Jefe());
+                        sesion.setAttribute("List_Planilla", plantillaDAO.List_Planilla(ID_DIRECCION, ID_DEPARTAMENTO, ID_SEC, ID_PUESTO, ID_AREA));
+                        sesion.setAttribute("List_ID_User", usuarioDAO.List_ID_User(US_CREACION));
+                        sesion.setAttribute("List_x_fun_x_idpu", funcionDAO.List_x_fun_x_idpu(ID_PUESTO));
                         response.sendRedirect("views/Contrato/Detalle_Info_Contractualq.html?idtr=" + idtr1.trim() + "&id_cto=" + id_cto);
                     }
 
                     if (opc.equals("Habilitar_is")) {
                         String id = request.getParameter("id");
                         String estado = request.getParameter("estado");
-                        con.HABILITAR_SI(id, estado);
+                        contratoDAO.HABILITAR_SI(id, estado);
                     }
                     if (opc.equals("validar_contrato")) {
                         String id_cto = request.getParameter("id_cto");
-                        con.validar_contrato(id_cto);
+                        contratoDAO.validar_contrato(id_cto);
                     }
                     if (opc.equals("gen_cont")) {
                         response.sendRedirect("Gen_Contrato_CE");

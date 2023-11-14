@@ -10,8 +10,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
  
-import com.app.persistence.dao_imp.InterfacePlantillaDAO;
-import com.app.config.factory.ConexionBD;
+import com.app.persistence.dao_imp.IPlantillaDAO;
+import com.app.config.factory.DBConnection;
 import com.app.config.factory.FactoryConnectionDB;
 import com.app.domain.model.X_List_Plantilla;
 
@@ -19,9 +19,9 @@ import com.app.domain.model.X_List_Plantilla;
  *
  * @author Admin
  */
-public class PlantillaDAO implements InterfacePlantillaDAO {
+public class PlantillaDAO implements IPlantillaDAO {
 
-    ConexionBD conn;
+    DBConnection conn;
 
     @Override
     public List<X_List_Plantilla> List_Planilla(String id_direc, String id_depart, String id_seccion, String id_puesto, String id_area) {

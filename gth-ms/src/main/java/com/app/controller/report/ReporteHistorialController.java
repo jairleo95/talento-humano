@@ -6,7 +6,7 @@
 package com.app.controller.report;
 
 import com.app.persistence.dao.ListaDAO;
-import com.app.persistence.dao_imp.InterfaceListaDAO;
+import com.app.persistence.dao_imp.IListaDAO;
 import com.app.persistence.dao_imp.InterfaceReporte_HistorialDAO;
 
 import java.util.HashMap;
@@ -18,7 +18,6 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.app.persistence.dao.Reporte_HistorialDAO;
@@ -33,7 +32,7 @@ import com.app.persistence.dao.Reporte_HistorialDAO;
 public class ReporteHistorialController {
 
     InterfaceReporte_HistorialDAO re = new Reporte_HistorialDAO();
-    InterfaceListaDAO li = new ListaDAO();
+    IListaDAO li = new ListaDAO();
 
     @RequestMapping
     public ResponseEntity<?> process(HttpServletRequest request, HttpServletResponse response) {

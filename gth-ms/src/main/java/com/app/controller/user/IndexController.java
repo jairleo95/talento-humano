@@ -6,8 +6,8 @@
 package com.app.controller.user;
 
 import com.app.persistence.dao_imp.InterfaceRolDAO;
-import com.app.persistence.dao_imp.InterfaceUsuarioDAO;
-import com.app.domain.model.Usuario;
+import com.app.persistence.dao_imp.IUsuarioDAO;
+import com.app.domain.model.User;
 import com.app.domain.model.V_Usuario;
 import com.google.gson.Gson;
 import java.util.HashMap;
@@ -24,12 +24,12 @@ import com.app.persistence.dao.UsuarioDAO;
 @RestController
 public class IndexController {
 
-    InterfaceUsuarioDAO us = new UsuarioDAO();
+    IUsuarioDAO us = new UsuarioDAO();
     //V_Usuario user = new V_Usuario();
 
     @RequestMapping(value = "valida", method = {RequestMethod.POST}, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
     @ResponseBody
-    public String authAccess(HttpServletRequest request,@RequestBody Usuario x) {
+    public String authAccess(HttpServletRequest request,@RequestBody User x) {
 
         List<V_Usuario> u = us.Val_Usuario(x.getNo_usuario(),x.getPw_usuario());
         Map<String, Object> rpta = new HashMap<String, Object>();

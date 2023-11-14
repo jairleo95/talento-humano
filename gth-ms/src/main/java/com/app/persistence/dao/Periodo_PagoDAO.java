@@ -13,7 +13,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.app.persistence.dao_imp.InterfacePeriodo_PagoDAO;
-import com.app.config.factory.ConexionBD;
+import com.app.config.factory.DBConnection;
 import com.app.config.factory.FactoryConnectionDB;
 import com.app.controller.util.DateFormat;
 
@@ -22,14 +22,14 @@ import com.app.controller.util.DateFormat;
  * @author Alex
  */
 public class Periodo_PagoDAO implements InterfacePeriodo_PagoDAO {
-    ConexionBD conn;
+    DBConnection conn;
     DateFormat c = new DateFormat();
 
     @Override
     public void InsetarPeriodo_Pago(String ID_PERIODO_PAGO, Double NU_CUOTA, String FE_PAGAR, Double CA_MONTO, String ID_DGP, String ES_PER_PAGO) {
         try {
             this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            CallableStatement pp = this.conn.conex.prepareCall("{CALL RHSP_INSERT_PERIODO_PAGO(?, ?, ?, ?, ?, ? )}");
+            CallableStatement pp = this.conn.connection.prepareCall("{CALL RHSP_INSERT_PERIODO_PAGO(?, ?, ?, ?, ?, ? )}");
             pp.setString(1, null);
             pp.setDouble(2, NU_CUOTA);
             pp.setString(3, DateFormat.toFormat1(FE_PAGAR));

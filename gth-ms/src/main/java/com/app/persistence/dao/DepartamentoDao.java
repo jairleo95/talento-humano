@@ -13,28 +13,28 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.app.persistence.dao_imp.InterfaceDepartamentoDAO;
-import com.app.config.factory.ConexionBD;
+import com.app.persistence.dao_imp.IDepartamentoDAO;
+import com.app.config.factory.DBConnection;
 import com.app.config.factory.FactoryConnectionDB;
-import com.app.domain.model.Departamento;
+import com.app.domain.model.Department;
 
 /**
  *
  * @author Admin
  */
-public class DepartamentoDao implements InterfaceDepartamentoDAO {
+public class DepartamentoDao implements IDepartamentoDAO {
 
-    ConexionBD conn;
+    DBConnection conn;
 
     @Override
-    public List<Departamento> List_Departamento() {
+    public List<Department> List_Departamento() {
         this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
         String sql = "select * from rhtx_departamento ORDER BY NO_DEP";
-        List<Departamento> list = new ArrayList<Departamento>();
+        List<Department> list = new ArrayList<Department>();
         try {
             ResultSet rs = this.conn.query(sql);
             while (rs.next()) {
-                Departamento d = new Departamento();
+                Department d = new Department();
                 d.setEs_departamento(rs.getString("es_departamento"));
                 d.setId_departamento(rs.getString("id_departamento"));
                 d.setId_direccion(rs.getString("id_direccion"));
@@ -139,14 +139,14 @@ public class DepartamentoDao implements InterfaceDepartamentoDAO {
     }
 
     @Override
-    public List<Departamento> List_Departamento_Lima() {
+    public List<Department> List_Departamento_Lima() {
         this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
         String sql = "SELECT NO_DEP FROM RHVD_PUESTO_DIRECCION where ID_DIRECCION='DIR-0002' OR ID_DIRECCION='DIR-0001' OR ID_DIRECCION='DIR-0003' OR ID_DIRECCION='DIR-0004' GROUP BY NO_DEP ORDER by NO_DEP";
-        List<Departamento> list = new ArrayList<Departamento>();
+        List<Department> list = new ArrayList<Department>();
         try {
             ResultSet rs = this.conn.query(sql);
             while (rs.next()) {
-                Departamento d = new Departamento();
+                Department d = new Department();
                 d.setNo_dep(rs.getString("no_dep"));
                 list.add(d);
             }
@@ -193,7 +193,7 @@ public class DepartamentoDao implements InterfaceDepartamentoDAO {
         boolean x = false;
         try {
             this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            CallableStatement cst = this.conn.conex.prepareCall("{CALL RHSP_MOD_DEPARTAMENTO( ?, ?, ?, ?,?)}");
+            CallableStatement cst = this.conn.connection.prepareCall("{CALL RHSP_MOD_DEPARTAMENTO( ?, ?, ?, ?,?)}");
             cst.setString(1, id);
             cst.setString(2, nombre);
             cst.setString(3, ncorto);
@@ -219,7 +219,7 @@ public class DepartamentoDao implements InterfaceDepartamentoDAO {
         boolean x = false;
         try {
             this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            CallableStatement cst = this.conn.conex.prepareCall("{CALL RHSP_INSERT_DEPARTAMENTO( ?, ?, ?, ?)}");
+            CallableStatement cst = this.conn.connection.prepareCall("{CALL RHSP_INSERT_DEPARTAMENTO( ?, ?, ?, ?)}");
             cst.setString(1, nombre);
             cst.setString(2, ncorto);
             cst.setString(3, estado);
@@ -244,7 +244,7 @@ public class DepartamentoDao implements InterfaceDepartamentoDAO {
         boolean x = false;
         try {
             this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            CallableStatement cst = this.conn.conex.prepareCall("{CALL RHSP_ELIMINAR_DEPARTAMENTO(?)}");
+            CallableStatement cst = this.conn.connection.prepareCall("{CALL RHSP_ELIMINAR_DEPARTAMENTO(?)}");
             cst.setString(1, id);
             x = cst.execute();
         } catch (SQLException e) {
@@ -266,7 +266,7 @@ public class DepartamentoDao implements InterfaceDepartamentoDAO {
         boolean x = false;
         try {
             this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            CallableStatement cst = this.conn.conex.prepareCall("{CALL RHSP_ACTIVAR_DEPARTAMENTO(?)}");
+            CallableStatement cst = this.conn.connection.prepareCall("{CALL RHSP_ACTIVAR_DEPARTAMENTO(?)}");
             cst.setString(1, id);
             x = cst.execute();
         } catch (SQLException e) {
@@ -288,7 +288,7 @@ public class DepartamentoDao implements InterfaceDepartamentoDAO {
         boolean x = false;
         try {
             this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            CallableStatement cst = this.conn.conex.prepareCall("{CALL RHSP_DESACTIVAR_DEPARTAMENTO(?)}");
+            CallableStatement cst = this.conn.connection.prepareCall("{CALL RHSP_DESACTIVAR_DEPARTAMENTO(?)}");
             cst.setString(1, id);
             x = cst.execute();
         } catch (SQLException e) {

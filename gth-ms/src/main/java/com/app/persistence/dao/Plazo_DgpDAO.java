@@ -16,8 +16,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import com.app.persistence.dao_imp.InterfacePlazo_DgpDAO;
-import com.app.config.factory.ConexionBD;
+import com.app.persistence.dao_imp.IPlazo_DgpDAO;
+import com.app.config.factory.DBConnection;
 import com.app.config.factory.FactoryConnectionDB;
 import com.app.domain.model.V_Dgp_Plazo;
 import com.app.controller.util.DateFormat;
@@ -26,9 +26,9 @@ import com.app.controller.util.DateFormat;
  *
  * @author JAIR
  */
-public class Plazo_DgpDAO implements InterfacePlazo_DgpDAO {
+public class Plazo_DgpDAO implements IPlazo_DgpDAO {
 
-    ConexionBD conn;
+    DBConnection conn;
     DateFormat c = new DateFormat();
 
     @Override
@@ -127,11 +127,11 @@ public class Plazo_DgpDAO implements InterfacePlazo_DgpDAO {
     }
 
     @Override
-    public String INSERT_PLAZO(String ID_PLAZO, String NO_PLAZO, String DET_ALERTA, String FE_DESDE, String FE_HASTA, String ES_PLAZO, String ID_REQUERIMIENTO, String TI_PLAZO, int CA_DIAS_TOLERANCIA, String ID_DEPARTAMENTO_TOLERANCIA, String ID_DEPARTAMENTO, String ID_AREA) {
+    public String insert(String ID_PLAZO, String NO_PLAZO, String DET_ALERTA, String FE_DESDE, String FE_HASTA, String ES_PLAZO, String ID_REQUERIMIENTO, String TI_PLAZO, int CA_DIAS_TOLERANCIA, String ID_DEPARTAMENTO_TOLERANCIA, String ID_DEPARTAMENTO, String ID_AREA) {
         String id = "";
         try {
             this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            CallableStatement cst = this.conn.conex.prepareCall("{CALL RHSP_INSERT_PLAZO( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,? ,?,?)} ");
+            CallableStatement cst = this.conn.connection.prepareCall("{CALL RHSP_INSERT_PLAZO( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,? ,?,?)} ");
             cst.setString(1, null);
             cst.setString(2, NO_PLAZO);
             cst.setString(3, DET_ALERTA);
@@ -162,11 +162,11 @@ public class Plazo_DgpDAO implements InterfacePlazo_DgpDAO {
     }
 
     @Override
-    public void UPDATE_PLAZO(String ID_PLAZO, String NO_PLAZO, String DET_ALERTA, String FE_DESDE, String FE_HASTA, String ES_PLAZO, String ID_REQUERIMIENTO, String TI_PLAZO, int CA_DIAS_TOLERANCIA, String ID_DEPARTAMENTO_TOLERANCIA, String ID_DEPARTAMENTO, String ID_AREA) {
+    public void update(String ID_PLAZO, String NO_PLAZO, String DET_ALERTA, String FE_DESDE, String FE_HASTA, String ES_PLAZO, String ID_REQUERIMIENTO, String TI_PLAZO, int CA_DIAS_TOLERANCIA, String ID_DEPARTAMENTO_TOLERANCIA, String ID_DEPARTAMENTO, String ID_AREA) {
         try {
 
             this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            CallableStatement cst = this.conn.conex.prepareCall("{CALL RHSP_UPDATE_PLAZO( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}");
+            CallableStatement cst = this.conn.connection.prepareCall("{CALL RHSP_UPDATE_PLAZO( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}");
             cst.setString(1, ID_PLAZO);
             cst.setString(2, NO_PLAZO);
             cst.setString(3, DET_ALERTA);
@@ -196,7 +196,7 @@ public class Plazo_DgpDAO implements InterfacePlazo_DgpDAO {
         try {
             this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
             String sql = " DELETE FROM RHTR_PLAZO WHERE ID_PLAZO='" + ID_PLAZO.trim() + "'";
-            this.conn.ejecutar(sql);
+            this.conn.execute(sql);
         } catch (Exception e) {
             this.conn.close();
         }
@@ -309,19 +309,19 @@ public class Plazo_DgpDAO implements InterfacePlazo_DgpDAO {
                 ano = rs.getDouble("anno_con");
                 if (ano < 0) {
                     this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-                    CallableStatement cst = this.conn.conex.prepareCall("{CALL RHSP_DESHABI_PLAZO( ?)}");
+                    CallableStatement cst = this.conn.connection.prepareCall("{CALL RHSP_DESHABI_PLAZO( ?)}");
                     cst.setString(1, id);
                     cst.execute();
                 } else if (ano == 0) {
                     if (mes < 0) {
                         this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-                        CallableStatement cst = this.conn.conex.prepareCall("{CALL RHSP_DESHABI_PLAZO( ?)}");
+                        CallableStatement cst = this.conn.connection.prepareCall("{CALL RHSP_DESHABI_PLAZO( ?)}");
                         cst.setString(1, id);
                         cst.execute();
                     } else if (mes == 0) {
                         if (dia < 0) {
                             this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-                            CallableStatement cst = this.conn.conex.prepareCall("{CALL RHSP_DESHABI_PLAZO( ?)}");
+                            CallableStatement cst = this.conn.connection.prepareCall("{CALL RHSP_DESHABI_PLAZO( ?)}");
                             cst.setString(1, id);
                             cst.execute();
                         } else if (dia == 0 || dia > 0) {
@@ -350,7 +350,7 @@ public class Plazo_DgpDAO implements InterfacePlazo_DgpDAO {
 
         try {
             this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            CallableStatement cs = this.conn.conex.prepareCall("{CALL RHSP_VAL_ESTADO_PLAZO()}");
+            CallableStatement cs = this.conn.connection.prepareCall("{CALL RHSP_VAL_ESTADO_PLAZO()}");
             cs.execute();
         } catch (SQLException ex) {
             throw new RuntimeException(ex.getMessage());
@@ -370,7 +370,7 @@ public class Plazo_DgpDAO implements InterfacePlazo_DgpDAO {
         String fecha = "";
         try {
             this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            CallableStatement cs = this.conn.conex.prepareCall("begin   ? :=rhfu_fecha_habilitada(?,?,?,?);end;");
+            CallableStatement cs = this.conn.connection.prepareCall("begin   ? :=rhfu_fecha_habilitada(?,?,?,?);end;");
             cs.registerOutParameter(1, Types.CHAR);
             cs.setString(2, tipo);
             cs.setString(3, req);
@@ -437,7 +437,7 @@ public class Plazo_DgpDAO implements InterfacePlazo_DgpDAO {
                         if (cont == cont2) {
                             int Estado_usu = 1;
                             this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-                            CallableStatement cst = this.conn.conex.prepareCall("{CALL VAL_CUMPLE_PLAZO( ?, ?, ?)}");
+                            CallableStatement cst = this.conn.connection.prepareCall("{CALL VAL_CUMPLE_PLAZO( ?, ?, ?)}");
                             cst.setInt(1, Estado_usu);
                             cst.setString(2, id_plazo);
                             cst.setString(3, id_cum_plazo);
@@ -460,7 +460,7 @@ public class Plazo_DgpDAO implements InterfacePlazo_DgpDAO {
                     else if (cont == 0) {
                         int Estado_usu = 0;
                         this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-                        CallableStatement cst = this.conn.conex.prepareCall("{CALL VAL_CUMPLE_PLAZO( ?, ?, ?)}");
+                        CallableStatement cst = this.conn.connection.prepareCall("{CALL VAL_CUMPLE_PLAZO( ?, ?, ?)}");
                         cst.setInt(1, Estado_usu);
                         cst.setString(2, id_plazo);
                         cst.setString(3, id_cum_plazo);
@@ -505,19 +505,19 @@ public class Plazo_DgpDAO implements InterfacePlazo_DgpDAO {
                 if (es_cumple_plazo.equals("1")) {
                     if (ano < 0) {
                         this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-                        CallableStatement cst = this.conn.conex.prepareCall("{CALL RHSP_DESHABI_CUMPL_PLAZO( ?)}");
+                        CallableStatement cst = this.conn.connection.prepareCall("{CALL RHSP_DESHABI_CUMPL_PLAZO( ?)}");
                         cst.setString(1, id_cumplimiento_plazo);
                         cst.execute();
                     } else if (ano == 0) {
                         if (mes < 0) {
                             this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-                            CallableStatement cst = this.conn.conex.prepareCall("{CALL RHSP_DESHABI_CUMPL_PLAZO( ?)}");
+                            CallableStatement cst = this.conn.connection.prepareCall("{CALL RHSP_DESHABI_CUMPL_PLAZO( ?)}");
                             cst.setString(1, id_cumplimiento_plazo);
                             cst.execute();
                         } else if (mes == 0) {
                             if (dia < 0) {
                                 this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-                                CallableStatement cst = this.conn.conex.prepareCall("{CALL RHSP_DESHABI_CUMPL_PLAZO( ?)}");
+                                CallableStatement cst = this.conn.connection.prepareCall("{CALL RHSP_DESHABI_CUMPL_PLAZO( ?)}");
                                 cst.setString(1, id_cumplimiento_plazo);
                                 cst.execute();
 
@@ -549,7 +549,7 @@ public class Plazo_DgpDAO implements InterfacePlazo_DgpDAO {
         int n = 0;
         try {
             this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            CallableStatement cs = this.conn.conex.prepareCall("begin   ? :=rhfu_habilitar_terminar_plazo(?);end;");
+            CallableStatement cs = this.conn.connection.prepareCall("begin   ? :=rhfu_habilitar_terminar_plazo(?);end;");
             cs.registerOutParameter(1, Types.INTEGER);
             cs.setString(2, dgp);
             cs.execute();

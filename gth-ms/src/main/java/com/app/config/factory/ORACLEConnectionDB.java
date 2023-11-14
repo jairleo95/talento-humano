@@ -8,24 +8,24 @@ import java.sql.SQLException;
  *
  * @author Docente
  */
-public final class ORACLEConnectionDB extends ConexionBD {
+public final class ORACLEConnectionDB extends DBConnection {
 
     ORACLEConnectionDB(String[] parametro) {
-        this.parametro = parametro;
+        this.parameter = parametro;
         this.open();
     }
 
     @Override
     Connection open() {
         String driver = "oracle.jdbc.driver.OracleDriver";
-        String url = "jdbc:oracle:thin:" + this.parametro[0] + "/" + this.parametro[1] + "@" + this.parametro[2] + ":" + this.parametro[3] + ":" + this.parametro[4];
+        String url = "jdbc:oracle:thin:" + this.parameter[0] + "/" + this.parameter[1] + "@" + this.parameter[2] + ":" + this.parameter[3] + ":" + this.parameter[4];
         try {
             Class.forName(driver).newInstance();
-            this.conex = DriverManager.getConnection(url);
+            this.connection = DriverManager.getConnection(url);
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | SQLException e) {
             System.out.println("Error al conectar : "+e);
             e.printStackTrace();
         }
-        return this.conex;
+        return this.connection;
     }
 }

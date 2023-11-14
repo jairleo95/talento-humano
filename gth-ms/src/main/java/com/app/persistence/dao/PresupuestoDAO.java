@@ -17,7 +17,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import com.app.persistence.dao_imp.InterfacePresupuestoDAO;
-import com.app.config.factory.ConexionBD;
+import com.app.config.factory.DBConnection;
 import com.app.config.factory.FactoryConnectionDB;
 
 /**
@@ -27,7 +27,7 @@ import com.app.config.factory.FactoryConnectionDB;
 public class PresupuestoDAO implements InterfacePresupuestoDAO {
 
     String sql;
-    ConexionBD cnn;
+    DBConnection cnn;
     PreparedStatement ps;
     ResultSet rs;
     CallableStatement cs;
@@ -40,7 +40,7 @@ public class PresupuestoDAO implements InterfacePresupuestoDAO {
         Map<String, Object> m = (Map<String, Object>) s;
         try {
             this.cnn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            cs = this.cnn.conex.prepareCall(sql);
+            cs = this.cnn.connection.prepareCall(sql);
             cs.setString(1, m.get("id").toString());
             cs.setString(2, m.get("cc").toString());
             cs.setString(3, m.get("temp").toString());
@@ -67,7 +67,7 @@ public class PresupuestoDAO implements InterfacePresupuestoDAO {
         Map<String, Object> m = (Map<String, Object>) s;
         try {
             this.cnn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            ps = this.cnn.conex.prepareStatement(sql);
+            ps = this.cnn.connection.prepareStatement(sql);
             ps.setString(1, m.get("idDes").toString());
             ps.setString(2, m.get("idUSER").toString());
             ps.setString(3, m.get("idtr").toString());
@@ -99,7 +99,7 @@ public class PresupuestoDAO implements InterfacePresupuestoDAO {
         int ntra = 0;
         try {
             this.cnn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            ps = this.cnn.conex.prepareStatement(sql);
+            ps = this.cnn.connection.prepareStatement(sql);
             ps.setString(1, idDestino);
             ps.setString(2, idReq);
             rs = ps.executeQuery();
@@ -128,7 +128,7 @@ public class PresupuestoDAO implements InterfacePresupuestoDAO {
         int ntra = 0;
         try {
             this.cnn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            ps = this.cnn.conex.prepareStatement(sql);
+            ps = this.cnn.connection.prepareStatement(sql);
             ps.setString(1, idPP);
             rs = ps.executeQuery();
             while (rs.next()) {
@@ -152,7 +152,7 @@ public class PresupuestoDAO implements InterfacePresupuestoDAO {
         int ntra = 0;
         try {
             this.cnn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            ps = this.cnn.conex.prepareStatement(sql);
+            ps = this.cnn.connection.prepareStatement(sql);
             ps.setString(1, idDestino);
             ps.setString(2, idReq);
             rs = ps.executeQuery();
@@ -182,7 +182,7 @@ public class PresupuestoDAO implements InterfacePresupuestoDAO {
         int ntra = 0;
         try {
             this.cnn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            ps = this.cnn.conex.prepareStatement(sql);
+            ps = this.cnn.connection.prepareStatement(sql);
             ps.setString(1, idPP);
             rs = ps.executeQuery();
             while (rs.next()) {
@@ -204,7 +204,7 @@ public class PresupuestoDAO implements InterfacePresupuestoDAO {
         int ntra = 0;
         try {
             this.cnn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            ps = this.cnn.conex.prepareStatement(sql);
+            ps = this.cnn.connection.prepareStatement(sql);
             ps.setString(1, idPres);
             ps.setString(2, idReq);
             rs = ps.executeQuery();
@@ -230,7 +230,7 @@ public class PresupuestoDAO implements InterfacePresupuestoDAO {
         int ntra = 0;
         try {
             this.cnn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            ps = this.cnn.conex.prepareStatement(sql);
+            ps = this.cnn.connection.prepareStatement(sql);
             ps.setString(1, idDestino);
             ps.setString(2, idReq);
             rs = ps.executeQuery();
@@ -259,7 +259,7 @@ public class PresupuestoDAO implements InterfacePresupuestoDAO {
         Map<String, Object> mp = new HashMap();
         try {
             this.cnn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            ps = this.cnn.conex.prepareStatement(sql);
+            ps = this.cnn.connection.prepareStatement(sql);
             ps.setString(1, idPP);
             rs = ps.executeQuery();
             while (rs.next()) {
@@ -283,7 +283,7 @@ public class PresupuestoDAO implements InterfacePresupuestoDAO {
         int ntra = 0;
         try {
             this.cnn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            ps = this.cnn.conex.prepareStatement(sql);
+            ps = this.cnn.connection.prepareStatement(sql);
             ps.setString(1, idDestino);
             ps.setString(2, idReq);
             rs = ps.executeQuery();
@@ -307,7 +307,7 @@ public class PresupuestoDAO implements InterfacePresupuestoDAO {
         ArrayList<Map<String, ?>> lista = new ArrayList<>();
         try {
             this.cnn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            ps = this.cnn.conex.prepareStatement(sql);
+            ps = this.cnn.connection.prepareStatement(sql);
             ps.setString(1, idDestino);
             ps.setString(2, idDestino);
             System.out.println(sql + " - " + idDestino);
@@ -340,7 +340,7 @@ public class PresupuestoDAO implements InterfacePresupuestoDAO {
         String idpres = null;
         try {
             this.cnn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            ps = this.cnn.conex.prepareStatement(sql);
+            ps = this.cnn.connection.prepareStatement(sql);
             ps.setString(1, idDestino);
             ps.setString(2, idDestino);
             System.out.println(sql + " - " + idDestino);
@@ -365,7 +365,7 @@ public class PresupuestoDAO implements InterfacePresupuestoDAO {
         ArrayList<Map<String, ?>> lista = new ArrayList<>();
         try {
             this.cnn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            ps = this.cnn.conex.prepareStatement(sql);
+            ps = this.cnn.connection.prepareStatement(sql);
             ps.setString(1, id);
             rs = ps.executeQuery();
             while (rs.next()) {
@@ -397,7 +397,7 @@ public class PresupuestoDAO implements InterfacePresupuestoDAO {
         String iddet = null;
         try {
             this.cnn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            ps = this.cnn.conex.prepareStatement(sql);
+            ps = this.cnn.connection.prepareStatement(sql);
             ps.setString(1, id);
             ps.setString(2, idreq);
             rs = ps.executeQuery();
@@ -422,7 +422,7 @@ public class PresupuestoDAO implements InterfacePresupuestoDAO {
         System.out.println(sql + " - " + idDestino + " - " + temp);
         try {
             this.cnn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            ps = this.cnn.conex.prepareStatement(sql);
+            ps = this.cnn.connection.prepareStatement(sql);
             ps.setString(1, idDestino);
             ps.setString(2, temp);
             rs = ps.executeQuery();
@@ -445,7 +445,7 @@ public class PresupuestoDAO implements InterfacePresupuestoDAO {
         List<Map<String, Object>> lista = new ArrayList();
         try {
             this.cnn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            ps = this.cnn.conex.prepareStatement(sql);
+            ps = this.cnn.connection.prepareStatement(sql);
             ps.setString(1, idpres);
             rs = ps.executeQuery();
             while (rs.next()) {
@@ -488,7 +488,7 @@ public class PresupuestoDAO implements InterfacePresupuestoDAO {
         System.out.println(sql);
         try {
             this.cnn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            ps = this.cnn.conex.prepareStatement(sql);
+            ps = this.cnn.connection.prepareStatement(sql);
             rs = ps.executeQuery();
             while (rs.next()) {
                 Map<String, Object> m = new HashMap<>();
@@ -523,7 +523,7 @@ public class PresupuestoDAO implements InterfacePresupuestoDAO {
         ArrayList<Map<String, ?>> lista = new ArrayList<>();
         try {
             this.cnn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            ps = this.cnn.conex.prepareStatement(sql);
+            ps = this.cnn.connection.prepareStatement(sql);
             ps.setString(1, id);
             rs = ps.executeQuery();
             System.out.println(sql);
@@ -564,7 +564,7 @@ public class PresupuestoDAO implements InterfacePresupuestoDAO {
         ArrayList<Map<String, ?>> lista = new ArrayList<>();
         try {
             this.cnn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            ps = this.cnn.conex.prepareStatement(sql);
+            ps = this.cnn.connection.prepareStatement(sql);
             ps.setString(1, idDestino);
             rs = ps.executeQuery();
             while (rs.next()) {
@@ -593,7 +593,7 @@ public class PresupuestoDAO implements InterfacePresupuestoDAO {
         try {
             sql = "INSERT INTO RHTX_TEMPORADA VALUES(null,to_date(?,'dd/mm/yyyy'),to_date(?,'dd/mm/yyyy'),'1',?,?,?)";
             this.cnn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            ps = this.cnn.conex.prepareStatement(sql);
+            ps = this.cnn.connection.prepareStatement(sql);
             ps.setString(1, f_i);
             ps.setString(2, f_f);
             ps.setString(3, nombre);
@@ -617,7 +617,7 @@ public class PresupuestoDAO implements InterfacePresupuestoDAO {
         try {
             sql = "INSERT INTO RHTH_SOL_FUERA_PRESUPUESTO (ID_PRESUPUESTO_PUESTO,COMENTARIO,ESTADO,N_TRABAJADORES,ID_USER,FECHA_SOLICITUD) VALUES(?,?,'1',?,?,sysdate)";
             this.cnn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            ps = this.cnn.conex.prepareStatement(sql);
+            ps = this.cnn.connection.prepareStatement(sql);
             ps.setString(1, idpp);
             ps.setString(2, com);
             ps.setInt(3, ntra);
@@ -646,7 +646,7 @@ public class PresupuestoDAO implements InterfacePresupuestoDAO {
         ArrayList<Map<String, Object>> lista = new ArrayList<>();
         try {
             this.cnn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            ps = this.cnn.conex.prepareStatement(sql);
+            ps = this.cnn.connection.prepareStatement(sql);
             rs = ps.executeQuery();
             while (rs.next()) {
                 Map<String, Object> m = new HashMap<>();
@@ -693,7 +693,7 @@ public class PresupuestoDAO implements InterfacePresupuestoDAO {
         ArrayList<Map<String, Object>> lista = new ArrayList<>();
         try {
             this.cnn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            ps = this.cnn.conex.prepareStatement(sql);
+            ps = this.cnn.connection.prepareStatement(sql);
             rs = ps.executeQuery();
             while (rs.next()) {
                 Map<String, Object> m = new HashMap<>();
@@ -729,7 +729,7 @@ public class PresupuestoDAO implements InterfacePresupuestoDAO {
         try {
             sql = "UPDATE RHTH_SOL_FUERA_PRESUPUESTO set OBSERVACION=?,ESTADO=?,AUTH_USER=? where ID_SOL_FUERA_PRESUPUESTO=?";
             this.cnn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            ps = this.cnn.conex.prepareStatement(sql);
+            ps = this.cnn.connection.prepareStatement(sql);
             ps.setString(1, obs);
             ps.setString(2, est);
             ps.setString(3, iduser);
@@ -750,7 +750,7 @@ public class PresupuestoDAO implements InterfacePresupuestoDAO {
         sql = "{CALL RHSP_UPDATE_PRESUPUESTO_PUESTO (?,?)}";
         try {
             this.cnn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            cs = this.cnn.conex.prepareCall(sql);
+            cs = this.cnn.connection.prepareCall(sql);
             cs.setString(1, idpp);
             cs.setInt(2, extra);
             System.out.println("Actualizando Trabajadores presupuestados en RHTR_PRESUPUESTO_PUESTO");
@@ -776,7 +776,7 @@ public class PresupuestoDAO implements InterfacePresupuestoDAO {
         Map<String, Object> m = new HashMap<>();
         try {
             this.cnn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            ps = this.cnn.conex.prepareStatement(sql);
+            ps = this.cnn.connection.prepareStatement(sql);
             ps.setString(1, idpp);
             ps.setString(2, idpp);
             rs = ps.executeQuery();
@@ -800,7 +800,7 @@ public class PresupuestoDAO implements InterfacePresupuestoDAO {
         ArrayList<Map<String, ?>> lista = new ArrayList<>();
         try {
             this.cnn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            ps = this.cnn.conex.prepareStatement(sql);
+            ps = this.cnn.connection.prepareStatement(sql);
             ps.setString(1, idDestino);
             rs = ps.executeQuery();
             while (rs.next()) {
@@ -827,7 +827,7 @@ public class PresupuestoDAO implements InterfacePresupuestoDAO {
         Map<String, Object> m = new HashMap<>();
         try {
             this.cnn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            ps = this.cnn.conex.prepareStatement(sql);
+            ps = this.cnn.connection.prepareStatement(sql);
             ps.setString(1, idPres);
             rs = ps.executeQuery();
             while (rs.next()) {
@@ -854,7 +854,7 @@ public class PresupuestoDAO implements InterfacePresupuestoDAO {
             Map<String, Object> m = (Map<String, Object>) s;
             sql = "INSERT INTO RHTD_DETALLE_PRESUPUESTO VALUES(null,?,?,?,'1')";
             this.cnn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            ps = this.cnn.conex.prepareStatement(sql);
+            ps = this.cnn.connection.prepareStatement(sql);
             ps.setString(1, m.get("idP").toString());
             ps.setString(2, m.get("idreq").toString());
             ps.setString(3, m.get("ntra").toString());
@@ -877,7 +877,7 @@ public class PresupuestoDAO implements InterfacePresupuestoDAO {
         try {
             sql = "UPDATE RHTD_DETALLE_PRESUPUESTO SET N_TRABAJADORES=? where ID_DETALLE_PRESUPUESTO=?";
             this.cnn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            ps = this.cnn.conex.prepareStatement(sql);
+            ps = this.cnn.connection.prepareStatement(sql);
             ps.setInt(1, ntra);
             ps.setString(2, idDet);
             System.out.println("actualizando registro de RHTD_DETALLE_PRESUPUESTO con id " + idDet);
@@ -899,7 +899,7 @@ public class PresupuestoDAO implements InterfacePresupuestoDAO {
         ArrayList<Map<String, ?>> lista = new ArrayList<>();
         try {
             this.cnn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            ps = this.cnn.conex.prepareStatement(sql);
+            ps = this.cnn.connection.prepareStatement(sql);
             ps.setString(1, h.get("idP").toString());
             ps.setString(2, h.get("con").toString());
             ps.setString(3, h.get("time").toString());
@@ -928,7 +928,7 @@ public class PresupuestoDAO implements InterfacePresupuestoDAO {
         ArrayList<Map<String, Object>> lista = new ArrayList<>();
         this.cnn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
         try {
-            ps = this.cnn.conex.prepareStatement(sql);
+            ps = this.cnn.connection.prepareStatement(sql);
             System.out.println(sql + " - " + idPresupuesto + " - " + idreq);
             ps.setString(1, idPresupuesto);
             ps.setString(2, idreq);
@@ -961,7 +961,7 @@ public class PresupuestoDAO implements InterfacePresupuestoDAO {
         Map<String, Object> m = new HashMap<>();
         this.cnn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
         try {
-            ps = this.cnn.conex.prepareStatement(sql);
+            ps = this.cnn.connection.prepareStatement(sql);
             ps.setString(1, idpres);
             ps.setString(2, idpuesto);
             rs = ps.executeQuery();
@@ -994,7 +994,7 @@ public class PresupuestoDAO implements InterfacePresupuestoDAO {
         List<Map<String, Object>> lista = new ArrayList();
         this.cnn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
         try {
-            ps = this.cnn.conex.prepareStatement(sql);
+            ps = this.cnn.connection.prepareStatement(sql);
             ps.setString(1, idpres);
             rs = ps.executeQuery();
             while (rs.next()) {
@@ -1029,7 +1029,7 @@ public class PresupuestoDAO implements InterfacePresupuestoDAO {
         this.cnn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
         ArrayList<Map<String, ?>> lista = new ArrayList<>();
         try {
-            ps = this.cnn.conex.prepareStatement(sql);
+            ps = this.cnn.connection.prepareStatement(sql);
             System.out.println(sql + " - " + idDetalle);
             ps.setString(1, idDetalle);
             rs = ps.executeQuery();
@@ -1058,7 +1058,7 @@ public class PresupuestoDAO implements InterfacePresupuestoDAO {
         ArrayList<Map<String, Object>> lista = new ArrayList<>();
         try {
             this.cnn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            ps = this.cnn.conex.prepareStatement(sql);
+            ps = this.cnn.connection.prepareStatement(sql);
             ps.setString(1, idDet_pre_puesto);
             ps.setString(2, idPuesto);
             rs = ps.executeQuery();
@@ -1091,7 +1091,7 @@ public class PresupuestoDAO implements InterfacePresupuestoDAO {
         Map<String, Object> m = new HashMap<>();
         try {
             this.cnn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            ps = this.cnn.conex.prepareStatement(sql);
+            ps = this.cnn.connection.prepareStatement(sql);
             ps.setString(1, idDet);
             ps.setString(2, idpp);
             ps.setString(3, idDet);
@@ -1117,7 +1117,7 @@ public class PresupuestoDAO implements InterfacePresupuestoDAO {
         sql = "SELECT (N_TRABAJADORES-(SELECT NVL(SUM(N_TRABAJADORES),0) FROM RHTR_PRESUPUESTO_PUESTO WHERE ID_DETALLE_PRESUPUESTO=?)) AS DISPONIBLES FROM RHTD_DETALLE_PRESUPUESTO WHERE ID_DETALLE_PRESUPUESTO=?";
         try {
             this.cnn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            ps = this.cnn.conex.prepareStatement(sql);
+            ps = this.cnn.connection.prepareStatement(sql);
             ps.setString(1, idDetPres);
             ps.setString(2, idDetPres);
             rs = ps.executeQuery();
@@ -1140,7 +1140,7 @@ public class PresupuestoDAO implements InterfacePresupuestoDAO {
         sql = "INSERT INTO RHTR_PRESUPUESTO_PUESTO (ID_PRESUPUESTO_PUESTO,ID_DETALLE_PRESUPUESTO,ID_PUESTO,N_TRABAJADORES,ESTADO) VALUES(null,?,?,?,'1')";
         this.cnn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
         try {
-            ps = this.cnn.conex.prepareStatement(sql);
+            ps = this.cnn.connection.prepareStatement(sql);
             ps.setString(1, idDet);
             ps.setString(2, idPuesto);
             ps.setInt(3, ntra);
@@ -1164,7 +1164,7 @@ public class PresupuestoDAO implements InterfacePresupuestoDAO {
         sql = "UPDATE RHTR_PRESUPUESTO_PUESTO SET N_TRABAJADORES=? WHERE ID_PRESUPUESTO_PUESTO=?";
         this.cnn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
         try {
-            ps = this.cnn.conex.prepareStatement(sql);
+            ps = this.cnn.connection.prepareStatement(sql);
             ps.setInt(1, ntra);
             ps.setString(2, idpp);
             int g = ps.executeUpdate();
@@ -1188,7 +1188,7 @@ public class PresupuestoDAO implements InterfacePresupuestoDAO {
         ArrayList<Map<String, ?>> lista = new ArrayList<>();
         try {
             this.cnn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            ps = this.cnn.conex.prepareStatement(sql);
+            ps = this.cnn.connection.prepareStatement(sql);
             ps.setString(1, idPuesto);
             ps.setString(2, idDetPres);
             rs = ps.executeQuery();
@@ -1223,7 +1223,7 @@ public class PresupuestoDAO implements InterfacePresupuestoDAO {
         Map<String, Object> m = (Map<String, Object>) s;
         try {
             this.cnn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            ps = this.cnn.conex.prepareStatement(sql);
+            ps = this.cnn.connection.prepareStatement(sql);
             ps.setDouble(1, Double.parseDouble(m.get("sueldo_min").toString()));
             ps.setDouble(2, Double.parseDouble(m.get("sueldo_max").toString()));
             ps.setDouble(3, Double.parseDouble(m.get("bono_min").toString()));
@@ -1254,7 +1254,7 @@ public class PresupuestoDAO implements InterfacePresupuestoDAO {
         Map<String, Object> m = (Map<String, Object>) s;
         try {
             this.cnn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            ps = this.cnn.conex.prepareStatement(sql);
+            ps = this.cnn.connection.prepareStatement(sql);
             ps.setString(1, m.get("idDet").toString());
             ps.setDouble(2, Double.parseDouble(m.get("sueldo_min").toString()));
             ps.setDouble(3, Double.parseDouble(m.get("sueldo_max").toString()));
@@ -1295,7 +1295,7 @@ public class PresupuestoDAO implements InterfacePresupuestoDAO {
         ArrayList<Map<String, Object>> lista = new ArrayList<>();
         try {
             this.cnn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            ps = this.cnn.conex.prepareStatement(sql);
+            ps = this.cnn.connection.prepareStatement(sql);
             if (!idDir.equals("0")) {
                 ps.setString(1, idDir);
                 if (!idDep.equals("0")) {
@@ -1342,7 +1342,7 @@ public class PresupuestoDAO implements InterfacePresupuestoDAO {
         List<Map<String, Object>> lista = new ArrayList();
         this.cnn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
         try {
-            ps = this.cnn.conex.prepareStatement(sql);
+            ps = this.cnn.connection.prepareStatement(sql);
             ps.setString(1, idpres);
             if(!idPuesto.equals("0")){
                 ps.setString(2, idPuesto);

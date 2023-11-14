@@ -7,8 +7,8 @@ package com.app.controller.recruitment.dgp;
 
 import com.app.persistence.dao.HorarioDAO;
 import com.app.persistence.dao.ListaDAO;
-import com.app.persistence.dao_imp.InterfaceHorarioDAO;
-import com.app.persistence.dao_imp.InterfaceListaDAO;
+import com.app.persistence.dao_imp.IHorarioDAO;
+import com.app.persistence.dao_imp.IListaDAO;
 import com.app.domain.model.V_Horario;
 
 import java.io.IOException;
@@ -36,16 +36,16 @@ import org.springframework.web.bind.annotation.RestController;
 public class HorarioController {
 
 
-    InterfaceHorarioDAO IHor = new HorarioDAO();
-    InterfaceListaDAO Ilis = new ListaDAO();
+    IHorarioDAO horarioDAO = new HorarioDAO();
+    IListaDAO listaDAO = new ListaDAO();
 
     @PostMapping
     public ResponseEntity<?> process(HttpServletRequest request, HttpServletResponse response) {
         Map<String, Object> rpta = new HashMap<String, Object>();
 
-        HttpSession sesion = request.getSession();
+        HttpSession session = request.getSession();
 
-        String iduser = (String) sesion.getAttribute("IDUSER");
+        String iduser = (String) session.getAttribute("IDUSER");
 
         List<String> dia = new ArrayList<String>();
         dia.add("lun");
@@ -67,31 +67,31 @@ public class HorarioController {
                 String ID_TIPO_HORARIO = request.getParameter("HORARIO");
                 String ES_MOD_FORMATO = "1";
                 Double Ca_ho_total = Double.parseDouble(request.getParameter("h_total"));
-                ID_DETALLE_HORARIO = IHor.Insert_Detalle_Horario(ID_DETALLE_HORARIO, ID_DGP, ES_DETALLE_HORARIO, iduser, null, null, null, ID_TIPO_HORARIO, ES_MOD_FORMATO, Ca_ho_total);
-                for (int i = 0; i < dia.size(); i++) {
+                ID_DETALLE_HORARIO = horarioDAO.Insert_Detalle_Horario(ID_DETALLE_HORARIO, ID_DGP, ES_DETALLE_HORARIO, iduser, null, null, null, ID_TIPO_HORARIO, ES_MOD_FORMATO, Ca_ho_total);
+                for (String s : dia) {
                     for (int j = 0; j < 10; j++) {
-                        String hora_desde = request.getParameter("HORA_DESDE_" + dia.get(i) + j);
-                        String hora_hasta = request.getParameter("HORA_HASTA_" + dia.get(i) + j);
-                        String d = request.getParameter("DIA_" + dia.get(i) + j);
+                        String hora_desde = request.getParameter("HORA_DESDE_" + s + j);
+                        String hora_hasta = request.getParameter("HORA_HASTA_" + s + j);
+                        String d = request.getParameter("DIA_" + s + j);
                         if (hora_desde != null & d != null & hora_hasta != null) {
                             if (!hora_hasta.equals("") & !hora_desde.equals("") & !d.equals("")) {
-                                IHor.Insert_Horario(null, hora_desde, hora_hasta, d, ES_HORARIO, ID_DETALLE_HORARIO);
+                                horarioDAO.Insert_Horario(null, hora_desde, hora_hasta, d, ES_HORARIO, ID_DETALLE_HORARIO);
                             }
                         }
                     }
 
                 }
 
-                sesion.setAttribute("List_V_Horario", IHor.List_V_Horario(ID_DGP));
-                sesion.setAttribute("List_H", Ilis.List_H());
+                session.setAttribute("List_V_Horario", horarioDAO.List_V_Horario(ID_DGP));
+                session.setAttribute("List_H", listaDAO.List_H());
 //out.print(ID_DGP);
                 response.sendRedirect("views/Dgp/Horario/Detalle_Horario.html?iddgp=" + ID_DGP + "&idtr=" + ID_TRABAJJADOR + "&P2=1");
             }
 
             if (opc.equals("Listar")) {
                 String ID_DGP = request.getParameter("iddgp");
-                sesion.setAttribute("List_V_Horario", IHor.List_V_Horario(ID_DGP));
-                sesion.setAttribute("List_H", Ilis.List_H());
+                session.setAttribute("List_V_Horario", horarioDAO.List_V_Horario(ID_DGP));
+                session.setAttribute("List_H", listaDAO.List_H());
 
                 response.sendRedirect("views/Dgp/Horario/Detalle_Horario.html");
 
@@ -99,16 +99,16 @@ public class HorarioController {
             if (opc.equals("Listar2")) {
                 ArrayList<Map<String, ?>> lista = new ArrayList<>();                
                 String ID_DGP = request.getParameter("iddgp");
-                List<V_Horario> lv = IHor.List_V_Horario(ID_DGP);
-                for (int i = 0; i < lv.size(); i++) {
+                List<V_Horario> lv = horarioDAO.List_V_Horario(ID_DGP);
+                for (V_Horario vHorario : lv) {
                     Map<String, Object> a = new HashMap<>();
-                    a.put("dia_horario", lv.get(i).getDia_horario());
-                    a.put("ho_desde", lv.get(i).getHo_desde());
-                    a.put("ho_hasta", lv.get(i).getHo_hasta());
-                    a.put("id_detalle_horario", lv.get(i).getId_detalle_horario());
-                    a.put("id_dgp", lv.get(i).getId_dgp());
-                    a.put("id_horario", lv.get(i).getId_horario());
-                    a.put("no_horario", lv.get(i).getNo_ti_horario());
+                    a.put("dia_horario", vHorario.getDia_horario());
+                    a.put("ho_desde", vHorario.getHo_desde());
+                    a.put("ho_hasta", vHorario.getHo_hasta());
+                    a.put("id_detalle_horario", vHorario.getId_detalle_horario());
+                    a.put("id_dgp", vHorario.getId_dgp());
+                    a.put("id_horario", vHorario.getId_horario());
+                    a.put("no_horario", vHorario.getNo_ti_horario());
                     lista.add(a);
                 }                
                 rpta.put("listar", lista);

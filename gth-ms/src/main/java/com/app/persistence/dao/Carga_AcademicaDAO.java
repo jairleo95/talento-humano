@@ -17,10 +17,10 @@ import java.util.Map;
 import oracle.sql.ARRAY;
 import oracle.sql.ArrayDescriptor;
 import org.json.JSONArray;
-import com.app.persistence.dao_imp.InterfaceCarga_AcademicaDAO;
-import com.app.config.factory.ConexionBD;
+import com.app.persistence.dao_imp.ICargaAcademicaDAO;
+import com.app.config.factory.DBConnection;
 import com.app.config.factory.FactoryConnectionDB;
-import com.app.domain.model.Carga_Academica;
+import com.app.domain.model.AcademicCharge;
 import com.app.domain.model.DGP;
 import com.app.domain.model.ProcesoCargaAcademica;
 import com.app.domain.model.V_Detalle_Carga_Academica;
@@ -33,9 +33,9 @@ import com.app.controller.util.WebServiceClient;
  *
  * @author ALFA 3
  */
-public class Carga_AcademicaDAO implements InterfaceCarga_AcademicaDAO {
+public class Carga_AcademicaDAO implements ICargaAcademicaDAO {
 
-    ConexionBD conn;
+    DBConnection conn;
     DateFormat c = new DateFormat();
 
     @Override
@@ -67,7 +67,7 @@ public class Carga_AcademicaDAO implements InterfaceCarga_AcademicaDAO {
     public void INSERT_CARGA_ACADEMICA(String ID_CARGA_ACADEMICA, String ES_CARGA_ACADEMICA, String CAMPUS, String ES_TIPO_DOC, String NU_DOC, String AP_PATERNO, String AP_MATERNO, String NO_TRABAJADOR, String NO_FACULTAD, String NO_EAP, String DE_CARGA, String NO_CURSO, String NU_GRUPO, String DE_HORARIO, int CA_HLAB, String DE_CONDICION, String DE_TIPO_CURSO, String ES_PROCESADO, String FE_CREACION) {
         try {
             this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            CallableStatement cst = this.conn.conex.prepareCall("{CALL RHSP_INSERT_CARGA_ACADEMICA( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )} ");
+            CallableStatement cst = this.conn.connection.prepareCall("{CALL RHSP_INSERT_CARGA_ACADEMICA( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )} ");
             cst.setString(1, null);
             cst.setString(2, null);
             cst.setString(3, CAMPUS);
@@ -107,7 +107,7 @@ public class Carga_AcademicaDAO implements InterfaceCarga_AcademicaDAO {
         String id = "";
         try {
             this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            CallableStatement cst = this.conn.conex.prepareCall("{CALL RHSP_INSERT_PROCESO_CA_DGP( ?, ?, ?, ?, ?,  ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,? )} ");
+            CallableStatement cst = this.conn.connection.prepareCall("{CALL RHSP_INSERT_PROCESO_CA_DGP( ?, ?, ?, ?, ?,  ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,? )} ");
             cst.setString(1, null);
             cst.setString(2, DateFormat.toFormat1(d.getFe_desde()));
             cst.setString(3, DateFormat.toFormat1(d.getFe_hasta()));
@@ -176,7 +176,7 @@ public class Carga_AcademicaDAO implements InterfaceCarga_AcademicaDAO {
         String id = "";
         try {
             this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            CallableStatement cst = this.conn.conex.prepareCall("{CALL RHSP_INSERT_PROCESO_CARGA_AC( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?,? )} ");
+            CallableStatement cst = this.conn.connection.prepareCall("{CALL RHSP_INSERT_PROCESO_CARGA_AC( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?,? )} ");
             cst.setString(1, null);
             cst.setString(2, null);
             cst.setString(3, CA_TIPO_HORA_PAGO);
@@ -209,14 +209,14 @@ public class Carga_AcademicaDAO implements InterfaceCarga_AcademicaDAO {
     }
 
     @Override
-    public List<Carga_Academica> ListCarAca() {
+    public List<AcademicCharge> ListCarAca() {
         this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
         String sql = "SELECT * FROM RHVD_CARGA_ACADEMICA where es_procesado is null or es_procesado ='0'";
-        List<Carga_Academica> list = new ArrayList<Carga_Academica>();
+        List<AcademicCharge> list = new ArrayList<AcademicCharge>();
         try {
             ResultSet rs = this.conn.query(sql);
             while (rs.next()) {
-                Carga_Academica ca = new Carga_Academica();
+                AcademicCharge ca = new AcademicCharge();
                 ca.setId_situacion_educativa(rs.getString("id_situacion_educativa"));
                 ca.setNo_s_educativa(rs.getString("no_s_educativa"));
                 ca.setProfesion_docente(rs.getString("profesion_docente"));
@@ -257,7 +257,7 @@ public class Carga_AcademicaDAO implements InterfaceCarga_AcademicaDAO {
         String id = "";
         try {
             this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            CallableStatement cst = this.conn.conex.prepareCall("{CALL RHSP_INSERT_DETALLE_CARGA_ACA( ?, ?, ?, ?,? )} ");
+            CallableStatement cst = this.conn.connection.prepareCall("{CALL RHSP_INSERT_DETALLE_CARGA_ACA( ?, ?, ?, ?,? )} ");
             cst.setString(1, null);
             cst.setString(2, ID_PROCESO_CARGA_AC);
             cst.setString(3, ID_CARGA_ACADEMICA);
@@ -284,7 +284,7 @@ public class Carga_AcademicaDAO implements InterfaceCarga_AcademicaDAO {
         String id = "";
         try {
             this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            CallableStatement cst = this.conn.conex.prepareCall("{CALL RHSP_INSERT_RHTM_CARGA_ACADEMICA( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,? )} ");
+            CallableStatement cst = this.conn.connection.prepareCall("{CALL RHSP_INSERT_RHTM_CARGA_ACADEMICA( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,? )} ");
             cst.setString(1, null);
             cst.setString(2, null);
             cst.setString(3, CAMPUS);
@@ -327,7 +327,7 @@ public class Carga_AcademicaDAO implements InterfaceCarga_AcademicaDAO {
         String id = "";
         try {
             this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            CallableStatement cst = this.conn.conex.prepareCall("{CALL RHSP_INSERT_PAGO_DOCENTE( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,? )} ");
+            CallableStatement cst = this.conn.connection.prepareCall("{CALL RHSP_INSERT_PAGO_DOCENTE( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,? )} ");
             cst.setString(1, null);
             cst.setString(2, NU_CUOTA);
             cst.setDouble(3, CA_CUOTA);
@@ -413,7 +413,7 @@ public class Carga_AcademicaDAO implements InterfaceCarga_AcademicaDAO {
     public void PROCESAR_CARGA_ACADEMICA(String id_proceso, String iddgp) {
         try {
             this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            CallableStatement cst = this.conn.conex.prepareCall("{CALL PROCESAR_CARGA_ACADEMICA( ?, ? )} ");
+            CallableStatement cst = this.conn.connection.prepareCall("{CALL PROCESAR_CARGA_ACADEMICA( ?, ? )} ");
             cst.setString(1, id_proceso);
             cst.setString(2, iddgp.trim());
             cst.execute();
@@ -529,7 +529,7 @@ public class Carga_AcademicaDAO implements InterfaceCarga_AcademicaDAO {
     @Override
     public String syncupCargaAcademica(String semestre, String methodProperties[]) {
         JSONArray arr = null;
-        ConexionBD conn = null;
+        DBConnection conn = null;
         String response = null;
         try {
             arr = WebServiceClient.getData(semestre, methodProperties);
@@ -572,39 +572,39 @@ public class Carga_AcademicaDAO implements InterfaceCarga_AcademicaDAO {
             }
 
             conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            ArrayDescriptor des = ArrayDescriptor.createDescriptor("ARR_WS_CAMPUS", conn.conex);
-            ArrayDescriptor des2 = ArrayDescriptor.createDescriptor("ARR_WS_ES_TIPO_DOC", conn.conex);
-            ArrayDescriptor des3 = ArrayDescriptor.createDescriptor("ARR_WS_NU_DOC", conn.conex);
-            ArrayDescriptor des4 = ArrayDescriptor.createDescriptor("ARR_WS_AP_PATERNO", conn.conex);
-            ArrayDescriptor des5 = ArrayDescriptor.createDescriptor("ARR_WS_AP_MATERNO", conn.conex);
-            ArrayDescriptor des6 = ArrayDescriptor.createDescriptor("ARR_WS_NO_TRABAJADOR", conn.conex);
-            ArrayDescriptor des7 = ArrayDescriptor.createDescriptor("ARR_WS_NO_FACULTAD", conn.conex);
-            ArrayDescriptor des8 = ArrayDescriptor.createDescriptor("ARR_WS_NO_EAP", conn.conex);
-            ArrayDescriptor des9 = ArrayDescriptor.createDescriptor("ARR_WS_DE_CARGA", conn.conex);
-            ArrayDescriptor des10 = ArrayDescriptor.createDescriptor("ARR_WS_NO_CURSO", conn.conex);
-            ArrayDescriptor des11 = ArrayDescriptor.createDescriptor("ARR_WS_NU_GRUPO", conn.conex);
-            ArrayDescriptor des12 = ArrayDescriptor.createDescriptor("ARR_WS_DE_HORARIO", conn.conex);
-            ArrayDescriptor des13 = ArrayDescriptor.createDescriptor("ARR_WS_CA_HLAB", conn.conex);
-            ArrayDescriptor des14 = ArrayDescriptor.createDescriptor("ARR_WS_DE_CONDICION", conn.conex);
-            ArrayDescriptor des15 = ArrayDescriptor.createDescriptor("ARR_WS_DE_TIPO_CURSO", conn.conex);
+            ArrayDescriptor des = ArrayDescriptor.createDescriptor("ARR_WS_CAMPUS", conn.connection);
+            ArrayDescriptor des2 = ArrayDescriptor.createDescriptor("ARR_WS_ES_TIPO_DOC", conn.connection);
+            ArrayDescriptor des3 = ArrayDescriptor.createDescriptor("ARR_WS_NU_DOC", conn.connection);
+            ArrayDescriptor des4 = ArrayDescriptor.createDescriptor("ARR_WS_AP_PATERNO", conn.connection);
+            ArrayDescriptor des5 = ArrayDescriptor.createDescriptor("ARR_WS_AP_MATERNO", conn.connection);
+            ArrayDescriptor des6 = ArrayDescriptor.createDescriptor("ARR_WS_NO_TRABAJADOR", conn.connection);
+            ArrayDescriptor des7 = ArrayDescriptor.createDescriptor("ARR_WS_NO_FACULTAD", conn.connection);
+            ArrayDescriptor des8 = ArrayDescriptor.createDescriptor("ARR_WS_NO_EAP", conn.connection);
+            ArrayDescriptor des9 = ArrayDescriptor.createDescriptor("ARR_WS_DE_CARGA", conn.connection);
+            ArrayDescriptor des10 = ArrayDescriptor.createDescriptor("ARR_WS_NO_CURSO", conn.connection);
+            ArrayDescriptor des11 = ArrayDescriptor.createDescriptor("ARR_WS_NU_GRUPO", conn.connection);
+            ArrayDescriptor des12 = ArrayDescriptor.createDescriptor("ARR_WS_DE_HORARIO", conn.connection);
+            ArrayDescriptor des13 = ArrayDescriptor.createDescriptor("ARR_WS_CA_HLAB", conn.connection);
+            ArrayDescriptor des14 = ArrayDescriptor.createDescriptor("ARR_WS_DE_CONDICION", conn.connection);
+            ArrayDescriptor des15 = ArrayDescriptor.createDescriptor("ARR_WS_DE_TIPO_CURSO", conn.connection);
 
-            ARRAY array_to_pass1 = new ARRAY(des, conn.conex, campus);
-            ARRAY array_to_pass2 = new ARRAY(des2, conn.conex, tipo_doc);
-            ARRAY array_to_pass3 = new ARRAY(des3, conn.conex, nu_doc);
-            ARRAY array_to_pass4 = new ARRAY(des4, conn.conex, app);
-            ARRAY array_to_pass5 = new ARRAY(des5, conn.conex, apm);
-            ARRAY array_to_pass6 = new ARRAY(des6, conn.conex, nombre);
-            ARRAY array_to_pass7 = new ARRAY(des7, conn.conex, facu);
-            ARRAY array_to_pass8 = new ARRAY(des8, conn.conex, eap);
-            ARRAY array_to_pass9 = new ARRAY(des9, conn.conex, de_carga);
-            ARRAY array_to_pass10 = new ARRAY(des10, conn.conex, curso);
-            ARRAY array_to_pass11 = new ARRAY(des11, conn.conex, grupo);
-            ARRAY array_to_pass12 = new ARRAY(des12, conn.conex, horario);
-            ARRAY array_to_pass13 = new ARRAY(des13, conn.conex, hb_lab);
-            ARRAY array_to_pass14 = new ARRAY(des14, conn.conex, hb_de_condicion);
-            ARRAY array_to_pass15 = new ARRAY(des15, conn.conex, hb_ti_curso);
+            ARRAY array_to_pass1 = new ARRAY(des, conn.connection, campus);
+            ARRAY array_to_pass2 = new ARRAY(des2, conn.connection, tipo_doc);
+            ARRAY array_to_pass3 = new ARRAY(des3, conn.connection, nu_doc);
+            ARRAY array_to_pass4 = new ARRAY(des4, conn.connection, app);
+            ARRAY array_to_pass5 = new ARRAY(des5, conn.connection, apm);
+            ARRAY array_to_pass6 = new ARRAY(des6, conn.connection, nombre);
+            ARRAY array_to_pass7 = new ARRAY(des7, conn.connection, facu);
+            ARRAY array_to_pass8 = new ARRAY(des8, conn.connection, eap);
+            ARRAY array_to_pass9 = new ARRAY(des9, conn.connection, de_carga);
+            ARRAY array_to_pass10 = new ARRAY(des10, conn.connection, curso);
+            ARRAY array_to_pass11 = new ARRAY(des11, conn.connection, grupo);
+            ARRAY array_to_pass12 = new ARRAY(des12, conn.connection, horario);
+            ARRAY array_to_pass13 = new ARRAY(des13, conn.connection, hb_lab);
+            ARRAY array_to_pass14 = new ARRAY(des14, conn.connection, hb_de_condicion);
+            ARRAY array_to_pass15 = new ARRAY(des15, conn.connection, hb_ti_curso);
             System.out.println(":::register in BD... ");
-            CallableStatement st = conn.conex.prepareCall("{CALL rhsp_ws_carga_academica(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}");
+            CallableStatement st = conn.connection.prepareCall("{CALL rhsp_ws_carga_academica(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}");
             st.setArray(1, array_to_pass1);
             st.setArray(2, array_to_pass2);
             st.setArray(3, array_to_pass3);
@@ -630,7 +630,7 @@ public class Carga_AcademicaDAO implements InterfaceCarga_AcademicaDAO {
             throw new RuntimeException("Error : " + e.getMessage());
         } finally {
             try {
-                conn.conex.close();
+                conn.connection.close();
             } catch (Exception e) {
                 throw new RuntimeException(e.getMessage());
             }

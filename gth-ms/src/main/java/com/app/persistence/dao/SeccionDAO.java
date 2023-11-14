@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.app.persistence.dao_imp.InterfaceSeccionDAO;
-import com.app.config.factory.ConexionBD;
+import com.app.config.factory.DBConnection;
 import com.app.config.factory.FactoryConnectionDB;
 import com.app.domain.model.Seccion;
 
@@ -24,7 +24,7 @@ import com.app.domain.model.Seccion;
  */
 public class SeccionDAO implements InterfaceSeccionDAO {
 
-    ConexionBD conn;
+    DBConnection conn;
 
     @Override
     public Seccion getSecctionById(String id) {
@@ -258,7 +258,7 @@ public class SeccionDAO implements InterfaceSeccionDAO {
         boolean x = false;
         try {
             this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            CallableStatement cst = this.conn.conex.prepareCall("{CALL RHSP_INSERT_SECCION( ?, ?, ?, ?, ?)}");
+            CallableStatement cst = this.conn.connection.prepareCall("{CALL RHSP_INSERT_SECCION( ?, ?, ?, ?, ?)}");
             cst.setString(1, null);
             cst.setString(2, nombre);
             cst.setString(3, ncorto);
@@ -284,7 +284,7 @@ public class SeccionDAO implements InterfaceSeccionDAO {
         boolean x = false;
         try {
             this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            CallableStatement cst = this.conn.conex.prepareCall("{CALL RHSP_MOD_SECCION( ?, ?, ?, ?, ?)}");
+            CallableStatement cst = this.conn.connection.prepareCall("{CALL RHSP_MOD_SECCION( ?, ?, ?, ?, ?)}");
             cst.setString(1, id);
             cst.setString(2, nombre);
             cst.setString(3, ncorto);
@@ -310,7 +310,7 @@ public class SeccionDAO implements InterfaceSeccionDAO {
         boolean x = false;
         try {
             this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            CallableStatement cst = this.conn.conex.prepareCall("{CALL RHSP_ACTIVAR_SECCION(?)}");
+            CallableStatement cst = this.conn.connection.prepareCall("{CALL RHSP_ACTIVAR_SECCION(?)}");
             cst.setString(1, id);
             x = cst.execute();
         } catch (SQLException e) {
@@ -332,7 +332,7 @@ public class SeccionDAO implements InterfaceSeccionDAO {
         boolean x = false;
         try {
             this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            CallableStatement cst = this.conn.conex.prepareCall("{CALL RHSP_DESACTIVAR_SECCION(?)}");
+            CallableStatement cst = this.conn.connection.prepareCall("{CALL RHSP_DESACTIVAR_SECCION(?)}");
             cst.setString(1, id);
             x = cst.execute();
         } catch (SQLException e) {
@@ -355,7 +355,7 @@ public class SeccionDAO implements InterfaceSeccionDAO {
         boolean x = false;
         try {
             this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            CallableStatement cst = this.conn.conex.prepareCall("{CALL RHSP_ELIMINAR_SECCION(?)}");
+            CallableStatement cst = this.conn.connection.prepareCall("{CALL RHSP_ELIMINAR_SECCION(?)}");
             cst.setString(1, id);
             x = cst.execute();
         } catch (SQLException e) {

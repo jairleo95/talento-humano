@@ -17,11 +17,11 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.app.persistence.dao_imp.InterfaceTrabajadorDAO;
-import com.app.config.factory.ConexionBD;
+import com.app.persistence.dao_imp.ITrabajadorDAO;
+import com.app.config.factory.DBConnection;
 import com.app.config.factory.FactoryConnectionDB;
 import com.app.controller.util.DateFormat;
-import com.app.domain.model.Cuenta_Sueldo;
+import com.app.domain.model.SalaryAccount;
 import com.app.domain.model.Trabajador;
 import com.app.domain.model.Universidad_Carrera;
 import com.app.domain.model.V_Ficha_Trab_Num_C;
@@ -31,10 +31,10 @@ import com.app.domain.model.X_List_dat_tr_plantilla;
  *
  * @author Jose
  */
-public class TrabajadorDAO implements InterfaceTrabajadorDAO {
+public class TrabajadorDAO implements ITrabajadorDAO {
 
     DateFormat c = new DateFormat();
-    ConexionBD conn;
+    DBConnection conn;
 
     @Override
     public void INSERT_TRABAJADOR(String ID_TRABAJADOR, String AP_PATERNO, String AP_MATERNO, String NO_TRABAJADOR, String TI_DOC,
@@ -53,7 +53,7 @@ public class TrabajadorDAO implements InterfaceTrabajadorDAO {
             String ID_TIPO_DOC_C, String NU_DOC_C, String LI_INSCRIPCION_VIG_ESSALUD_C, String ID_CONYUGUE, String CO_UNIVERSITARIO, String diezmo) {
         try {
             this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            CallableStatement cst = this.conn.conex.prepareCall("{CALL RHSP_INSERT_TRABAJADOR( ?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )} ");
+            CallableStatement cst = this.conn.connection.prepareCall("{CALL RHSP_INSERT_TRABAJADOR( ?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )} ");
             cst.setString(1, null);
             cst.setString(2, AP_PATERNO);
             cst.setString(3, AP_MATERNO);
@@ -569,7 +569,7 @@ public class TrabajadorDAO implements InterfaceTrabajadorDAO {
     public void UPDATE_ID_CONYUGUE(String id_conyugue, String id_trabajador, String US_MODIF, String IP_USUARIO) {
         try {
             this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            CallableStatement cst = this.conn.conex.prepareCall("{CALL RHSP_UPDATE_ID_CONYUGUE(?, ?, ? ,?)} ");
+            CallableStatement cst = this.conn.connection.prepareCall("{CALL RHSP_UPDATE_ID_CONYUGUE(?, ?, ? ,?)} ");
             cst.setString(1, id_conyugue);
             cst.setString(2, id_trabajador);
             cst.setString(3, US_MODIF);
@@ -602,7 +602,7 @@ public class TrabajadorDAO implements InterfaceTrabajadorDAO {
     public void INSERT_HIST_RELIGION(String ID_HIST_INFO_REL, String LI_RELIGION, String NO_IGLESIA, String DE_CARGO, String LI_AUTORIDAD, String NO_AP_AUTORIDAD, String CL_AUTORIDAD, String ES_HIST_INFO_REL, String ID_TRABAJADOR, String iduser, String FE_MODIF) {
         try {
             this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            CallableStatement cst = this.conn.conex.prepareCall("{CALL RHSP_INSERT_HIST_INFO_REL( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)} ");
+            CallableStatement cst = this.conn.connection.prepareCall("{CALL RHSP_INSERT_HIST_INFO_REL( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)} ");
             cst.setString(1, null);
             cst.setString(2, LI_RELIGION);
             cst.setString(3, NO_IGLESIA);
@@ -632,7 +632,7 @@ public class TrabajadorDAO implements InterfaceTrabajadorDAO {
     public void MOD_ASP_REL(String LI_RELIGION, String NO_IGLESIA, String DE_CARGO, String LI_AUTORIDAD, String NO_AP_AUTORIDAD, String CL_AUTORIDAD, String ID_TRABAJADOR, String US_MODIF, String IP_USUARIO) {
         try {
             this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            CallableStatement cst = this.conn.conex.prepareCall("{CALL RHSP_MOD_RELIGION_TRA( ?, ?, ?, ?, ?, ?, ?, ?, ?)} ");
+            CallableStatement cst = this.conn.connection.prepareCall("{CALL RHSP_MOD_RELIGION_TRA( ?, ?, ?, ?, ?, ?, ?, ?, ?)} ");
             cst.setString(1, LI_RELIGION);
             cst.setString(2, NO_IGLESIA);
             cst.setString(3, DE_CARGO);
@@ -693,7 +693,7 @@ public class TrabajadorDAO implements InterfaceTrabajadorDAO {
     public void INSERT_CUENTA_SUELDO(String ID_CUENTA_SUELDO, String NO_BANCO, String NU_CUENTA, String NU_CUENTA_BANC, String ES_GEM_NU_CUENTA, String NO_BANCO_OTROS, String ID_TRABAJADOR, String ES_CUENTA_SUELDO) {
         try {
             this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            CallableStatement cst = this.conn.conex.prepareCall("{CALL RHSP_INSERT_CUENTA_SUELDO( ?, ?, ?, ?, ?, ?, ?, ?)} ");
+            CallableStatement cst = this.conn.connection.prepareCall("{CALL RHSP_INSERT_CUENTA_SUELDO( ?, ?, ?, ?, ?, ?, ?, ?)} ");
             cst.setString(1, null);
             cst.setString(2, NO_BANCO);
             cst.setString(3, NU_CUENTA);
@@ -737,7 +737,7 @@ public class TrabajadorDAO implements InterfaceTrabajadorDAO {
     public void MOD_DAT_GEN(String AP_PATERNO, String AP_MATERNO, String NO_TRABAJADOR, String TI_DOC, String NU_DOC, String ES_CIVIL, String FE_NAC, String ID_NACIONALIDAD, String ID_DEPARTAMENTO, String ID_PROVINCIA, String ID_DISTRITO, String TE_TRABAJADOR, String CL_TRA, String DI_CORREO_PERSONAL, String DI_CORREO_INST, String CO_SISTEMA_PENSIONARIO, String ES_SEXO, String LI_GRUPO_SANGUINEO, String ID_NO_AFP, String ES_AFILIADO_ESSALUD, String LI_TIPO_TRABAJADOR, String ES_FACTOR_RH, String ID_TRABAJADOR, String US_MODIF, String IP_USUARIO) {
         try {
             this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            CallableStatement cst = this.conn.conex.prepareCall("{CALL RHSP_MOD_TRA_DET_GEN( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)} ");
+            CallableStatement cst = this.conn.connection.prepareCall("{CALL RHSP_MOD_TRA_DET_GEN( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)} ");
             cst.setString(1, AP_PATERNO);
             cst.setString(2, AP_MATERNO);
             cst.setString(3, NO_TRABAJADOR);
@@ -778,15 +778,15 @@ public class TrabajadorDAO implements InterfaceTrabajadorDAO {
     }
 
     @Override
-    public List<Cuenta_Sueldo> List_Cuenta_Sueldo(String idtr) {
+    public List<SalaryAccount> List_Cuenta_Sueldo(String idtr) {
         this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
         String sql = "SELECT * FROM RHTD_CUENTA_SUELDO WHERE ID_TRABAJADOR = '" + idtr + "'";
-        List<Cuenta_Sueldo> list = new ArrayList<Cuenta_Sueldo>();
+        List<SalaryAccount> list = new ArrayList<SalaryAccount>();
         try {
             ResultSet rs = this.conn.query(sql);
 
             while (rs.next()) {
-                Cuenta_Sueldo cs = new Cuenta_Sueldo();
+                SalaryAccount cs = new SalaryAccount();
                 cs.setId_cuenta_sueldo(rs.getString("Id_cuenta_sueldo"));
                 cs.setNo_banco(rs.getString("no_banco"));
                 cs.setNu_cuenta(rs.getString("nu_cuenta"));
@@ -817,7 +817,7 @@ public class TrabajadorDAO implements InterfaceTrabajadorDAO {
     public void MOD_ASPEC_ACADEM(String LI_NIVEL_EDUCATIVO, String REGIMEN, String ES_INS_PERU, String CARRERA, String DE_ANNO_EGRESO, String CM_OTROS_ESTUDIOS, String CA_TIPO_HORA_PAGO_REFERENCIAL, String ID_TRABAJADOR, String CO_UNIVERSITARIO, String US_MODIF, String IP_USUARIO) {
         try {
             this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            CallableStatement cst = this.conn.conex.prepareCall("{CALL RHSP_MOD_TRA_ASP_ACAD( ?, ?, ?, ?, ?, ?, ?, ?, ?, ? , ? )} ");
+            CallableStatement cst = this.conn.connection.prepareCall("{CALL RHSP_MOD_TRA_ASP_ACAD( ?, ?, ?, ?, ?, ?, ?, ?, ?, ? , ? )} ");
             cst.setString(1, LI_NIVEL_EDUCATIVO);
             cst.setString(2, REGIMEN);
             cst.setString(3, ES_INS_PERU);
@@ -847,7 +847,7 @@ public class TrabajadorDAO implements InterfaceTrabajadorDAO {
     public void MOD_CUENTA_SUELDO(String NO_BANCO, String NU_CUENTA, String NU_CUENTA_BANC, String ES_GEM_NU_CUENTA, String NO_BANCO_OTROS_SP, String ID_TRABAJADOR, String ES_CUENTA_SUELDO) {
         try {
             this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            CallableStatement cst = this.conn.conex.prepareCall("{CALL RHSP_MOD_TRA_CUEN_SUELDO( ?, ?, ?, ?, ?, ?, ?)} ");
+            CallableStatement cst = this.conn.connection.prepareCall("{CALL RHSP_MOD_TRA_CUEN_SUELDO( ?, ?, ?, ?, ?, ?, ?)} ");
             cst.setString(1, NO_BANCO);
             cst.setString(2, NU_CUENTA);
             cst.setString(3, NU_CUENTA_BANC);
@@ -905,7 +905,7 @@ public class TrabajadorDAO implements InterfaceTrabajadorDAO {
     public void MOD_ASPEC_SOCIAL(String LI_DI_DOM_A_D1, String DI_DOM_A_D2, String LI_DI_DOM_A_D3, String DI_DOM_A_D4, String LI_DI_DOM_A_D5, String DI_DOM_A_D6, String DI_DOM_A_REF, String ID_DI_DOM_A_DISTRITO, String LI_DI_DOM_LEG_D1, String DI_DOM_LEG_D2, String LI_DI_DOM_LEG_D3, String DI_DOM_LEG_D4, String LI_DI_DOM_LEG_D5, String DI_DOM_LEG_D6, String ID_DOM_LEG_DISTRITO, String CA_ING_QTA_CAT_EMPRESA, String CA_ING_QTA_RUC, String CA_ING_QTA_CAT_OTRAS_EMPRESAS, String ID_TRABAJADOR, String US_MODIF, String IP_USUARIO) {
         try {
             this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            CallableStatement cst = this.conn.conex.prepareCall("{CALL RHSP_MOD_TRA_ASP_SOCIAL( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)} ");
+            CallableStatement cst = this.conn.connection.prepareCall("{CALL RHSP_MOD_TRA_ASP_SOCIAL( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)} ");
             cst.setString(1, LI_DI_DOM_A_D1);
             cst.setString(2, DI_DOM_A_D2);
             cst.setString(3, LI_DI_DOM_A_D3);
@@ -1164,7 +1164,7 @@ public class TrabajadorDAO implements InterfaceTrabajadorDAO {
         boolean x = false;
         try {
             this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            CallableStatement cst = this.conn.conex.prepareCall("{CALL rhsp_mod_es_diezmo( ?, ?)} ");
+            CallableStatement cst = this.conn.connection.prepareCall("{CALL rhsp_mod_es_diezmo( ?, ?)} ");
             cst.setString(1, idtr);
             cst.setInt(2, estado);
             cst.execute();

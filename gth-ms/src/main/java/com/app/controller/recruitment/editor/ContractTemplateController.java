@@ -2,9 +2,9 @@ package com.app.controller.recruitment.editor;
 
 import com.app.persistence.dao.DireccionDAO;
 import com.app.persistence.dao.PlantillaContractualDAO;
-import com.app.persistence.dao_imp.InterfaceDireccionDAO;
-import com.app.persistence.dao_imp.InterfaceFormato_HorarioDAO;
-import com.app.persistence.dao_imp.InterfacePlantillaContractualDAO;
+import com.app.persistence.dao_imp.IDireccionDAO;
+import com.app.persistence.dao_imp.IFormato_HorarioDAO;
+import com.app.persistence.dao_imp.IContractTemplateDAO;
 import com.app.config.factory.FactoryConnectionDB;
 import com.google.gson.Gson;
 import java.io.BufferedReader;
@@ -29,7 +29,7 @@ import com.app.persistence.dao.Formato_HorarioDAO;
 @RequestMapping("templates")
 public class ContractTemplateController {
 
-    InterfacePlantillaContractualDAO pl = new PlantillaContractualDAO();
+    IContractTemplateDAO pl = new PlantillaContractualDAO();
 
     @GetMapping
     public ResponseEntity<?> list(HttpServletRequest request) {
@@ -91,10 +91,10 @@ public class ContractTemplateController {
 
         Map<String, Object> rpta = new HashMap<String, Object>();
 
-        InterfaceFormato_HorarioDAO f = new Formato_HorarioDAO();
+        IFormato_HorarioDAO f = new Formato_HorarioDAO();
 
         HttpSession sesion = request.getSession(true);
-        InterfaceDireccionDAO dir = new DireccionDAO();
+        IDireccionDAO dir = new DireccionDAO();
         String iduser = (String) sesion.getAttribute("IDUSER");
         String opc = request.getParameter("opc");
         String ubicacion = FactoryConnectionDB.url + "Formato/";

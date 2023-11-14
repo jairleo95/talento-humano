@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.app.persistence.dao_imp.InterfaceNacionalidadDAO;
-import com.app.config.factory.ConexionBD;
+import com.app.config.factory.DBConnection;
 import com.app.config.factory.FactoryConnectionDB;
 import com.app.domain.model.Nacionalidad;
 
@@ -21,7 +21,7 @@ import com.app.domain.model.Nacionalidad;
  * @author joserodrigo
  */
 public class NacionalidadDAO implements InterfaceNacionalidadDAO {
-    ConexionBD conn;
+    DBConnection conn;
     @Override
     public List<Nacionalidad> List_Nacionalidad() {
        this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);

@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.app.persistence.dao_imp.InterfacePrivilegioDAO;
-import com.app.config.factory.ConexionBD;
+import com.app.config.factory.DBConnection;
 import com.app.config.factory.FactoryConnectionDB;
 import com.app.domain.model.Privilegio;
 import com.app.domain.model.V_Privilegio_Rol;
@@ -25,7 +25,7 @@ import com.app.domain.model.V_Privilegio_Rol;
  * @author Admin
  */
 public class PrivilegioDAO implements InterfacePrivilegioDAO {
-    ConexionBD conn;
+    DBConnection conn;
     
     @Override
     public void Insert_Privilegio(String No_Link, String Di_url, String Es_privilegio,String Ic_Link,String Modulo) {
@@ -34,7 +34,7 @@ public class PrivilegioDAO implements InterfacePrivilegioDAO {
             String id_Priv="";
             this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
             
-            cst = conn.conex.prepareCall("{CALL RHSP_INSERT_PRIV(?,?,?,?,?,?)}");
+            cst = conn.connection.prepareCall("{CALL RHSP_INSERT_PRIV(?,?,?,?,?,?)}");
             cst.setString(1, id_Priv);
             cst.setString(2, No_Link.trim());
             cst.setString(3, Di_url.trim());
@@ -88,7 +88,7 @@ public class PrivilegioDAO implements InterfacePrivilegioDAO {
         CallableStatement cst;
         try {
             this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            cst = conn.conex.prepareCall("{CALL RHSP_DESACTIVAR_PRIV(?)}");
+            cst = conn.connection.prepareCall("{CALL RHSP_DESACTIVAR_PRIV(?)}");
             cst.setString(1, id_Priv);
             cst.execute();
         } catch (SQLException ex) {
@@ -102,7 +102,7 @@ public class PrivilegioDAO implements InterfacePrivilegioDAO {
         CallableStatement cst;
         try {
             this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            cst = conn.conex.prepareCall("{CALL RHSP_ACTIVAR_PRIV(?)}");
+            cst = conn.connection.prepareCall("{CALL RHSP_ACTIVAR_PRIV(?)}");
             cst.setString(1, id_Priv);
             cst.execute();
         } catch (SQLException ex) {
@@ -117,7 +117,7 @@ public class PrivilegioDAO implements InterfacePrivilegioDAO {
         CallableStatement cst;
         try {
             this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            cst = conn.conex.prepareCall("{CALL RHSP_MOD_PRIV(?,?,?,?,?)}");
+            cst = conn.connection.prepareCall("{CALL RHSP_MOD_PRIV(?,?,?,?,?)}");
             cst.setString(1, id_Priv);
             cst.setString(2, No_link );
             cst.setString(3, Es_priv);
@@ -159,7 +159,7 @@ public class PrivilegioDAO implements InterfacePrivilegioDAO {
         CallableStatement cst;
         try {
             this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            cst = conn.conex.prepareCall("{CALL RHSP_ELIMINAR_PRIV(?)}");
+            cst = conn.connection.prepareCall("{CALL RHSP_ELIMINAR_PRIV(?)}");
             cst.setString(1, id_Priv);
             cst.execute();
         } catch (SQLException ex) {

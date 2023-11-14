@@ -8,7 +8,7 @@ package com.app.persistence.dao;
 import java.sql.CallableStatement;
 import java.sql.SQLException;
 import com.app.persistence.dao_imp.InterfaceHist_Estado_CivilDAO;
-import com.app.config.factory.ConexionBD;
+import com.app.config.factory.DBConnection;
 import com.app.config.factory.FactoryConnectionDB;
 
 /**
@@ -17,13 +17,13 @@ import com.app.config.factory.FactoryConnectionDB;
  */
 public class Hist_Estado_CivilDAO implements InterfaceHist_Estado_CivilDAO {
 
-    ConexionBD conn;
+    DBConnection conn;
 
     @Override
     public void INSERT_HIST_ESTADO_CIVIL(String ID_ESTADO_CIVIL, String LI_ESTADO_CIVIL, String FE_MODIFICACION, String US_MODIFICACION, String ID_TRABAJADOR , String ES_REGISTRO) {
         try {
             this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            CallableStatement cst = this.conn.conex.prepareCall("{CALL RHSP_INSERT_ESTADO_CIVIL( ?, ?, ?, ?, ?, ?)} ");
+            CallableStatement cst = this.conn.connection.prepareCall("{CALL RHSP_INSERT_ESTADO_CIVIL( ?, ?, ?, ?, ?, ?)} ");
             cst.setString(1, null);
             cst.setString(2, LI_ESTADO_CIVIL);
             cst.setString(3, FE_MODIFICACION);

@@ -14,8 +14,8 @@ import java.util.List;
 import java.util.Map;
 import javax.swing.JOptionPane;
 
-import com.app.persistence.dao_imp.InterfaceAreaDAO;
-import com.app.config.factory.ConexionBD;
+import com.app.persistence.dao_imp.IAreaDAO;
+import com.app.config.factory.DBConnection;
 import com.app.config.factory.FactoryConnectionDB;
 import com.app.domain.model.Area;
 
@@ -23,9 +23,9 @@ import com.app.domain.model.Area;
  *
  * @author Admin
  */
-public class AreaDAO implements InterfaceAreaDAO {
+public class AreaDAO implements IAreaDAO {
 
-    ConexionBD conn;
+    DBConnection conn;
 
     @Override
     public Area getAreaById(String idArea) {
@@ -234,7 +234,7 @@ public class AreaDAO implements InterfaceAreaDAO {
         boolean x = false;
         try {
             this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            CallableStatement cst = this.conn.conex.prepareCall("{CALL RHSP_INSERT_AREA( ?, ?, ?, ?, ?)}");
+            CallableStatement cst = this.conn.connection.prepareCall("{CALL RHSP_INSERT_AREA( ?, ?, ?, ?, ?)}");
             cst.setString(1, null);
             cst.setString(2, nombre);
             cst.setString(3, ncorto);
@@ -260,7 +260,7 @@ public class AreaDAO implements InterfaceAreaDAO {
         boolean x = false;
         try {
             this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            CallableStatement cst = this.conn.conex.prepareCall("{CALL RHSP_MOD_AREA( ?, ?, ?, ?, ?)}");
+            CallableStatement cst = this.conn.connection.prepareCall("{CALL RHSP_MOD_AREA( ?, ?, ?, ?, ?)}");
             cst.setString(1, idArea);
             cst.setString(2, nombre);
             cst.setString(3, ncorto);
@@ -287,7 +287,7 @@ public class AreaDAO implements InterfaceAreaDAO {
         boolean x = false;
         try {
             this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            CallableStatement cst = this.conn.conex.prepareCall("{CALL RHSP_ACTIVAR_AREA(?)}");
+            CallableStatement cst = this.conn.connection.prepareCall("{CALL RHSP_ACTIVAR_AREA(?)}");
             cst.setString(1, idArea);
             x = cst.execute();
         } catch (SQLException e) {
@@ -309,7 +309,7 @@ public class AreaDAO implements InterfaceAreaDAO {
         boolean x = false;
         try {
             this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            CallableStatement cst = this.conn.conex.prepareCall("{CALL RHSP_DESACTIVAR_AREA(?)}");
+            CallableStatement cst = this.conn.connection.prepareCall("{CALL RHSP_DESACTIVAR_AREA(?)}");
             cst.setString(1, idArea);
             x = cst.execute();
         } catch (SQLException e) {
@@ -331,7 +331,7 @@ public class AreaDAO implements InterfaceAreaDAO {
         boolean x = false;
         try {
             this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            CallableStatement cst = this.conn.conex.prepareCall("{CALL RHSP_ELIMINAR_AREA(?)}");
+            CallableStatement cst = this.conn.connection.prepareCall("{CALL RHSP_ELIMINAR_AREA(?)}");
             cst.setString(1, idArea);
             x = cst.execute();
         } catch (SQLException e) {

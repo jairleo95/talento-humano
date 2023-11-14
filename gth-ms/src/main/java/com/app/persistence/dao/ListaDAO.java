@@ -11,13 +11,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import com.app.persistence.dao_imp.InterfaceListaDAO;
-import com.app.config.factory.ConexionBD;
+import com.app.persistence.dao_imp.IListaDAO;
+import com.app.config.factory.DBConnection;
 import com.app.config.factory.FactoryConnectionDB;
 import com.app.domain.model.Auto_Mostrar;
 import com.app.domain.model.Carrera;
 import com.app.domain.model.Nacionalidad;
-import com.app.domain.model.Proceso;
+import com.app.domain.model.Process;
 import com.app.domain.model.Situacion_Educativa;
 import com.app.domain.model.Tipo_Contrato;
 import com.app.domain.model.Universidad;
@@ -28,9 +28,9 @@ import com.app.domain.model.Zona;
  *
  * @author Admin
  */
-public class ListaDAO implements InterfaceListaDAO {
+public class ListaDAO implements IListaDAO {
 
-    ConexionBD conn;
+    DBConnection conn;
 
     @Override
     public List<Nacionalidad> List_Nacionalidad() {
@@ -54,15 +54,15 @@ public class ListaDAO implements InterfaceListaDAO {
     }
 
     @Override
-    public List<Proceso> List_Proceso() {
+    public List<Process> List_Proceso() {
         this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
         String sql = "select * from rhtv_proceso order by no_proceso";
-        List<Proceso> list = new ArrayList<Proceso>();
+        List<Process> list = new ArrayList<Process>();
         try {
             ResultSet rs = this.conn.query(sql);
 
             while (rs.next()) {
-                Proceso p = new Proceso();
+                Process p = new Process();
                 p.setDe_proceso(rs.getString("de_proceso"));
                 p.setId_proceso(rs.getString("id_proceso"));
                 p.setNo_proceso(rs.getString("no_proceso"));

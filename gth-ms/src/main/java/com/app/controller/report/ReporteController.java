@@ -28,13 +28,13 @@ import com.app.persistence.dao.NacionalidadDAO;
 import com.app.persistence.dao.ReporteDAO;
 import com.app.persistence.dao.SeccionDAO;
 import com.app.persistence.dao.SituacionEducativaDAO;
-import com.app.persistence.dao_imp.InterfaceAreaDAO;
+import com.app.persistence.dao_imp.IAreaDAO;
 import com.app.persistence.dao_imp.InterfaceCarrera_UniversidadDAO;
-import com.app.persistence.dao_imp.InterfaceDatos_Hijo_Trabajador;
-import com.app.persistence.dao_imp.InterfaceDepartamentoDAO;
-import com.app.persistence.dao_imp.InterfaceDireccionDAO;
+import com.app.persistence.dao_imp.IDatosHijoTrabajador;
+import com.app.persistence.dao_imp.IDepartamentoDAO;
+import com.app.persistence.dao_imp.IDireccionDAO;
 import com.app.persistence.dao_imp.InterfaceNacionalidadDAO;
-import com.app.persistence.dao_imp.InterfacePuestoDAO;
+import com.app.persistence.dao_imp.IPuestoDAO;
 import com.app.persistence.dao_imp.InterfaceReporteDAO;
 import com.app.persistence.dao_imp.InterfaceSeccionDAO;
 import com.app.persistence.dao_imp.InterfaceSituacionEducativaDAO;
@@ -50,18 +50,18 @@ public class ReporteController {
 
 
     InterfaceReporteDAO r = new ReporteDAO();
-    InterfaceDepartamentoDAO d = new DepartamentoDao();
-    InterfaceAreaDAO a = new AreaDAO();
+    IDepartamentoDAO d = new DepartamentoDao();
+    IAreaDAO a = new AreaDAO();
     InterfaceSeccionDAO s = new SeccionDAO();
-    InterfacePuestoDAO p = new PuestoDAO();
+    IPuestoDAO p = new PuestoDAO();
     InterfaceReporteDAO RP = new ReporteDAO();
     InterfaceNacionalidadDAO n = new NacionalidadDAO();
     InterfaceSituacionEducativaDAO se = new SituacionEducativaDAO();
     InterfaceCarrera_UniversidadDAO ca = new Carrera_UniversidadDAO();
-    InterfaceDatos_Hijo_Trabajador dah = new Datos_Hijo_TrabajadorDAO();
-    InterfaceDireccionDAO dir = new DireccionDAO();
-    InterfaceAreaDAO area = new AreaDAO();
-    InterfaceDepartamentoDAO dep = new DepartamentoDao();
+    IDatosHijoTrabajador dah = new Datos_Hijo_TrabajadorDAO();
+    IDireccionDAO dir = new DireccionDAO();
+    IAreaDAO area = new AreaDAO();
+    IDepartamentoDAO dep = new DepartamentoDao();
     InterfaceSeccionDAO sec = new SeccionDAO();
 
 

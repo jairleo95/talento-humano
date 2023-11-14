@@ -22,11 +22,11 @@ import com.app.persistence.dao.FuncionDAO;
 import com.app.persistence.dao.ListaDAO;
 import com.app.persistence.dao.PlantillaContractualDAO;
 import com.app.persistence.dao.PuestoDAO;
-import com.app.persistence.dao_imp.InterfaceContratoDAO;
-import com.app.persistence.dao_imp.InterfaceFuncionDAO;
-import com.app.persistence.dao_imp.InterfaceListaDAO;
-import com.app.persistence.dao_imp.InterfacePlantillaContractualDAO;
-import com.app.persistence.dao_imp.InterfacePuestoDAO;
+import com.app.persistence.dao_imp.IContratoDAO;
+import com.app.persistence.dao_imp.IFuncionDAO;
+import com.app.persistence.dao_imp.IListaDAO;
+import com.app.persistence.dao_imp.IContractTemplateDAO;
+import com.app.persistence.dao_imp.IPuestoDAO;
 
 /**
  *
@@ -37,11 +37,11 @@ import com.app.persistence.dao_imp.InterfacePuestoDAO;
 public class PlantillaContractualController {
 
 
-    InterfacePuestoDAO pu = new PuestoDAO();
-    InterfaceListaDAO l = new ListaDAO();
-    InterfacePlantillaContractualDAO pl = new PlantillaContractualDAO();
-    InterfaceContratoDAO con = new ContratoDAO();
-    InterfaceFuncionDAO fu = new FuncionDAO();
+    IPuestoDAO puestoDAO = new PuestoDAO();
+    IListaDAO listaDAO = new ListaDAO();
+    IContractTemplateDAO plantillaContractualDAO = new PlantillaContractualDAO();
+    IContratoDAO contratoDAO = new ContratoDAO();
+    IFuncionDAO funcionDAO = new FuncionDAO();
 
     @PostMapping
     public ResponseEntity<?> process(HttpServletRequest request, HttpServletResponse response) {
@@ -53,31 +53,31 @@ public class PlantillaContractualController {
         try {
             if (opc.equals("List_planti")) {
                 String idpu = request.getParameter("id_pu");
-                List<Map<String, ?>> list = pl.List_PLantillas(idpu);
+                List<Map<String, ?>> list = plantillaContractualDAO.List_PLantillas(idpu);
                 rpta.put("rpta", "1");
                 rpta.put("lista", list);
             }
             if (opc.equals("Listpuesto")) {
-                List<Map<String, ?>> list = pu.List_puesto();
+                List<Map<String, ?>> list = puestoDAO.List_puesto();
                 rpta.put("rpta", "1");
                 rpta.put("lista", list);
             }
             if (opc.equals("cargar")) {
                 String no_arch = request.getParameter("Imprimir");
                 String id_con = request.getParameter("id_con");
-                session.setAttribute("List_contra_x_idcto", con.List_contra_x_idcto(id_con));
+                session.setAttribute("List_contra_x_idcto", contratoDAO.List_contra_x_idcto(id_con));
                 response.sendRedirect("views/Contrato/Formato_Plantilla/reg_formato.html?no_arc=" + no_arch);
             }
             if (opc.equals("Imprimir")) {
                 String id_planti_con = request.getParameter("id_plan_contr");
-                String no_arch = pl.List_pl_con_x_id(id_planti_con);
+                String no_arch = plantillaContractualDAO.List_pl_con_x_id(id_planti_con);
                 String id_con = request.getParameter("id_con");
-                String id_puesto = pu.puesto(id_con);
+                String id_puesto = puestoDAO.puesto(id_con);
                 //out.print(no_arch);
-                session.setAttribute("List_x_fun_x_idpu", fu.List_x_fun_x_idpu(id_puesto));
-                session.setAttribute("List_contra_x_idcto", con.List_contra_x_idcto(id_con));
-                session.setAttribute("List_Dom_D1_Id", l.List_Dom_D1_Id());
-                session.setAttribute("List_Dom_D5_Id", l.List_Dom_D5_Id());
+                session.setAttribute("List_x_fun_x_idpu", funcionDAO.List_x_fun_x_idpu(id_puesto));
+                session.setAttribute("List_contra_x_idcto", contratoDAO.List_contra_x_idcto(id_con));
+                session.setAttribute("List_Dom_D1_Id", listaDAO.List_Dom_D1_Id());
+                session.setAttribute("List_Dom_D5_Id", listaDAO.List_Dom_D5_Id());
                 response.sendRedirect("views/Contrato/Formato_Plantilla/reg_formato.html?no_arc=" + no_arch);
             }
         } catch (Exception e) {

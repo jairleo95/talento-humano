@@ -12,8 +12,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import com.app.persistence.dao_imp.InterfaceNotificationDAO;
-import com.app.config.factory.ConexionBD;
+import com.app.persistence.dao_imp.INotificationDAO;
+import com.app.config.factory.DBConnection;
 import com.app.config.factory.FactoryConnectionDB;
 import com.app.domain.model.Notification;
 
@@ -21,9 +21,9 @@ import com.app.domain.model.Notification;
  *
  * @author Cesar
  */
-public class NotificationDAO implements InterfaceNotificationDAO {
+public class NotificationDAO implements INotificationDAO {
 
-    public ConexionBD conn;
+    public DBConnection conn;
     public String sql;
     public ResultSet rs;
 
@@ -32,7 +32,7 @@ public class NotificationDAO implements InterfaceNotificationDAO {
         sql = "{CALL RHSP_INSERT_NOTIFICATION( ?, ?, ?, ?, ?, ?, ?, ?,?,?,?)}";
         try {
             this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            CallableStatement cst = this.conn.conex.prepareCall(sql);
+            CallableStatement cst = this.conn.connection.prepareCall(sql);
             cst.setString(1, x.getId_rol());
             cst.setString(2, x.getEs_visualizado());
             cst.setString(3, x.getEs_leido());
@@ -172,7 +172,7 @@ public class NotificationDAO implements InterfaceNotificationDAO {
         sql = "{CALL RHSP_UPDATE_VIS_NOTIFICATION (?)}";
         try {
             this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            CallableStatement cst = this.conn.conex.prepareCall(sql);
+            CallableStatement cst = this.conn.connection.prepareCall(sql);
             cst.setString(1, id);
             cst.execute();
         } catch (SQLException e) {
@@ -193,7 +193,7 @@ public class NotificationDAO implements InterfaceNotificationDAO {
         sql = "{CALL RHSP_UPDATE_REA_NOTIFICATION (?)}";
         try {
             this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            CallableStatement cst = this.conn.conex.prepareCall(sql);
+            CallableStatement cst = this.conn.connection.prepareCall(sql);
             cst.setString(1, id);
             cst.execute();
         } catch (SQLException e) {

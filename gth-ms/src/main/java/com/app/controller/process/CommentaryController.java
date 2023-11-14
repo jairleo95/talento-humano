@@ -36,14 +36,14 @@ public class CommentaryController {
 
         //response.setContentType("text/html;charset=UTF-8");
 
-        InterfaceComentario_DGPDAO x = new Comentario_DGPDAO();
+        InterfaceComentario_DGPDAO comentarioDgpdao = new Comentario_DGPDAO();
         String opc = request.getParameter("opc");
-        HttpSession sesion = request.getSession(true);
-        String idu=(String)sesion.getAttribute("IDUSER");
+        HttpSession session = request.getSession(true);
+        String idu=(String)session.getAttribute("IDUSER");
 
         /*try {*/
         if (opc.equals("COMENTAR")) {
-            String ID_COMENTARIO_DGP = null;
+            String ID_COMENTARIO_DGP = "";
             String ID_DGP = request.getParameter("IDDETALLE_DGP");
             String ID_AUTORIZACION = request.getParameter("ID_AUTORIZACION");
             String CM_COMENTARIO = request.getParameter("COMENTARIO");
@@ -51,14 +51,14 @@ public class CommentaryController {
             String US_MODIFICACION = null;
             String FE_MODIFICACION = null;
             String ES_COMENTARIO_DGP = "1";
-            x.INSERT_COMENTARIO_DGP(ID_COMENTARIO_DGP, ID_DGP, ID_AUTORIZACION, CM_COMENTARIO, idu, FE_CREACION, US_MODIFICACION, FE_MODIFICACION, ES_COMENTARIO_DGP);
-            sesion.setAttribute("List_Comentario_DGP", x.List_Comentario_DGP(ID_DGP));
+            comentarioDgpdao.INSERT_COMENTARIO_DGP(ID_COMENTARIO_DGP, ID_DGP, ID_AUTORIZACION, CM_COMENTARIO, idu, FE_CREACION, US_MODIFICACION, FE_MODIFICACION, ES_COMENTARIO_DGP);
+            session.setAttribute("List_Comentario_DGP", comentarioDgpdao.List_Comentario_DGP(ID_DGP));
             //response.sendRedirect("views/Dgp/Comentario/Reg_Comentario.html?iddgp="+ID_DGP);
         }
         if (opc.equals("Comentar_Dgp")) {
 
             String iddgp=request.getParameter("iddgp");
-            sesion.setAttribute("List_Comentario_DGP", x.List_Comentario_DGP(iddgp));
+            session.setAttribute("List_Comentario_DGP", comentarioDgpdao.List_Comentario_DGP(iddgp));
             //response.sendRedirect("views/Dgp/Comentario/Reg_Comentario.html?iddgp="+iddgp);
         }
 
@@ -88,7 +88,7 @@ public class CommentaryController {
         
         
             if (opc.equals("COMENTAR")) {
-            String ID_COMENTARIO_DGP = null;
+            String ID_COMENTARIO_DGP = "";
             String ID_DGP = iddgp;
             String ID_AUTORIZACION = request.getParameter("ID_AUTORIZACION");
             String CM_COMENTARIO = cometario;

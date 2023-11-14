@@ -7,7 +7,7 @@ package com.app.controller.recruitment;
 
 import com.app.persistence.dao.DireccionDAO;
 import com.app.persistence.dao.PresupuestoDAO;
-import com.app.persistence.dao_imp.InterfaceDireccionDAO;
+import com.app.persistence.dao_imp.IDireccionDAO;
 import com.app.persistence.dao_imp.InterfacePresupuestoDAO;
 
 import java.io.IOException;
@@ -33,7 +33,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("presupuesto")
 public class PresupuestoController {
 
-    InterfaceDireccionDAO dO = new DireccionDAO();
+    IDireccionDAO dO = new DireccionDAO();
     InterfacePresupuestoDAO pD = new PresupuestoDAO();
 
     @PostMapping

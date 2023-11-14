@@ -13,10 +13,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.app.persistence.dao_imp.InterfaceEmpleadoDAO;
-import com.app.config.factory.ConexionBD;
+import com.app.persistence.dao_imp.IEmpleadoDAO;
+import com.app.config.factory.DBConnection;
 import com.app.config.factory.FactoryConnectionDB;
-import com.app.domain.model.Empleado;
+import com.app.domain.model.Employee;
 import com.app.domain.model.Evaluacion_Emp;
 import com.app.domain.model.V_List_Empleado;
 import com.app.domain.model.page.Datatable;
@@ -26,9 +26,9 @@ import com.app.controller.util.Sql;
  *
  * @author Alfa.sistemas
  */
-public class EmpleadoDAO implements InterfaceEmpleadoDAO {
+public class EmpleadoDAO implements IEmpleadoDAO {
 
-    ConexionBD conn;
+    DBConnection conn;
 
     @Override
     public String Id_Puesto_Personal(String ide) {
@@ -59,7 +59,7 @@ public class EmpleadoDAO implements InterfaceEmpleadoDAO {
         CallableStatement cst;
         try {
             this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            cst = conn.conex.prepareCall("{CALL RHSP_VAL_EMP ( ? )}");
+            cst = conn.connection.prepareCall("{CALL RHSP_VAL_EMP ( ? )}");
             cst.setString(1, id_tra);
             cst.execute();
         } catch (SQLException e) {
@@ -275,7 +275,7 @@ public class EmpleadoDAO implements InterfaceEmpleadoDAO {
     public void Insert_Evaluacion_Emp(String ID_EVALUACION_EMP, String ES_EVALUACION, String RE_EVALUACION, String ID_EMPLEADO) {
         try {
             this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            CallableStatement eva = this.conn.conex.prepareCall("{CALL RHSP_INSERT_EVALUACION_EMP( ?, ?, ?, ?)}");
+            CallableStatement eva = this.conn.connection.prepareCall("{CALL RHSP_INSERT_EVALUACION_EMP( ?, ?, ?, ?)}");
             eva.setString(1, null);
             eva.setString(2, ES_EVALUACION);
             eva.setString(3, RE_EVALUACION);
@@ -378,7 +378,7 @@ public class EmpleadoDAO implements InterfaceEmpleadoDAO {
         CallableStatement cst;
         try {
             this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            cst = conn.conex.prepareCall("{CALL RHSP_MOD_EVALUACION_EMP( ?, ?)}");
+            cst = conn.connection.prepareCall("{CALL RHSP_MOD_EVALUACION_EMP( ?, ?)}");
             cst.setString(1, RE_EVALUACION);
             cst.setString(2, ID_EMPLEADO);
             cst.execute();
@@ -396,14 +396,14 @@ public class EmpleadoDAO implements InterfaceEmpleadoDAO {
     }
 
     @Override
-    public List<Empleado> id_empleadox_ide(String ide) {
+    public List<Employee> id_empleadox_ide(String ide) {
         this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
         String sql = "SELECT * FROM RHTD_EMPLEADO WHERE ID_TRABAJADOR = '" + ide.trim() + "' and es_empleado='1'";
-        List<Empleado> List = new ArrayList<Empleado>();
+        List<Employee> List = new ArrayList<Employee>();
         try {
             ResultSet rs = this.conn.query(sql);
             while (rs.next()) {
-                Empleado eva = new Empleado();
+                Employee eva = new Employee();
                 eva.setId_empleado("id_empleado");
                 eva.setId_trabajador(rs.getString("id_trabajador"));
                 eva.setCo_aps(rs.getString("co_aps"));
@@ -454,7 +454,7 @@ public class EmpleadoDAO implements InterfaceEmpleadoDAO {
         CallableStatement cst;
         try {
             this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            cst = conn.conex.prepareCall("{CALL RHSP_MOD_APS( ?, ?)}");
+            cst = conn.connection.prepareCall("{CALL RHSP_MOD_APS( ?, ?)}");
             cst.setString(1, idtr);
             cst.setInt(2, aps);
             cst.execute();
@@ -478,7 +478,7 @@ public class EmpleadoDAO implements InterfaceEmpleadoDAO {
         CallableStatement cst;
         try {
             this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            cst = conn.conex.prepareCall("{CALL RHSP_MOD_COD_HUELLA( ?, ?)}");
+            cst = conn.connection.prepareCall("{CALL RHSP_MOD_COD_HUELLA( ?, ?)}");
             cst.setString(1, idtr.trim());
             cst.setInt(2, cod_huella);
             cst.execute();

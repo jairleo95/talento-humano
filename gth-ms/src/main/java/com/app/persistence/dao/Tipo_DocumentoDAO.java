@@ -10,8 +10,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.app.persistence.dao_imp.InterfaceTipo_DocumentoDAO;
-import com.app.config.factory.ConexionBD;
+import com.app.persistence.dao_imp.ITipo_DocumentoDAO;
+import com.app.config.factory.DBConnection;
 import com.app.config.factory.FactoryConnectionDB;
 import com.app.domain.model.Tipo_Documento;
 
@@ -19,9 +19,9 @@ import com.app.domain.model.Tipo_Documento;
  *
  * @author ALFA 3
  */
-public class Tipo_DocumentoDAO implements InterfaceTipo_DocumentoDAO {
+public class Tipo_DocumentoDAO implements ITipo_DocumentoDAO {
 
-    ConexionBD conn;
+    DBConnection conn;
 
     @Override
     public List<Tipo_Documento> Listar_tipo_doc() {

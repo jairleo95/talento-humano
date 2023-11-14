@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.app.persistence.dao_imp.InterfaceDetalle_PrivilegioDAO;
-import com.app.config.factory.ConexionBD;
+import com.app.config.factory.DBConnection;
 import com.app.config.factory.FactoryConnectionDB;
 import com.app.domain.model.Detalle_Privilegio;
 import com.app.domain.model.X_Detalle_Privilegio;
@@ -23,7 +23,7 @@ import com.app.domain.model.X_Detalle_Privilegio;
  */
 public class Detalle_PrivilegioDAO implements InterfaceDetalle_PrivilegioDAO {
 
-    private ConexionBD conn;
+    private DBConnection conn;
 
     @Override
     public void Registrar_Detalle_Priv(String id_rol, String nu_orden, String id_priv, String es_detalle_priv) {
@@ -31,7 +31,7 @@ public class Detalle_PrivilegioDAO implements InterfaceDetalle_PrivilegioDAO {
         try {
             String id_det_priv = "";
             this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            cst = conn.conex.prepareCall("{CALL RHSP_INSERT_DET_PRIV(?,?,?,?,?)}");
+            cst = conn.connection.prepareCall("{CALL RHSP_INSERT_DET_PRIV(?,?,?,?,?)}");
             cst.setString(1, id_det_priv.trim());
             cst.setString(2, id_rol.trim());
             cst.setString(3, nu_orden.trim());
@@ -56,7 +56,7 @@ public class Detalle_PrivilegioDAO implements InterfaceDetalle_PrivilegioDAO {
         CallableStatement cst;
         try {
             this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            cst = conn.conex.prepareCall("{CALL RHSP_MOD_DET_PRIV(?,?,?,?)}");
+            cst = conn.connection.prepareCall("{CALL RHSP_MOD_DET_PRIV(?,?,?,?)}");
             cst.setString(1, id_det_pri);
             cst.setString(2, id_priv);
             cst.setInt(3, nu_orden);
@@ -80,7 +80,7 @@ public class Detalle_PrivilegioDAO implements InterfaceDetalle_PrivilegioDAO {
         CallableStatement cst;
         try {
             this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            cst = conn.conex.prepareCall("{CALL RHSP_ELIMINAR_DET_PRI(?)}");
+            cst = conn.connection.prepareCall("{CALL RHSP_ELIMINAR_DET_PRI(?)}");
             cst.setString(1, ID_pri_rol);
             cst.execute();
         } catch (SQLException e) {
@@ -164,7 +164,7 @@ public class Detalle_PrivilegioDAO implements InterfaceDetalle_PrivilegioDAO {
         CallableStatement cst;
         try {
             this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            cst = conn.conex.prepareCall("{CALL RHSP_DESACTIVAR_DET_PRI(?)}");
+            cst = conn.connection.prepareCall("{CALL RHSP_DESACTIVAR_DET_PRI(?)}");
             cst.setString(1, id_pr_r);
             cst.execute();
         } catch (SQLException e) {
@@ -185,7 +185,7 @@ public class Detalle_PrivilegioDAO implements InterfaceDetalle_PrivilegioDAO {
         CallableStatement cst;
         try {
             this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            cst = conn.conex.prepareCall("{CALL RHSP_ACTIVAR_DET_PRI(?)}");
+            cst = conn.connection.prepareCall("{CALL RHSP_ACTIVAR_DET_PRI(?)}");
             cst.setString(1, id_pr_r);
             cst.execute();
         } catch (SQLException e) {

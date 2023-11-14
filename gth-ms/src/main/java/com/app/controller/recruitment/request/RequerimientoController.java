@@ -6,8 +6,8 @@
 package com.app.controller.recruitment.request;
 
 import com.app.persistence.dao.RequerimientoDAO;
-import com.app.persistence.dao_imp.InterfaceDgpDAO;
-import com.app.persistence.dao_imp.InterfaceRequerimientoDAO;
+import com.app.persistence.dao_imp.IDgpDAO;
+import com.app.persistence.dao_imp.IRequerimientoDAO;
 
 import java.util.HashMap;
 import java.util.List;
@@ -29,8 +29,8 @@ import com.app.persistence.dao.DgpDAO;
 public class RequerimientoController {
 
 
-    InterfaceRequerimientoDAO req = new RequerimientoDAO();
-    InterfaceDgpDAO Idgp = new DgpDAO();
+    IRequerimientoDAO req = new RequerimientoDAO();
+    IDgpDAO Idgp = new DgpDAO();
 
     @GetMapping("requerimiento")
     public ResponseEntity<?> processRequest(HttpServletRequest request) {

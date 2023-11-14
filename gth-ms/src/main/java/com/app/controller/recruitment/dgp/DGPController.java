@@ -44,25 +44,25 @@ import com.app.persistence.dao.PuestoDAO;
 import com.app.persistence.dao.RequerimientoDAO;
 import com.app.persistence.dao.TrabajadorDAO;
 import com.app.persistence.dao.UsuarioDAO;
-import com.app.persistence.dao_imp.InterfaceAreaDAO;
-import com.app.persistence.dao_imp.InterfaceAutorizacionDAO;
-import com.app.persistence.dao_imp.InterfaceCentro_CostosDAO;
-import com.app.persistence.dao_imp.InterfaceContratoDAO;
-import com.app.persistence.dao_imp.InterfaceDatos_Hijo_Trabajador;
-import com.app.persistence.dao_imp.InterfaceDetalle_Centro_Costo;
-import com.app.persistence.dao_imp.InterfaceDgpDAO;
-import com.app.persistence.dao_imp.InterfaceDireccionDAO;
-import com.app.persistence.dao_imp.InterfaceDocumentoDAO;
-import com.app.persistence.dao_imp.InterfaceFuncionDAO;
-import com.app.persistence.dao_imp.InterfaceGrupo_ocupacionesDAO;
-import com.app.persistence.dao_imp.InterfaceHorarioDAO;
-import com.app.persistence.dao_imp.InterfaceListaDAO;
+import com.app.persistence.dao_imp.IAreaDAO;
+import com.app.persistence.dao_imp.IAutorizacionDAO;
+import com.app.persistence.dao_imp.ICentro_CostosDAO;
+import com.app.persistence.dao_imp.IContratoDAO;
+import com.app.persistence.dao_imp.IDatosHijoTrabajador;
+import com.app.persistence.dao_imp.IDetalleCentroCosto;
+import com.app.persistence.dao_imp.IDgpDAO;
+import com.app.persistence.dao_imp.IDireccionDAO;
+import com.app.persistence.dao_imp.IDocumentoDAO;
+import com.app.persistence.dao_imp.IFuncionDAO;
+import com.app.persistence.dao_imp.IGrupo_ocupacionesDAO;
+import com.app.persistence.dao_imp.IHorarioDAO;
+import com.app.persistence.dao_imp.IListaDAO;
 import com.app.persistence.dao_imp.InterfacePeriodo_PagoDAO;
-import com.app.persistence.dao_imp.InterfacePlazo_DgpDAO;
-import com.app.persistence.dao_imp.InterfacePuestoDAO;
-import com.app.persistence.dao_imp.InterfaceRequerimientoDAO;
-import com.app.persistence.dao_imp.InterfaceTrabajadorDAO;
-import com.app.persistence.dao_imp.InterfaceUsuarioDAO;
+import com.app.persistence.dao_imp.IPlazo_DgpDAO;
+import com.app.persistence.dao_imp.IPuestoDAO;
+import com.app.persistence.dao_imp.IRequerimientoDAO;
+import com.app.persistence.dao_imp.ITrabajadorDAO;
+import com.app.persistence.dao_imp.IUsuarioDAO;
 import com.app.controller.inbox.Permission;
 
 /**
@@ -75,24 +75,24 @@ import com.app.controller.inbox.Permission;
 @Slf4j
 public class DGPController {
 
-    InterfaceRequerimientoDAO requerimientoDAO = new RequerimientoDAO();
-    InterfaceTrabajadorDAO tr = new TrabajadorDAO();
-    InterfaceDgpDAO dgp = new DgpDAO();
-    InterfaceAutorizacionDAO autorizacionDAO = new AutorizacionDAO();
-    InterfaceAreaDAO areaDAO = new AreaDAO();
-    InterfaceHorarioDAO IHor = new HorarioDAO();
-    InterfaceDocumentoDAO doc = new DocumentoDAO();
-    InterfaceDetalle_Centro_Costo dcc = new Detalle_Centro_Costo_DAO();
-    InterfacePuestoDAO puesto = new PuestoDAO();
-    InterfaceContratoDAO contrato = new ContratoDAO();
-    InterfaceCentro_CostosDAO cc = new Centro_CostoDAO();
-    InterfaceDatos_Hijo_Trabajador dht = new Datos_Hijo_TrabajadorDAO();
-    InterfaceGrupo_ocupacionesDAO gr = new GrupoOcupacionesDAO();
-    InterfacePlazo_DgpDAO plazo = new Plazo_DgpDAO();
-    InterfaceFuncionDAO funcion = new FuncionDAO();
-    InterfaceListaDAO lista = new ListaDAO();
-    InterfaceUsuarioDAO usuario = new UsuarioDAO();
-    InterfaceDireccionDAO dir = new DireccionDAO();
+    IRequerimientoDAO requerimientoDAO = new RequerimientoDAO();
+    ITrabajadorDAO trabajadorDAO = new TrabajadorDAO();
+    IDgpDAO dgp = new DgpDAO();
+    IAutorizacionDAO autorizacionDAO = new AutorizacionDAO();
+    IAreaDAO areaDAO = new AreaDAO();
+    IHorarioDAO horarioDAO = new HorarioDAO();
+    IDocumentoDAO documentoDAO = new DocumentoDAO();
+    IDetalleCentroCosto detalleCentroCostoDao = new Detalle_Centro_Costo_DAO();
+    IPuestoDAO puesto = new PuestoDAO();
+    IContratoDAO contrato = new ContratoDAO();
+    ICentro_CostosDAO centroCostoDAO = new Centro_CostoDAO();
+    IDatosHijoTrabajador datosHijoTrabajadorDAO = new Datos_Hijo_TrabajadorDAO();
+    IGrupo_ocupacionesDAO grupoOcupacionesDAO = new GrupoOcupacionesDAO();
+    IPlazo_DgpDAO plazo = new Plazo_DgpDAO();
+    IFuncionDAO funcion = new FuncionDAO();
+    IListaDAO lista = new ListaDAO();
+    IUsuarioDAO usuario = new UsuarioDAO();
+    IDireccionDAO dir = new DireccionDAO();
     InterfacePeriodo_PagoDAO periodoPago = new Periodo_PagoDAO();
 
     @GetMapping
@@ -134,7 +134,7 @@ public class DGPController {
             String ID_DGP = request.getParameter("iddgp");
             String ID_TRABAJADOR = request.getParameter("idtr");
             session.setAttribute("LIST_ID_DGP", dgp.LIST_ID_DGP(ID_DGP));
-            session.setAttribute("Cargar_dcc_dgp", cc.Cargar_dcc_dgp(ID_DGP));
+            session.setAttribute("Cargar_dcc_dgp", centroCostoDAO.Cargar_dcc_dgp(ID_DGP));
             int num = dgp.VALIDAR_DGP_CONTR(ID_DGP, ID_TRABAJADOR);
             session.setAttribute("LIST_ID_USER", usuario.List_ID_User(iduser));
 
@@ -147,10 +147,10 @@ public class DGPController {
                     session.setAttribute("Listar_Direccion", dir.Listar_Direccion());
                     session.setAttribute("List_modalidad", contrato.List_modalidad());
                     session.setAttribute("list_reg_labo", contrato.list_reg_labo());
-                    session.setAttribute("List_grup_ocu", gr.List_grup_ocu());
+                    session.setAttribute("List_grup_ocu", grupoOcupacionesDAO.List_grup_ocu());
                     session.setAttribute("Listar_Requerimiento", requerimientoDAO.Listar_Requerimiento());
 
-                    int asig = dht.ASIGNACION_F(ID_TRABAJADOR);
+                    int asig = datosHijoTrabajadorDAO.ASIGNACION_F(ID_TRABAJADOR);
                     Calendar fecha = new GregorianCalendar();
                     int año = fecha.get(Calendar.YEAR);
                     int mes = fecha.get(Calendar.MONTH);
@@ -176,7 +176,7 @@ public class DGPController {
 
                     String id_cto = contrato.Contrato_max(idtr);
                     String id_pu = puesto.puesto(id_cto);
-                    session.setAttribute("Lis_c_c_id_contr", cc.Lis_c_c_id_contr(idtr));
+                    session.setAttribute("Lis_c_c_id_contr", centroCostoDAO.Lis_c_c_id_contr(idtr));
                     session.setAttribute("List_contra_x_idcto", contrato.List_contra_x_idcto(id_cto));
                     session.setAttribute("List_Situacion_Actual", lista.List_Situacion_Actual());
                     session.setAttribute("List_Usuario", usuario.List_Usuario());
@@ -188,7 +188,7 @@ public class DGPController {
                 } else {
                     String id_cto = contrato.Contrato_max(idtr);
                     String id_pu = puesto.puesto(id_cto);
-                    session.setAttribute("Lis_c_c_id_contr", cc.Lis_c_c_id_contr(idtr));
+                    session.setAttribute("Lis_c_c_id_contr", centroCostoDAO.Lis_c_c_id_contr(idtr));
                     session.setAttribute("List_contra_x_idcto", contrato.List_contra_x_idcto(id_cto));
                     session.setAttribute("List_Situacion_Actual", lista.List_Situacion_Actual());
                     session.setAttribute("List_Usuario", usuario.List_Usuario());
@@ -211,7 +211,7 @@ public class DGPController {
 
         if (opc.equals("Listar")) {
             session.setAttribute("List_Det_Dgp", dgp.LIST_DET_DGP(iddep));
-            session.setAttribute("List_Trb_Mod_Rel", tr.LIST_TRABAJADOR_MOD_REL());
+            session.setAttribute("List_Trb_Mod_Rel", trabajadorDAO.LIST_TRABAJADOR_MOD_REL());
             response.sendRedirect("List_Dgp");
 
         }
@@ -288,7 +288,7 @@ public class DGPController {
             String ID_TRABAJADOR = request.getParameter("idtr");
             session.setAttribute("LIST_ID_DGP", dgp.LIST_ID_DGP(ID_DGP));
             session.setAttribute("VALIDAR_DGP_CONTR", dgp.VALIDAR_DGP_CONTR(ID_DGP, idtr));
-            session.setAttribute("Cargar_dcc_dgp", cc.Cargar_dcc_dgp(ID_DGP));
+            session.setAttribute("Cargar_dcc_dgp", centroCostoDAO.Cargar_dcc_dgp(ID_DGP));
             int num = dgp.VALIDAR_DGP_CONTR(ID_DGP, ID_TRABAJADOR);
             session.setAttribute("LIST_ID_USER", usuario.List_ID_User(iduser));
             response.sendRedirect("Dgp/Detalle_Dgp?idtr=" + ID_TRABAJADOR + "&num=" + num + "&iddgp=" + ID_DGP + "&opc=reg_doc");
@@ -456,7 +456,7 @@ public class DGPController {
                 String ESTADO = request.getParameter("ESTADO");
                 if (ESTADO != null) {
                     if (ESTADO.trim().equals("0")) {
-                        tr.MOD_CUENTA_SUELDO(NO_BANCO, NU_CUENTA, NU_CUENTA_BANC, ES_GEM_NU_CUENTA, NO_BANCO_OTROS, ID_TRABAJADOR, ES_CUENTA_SUELDO);
+                        trabajadorDAO.MOD_CUENTA_SUELDO(NO_BANCO, NU_CUENTA, NU_CUENTA_BANC, ES_GEM_NU_CUENTA, NO_BANCO_OTROS, ID_TRABAJADOR, ES_CUENTA_SUELDO);
                     }
                 }
                 String idrp = requerimientoDAO.id_det_req_proc(iddgp);
@@ -474,7 +474,7 @@ public class DGPController {
                     String ID_CENTRO_COSTO = request.getParameter("CENTRO_COSTOS_" + g);
                     double porcentaje = Double.parseDouble(request.getParameter("PORCENTAJE_" + g));
                     if (ID_CENTRO_COSTO != null && porcentaje != 0.0) {
-                        dcc.INSERT_DETALLE_CENTRO_COSTO(null, iddgp, porcentaje, "1", iduser, null, null, null, UserMachineProperties.getAll(), null, ID_CENTRO_COSTO);
+                        detalleCentroCostoDao.INSERT_DETALLE_CENTRO_COSTO(null, iddgp, porcentaje, "1", iduser, null, null, null, UserMachineProperties.getAll(), null, ID_CENTRO_COSTO);
                     }
                 }
                 List<String> list = autorizacionDAO.Det_Autorizacion(idrp);
@@ -498,7 +498,7 @@ public class DGPController {
                 Double horas_totales = Double.parseDouble(request.getParameter("h_total"));
                 String id_d_hor = "";
                 System.out.println("Insertando Horario...");
-                id_d_hor = IHor.Insert_Detalle_Horario(ID_DETALLE_HORARIO, iddgp, ES_DETALLE_HORARIO, iduser, null, null, null, ID_TIPO_HORARIO, ES_MOD_FORMATO, horas_totales);
+                id_d_hor = horarioDAO.Insert_Detalle_Horario(ID_DETALLE_HORARIO, iddgp, ES_DETALLE_HORARIO, iduser, null, null, null, ID_TIPO_HORARIO, ES_MOD_FORMATO, horas_totales);
                 System.out.println("Insertando detalle horario...");
                 System.out.println("dias totales:" + dia);
                 for (int i = 0; i < dia.size(); i++) {
@@ -517,7 +517,7 @@ public class DGPController {
                             if (!hora_hasta.equals("") & !hora_desde.equals("") & !d.equals("")) {
                                 hora_desde = parser24(hora_desde);
                                 hora_hasta = parser24(hora_hasta);
-                                IHor.Insert_Horario(null, hora_desde, hora_hasta, d, ES_HORARIO, id_d_hor);
+                                horarioDAO.Insert_Horario(null, hora_desde, hora_hasta, d, ES_HORARIO, id_d_hor);
                                 //ifo.Insert_Formato_Horario(null, "T"+j, d, hora_desde, hora_hasta, "1", ID_TIPO_HORARIO);
                             }
                         }
@@ -552,26 +552,26 @@ public class DGPController {
                     idreq = "REQ-0011";
                 }
 
-                String ES_CUENTA_SUELDO = tr.CuentaSueldoTra(idtr);
+                String ES_CUENTA_SUELDO = trabajadorDAO.CuentaSueldoTra(idtr);
 
                 while (ES_CUENTA_SUELDO == null) {
 
-                    tr.INSERT_CUENTA_SUELDO(null, null, null, null, "0", null, idtr, "0");
-                    ES_CUENTA_SUELDO = tr.CuentaSueldoTra(idtr);
+                    trabajadorDAO.INSERT_CUENTA_SUELDO(null, null, null, null, "0", null, idtr, "0");
+                    ES_CUENTA_SUELDO = trabajadorDAO.CuentaSueldoTra(idtr);
                 }
 
                 session.setAttribute("Listar_Requerimiento", requerimientoDAO.Listar_Requerimiento());
                 session.setAttribute("List_Puesto", puesto.List_Puesto_Dep(iddep));
-                session.setAttribute("Listar_Trabajador_id", tr.ListaridTrabajador(idtr));
+                session.setAttribute("Listar_Trabajador_id", trabajadorDAO.ListaridTrabajador(idtr));
                 session.setAttribute("list_Cuenta_Sueldo", dgp.LIST_CUEN_SUEL(idtr));
                 session.setAttribute("fecha_maxima_plazo", plazo.fecha_maxima_plazo());
 
-                response.sendRedirect("views/Dgp/Reg_Dgp.html?idreq=" + idreq + "&es_cs=" + ES_CUENTA_SUELDO + "&as_f=" + dht.ASIGNACION_F(idtr));
+                response.sendRedirect("views/Dgp/Reg_Dgp.html?idreq=" + idreq + "&es_cs=" + ES_CUENTA_SUELDO + "&as_f=" + datosHijoTrabajadorDAO.ASIGNACION_F(idtr));
             }
             if (opc.equals("Reg_renuncia")) {
                 //   String iddeph = request.getParameter("idep");
                 /* TEMPORAL*/
-                String Tipo_planilla = tr.tipo_planilla(idtr);
+                String Tipo_planilla = trabajadorDAO.tipo_planilla(idtr);
                 if (Tipo_planilla.equals("TPL-0001")) {
                     idreq = "REQ-0015";
                 }
@@ -606,12 +606,12 @@ public class DGPController {
             if (opc.equals("MODIFICAR REQUERIMIENTO")) {
                 String iddgp = request.getParameter("iddgp");
                 int can_cc = dgp.Can_cc_iddgp(iddgp);
-                String id_d_hor = IHor.id_det_horario(iddgp);
+                String id_d_hor = horarioDAO.id_det_horario(iddgp);
                 idtr = dgp.obt_idtr_x_dgp(iddgp);
-                String ES_CUENTA_SUELDO = tr.CuentaSueldoTra(idtr);
+                String ES_CUENTA_SUELDO = trabajadorDAO.CuentaSueldoTra(idtr);
                // out.println(idtr + " " + iddgp + "" + idreq + "" + iddep + "" + idpuesto);
                 session.setAttribute("LIST_ID_DGP", dgp.LIST_ID_DGP(iddgp));
-                session.setAttribute("Listar_Trabajador_id", tr.ListaridTrabajador(idtr));
+                session.setAttribute("Listar_Trabajador_id", trabajadorDAO.ListaridTrabajador(idtr));
                 session.setAttribute("List_Puesto", puesto.List_Puesto_Dep(iddep));
                 session.setAttribute("list_Cuenta_Sueldo", dgp.LIST_CUEN_SUEL(idtr));
                 session.setAttribute("Listar_Requerimiento", requerimientoDAO.Listar_Requerimiento());
@@ -712,7 +712,7 @@ public class DGPController {
                 String ESTADO = request.getParameter("ESTADO");
                 if (ESTADO != null) {
                     if (ESTADO.trim().equals("0")) {
-                        tr.MOD_CUENTA_SUELDO(NO_BANCO, NU_CUENTA, NU_CUENTA_BANC, ES_GEM_NU_CUENTA, NO_BANCO_OTROS, ID_TRABAJADOR, ES_CUENTA_SUELDO);
+                        trabajadorDAO.MOD_CUENTA_SUELDO(NO_BANCO, NU_CUENTA, NU_CUENTA_BANC, ES_GEM_NU_CUENTA, NO_BANCO_OTROS, ID_TRABAJADOR, ES_CUENTA_SUELDO);
                     }
                 }
                 /*Actualizando centro de costo*/
@@ -726,7 +726,7 @@ public class DGPController {
                             Double porcen = Double.parseDouble(request.getParameter("PORCENTAJE_" + (gg + 1)));
                             String id_dt_cen_c = request.getParameter("id_dcc" + (gg + 1));
                             System.out.println("Modificando centro de costo:" + id_dt_cen_c);
-                            dcc.Modificar_Centro_Costo_porc(id_dt_cen_c, porcen, iduser);
+                            detalleCentroCostoDao.Modificar_Centro_Costo_porc(id_dt_cen_c, porcen, iduser);
                         } else {
                             System.out.println(":: No se encontraron los id");
                         }
@@ -740,7 +740,7 @@ public class DGPController {
                             String centro_c_nuevo = request.getParameter("CENTRO_COSTOS_" + (cant_inicial + i));
 
                             System.out.println("***Agregando centro de costo:" + centro_c_nuevo);
-                            dcc.INSERT_DETALLE_CENTRO_COSTO("", ID_DGP, porc_nuevo, "1", iduser, "", "", "", UserMachineProperties.getAll(),
+                            detalleCentroCostoDao.INSERT_DETALLE_CENTRO_COSTO("", ID_DGP, porc_nuevo, "1", iduser, "", "", "", UserMachineProperties.getAll(),
                                     "", centro_c_nuevo);
                             System.out.println("***Centro de costo agregado**");
 
@@ -754,8 +754,8 @@ public class DGPController {
                 String es_mod = request.getParameter("estado_de_horario");
 
                 if (es_mod.equals("1")) {
-                    String id_de_horario = IHor.id_detalle_horario(ID_DGP);
-                    IHor.ELIMINAR_HORARIO(id_de_horario);
+                    String id_de_horario = horarioDAO.id_detalle_horario(ID_DGP);
+                    horarioDAO.ELIMINAR_HORARIO(id_de_horario);
                     List<String> dia = new ArrayList<String>();
                     dia.add("lun");
                     dia.add("mar");
@@ -773,7 +773,7 @@ public class DGPController {
                     String ES_MOD_FORMATO = "1";
                     Double horas_totales = Double.parseDouble(request.getParameter("h_total"));
                     String id_d_hor = "";
-                    id_d_hor = IHor.Insert_Detalle_Horario(ID_DETALLE_HORARIO, ID_DGP, ES_DETALLE_HORARIO, iduser, null, null, null, ID_TIPO_HORARIO, ES_MOD_FORMATO, horas_totales);
+                    id_d_hor = horarioDAO.Insert_Detalle_Horario(ID_DETALLE_HORARIO, ID_DGP, ES_DETALLE_HORARIO, iduser, null, null, null, ID_TIPO_HORARIO, ES_MOD_FORMATO, horas_totales);
                     for (int i = 0; i < dia.size(); i++) {
                         for (int j = 0; j < 10; j++) {
                             String hora_desde = request.getParameter("HORA_DESDE_" + dia.get(i) + j);
@@ -781,7 +781,7 @@ public class DGPController {
                             String d = request.getParameter("DIA_" + dia.get(i) + j);
                             if (hora_desde != null & d != null & hora_hasta != null) {
                                 if (!hora_hasta.equals("") & !hora_desde.equals("") & !d.equals("")) {
-                                    IHor.Insert_Horario("", hora_desde, hora_hasta, d, ES_HORARIO, id_d_hor);
+                                    horarioDAO.Insert_Horario("", hora_desde, hora_hasta, d, ES_HORARIO, id_d_hor);
                                 }
                             }
                         }
@@ -801,14 +801,14 @@ public class DGPController {
                             String ho_desde = request.getParameter("HORA_DESDE_" + dia.get(y) + j);
                             String ho_hasta = request.getParameter("HORA_HASTA_" + dia.get(y) + j);
                             if (id_horario != null) {
-                                IHor.modificar_horario(ho_desde, ho_hasta, id_horario);
+                                horarioDAO.modificar_horario(ho_desde, ho_hasta, id_horario);
                             }
                         }
                     }
                 }
-                session.setAttribute("List_doc_req_pla", doc.List_doc_req_pla(iddgp, ID_TRABAJADOR));
-                session.setAttribute("List_Hijos", doc.List_Hijos(ID_TRABAJADOR));
-                session.setAttribute("List_Conyugue", doc.List_Conyugue(ID_TRABAJADOR));
+                session.setAttribute("List_doc_req_pla", documentoDAO.List_doc_req_pla(iddgp, ID_TRABAJADOR));
+                session.setAttribute("List_Hijos", documentoDAO.List_Hijos(ID_TRABAJADOR));
+                session.setAttribute("List_Conyugue", documentoDAO.List_Conyugue(ID_TRABAJADOR));
 
                 String redireccionar = request.getParameter("redirect");
                 if (redireccionar != null) {

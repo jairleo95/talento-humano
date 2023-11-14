@@ -85,7 +85,6 @@ public class MenuController {
 
         String idrol = (String) sesion.getAttribute("IDROL");
         String module = (String) sesion.getAttribute("moduleSelected");
-        System.out.println("module selected:"+module);
 
         return Irol.listarURL(idrol, module);
     }

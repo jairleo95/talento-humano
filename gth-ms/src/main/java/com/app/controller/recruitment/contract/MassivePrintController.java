@@ -6,7 +6,7 @@
 package com.app.controller.recruitment.contract;
 
 import com.app.persistence.dao.ContratoDAO;
-import com.app.persistence.dao_imp.InterfaceContratoDAO;
+import com.app.persistence.dao_imp.IContratoDAO;
 import com.app.controller.util.DateFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -40,7 +40,7 @@ public class MassivePrintController {
 
         String iddep = (String) sesion.getAttribute("DEPARTAMENTO_ID");
         DateFormat co = new DateFormat();
-        InterfaceContratoDAO c = new ContratoDAO();
+        IContratoDAO c = new ContratoDAO();
         try {
             if (opc.equals("filtrar")) {
                 String del = request.getParameter("desde").trim();

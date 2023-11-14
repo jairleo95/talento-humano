@@ -13,8 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import com.app.persistence.dao_imp.InterfaceHorarioDAO;
-import com.app.config.factory.ConexionBD;
+import com.app.persistence.dao_imp.IHorarioDAO;
+import com.app.config.factory.DBConnection;
 import com.app.config.factory.FactoryConnectionDB;
 import com.app.domain.model.V_Horario;
 
@@ -22,9 +22,9 @@ import com.app.domain.model.V_Horario;
  *
  * @author Admin
  */
-public class HorarioDAO implements InterfaceHorarioDAO {
+public class HorarioDAO implements IHorarioDAO {
 
-    ConexionBD conn;
+    DBConnection conn;
 
     @Override
     public String Max_id_Detalle_Horario() {
@@ -81,7 +81,7 @@ public class HorarioDAO implements InterfaceHorarioDAO {
 
         try {
             this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            CallableStatement cst = this.conn.conex.prepareCall("{CALL RHSP_INSERT_HORARIO( ?, ?, ?, ?, ?, ?)}");
+            CallableStatement cst = this.conn.connection.prepareCall("{CALL RHSP_INSERT_HORARIO( ?, ?, ?, ?, ?, ?)}");
             cst.setString(1, null);
             cst.setString(2, HO_DESDE);
             cst.setString(3, HO_HASTA);
@@ -102,7 +102,7 @@ public class HorarioDAO implements InterfaceHorarioDAO {
         String id = "";
         try {
             this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            CallableStatement cst = this.conn.conex.prepareCall("{CALL RHSP_INSERT_DETALLE_HORARIO( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,? )}");
+            CallableStatement cst = this.conn.connection.prepareCall("{CALL RHSP_INSERT_DETALLE_HORARIO( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,? )}");
             cst.setString(1, null);
             cst.setString(2, ID_DGP);
             cst.setString(3, ES_DE_HOR);
@@ -164,7 +164,7 @@ public class HorarioDAO implements InterfaceHorarioDAO {
     public void ELIMINAR_HORARIO(String ID_DET_HORARIO) {
         try {
             this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            CallableStatement cst = this.conn.conex.prepareCall("{CALL RHSP_ELIMINAR_DET_HORARIO( ?)}");
+            CallableStatement cst = this.conn.connection.prepareCall("{CALL RHSP_ELIMINAR_DET_HORARIO( ?)}");
             cst.setString(1, ID_DET_HORARIO.trim());
             cst.execute();
         } catch (SQLException e) {
@@ -180,7 +180,7 @@ public class HorarioDAO implements InterfaceHorarioDAO {
     public void modificar_horario(String ho_desde, String ho_hasta, String id_horario) {
         try {
             this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            CallableStatement cst = this.conn.conex.prepareCall("{CALL RHSP_MODIFICAR_HORARIO( ?,?,?)}");
+            CallableStatement cst = this.conn.connection.prepareCall("{CALL RHSP_MODIFICAR_HORARIO( ?,?,?)}");
             cst.setString(1, id_horario);
             cst.setString(2, ho_desde);
             cst.setString(3, ho_hasta);
@@ -199,7 +199,7 @@ public class HorarioDAO implements InterfaceHorarioDAO {
         String id = "";
         try {
             this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            CallableStatement cst = this.conn.conex.prepareCall("{CALL RHSP_INSERT_DETALLE_HORARIO( ?, ?, ?, ?,?, ?, ?, ?, ?,?,?)}");
+            CallableStatement cst = this.conn.connection.prepareCall("{CALL RHSP_INSERT_DETALLE_HORARIO( ?, ?, ?, ?,?, ?, ?, ?, ?,?,?)}");
             cst.setString(1, null);
             cst.setString(2, ID_DGP);
             cst.setString(3, ES_DE_HOR);

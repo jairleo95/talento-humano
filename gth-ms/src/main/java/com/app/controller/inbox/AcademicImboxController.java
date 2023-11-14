@@ -3,14 +3,13 @@ package com.app.controller.inbox;
 import com.app.persistence.dao.AutorizacionDAO;
 import com.app.persistence.dao.CorreoDAO;
 import com.app.persistence.dao.EmpleadoDAO;
-import com.app.persistence.dao_imp.InterfaceAutorizacionDAO;
+import com.app.persistence.dao_imp.IAutorizacionDAO;
 import com.app.persistence.dao_imp.InterfaceCorreoDAO;
-import com.app.persistence.dao_imp.InterfaceEmpleadoDAO;
+import com.app.persistence.dao_imp.IEmpleadoDAO;
 import com.app.domain.model.V_Autorizar_Dgp;
 import com.app.controller.util.CCriptografiar;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -27,8 +26,8 @@ import java.util.Map;
 @RequestMapping("academicImbox")
 public class AcademicImboxController {
 
-    InterfaceEmpleadoDAO e = new EmpleadoDAO();
-    InterfaceAutorizacionDAO a = new AutorizacionDAO();
+    IEmpleadoDAO e = new EmpleadoDAO();
+    IAutorizacionDAO a = new AutorizacionDAO();
     InterfaceCorreoDAO correo = new CorreoDAO();
 
     @RequestMapping

@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.app.persistence.dao_imp.InterfacePadre_Madre_ConyugueDAO;
-import com.app.config.factory.ConexionBD;
+import com.app.config.factory.DBConnection;
 import com.app.config.factory.FactoryConnectionDB;
 import com.app.config.UserMachineProperties;
 import com.app.controller.util.DateFormat;
@@ -28,7 +28,7 @@ import com.app.controller.util.DateFormat;
  */
 public class Padre_Madre_ConyugueDAO implements InterfacePadre_Madre_ConyugueDAO {
 
-    ConexionBD conn;
+    DBConnection conn;
     DateFormat c = new DateFormat();
 
     @Override
@@ -36,7 +36,7 @@ public class Padre_Madre_ConyugueDAO implements InterfacePadre_Madre_ConyugueDAO
         CallableStatement cst;
         try {
             this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            cst = conn.conex.prepareCall("{CALL RHSP_INSERT_CONYUGUE(  ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}");
+            cst = conn.connection.prepareCall("{CALL RHSP_INSERT_CONYUGUE(  ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}");
             cst.setString(1, ES_TRABAJA_UPEU_CONYUGUE);
             cst.setString(2, AP_NOMBRES_CONYUGUE);
             cst.setString(3, DateFormat.toFormat1(FE_NAC_CONYUGUE));
@@ -68,7 +68,7 @@ public class Padre_Madre_ConyugueDAO implements InterfacePadre_Madre_ConyugueDAO
         CallableStatement cst;
         try {
             this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            cst = conn.conex.prepareCall("{CALL RHSP_MOD_PADRE_MAD_CON( ?, ?, ?, ?, ?, ?, ?, ? ,?, ?, ?)}");
+            cst = conn.connection.prepareCall("{CALL RHSP_MOD_PADRE_MAD_CON( ?, ?, ?, ?, ?, ?, ?, ? ,?, ?, ?)}");
             cst.setString(1, AP_NOMBRES_PADRE);
             cst.setString(2, AP_NOMBRES_MADRE);
             cst.setString(3, ES_TRABAJA_UPEU_CONYUGUE);
@@ -99,7 +99,7 @@ public class Padre_Madre_ConyugueDAO implements InterfacePadre_Madre_ConyugueDAO
         CallableStatement cst;
         try {
             this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            cst = conn.conex.prepareCall("{CALL RHSP_MOD_PADRES( ?, ?, ?, ?, ?)}");
+            cst = conn.connection.prepareCall("{CALL RHSP_MOD_PADRES( ?, ?, ?, ?, ?)}");
             cst.setString(1, AP_NOMBRES_PADRE);
             cst.setString(2, AP_NOMBRES_MADRE);
             cst.setString(3, ID_TRABAJADOR);
@@ -154,7 +154,7 @@ public class Padre_Madre_ConyugueDAO implements InterfacePadre_Madre_ConyugueDAO
         CallableStatement cst;
         try {
             this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            cst = conn.conex.prepareCall("{CALL RHSP_INSERT_PADRES(  ?, ?, ?, ?, ?)}");
+            cst = conn.connection.prepareCall("{CALL RHSP_INSERT_PADRES(  ?, ?, ?, ?, ?)}");
             cst.setString(1, AP_NOMBRES_MADRE);
             cst.setString(2, AP_NOMBRES_PADRE);
             cst.setString(3, ID_TRABAJDOR);

@@ -27,13 +27,13 @@ import com.app.persistence.dao.DepartamentoDao;
 import com.app.persistence.dao.ListaDAO;
 import com.app.persistence.dao.SeccionDAO;
 import com.app.persistence.dao.Sub_ModalidadDAO;
-import com.app.persistence.dao_imp.InterfaceAreaDAO;
-import com.app.persistence.dao_imp.InterfaceDepartamentoDAO;
-import com.app.persistence.dao_imp.InterfaceDireccionDAO;
-import com.app.persistence.dao_imp.InterfaceListaDAO;
-import com.app.persistence.dao_imp.InterfacePuestoDAO;
+import com.app.persistence.dao_imp.IAreaDAO;
+import com.app.persistence.dao_imp.IDepartamentoDAO;
+import com.app.persistence.dao_imp.IDireccionDAO;
+import com.app.persistence.dao_imp.IListaDAO;
+import com.app.persistence.dao_imp.IPuestoDAO;
 import com.app.persistence.dao_imp.InterfaceSeccionDAO;
-import com.app.persistence.dao_imp.InterfaceSub_ModalidadDAO;
+import com.app.persistence.dao_imp.ISub_ModalidadDAO;
 
 /**
  *
@@ -44,13 +44,13 @@ import com.app.persistence.dao_imp.InterfaceSub_ModalidadDAO;
 public class CDir_Puesto {
 
 
-    InterfaceDepartamentoDAO dep = new DepartamentoDao();
-    InterfaceAreaDAO are = new AreaDAO();
+    IDepartamentoDAO dep = new DepartamentoDao();
+    IAreaDAO are = new AreaDAO();
     InterfaceSeccionDAO sec = new SeccionDAO();
-    InterfacePuestoDAO p = new PuestoDAO();
-    InterfaceSub_ModalidadDAO sub = new Sub_ModalidadDAO();
-    InterfaceDireccionDAO dir = new DireccionDAO();
-    InterfaceListaDAO lD=new ListaDAO();
+    IPuestoDAO p = new PuestoDAO();
+    ISub_ModalidadDAO sub = new Sub_ModalidadDAO();
+    IDireccionDAO dir = new DireccionDAO();
+    IListaDAO lD=new ListaDAO();
 
     @GetMapping
     public ResponseEntity<?> list(HttpServletRequest request) {

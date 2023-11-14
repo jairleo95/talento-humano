@@ -13,19 +13,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.app.persistence.dao_imp.InterfaceCentro_CostosDAO;
-import com.app.config.factory.ConexionBD;
+import com.app.persistence.dao_imp.ICentro_CostosDAO;
+import com.app.config.factory.DBConnection;
 import com.app.config.factory.FactoryConnectionDB;
-import com.app.domain.model.Centro_Costos;
-import com.app.domain.model.Detalle_Centro_Costo;
+import com.app.domain.model.CostCenter;
+import com.app.domain.model.CostCenterDetail;
 
 /**
  *
  * @author JAIR
  */
-public class Centro_CostoDAO implements InterfaceCentro_CostosDAO {
+public class Centro_CostoDAO implements ICentro_CostosDAO {
 
-    ConexionBD conn;
+    DBConnection conn;
 
     @Override
     public List<Map<String, ?>> List_centro_costo(String iddep) {
@@ -56,14 +56,14 @@ public class Centro_CostoDAO implements InterfaceCentro_CostosDAO {
     }
 
     @Override
-    public List<Centro_Costos> List_centro_costo() {
+    public List<CostCenter> List_centro_costo() {
         this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
         String sql = "select ID_CENTRO_COSTO,CO_CENTRO_COSTO,ID_DEPARTAMENTO,CO_CENTRO_COSTO ||' -  '||DE_CENTRO_COSTO as DE_CENTRO_COSTO   from RHVD_CENTRO_COSTO order by DE_CENTRO_COSTO";
-        List<Centro_Costos> list = new ArrayList<Centro_Costos>();
+        List<CostCenter> list = new ArrayList<CostCenter>();
         try {
             ResultSet rs = this.conn.query(sql);
             while (rs.next()) {
-                Centro_Costos d = new Centro_Costos();
+                CostCenter d = new CostCenter();
                 d.setId_centro_costo(rs.getString("ID_CENTRO_COSTO"));
                 d.setDe_centro_costo(rs.getString("DE_CENTRO_COSTO"));
                 d.setCo_centro_costo(rs.getString("CO_CENTRO_COSTO"));
@@ -202,7 +202,7 @@ public class Centro_CostoDAO implements InterfaceCentro_CostosDAO {
     public void Mod_det_centro(String id_cent_cos, String id_contrato) {
         try {
             this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            CallableStatement cst = this.conn.conex.prepareCall("{CALL RHSP_MOD_DET_CEN_C_IDT(?, ? )} ");
+            CallableStatement cst = this.conn.connection.prepareCall("{CALL RHSP_MOD_DET_CEN_C_IDT(?, ? )} ");
             cst.setString(1, id_cent_cos);
             cst.setString(2, id_contrato);
             cst.execute();
@@ -220,16 +220,16 @@ public class Centro_CostoDAO implements InterfaceCentro_CostosDAO {
     }
 
     @Override
-    public List<Centro_Costos> Lis_c_c_id_contr(String id_contrato) {
+    public List<CostCenter> Lis_c_c_id_contr(String id_contrato) {
         this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
         String sql = "SELECT c.ID_CENTRO_COSTO ,c.DE_CENTRO_COSTO ,c.CO_CENTRO_COSTO, c.ID_DEPARTAMENTO, "
                 + " d.CA_PORCENTAJE FROM RHVD_CENTRO_COSTO c,RHTD_DETALLE_CENTRO_COSTO d "
                 + " where d.ID_DEPART_CENTRO_COSTO=c.ID_DEPART_CENTRO_COSTO and  d.ID_CONTRATO='" + id_contrato.trim() + "'";
-        List<Centro_Costos> list = new ArrayList<Centro_Costos>();
+        List<CostCenter> list = new ArrayList<CostCenter>();
         try {
             ResultSet rs = this.conn.query(sql);
             while (rs.next()) {
-                Centro_Costos d = new Centro_Costos();
+                CostCenter d = new CostCenter();
                 d.setId_centro_costo(rs.getString("ID_CENTRO_COSTO"));
                 d.setDe_centro_costo(rs.getString("DE_CENTRO_COSTO"));
                 d.setCo_centro_costo(rs.getString("CO_CENTRO_COSTO"));
@@ -346,14 +346,14 @@ public class Centro_CostoDAO implements InterfaceCentro_CostosDAO {
     }
 
     @Override
-    public List<Centro_Costos> Lis_c_c_id_dgp(String id_dgp) {
+    public List<CostCenter> Lis_c_c_id_dgp(String id_dgp) {
         this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
         String sql = "SELECT c.ID_CENTRO_COSTO ,c.DE_CENTRO_COSTO ,c.CO_CENTRO_COSTO, c.ID_DEPARTAMENTO, d.CA_PORCENTAJE FROM RHVD_CENTRO_COSTO c,RHTD_DETALLE_CENTRO_COSTO d where d.ID_CENTRO_COSTO=c.ID_CENTRO_COSTO and  d.ID_DGP ='" + id_dgp.trim() + "';";
-        List<Centro_Costos> list = new ArrayList<Centro_Costos>();
+        List<CostCenter> list = new ArrayList<CostCenter>();
         try {
             ResultSet rs = this.conn.query(sql);
             while (rs.next()) {
-                Centro_Costos d = new Centro_Costos();
+                CostCenter d = new CostCenter();
                 d.setId_centro_costo(rs.getString("ID_CENTRO_COSTO"));
                 d.setDe_centro_costo(rs.getString("DE_CENTRO_COSTO"));
                 d.setCo_centro_costo(rs.getString("CO_CENTRO_COSTO"));
@@ -376,17 +376,17 @@ public class Centro_CostoDAO implements InterfaceCentro_CostosDAO {
     }
 
     @Override
-    public List<Detalle_Centro_Costo> Cargar_dcc_dgp(String id) {
+    public List<CostCenterDetail> Cargar_dcc_dgp(String id) {
         this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
         String sql = "select  distinct(c.CO_CENTRO_COSTO) ,  CC.ID_DGP, cc.ID_CENTRO_COSTO,d.ID_DIRECCION,c.ID_DEPARTAMENTO,c.ID_AREA,"
                 + "cc.CA_PORCENTAJE,c.DE_CENTRO_COSTO from RHTD_DETALLE_CENTRO_COSTO cc , RHVD_CENTRO_COSTO c ,"
                 + " RHTX_DIRECCION d , RHTX_DEPARTAMENTO dp where cc.ID_DEPART_CENTRO_COSTO = c.ID_DEPART_CENTRO_COSTO  "
                 + "and dp.ID_DEPARTAMENTO = c.ID_DEPARTAMENTO  and cc.ES_DETALLE_CC='1'  and dp.ID_DIRECCION = d.ID_DIRECCION and cc.id_dgp='" + id + "'";
-        List<Detalle_Centro_Costo> Lista = new ArrayList<Detalle_Centro_Costo>();
+        List<CostCenterDetail> Lista = new ArrayList<CostCenterDetail>();
         try {
             ResultSet rs = this.conn.query(sql);
             while (rs.next()) {
-                Detalle_Centro_Costo d = new Detalle_Centro_Costo();
+                CostCenterDetail d = new CostCenterDetail();
                 d.setId_centro_costo(rs.getString("id_centro_costo"));
                 d.setId_direccion(rs.getString("id_direccion"));
                 d.setId_departamento(rs.getString("id_departamento"));
@@ -499,7 +499,7 @@ public class Centro_CostoDAO implements InterfaceCentro_CostosDAO {
         CallableStatement cst;
         try {
             this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            cst = conn.conex.prepareCall("{CALL RHSP_ELIMINAR_DET_CC( ? )}");
+            cst = conn.connection.prepareCall("{CALL RHSP_ELIMINAR_DET_CC( ? )}");
             cst.setString(1, id_dcc.trim());
             cst.execute();
         } catch (SQLException e) {

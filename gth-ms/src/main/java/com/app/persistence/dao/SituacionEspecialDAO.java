@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.app.persistence.dao_imp.InterfaceSituacionEspecialDAO;
-import com.app.config.factory.ConexionBD;
+import com.app.config.factory.DBConnection;
 import com.app.config.factory.FactoryConnectionDB;
 import com.app.domain.model.SituacionEspecial;
 
@@ -20,7 +20,7 @@ import com.app.domain.model.SituacionEspecial;
  * @author JAIR
  */
 public class SituacionEspecialDAO implements InterfaceSituacionEspecialDAO {
-    ConexionBD conn;
+    DBConnection conn;
     @Override
     public List<SituacionEspecial> list() {
         this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);

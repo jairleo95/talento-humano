@@ -9,8 +9,8 @@ import java.sql.CallableStatement;
 import java.sql.SQLException;
 import java.sql.Types;
 
-import com.app.persistence.dao_imp.InterfaceDetalle_Centro_Costo;
-import com.app.config.factory.ConexionBD;
+import com.app.persistence.dao_imp.IDetalleCentroCosto;
+import com.app.config.factory.DBConnection;
 import com.app.config.factory.FactoryConnectionDB;
 import com.app.controller.util.DateFormat;
 
@@ -18,9 +18,9 @@ import com.app.controller.util.DateFormat;
  *
  * @author JAIR
  */
-public class Detalle_Centro_Costo_DAO implements InterfaceDetalle_Centro_Costo {
+public class Detalle_Centro_Costo_DAO implements IDetalleCentroCosto {
 
-    ConexionBD conn;
+    DBConnection conn;
     DateFormat c = new DateFormat();
 
     @Override
@@ -30,7 +30,7 @@ public class Detalle_Centro_Costo_DAO implements InterfaceDetalle_Centro_Costo {
         String id = "";
         try {
             this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            CallableStatement cst = this.conn.conex.prepareCall("{CALL RHSP_INSERT_DETALLE_CC( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )} ");
+            CallableStatement cst = this.conn.connection.prepareCall("{CALL RHSP_INSERT_DETALLE_CC( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )} ");
             cst.setString(1, null);
            // cst.setString(2, ID_CENTRO_COSTO);
             cst.setString(2, ID_DGP);
@@ -64,7 +64,7 @@ public class Detalle_Centro_Costo_DAO implements InterfaceDetalle_Centro_Costo {
     public void Modificar_Centro_Costo_porc(String id_dcc, Double porc, String id_user) {
         try {
             this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            CallableStatement cst = this.conn.conex.prepareCall("{CALL RHSP_MOD_POR_D_CEN_C( ?, ?, ?)}");
+            CallableStatement cst = this.conn.connection.prepareCall("{CALL RHSP_MOD_POR_D_CEN_C( ?, ?, ?)}");
             cst.setString(1, id_dcc.trim());
             cst.setDouble(2, porc);
             cst.setString(3, id_user.trim());

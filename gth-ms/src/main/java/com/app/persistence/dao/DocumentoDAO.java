@@ -12,8 +12,8 @@ import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.app.persistence.dao_imp.InterfaceDocumentoDAO;
-import com.app.config.factory.ConexionBD;
+import com.app.persistence.dao_imp.IDocumentoDAO;
+import com.app.config.factory.DBConnection;
 import com.app.config.factory.FactoryConnectionDB;
 import com.app.domain.model.Datos_Hijo_Trabajador;
 import com.app.domain.model.Documentos;
@@ -26,9 +26,9 @@ import com.app.domain.model.V_Reg_Dgp_Tra;
  *
  * @author Admin
  */
-public class DocumentoDAO implements InterfaceDocumentoDAO {
+public class DocumentoDAO implements IDocumentoDAO {
 
-    ConexionBD conn;
+    DBConnection conn;
     String Url_Archivo = FactoryConnectionDB.url_archivos;
 
     @Override
@@ -443,7 +443,7 @@ public class DocumentoDAO implements InterfaceDocumentoDAO {
     public void INSERT_DGP_DOC_ADJ(String ID_DGP_DOC_ADJ, String ID_DGP, String ID_DOCUMENTO_ADJUNTO, String ES_DGP_DOC_ADJ, String idtr, String idh) {
         try {
             this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            CallableStatement cst = this.conn.conex.prepareCall("{CALL RHSP_INSERT_DGP_DOC_ADJ( ?, ?, ?, ? ,?,?)} ");
+            CallableStatement cst = this.conn.connection.prepareCall("{CALL RHSP_INSERT_DGP_DOC_ADJ( ?, ?, ?, ? ,?,?)} ");
             cst.setString(1, null);
             cst.setString(2, null);
             cst.setString(3, ID_DOCUMENTO_ADJUNTO.trim());
@@ -470,7 +470,7 @@ public class DocumentoDAO implements InterfaceDocumentoDAO {
         String id = "";
         try {
             this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            CallableStatement cst = this.conn.conex.prepareCall("{CALL RHSP_INSERT_DOCUMENTO_ADJUNTO( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?,?)}");
+            CallableStatement cst = this.conn.connection.prepareCall("{CALL RHSP_INSERT_DOCUMENTO_ADJUNTO( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?,?)}");
             cst.setString(1, null);
             cst.setString(2, ID_DOCUMENTOS);
             cst.setString(3, ES_DOCUMENTO_ADJUNTO);
@@ -503,7 +503,7 @@ public class DocumentoDAO implements InterfaceDocumentoDAO {
     public void INSERT_ARCHIVO_DOCUMENTO(String ID_ARCHIVO_DOCUMENTO, String ID_DOCUMENTO_ADJUNTO, String NO_FILE, String NO_ORIGINAL, String ES_FILE) {
         try {
             this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            CallableStatement cst = this.conn.conex.prepareCall("{CALL RHSP_INSERT_ARCHIVO_DOCUMENTO( ?, ?, ?, ?, ? )} ");
+            CallableStatement cst = this.conn.connection.prepareCall("{CALL RHSP_INSERT_ARCHIVO_DOCUMENTO( ?, ?, ?, ?, ? )} ");
             cst.setString(1, null);
             cst.setString(2, ID_DOCUMENTO_ADJUNTO.trim());
             cst.setString(3, NO_FILE);
@@ -585,7 +585,7 @@ public class DocumentoDAO implements InterfaceDocumentoDAO {
     public void Desactivar_doc(String id_doc_adj) {
         try {
             this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            CallableStatement cst = this.conn.conex.prepareCall("{CALL RHSP_DESAC_DOC_ADJ(?)} ");
+            CallableStatement cst = this.conn.connection.prepareCall("{CALL RHSP_DESAC_DOC_ADJ(?)} ");
             cst.setString(1, id_doc_adj.trim());
             cst.execute();
         } catch (SQLException e) {
@@ -762,7 +762,7 @@ public class DocumentoDAO implements InterfaceDocumentoDAO {
     public void INSERT_DGP_DOC_tra(String ID_DGP_DOC_ADJ, String ID_DGP, String ID_DOCUMENTO_ADJUNTO, String ES_DGP_DOC_ADJ, String idtr, String idh) {
         try {
             this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            CallableStatement cst = this.conn.conex.prepareCall("{CALL RHSP_INSERT_DGP_DOC_ADJ( ?, ?, ?, ? ,?,?)} ");
+            CallableStatement cst = this.conn.connection.prepareCall("{CALL RHSP_INSERT_DGP_DOC_ADJ( ?, ?, ?, ? ,?,?)} ");
             cst.setString(1, null);
             cst.setString(2, null);
             cst.setString(3, ID_DOCUMENTO_ADJUNTO.trim());

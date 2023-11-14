@@ -23,10 +23,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.app.persistence.dao.DepartamentoDao;
 import com.app.persistence.dao.SeccionDAO;
-import com.app.persistence.dao_imp.InterfaceAreaDAO;
-import com.app.persistence.dao_imp.InterfaceDepartamentoDAO;
-import com.app.persistence.dao_imp.InterfaceDireccionDAO;
-import com.app.persistence.dao_imp.InterfacePuestoDAO;
+import com.app.persistence.dao_imp.IAreaDAO;
+import com.app.persistence.dao_imp.IDepartamentoDAO;
+import com.app.persistence.dao_imp.IDireccionDAO;
+import com.app.persistence.dao_imp.IPuestoDAO;
 import com.app.persistence.dao_imp.InterfaceSeccionDAO;
 
 /**
@@ -38,11 +38,11 @@ import com.app.persistence.dao_imp.InterfaceSeccionDAO;
 @RequestMapping("Puesto")
 public class JobController {
 
-    InterfaceDireccionDAO di = new DireccionDAO();
-    InterfaceDepartamentoDAO de = new DepartamentoDao();
-    InterfaceAreaDAO ar = new AreaDAO();
+    IDireccionDAO di = new DireccionDAO();
+    IDepartamentoDAO de = new DepartamentoDao();
+    IAreaDAO ar = new AreaDAO();
     InterfaceSeccionDAO se= new SeccionDAO();
-    InterfacePuestoDAO pu= new PuestoDAO();
+    IPuestoDAO pu= new PuestoDAO();
 
     @PostMapping
     public ResponseEntity<?> process(HttpServletRequest request, HttpServletResponse response) {

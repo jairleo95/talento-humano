@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import com.app.persistence.dao_imp.InterfaceCarrera_UniversidadDAO;
-import com.app.config.factory.ConexionBD;
+import com.app.config.factory.DBConnection;
 import com.app.config.factory.FactoryConnectionDB;
 import com.app.domain.model.Carrera;
 import com.app.domain.model.Tipo_Institucion;
@@ -22,7 +22,7 @@ import com.app.domain.model.Tipo_Institucion;
  */
 public class Carrera_UniversidadDAO implements InterfaceCarrera_UniversidadDAO {
 
-    ConexionBD conn;
+    DBConnection conn;
 
     @Override
     public List<Map<String, ?>> Tipo_Institucion(String id_reg) {

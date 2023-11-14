@@ -13,10 +13,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.app.persistence.dao_imp.InterfaceAreaDAO;
-import com.app.persistence.dao_imp.InterfaceFormato_HorarioDAO;
+import com.app.persistence.dao_imp.IAreaDAO;
+import com.app.persistence.dao_imp.IFormato_HorarioDAO;
 import com.app.persistence.dao_imp.InterfaceSeccionDAO;
-import com.app.config.factory.ConexionBD;
+import com.app.config.factory.DBConnection;
 import com.app.config.factory.FactoryConnectionDB;
 import com.app.domain.model.Formato_Horario;
 import com.app.domain.model.Tipo_Horario;
@@ -25,15 +25,15 @@ import com.app.domain.model.Tipo_Horario;
  *
  * @author Alex
  */
-public class Formato_HorarioDAO implements InterfaceFormato_HorarioDAO {
+public class Formato_HorarioDAO implements IFormato_HorarioDAO {
 
-    ConexionBD conn;
+    DBConnection conn;
 
     @Override
     public void Insert_Horario(String ID_TIPO_HORARIO, String NO_HORARIO, String DE_HORARIO, String ES_HORARIO, Double CA_HORAS, String id_dep, String id_ar, String id_sec) {
         try {
             this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            CallableStatement cst = this.conn.conex.prepareCall("{CALL RHSP_INSERT_TIPO_HORARIO (?,?,?,?,?,?,?,?)}");
+            CallableStatement cst = this.conn.connection.prepareCall("{CALL RHSP_INSERT_TIPO_HORARIO (?,?,?,?,?,?,?,?)}");
             cst.setString(1, null);
             cst.setString(2, NO_HORARIO);
             cst.setString(3, DE_HORARIO);
@@ -81,7 +81,7 @@ public class Formato_HorarioDAO implements InterfaceFormato_HorarioDAO {
     public void Insert_Formato_Horario(String ID_FORMATO_HORARIO, String NO_TURNO, String NO_DIA, String HO_DESDE, String HO_HASTA, String ES_F_HORARIO, String ID_TIPO_HORARIO) {
         try {
             this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            CallableStatement cst = this.conn.conex.prepareCall("{CALL RHSP_INSERT_FORMATO_HORARIO (?,?,?,?,?,?,?)}");
+            CallableStatement cst = this.conn.connection.prepareCall("{CALL RHSP_INSERT_FORMATO_HORARIO (?,?,?,?,?,?,?)}");
             cst.setString(1, null);
             cst.setString(2, NO_TURNO);
             cst.setString(3, NO_DIA);
@@ -189,7 +189,7 @@ public class Formato_HorarioDAO implements InterfaceFormato_HorarioDAO {
 
         List<Map<String, ?>> Lista = new ArrayList<Map<String, ?>>();
         InterfaceSeccionDAO s = new SeccionDAO();
-        InterfaceAreaDAO a = new AreaDAO();
+        IAreaDAO a = new AreaDAO();
         try {
             this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
 
@@ -359,7 +359,7 @@ public class Formato_HorarioDAO implements InterfaceFormato_HorarioDAO {
     public void Eliminar_turno(String id_turno) {
         try {
             this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            CallableStatement cst = this.conn.conex.prepareCall("{CALL RHSP_ELIMINAR_TURNO (?)}");
+            CallableStatement cst = this.conn.connection.prepareCall("{CALL RHSP_ELIMINAR_TURNO (?)}");
             cst.setString(1, id_turno);
             cst.execute();
         } catch (SQLException ex) {
@@ -433,7 +433,7 @@ public class Formato_HorarioDAO implements InterfaceFormato_HorarioDAO {
     public void Editar_FH(String ID_TIPO_HORARIO, String NO_HORARIO, String DE_HORARIO, String ES_HORARIO, Double CA_HORAS, String id_dep, String id_ar, String id_sec) {
         try {
             this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            CallableStatement cst = this.conn.conex.prepareCall("{CALL RHSP_MODIFICAR_TIPO_HORARIO (?,?,?,?,?,?,?,?)}");
+            CallableStatement cst = this.conn.connection.prepareCall("{CALL RHSP_MODIFICAR_TIPO_HORARIO (?,?,?,?,?,?,?,?)}");
             cst.setString(1, ID_TIPO_HORARIO);
             cst.setString(2, NO_HORARIO);
             cst.setString(3, DE_HORARIO);
@@ -455,7 +455,7 @@ public class Formato_HorarioDAO implements InterfaceFormato_HorarioDAO {
     public void Eliminar_horario(String id) {
         try {
             this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            CallableStatement cst = this.conn.conex.prepareCall("{CALL RHSP_ELIMINAR_TIPO_HORARIO (?)}");
+            CallableStatement cst = this.conn.connection.prepareCall("{CALL RHSP_ELIMINAR_TIPO_HORARIO (?)}");
             cst.setString(1, id);
             cst.execute();
         } catch (SQLException ex) {
@@ -470,7 +470,7 @@ public class Formato_HorarioDAO implements InterfaceFormato_HorarioDAO {
     public void Eliminar_formato_horario(String id) {
         try {
             this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            CallableStatement cst = this.conn.conex.prepareCall("{CALL RHSP_ELIMINAR_FORMATO_HORARIO(?)}");
+            CallableStatement cst = this.conn.connection.prepareCall("{CALL RHSP_ELIMINAR_FORMATO_HORARIO(?)}");
             cst.setString(1, id);
             cst.execute();
         } catch (SQLException ex) {
@@ -485,7 +485,7 @@ public class Formato_HorarioDAO implements InterfaceFormato_HorarioDAO {
     public void StatUpdate(String id, String es) {
         try {
             this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            CallableStatement cst = this.conn.conex.prepareCall("{CALL RHSP_UPDATE_TIPO_HORARIO(?,?)}");
+            CallableStatement cst = this.conn.connection.prepareCall("{CALL RHSP_UPDATE_TIPO_HORARIO(?,?)}");
             cst.setString(1, id);
             cst.setString(2, es);
             cst.execute();

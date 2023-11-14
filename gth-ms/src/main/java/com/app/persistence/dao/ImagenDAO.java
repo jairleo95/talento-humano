@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.app.persistence.dao_imp.InterfaceImagenDAO;
-import com.app.config.factory.ConexionBD;
+import com.app.config.factory.DBConnection;
 import com.app.config.factory.FactoryConnectionDB;
 import com.app.domain.model.Fotos_Trabajador;
 
@@ -21,7 +21,7 @@ import com.app.domain.model.Fotos_Trabajador;
  */
 public class ImagenDAO implements InterfaceImagenDAO {
 
-    ConexionBD conn;
+    DBConnection conn;
 
     @Override
     public List<Fotos_Trabajador> List_Foto_Trab(String id_trab) {

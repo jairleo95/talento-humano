@@ -6,7 +6,7 @@
 package com.app.controller.notify;
 
 import com.app.persistence.dao.NotificationDAO;
-import com.app.persistence.dao_imp.InterfaceNotificationDAO;
+import com.app.persistence.dao_imp.INotificationDAO;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -27,7 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class NotificationController {
 
 
-    InterfaceNotificationDAO notdao = new NotificationDAO();
+    INotificationDAO notificationDAO = new NotificationDAO();
 
     @PostMapping
     public ResponseEntity<?> process(HttpServletRequest request) {
@@ -39,10 +39,9 @@ public class NotificationController {
         switch (op) {
             case 1:
                 iduser=request.getParameter("id");
-                System.out.println(iduser);
                 try {
                     rpta.put("rpta", "1");
-                    rpta.put("lista", notdao.List_Notifications_json(iduser));
+                    rpta.put("lista", notificationDAO.List_Notifications_json(iduser));
                 } catch (Exception e) {
                     rpta.put("rpta", "-1");
                     rpta.put("mensaje", e.getMessage());
@@ -54,14 +53,14 @@ public class NotificationController {
                 break;
             case 2:
                 String id = request.getParameter("data");
-                notdao.leido(id);
+                notificationDAO.leido(id);
                 break;
             case 3:
                 iduser=request.getParameter("id");
                 System.out.println(iduser);
                 try {
                     rpta.put("rpta", "1");
-                    rpta.put("lista", notdao.List_Notifications_json(iduser));
+                    rpta.put("lista", notificationDAO.List_Notifications_json(iduser));
 
                 } catch (Exception e) {
                     rpta.put("rpta", "-1");
@@ -76,8 +75,8 @@ public class NotificationController {
                 try {
                     String[] listid = request.getParameterValues("listid[]");
                     if (listid != null) {
-                        for (int i = 0; i < listid.length; i++) {
-                            notdao.visualizado(listid[i]);
+                        for (String s : listid) {
+                            notificationDAO.visualizado(s);
                         }
                     }
                 } catch (Exception ex) {
@@ -89,8 +88,8 @@ public class NotificationController {
                 try{
                     int n=0;
                     int no=0;
-                    n=notdao.CountUnreadAuthorized(iduser);
-                    no=notdao.CountUnreadUnAuthorized(iduser);
+                    n= notificationDAO.CountUnreadAuthorized(iduser);
+                    no= notificationDAO.CountUnreadUnAuthorized(iduser);
                     rpta.put("rpta", "1");
                     rpta.put("si", n);
                     rpta.put("no", no);

@@ -13,8 +13,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.swing.JOptionPane;
-import com.app.persistence.dao_imp.InterfaceFuncionDAO;
-import com.app.config.factory.ConexionBD;
+import com.app.persistence.dao_imp.IFuncionDAO;
+import com.app.config.factory.DBConnection;
 import com.app.config.factory.FactoryConnectionDB;
 import com.app.domain.model.Funciones;
 
@@ -22,9 +22,9 @@ import com.app.domain.model.Funciones;
  *
  * @author joserodrigo
  */
-public class FuncionDAO implements InterfaceFuncionDAO {
+public class FuncionDAO implements IFuncionDAO {
 
-    ConexionBD cnn;
+    DBConnection cnn;
 
     @Override
     public List<Funciones> Listar_funciones() {
@@ -91,7 +91,7 @@ public class FuncionDAO implements InterfaceFuncionDAO {
     public void Insertar_funcion(String id_pu, String de_fu, String user_crea, String tipo_funcion) {
         try {
             this.cnn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            CallableStatement cst = this.cnn.conex.prepareCall("{CALL RHSP_INSERT_FUNCION( ?, ?, ?, ?)}");
+            CallableStatement cst = this.cnn.connection.prepareCall("{CALL RHSP_INSERT_FUNCION( ?, ?, ?, ?)}");
             cst.setString(1, id_pu.trim());
             cst.setString(2, de_fu.trim());
             cst.setString(3, user_crea.trim());
@@ -110,7 +110,7 @@ public class FuncionDAO implements InterfaceFuncionDAO {
         boolean ok = false;
         this.cnn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
         try {
-            CallableStatement cst = this.cnn.conex.prepareCall("{CALL RHSP_MOD_FUNCION( ?, ?, ?, ?, ?, ?)}");
+            CallableStatement cst = this.cnn.connection.prepareCall("{CALL RHSP_MOD_FUNCION( ?, ?, ?, ?, ?, ?)}");
             cst.setString(1, id_fun.trim());
             cst.setString(2, de_fun.trim());
             cst.setString(3, es_fun.trim());
@@ -131,7 +131,7 @@ public class FuncionDAO implements InterfaceFuncionDAO {
         CallableStatement cst;
         try {
             this.cnn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            cst = cnn.conex.prepareCall("{CALL RHSP_ELIMINAR_FUNCION(?)}");
+            cst = cnn.connection.prepareCall("{CALL RHSP_ELIMINAR_FUNCION(?)}");
             cst.setString(1, id_fun);
             cst.execute();
         } catch (SQLException ex) {

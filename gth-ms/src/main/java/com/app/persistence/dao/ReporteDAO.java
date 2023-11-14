@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.app.persistence.dao_imp.InterfaceReporteDAO;
-import com.app.config.factory.ConexionBD;
+import com.app.config.factory.DBConnection;
 import com.app.config.factory.FactoryConnectionDB;
 import com.app.domain.model.Datos_Generales;
 import com.app.controller.util.DateFormat;
@@ -24,7 +24,7 @@ import com.app.controller.util.DateFormat;
  */
 public class ReporteDAO implements InterfaceReporteDAO {
 
-    ConexionBD conn;
+    DBConnection conn;
     DateFormat c = new DateFormat();
 
     @Override

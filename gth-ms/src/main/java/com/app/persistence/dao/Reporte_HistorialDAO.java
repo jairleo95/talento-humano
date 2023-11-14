@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.app.persistence.dao_imp.InterfaceReporte_HistorialDAO;
-import com.app.config.factory.ConexionBD;
+import com.app.config.factory.DBConnection;
 import com.app.config.factory.FactoryConnectionDB;
 
 /**
@@ -23,7 +23,7 @@ import com.app.config.factory.FactoryConnectionDB;
  */
 public class Reporte_HistorialDAO implements InterfaceReporte_HistorialDAO {
 
-    ConexionBD cnn;
+    DBConnection cnn;
 
     @Override
     public List<Map<String, ?>> Listar_Tra_Fecha(String FE_INICIO, String FE_FIN) {
@@ -400,7 +400,7 @@ public class Reporte_HistorialDAO implements InterfaceReporte_HistorialDAO {
     public void Procesar_historial_hijo(String id_hijo, String es_fecha, String fecha) {
         try {
             this.cnn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            CallableStatement cst = this.cnn.conex.prepareCall("{CALL rhsp_procesar_historial_hijo(?,?,?)}");
+            CallableStatement cst = this.cnn.connection.prepareCall("{CALL rhsp_procesar_historial_hijo(?,?,?)}");
             cst.setString(1, id_hijo);
             cst.setString(2, es_fecha);
             cst.setString(3, fecha);

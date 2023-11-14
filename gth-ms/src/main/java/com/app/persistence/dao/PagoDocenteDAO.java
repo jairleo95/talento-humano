@@ -9,8 +9,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import com.app.persistence.dao_imp.InterfacePagoDocenteDAO;
-import com.app.config.factory.ConexionBD;
+import com.app.persistence.dao_imp.IPagoDocenteDAO;
+import com.app.config.factory.DBConnection;
 import com.app.config.factory.FactoryConnectionDB;
 import com.app.domain.model.PagoDocente;
 import com.app.controller.util.CCriptografiar;
@@ -19,9 +19,9 @@ import com.app.controller.util.CCriptografiar;
  *
  * @author JAIR
  */
-public class PagoDocenteDAO implements InterfacePagoDocenteDAO {
+public class PagoDocenteDAO implements IPagoDocenteDAO {
 
-    ConexionBD conn;
+    DBConnection conn;
 
     @Override
     public List<PagoDocente> getPagoDocenteByIdProcCA(String idpca) {

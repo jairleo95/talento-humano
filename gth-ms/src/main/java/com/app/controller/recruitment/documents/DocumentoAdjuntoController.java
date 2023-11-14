@@ -10,14 +10,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-import java.util.Iterator;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.app.persistence.dao.ContratoDAO;
-import com.app.persistence.dao_imp.InterfaceContratoDAO;
+import com.app.persistence.dao_imp.IContratoDAO;
 import com.app.config.factory.FactoryConnectionDB;
 import com.app.domain.model.Renombrar;
 import org.apache.commons.fileupload.FileItem;
@@ -41,7 +40,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("documento_adjunto")
 public class DocumentoAdjuntoController {
 
-    InterfaceContratoDAO c = new ContratoDAO();
+    IContratoDAO c = new ContratoDAO();
 
     @PostMapping(produces = MediaType.TEXT_HTML_VALUE)
     protected ResponseEntity<?> process(HttpServletRequest request, HttpServletResponse response) throws FileUploadException, InterruptedException, IOException {
@@ -52,8 +51,8 @@ public class DocumentoAdjuntoController {
         String idtr = request.getParameter("idtr");
         String idctr = request.getParameter("idctr");
         String opc = request.getParameter("opc");
-        HttpSession sesion = request.getSession(true);
-        String user = (String) sesion.getAttribute("IDUSER");
+        HttpSession session = request.getSession(true);
+        String user = (String) session.getAttribute("IDUSER");
 
         // try (PrintWriter out = response.getWriter()) {
         if (opc != null) {
@@ -80,10 +79,8 @@ public class DocumentoAdjuntoController {
             String idc = null;
 
             List<String> list_files = new ArrayList<String>();
-            Iterator itera = p.iterator();
 
-            while (itera.hasNext()) {
-                FileItem i_n_f = (FileItem) itera.next();
+            for (FileItem i_n_f : p) {
                 if (i_n_f.isFormField()) {
                     String nombre = i_n_f.getFieldName();
                     String valor = i_n_f.getString();
@@ -100,11 +97,7 @@ public class DocumentoAdjuntoController {
             int num = 0;
             String no_original = null;
 
-            Iterator it = p.iterator();
-
-            while (it.hasNext()) {
-
-                FileItem item = (FileItem) it.next();
+            for (FileItem item : p) {
 
                 if (item.isFormField()) {
                     String nombre = item.getFieldName();
@@ -167,10 +160,8 @@ public class DocumentoAdjuntoController {
                 response.sendRedirect("views/Contrato/Formato_Plantilla/Subir_Contrato_Firmado.html?idc=" + idc + "&coun_doc=" + coun_doc);
             }
         }
-        // }
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
-
 
 }

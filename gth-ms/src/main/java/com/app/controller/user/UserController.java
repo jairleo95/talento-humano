@@ -24,13 +24,13 @@ import com.app.persistence.dao.RolDAO;
 import com.app.persistence.dao.TrabajadorDAO;
 import com.app.persistence.dao.UbigeoDAO;
 import com.app.persistence.dao.UsuarioDAO;
-import com.app.persistence.dao_imp.InterfaceDireccionDAO;
-import com.app.persistence.dao_imp.InterfaceEmpleadoDAO;
-import com.app.persistence.dao_imp.InterfaceListaDAO;
+import com.app.persistence.dao_imp.IDireccionDAO;
+import com.app.persistence.dao_imp.IEmpleadoDAO;
+import com.app.persistence.dao_imp.IListaDAO;
 import com.app.persistence.dao_imp.InterfaceRolDAO;
-import com.app.persistence.dao_imp.InterfaceTrabajadorDAO;
-import com.app.persistence.dao_imp.InterfaceUbigeoDAO;
-import com.app.persistence.dao_imp.InterfaceUsuarioDAO;
+import com.app.persistence.dao_imp.ITrabajadorDAO;
+import com.app.persistence.dao_imp.IUbigeoDAO;
+import com.app.persistence.dao_imp.IUsuarioDAO;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
@@ -41,13 +41,13 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("Usuario")
 public class UserController {
 
-    InterfaceUsuarioDAO usu = new UsuarioDAO();
-    InterfaceEmpleadoDAO emp = new EmpleadoDAO();
+    IUsuarioDAO usu = new UsuarioDAO();
+    IEmpleadoDAO emp = new EmpleadoDAO();
     InterfaceRolDAO rol = new RolDAO();
-    InterfaceListaDAO li = new ListaDAO();
-    InterfaceUbigeoDAO ub = new UbigeoDAO();
-    InterfaceDireccionDAO dir = new DireccionDAO();
-    InterfaceTrabajadorDAO tr = new TrabajadorDAO();
+    IListaDAO li = new ListaDAO();
+    IUbigeoDAO ub = new UbigeoDAO();
+    IDireccionDAO dir = new DireccionDAO();
+    ITrabajadorDAO tr = new TrabajadorDAO();
 
 
     @RequestMapping

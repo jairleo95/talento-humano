@@ -13,8 +13,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.app.persistence.dao_imp.InterfaceSub_ModalidadDAO;
-import com.app.config.factory.ConexionBD;
+import com.app.persistence.dao_imp.ISub_ModalidadDAO;
+import com.app.config.factory.DBConnection;
 import com.app.config.factory.FactoryConnectionDB;
 import com.app.domain.model.Sub_Modalidad;
 
@@ -22,8 +22,8 @@ import com.app.domain.model.Sub_Modalidad;
  *
  * @author joserodrigo
  */
-public class Sub_ModalidadDAO implements InterfaceSub_ModalidadDAO {
-    ConexionBD conn;
+public class Sub_ModalidadDAO implements ISub_ModalidadDAO {
+    DBConnection conn;
     @Override
     public List<Sub_Modalidad> Listar_Sub_mo() {
          this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);

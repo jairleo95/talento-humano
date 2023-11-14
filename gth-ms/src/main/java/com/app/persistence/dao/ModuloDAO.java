@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.app.persistence.dao_imp.InterfaceModuloDAO;
-import com.app.config.factory.ConexionBD;
+import com.app.config.factory.DBConnection;
 import com.app.config.factory.FactoryConnectionDB;
 
 /**
@@ -22,7 +22,7 @@ import com.app.config.factory.FactoryConnectionDB;
  * @author joserodrigo
  */
 public class ModuloDAO implements InterfaceModuloDAO {
-    ConexionBD cnn;
+    DBConnection cnn;
     @Override
     public List<Map<String, ?>> List_Modulo() {
         List<Map<String, ?>> Lista = new ArrayList<Map<String, ?>>();

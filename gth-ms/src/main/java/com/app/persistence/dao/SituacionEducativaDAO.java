@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.app.persistence.dao_imp.InterfaceSituacionEducativaDAO;
-import com.app.config.factory.ConexionBD;
+import com.app.config.factory.DBConnection;
 import com.app.config.factory.FactoryConnectionDB;
 import com.app.domain.model.Situacion_Educativa;
 
@@ -23,7 +23,7 @@ import com.app.domain.model.Situacion_Educativa;
  * @author joserodrigo
  */
 public class SituacionEducativaDAO implements InterfaceSituacionEducativaDAO {
-    ConexionBD conn;
+    DBConnection conn;
     @Override
     public List<Situacion_Educativa> List_SituacionEducativa() {
         this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);

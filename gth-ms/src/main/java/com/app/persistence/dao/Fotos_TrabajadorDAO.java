@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.app.persistence.dao_imp.InterfaceFotos_TrabajadorDAO;
-import com.app.config.factory.ConexionBD;
+import com.app.config.factory.DBConnection;
 import com.app.config.factory.FactoryConnectionDB;
 
 /**
@@ -23,7 +23,7 @@ import com.app.config.factory.FactoryConnectionDB;
  */
 public class Fotos_TrabajadorDAO implements InterfaceFotos_TrabajadorDAO {
 
-    ConexionBD cnn;
+    DBConnection cnn;
 
     @Override
     public String List_id_Fotos_Trabajador(String idtr) {
@@ -44,7 +44,7 @@ public class Fotos_TrabajadorDAO implements InterfaceFotos_TrabajadorDAO {
     public void INSERT_FOTOS_TRABAJADOR(String ID_FOTO, String DE_FOTO, String AR_FOTO, String NO_AR_FOTO, String TA_AR_FOTO, String TI_AR_FOTO, String ID_TRABAJADOR) {
         try {
             this.cnn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            CallableStatement cst = cnn.conex.prepareCall("{CALL RHSP_INSERT_FOTOS_TRABAJADOR( ?, ?, ?, ?, ?, ?, ?)}");
+            CallableStatement cst = cnn.connection.prepareCall("{CALL RHSP_INSERT_FOTOS_TRABAJADOR( ?, ?, ?, ?, ?, ?, ?)}");
             cst.setString(1, null);
             cst.setString(2, DE_FOTO);
             cst.setString(3, AR_FOTO);

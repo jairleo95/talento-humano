@@ -9,7 +9,7 @@ import com.app.config.globalProperties;
 
 /**
  *
- * @author Docente
+ * @author Jair
  */
 public class FactoryConnectionDB {
 
@@ -36,7 +36,7 @@ public class FactoryConnectionDB {
     public static final String url_archivos = "http://gth.upeu.edu.pe/DATA_FILES_GTH/Archivo/";
     public static final String url = "//u01/tomcat/webapps/DATA_FILES_GTH/Archivo/";
     //
-    public static ConexionBD open(int typeDB) {
+    public static DBConnection open(int typeDB) {
         switch (typeDB) {
             case FactoryConnectionDB.MYSQL:
                 return new MYSQLConnectionDB(configMYSQL);

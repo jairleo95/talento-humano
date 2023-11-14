@@ -16,12 +16,12 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.app.persistence.dao_imp.InterfaceDgpDAO;
-import com.app.config.factory.ConexionBD;
+import com.app.persistence.dao_imp.IDgpDAO;
+import com.app.config.factory.DBConnection;
 import com.app.config.factory.FactoryConnectionDB;
 import com.app.config.UserMachineProperties;
 import com.app.controller.util.DateFormat;
-import com.app.domain.model.Cuenta_Sueldo;
+import com.app.domain.model.SalaryAccount;
 import com.app.domain.model.V_Det_DGP;
 import com.app.domain.model.V_Es_Req_Incompleto;
 import com.app.domain.model.V_Es_Requerimiento;
@@ -35,9 +35,9 @@ import com.app.domain.model.x_List_Id_Trab_Dgp;
  *
  * @author Jose
  */
-public class DgpDAO implements InterfaceDgpDAO {
+public class DgpDAO implements IDgpDAO {
 
-    ConexionBD conn;
+    DBConnection conn;
 
     @Override
     public void INSERT_DGP(String ID_DGP, String FE_DESDE, String FE_HASTA, double CA_SUELDO, String DE_DIAS_TRABAJO, String ID_PUESTO, String ID_REQUERIMIENTO,
@@ -47,7 +47,7 @@ public class DgpDAO implements InterfaceDgpDAO {
             String ES_CERTIFICADO_SALUD, String DE_MONTO_HONORARIO, String LI_MOTIVO, String ES_MFL, double BONO_PUESTO, double ASIGNACION_FAMILIAR, String ES_PRESUPUESTADO) {
         try {
             this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            CallableStatement cst = this.conn.conex.prepareCall("{CALL RHSP_INSERT_DGP( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?,?,?,?)}");
+            CallableStatement cst = this.conn.connection.prepareCall("{CALL RHSP_INSERT_DGP( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?,?,?,?)}");
             cst.setString(1, null);
             cst.setString(2, DateFormat.toFormat1(FE_DESDE));
             cst.setString(3, DateFormat.toFormat1(FE_HASTA));
@@ -322,7 +322,7 @@ public class DgpDAO implements InterfaceDgpDAO {
     public void VAL_DGP_PASOS() {
         this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
         try {
-            CallableStatement cst = this.conn.conex.prepareCall("{CALL RHSP_VAL_DGP }");
+            CallableStatement cst = this.conn.connection.prepareCall("{CALL RHSP_VAL_DGP }");
             cst.execute();
         } catch (SQLException ex) {
             throw new RuntimeException(ex.getMessage());
@@ -577,14 +577,14 @@ public class DgpDAO implements InterfaceDgpDAO {
     public void REG_DGP_FINAL(String IDDGP) {
         this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
         String sql = "UPDATE RHTM_DGP SET ES_DGP='0' WHERE ID_DGP='" + IDDGP.trim() + "'";
-        this.conn.ejecutar(sql);
+        this.conn.execute(sql);
     }
 
     @Override
     public void MOD_REQUE(String ID_DGP, String FE_DESDE, String FE_HASTA, double CA_SUELDO, String ID_PUESTO, String ID_REQUERIMIENTO, double CA_BONO_ALIMENTARIO, double DE_BEV, double CA_CENTRO_COSTOS, String DE_ANTECEDENTES_POLICIALES, String DE_CERTIFICADO_SALUD) {
         try {
             this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            CallableStatement cst = this.conn.conex.prepareCall("{CALL RHSP_MOD_REQUERIMIENTO(  ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}");
+            CallableStatement cst = this.conn.connection.prepareCall("{CALL RHSP_MOD_REQUERIMIENTO(  ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}");
             cst.setString(1, DateFormat.toFormat1(FE_DESDE));
             cst.setString(2, DateFormat.toFormat1(FE_HASTA));
             cst.setDouble(3, CA_SUELDO);
@@ -660,7 +660,7 @@ public class DgpDAO implements InterfaceDgpDAO {
     public void RECHAZAR_DGP(String IDDGP) {
         try {
             this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            CallableStatement cst = this.conn.conex.prepareCall("{CALL RHSP_RECHAZAR_DGP(?)}");
+            CallableStatement cst = this.conn.connection.prepareCall("{CALL RHSP_RECHAZAR_DGP(?)}");
             cst.setString(1, IDDGP);
             cst.execute();
         } catch (SQLException e) {
@@ -681,7 +681,7 @@ public class DgpDAO implements InterfaceDgpDAO {
 
         try {
             this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            CallableStatement cst = this.conn.conex.prepareCall("{CALL RHSP_HABILITAR_DGP(?)}");
+            CallableStatement cst = this.conn.connection.prepareCall("{CALL RHSP_HABILITAR_DGP(?)}");
             cst.setString(1, IDDGP);
             cst.execute();
         } catch (SQLException e) {
@@ -701,7 +701,7 @@ public class DgpDAO implements InterfaceDgpDAO {
 
         try {
             this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            CallableStatement cst = this.conn.conex.prepareCall("{CALL RHSP_ELIMINAR_DGP(?)}");
+            CallableStatement cst = this.conn.connection.prepareCall("{CALL RHSP_ELIMINAR_DGP(?)}");
             cst.setString(1, IDDGP);
             cst.execute();
         } catch (SQLException e) {
@@ -979,14 +979,14 @@ public class DgpDAO implements InterfaceDgpDAO {
     }
 
     @Override
-    public List<Cuenta_Sueldo> LIST_CUEN_SUEL(String id_trabajador) {
+    public List<SalaryAccount> LIST_CUEN_SUEL(String id_trabajador) {
         this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
         String sql = "SELECT * FROM RHTD_CUENTA_SUELDO WHERE ID_TRABAJADOR = '" + id_trabajador + "' ";
-        List<Cuenta_Sueldo> list = new ArrayList<Cuenta_Sueldo>();
+        List<SalaryAccount> list = new ArrayList<SalaryAccount>();
         try {
             ResultSet rs = this.conn.query(sql);
             while (rs.next()) {
-                Cuenta_Sueldo cs = new Cuenta_Sueldo();
+                SalaryAccount cs = new SalaryAccount();
 
                 cs.setId_cuenta_sueldo(rs.getString("id_cuenta_sueldo"));
                 cs.setNo_banco(rs.getString("no_banco"));
@@ -1064,7 +1064,7 @@ public class DgpDAO implements InterfaceDgpDAO {
     public void MODIFICAR_DGP(String ID_DGP, String FE_DESDE, String FE_HASTA, double CA_SUELDO, String DE_DIAS_TRABAJO, String ID_PUESTO, String ID_REQUERIMIENTO, String ID_TRABAJADOR, String CO_RUC, String DE_LUGAR_SERVICIO, String DE_SERVICIO, String DE_PERIODO_PAGO, String DE_DOMICILIO_FISCAL, String DE_SUBVENCION, String DE_HORARIO_CAPACITACION, String DE_HORARIO_REFRIGERIO, String DE_DIAS_CAPACITACION, String ES_DGP, String US_CREACION, String FE_CREACION, String US_MODIF, String FE_MODIF, String IP_USUARIO, double CA_BONO_ALIMENTARIO, double DE_BEV, String DE_ANTECEDENTES_POLICIALES, String ES_CERTIFICADO_SALUD, String DE_MONTO_HONORARIO, String LI_MOTIVO, String ES_MFL, double BONO_PUESTO, String ES_PRESUPUESTADO) {
         try {
             this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            CallableStatement cst = this.conn.conex.prepareCall("{CALL RHSP_MODIFICAR_DGP( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?,?)}");
+            CallableStatement cst = this.conn.connection.prepareCall("{CALL RHSP_MODIFICAR_DGP( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?,?)}");
             cst.setString(1, ID_DGP);
             cst.setString(2, DateFormat.toFormat1(FE_DESDE));
             cst.setString(3, DateFormat.toFormat1(FE_HASTA));
@@ -1118,7 +1118,7 @@ public class DgpDAO implements InterfaceDgpDAO {
         try {
             System.out.println("fecha in DAO" + fecha);
             this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            CallableStatement cs = this.conn.conex.prepareCall("begin   ? :=rhfu_val_fe_desde_dgp(?);end;");
+            CallableStatement cs = this.conn.connection.prepareCall("begin   ? :=rhfu_val_fe_desde_dgp(?);end;");
             cs.registerOutParameter(1, Types.INTEGER);
             cs.setString(2, DateFormat.toFormat1(fecha));
             cs.execute();

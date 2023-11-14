@@ -13,10 +13,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import com.app.persistence.dao_imp.InterfaceContratoDAO;
-import com.app.config.factory.ConexionBD;
+import com.app.persistence.dao_imp.IContratoDAO;
+import com.app.config.factory.DBConnection;
 import com.app.config.factory.FactoryConnectionDB;
-import com.app.domain.model.Contrato;
+import com.app.domain.model.Contract;
 import com.app.domain.model.Contrato_Adjunto;
 import com.app.domain.model.List_Rh_Contrato_Fec;
 import com.app.domain.model.Modalidad;
@@ -31,9 +31,9 @@ import com.app.controller.util.DateFormat;
  *
  * @author Admin
  */
-public class ContratoDAO implements InterfaceContratoDAO {
+public class ContratoDAO implements IContratoDAO {
 
-    ConexionBD conn;
+    DBConnection conn;
     DateFormat c = new DateFormat();
 
     @Override
@@ -54,7 +54,7 @@ public class ContratoDAO implements InterfaceContratoDAO {
             double ca_bonificacion_p, String ES_MFL, String PRACTICANTE, String situacionEspecial) {
         try {
             this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            CallableStatement cst = this.conn.conex.prepareCall("{CALL RHSP_INSERT_CONTRATO(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?,? ,?,?)} ");
+            CallableStatement cst = this.conn.connection.prepareCall("{CALL RHSP_INSERT_CONTRATO(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?,? ,?,?)} ");
             cst.setString(1, null);
             cst.setString(2, ID_DGP);
             cst.setString(3, DateFormat.toFormat1(FE_DESDE));
@@ -203,7 +203,7 @@ public class ContratoDAO implements InterfaceContratoDAO {
     public void Venc_Cont() {
         try {
             this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            this.conn.ejecutar(" begin venc_contrato; end;");
+            this.conn.execute(" begin venc_contrato; end;");
         } catch (Exception e) {
             throw new RuntimeException("Error :" + e.getMessage());
         } finally {
@@ -488,7 +488,7 @@ public class ContratoDAO implements InterfaceContratoDAO {
     public void INSERT_CONTRATO_ADJUNTO(String ID_CONTRATO_ADJUNTO, String ID_CONTRATO, String NO_ARCHIVO, String NO_ARCHIVO_ORIGINAL, String ES_CONTRATO_ADJUNTO, String IP_USUARIO, String US_CREACION, String FE_CREACION, String US_MODIF, String FE_MODIF) {
         try {
             this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            CallableStatement cst = this.conn.conex.prepareCall("{CALL RHSP_INSERT_CONTRATO_ADJUNTO ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )} ");
+            CallableStatement cst = this.conn.connection.prepareCall("{CALL RHSP_INSERT_CONTRATO_ADJUNTO ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )} ");
             cst.setString(1, null);
             cst.setString(2, ID_CONTRATO);
             cst.setString(3, NO_ARCHIVO);
@@ -518,7 +518,7 @@ public class ContratoDAO implements InterfaceContratoDAO {
 
         try {
             this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            CallableStatement cst = this.conn.conex.prepareCall("{CALL RHSP_UPDATE_ES_FIRMA( ?,?)} ");
+            CallableStatement cst = this.conn.connection.prepareCall("{CALL RHSP_UPDATE_ES_FIRMA( ?,?)} ");
             cst.setString(1, IDDGP);
             cst.setString(2, ID_TR.trim());
             cst.execute();
@@ -764,7 +764,7 @@ public class ContratoDAO implements InterfaceContratoDAO {
         CallableStatement cst;
         try {
             this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            cst = conn.conex.prepareCall("{CALL RHSP_DELETE_CONTRATOS_SUBIDOS(?)}");
+            cst = conn.connection.prepareCall("{CALL RHSP_DELETE_CONTRATOS_SUBIDOS(?)}");
             cst.setString(1, id_contrato.trim());
             cst.execute();
         } catch (SQLException e) {
@@ -903,7 +903,7 @@ public class ContratoDAO implements InterfaceContratoDAO {
             String ES_REMUNERACION_PROCESADO, String ID_HORARIO, String ID_PLANTILLA_CONTRACTUAL, Double ca_bonificacion_p, String PRACTICANTE, String idSituacionEspecial) {
         try {
             this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            CallableStatement cst = this.conn.conex.prepareCall("{CALL RHSP_MODIF_CONTRATO( ?,?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?,? ,?)} ");
+            CallableStatement cst = this.conn.connection.prepareCall("{CALL RHSP_MODIF_CONTRATO( ?,?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?,? ,?)} ");
             cst.setString(1, ID_CONTRATO);
             cst.setString(2, ID_DGP);
             cst.setString(3, DateFormat.toFormat1(FE_DESDE));
@@ -990,7 +990,7 @@ public class ContratoDAO implements InterfaceContratoDAO {
     public void VALIDAR_FE_CESE_CON() {
         try {
             this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            CallableStatement cst = this.conn.conex.prepareCall("UPDATE RHTM_CONTRATO SET ES_CONTRATO = '0' WHERE FE_CESE <= SYSDATE");
+            CallableStatement cst = this.conn.connection.prepareCall("UPDATE RHTM_CONTRATO SET ES_CONTRATO = '0' WHERE FE_CESE <= SYSDATE");
             cst.execute();
         } catch (SQLException e) {
             throw new RuntimeException(e.getMessage());
@@ -1009,7 +1009,7 @@ public class ContratoDAO implements InterfaceContratoDAO {
     public void HABILITAR_SI(String idc, String estado) {
         try {
             this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            CallableStatement cst = this.conn.conex.prepareCall(" {CALL RHSP_HABILITAR_SI( ?,?)}   ");
+            CallableStatement cst = this.conn.connection.prepareCall(" {CALL RHSP_HABILITAR_SI( ?,?)}   ");
             cst.setString(1, idc);
             cst.setString(2, estado);
             cst.execute();
@@ -1030,7 +1030,7 @@ public class ContratoDAO implements InterfaceContratoDAO {
     public void VALIDAR_FE_HASTA_CON() {
         try {
             this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            CallableStatement cst = this.conn.conex.prepareCall("{CALL RHSP_VAL_ESTADO_CONTRATO}");
+            CallableStatement cst = this.conn.connection.prepareCall("{CALL RHSP_VAL_ESTADO_CONTRATO}");
             cst.execute();
         } catch (SQLException e) {
             throw new RuntimeException(e.getMessage());
@@ -1049,7 +1049,7 @@ public class ContratoDAO implements InterfaceContratoDAO {
     public void validar_contrato(String id_cto) {
         try {
             this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            CallableStatement cst = this.conn.conex.prepareCall("UPDATE RHTM_CONTRATO SET ES_CONTRATO = '0' WHERE  ID_CONTRATO = '" + id_cto + "'");
+            CallableStatement cst = this.conn.connection.prepareCall("UPDATE RHTM_CONTRATO SET ES_CONTRATO = '0' WHERE  ID_CONTRATO = '" + id_cto + "'");
             cst.execute();
         } catch (SQLException e) {
             throw new RuntimeException(e.getMessage());
@@ -1088,14 +1088,14 @@ public class ContratoDAO implements InterfaceContratoDAO {
     }
 
     @Override
-    public List<Contrato> ListaSelectorContrato(String id_trabajador) {
+    public List<Contract> ListaSelectorContrato(String id_trabajador) {
         this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
         String sql = "SELECT ID_CONTRATO ,  TO_CHAR(FE_DESDE,'dd/mm/yyyy') AS FE_DESDE,  TO_CHAR(FE_HASTA,'dd/mm/yyyy')   AS FE_HASTA FROM RHTM_CONTRATO  where ID_TRABAJADOR='" + id_trabajador + "'  order by TO_NUMBER(SUBSTR(ID_CONTRATO,5,8)) desc";
-        List<Contrato> list = new ArrayList<Contrato>();
+        List<Contract> list = new ArrayList<Contract>();
         try {
             ResultSet rs = this.conn.query(sql);
             while (rs.next()) {
-                Contrato v = new Contrato();
+                Contract v = new Contract();
                 v.setFe_desde(rs.getString("fe_desde"));
                 v.setFe_hasta(rs.getString("fe_hasta"));
                 v.setId_contrato(rs.getString("id_contrato"));

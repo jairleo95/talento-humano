@@ -8,9 +8,9 @@ package com.app.controller.recruitment.person.job;
 import com.app.persistence.dao.DireccionDAO;
 import com.app.persistence.dao.FuncionDAO;
 import com.app.persistence.dao.PuestoDAO;
-import com.app.persistence.dao_imp.InterfaceDireccionDAO;
-import com.app.persistence.dao_imp.InterfaceFuncionDAO;
-import com.app.persistence.dao_imp.InterfacePuestoDAO;
+import com.app.persistence.dao_imp.IDireccionDAO;
+import com.app.persistence.dao_imp.IFuncionDAO;
+import com.app.persistence.dao_imp.IPuestoDAO;
 
 import java.util.HashMap;
 import java.util.List;
@@ -34,9 +34,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("funcion")
 public class CFuncion {
 
-    InterfaceFuncionDAO f = new FuncionDAO();
-    InterfacePuestoDAO p = new PuestoDAO();
-    InterfaceDireccionDAO di = new DireccionDAO();
+    IFuncionDAO f = new FuncionDAO();
+    IPuestoDAO p = new PuestoDAO();
+    IDireccionDAO di = new DireccionDAO();
 
     @PostMapping
     protected ResponseEntity<?> process(HttpServletRequest request, HttpServletResponse response) {

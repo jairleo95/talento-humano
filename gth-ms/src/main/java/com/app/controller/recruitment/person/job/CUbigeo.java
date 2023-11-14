@@ -7,7 +7,7 @@ package com.app.controller.recruitment.person.job;
 
 import com.app.persistence.dao.Carrera_UniversidadDAO;
 import com.app.persistence.dao_imp.InterfaceCarrera_UniversidadDAO;
-import com.app.persistence.dao_imp.InterfaceUbigeoDAO;
+import com.app.persistence.dao_imp.IUbigeoDAO;
 
 import java.util.HashMap;
 import java.util.List;
@@ -29,7 +29,7 @@ import com.app.persistence.dao.UbigeoDAO;
 @RequestMapping("ubigeo")
 public class CUbigeo{
 
-    InterfaceUbigeoDAO ub = new UbigeoDAO();
+    IUbigeoDAO ub = new UbigeoDAO();
     InterfaceCarrera_UniversidadDAO c = new Carrera_UniversidadDAO();
 
     @PostMapping

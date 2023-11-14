@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.app.persistence.dao_imp.InterfaceSolicitud_RequerimientoDAO;
-import com.app.config.factory.ConexionBD;
+import com.app.config.factory.DBConnection;
 import com.app.config.factory.FactoryConnectionDB;
 import com.app.domain.model.V_Solicitud_Requerimiento;
 import com.app.config.UserMachineProperties;
@@ -27,7 +27,7 @@ import com.app.controller.util.DateFormat;
  */
 public class Solicitud_RequerimientoDAO implements InterfaceSolicitud_RequerimientoDAO {
 
-    ConexionBD conn;
+    DBConnection conn;
     DateFormat c = new DateFormat();
 
     @Override
@@ -139,7 +139,7 @@ public class Solicitud_RequerimientoDAO implements InterfaceSolicitud_Requerimie
         String id = "";
         try {
             this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            CallableStatement cst = this.conn.conex.prepareCall("{CALL RHSP_INSERT_SOLICITUD_DGP( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,? )} ");
+            CallableStatement cst = this.conn.connection.prepareCall("{CALL RHSP_INSERT_SOLICITUD_DGP( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,? )} ");
             cst.setString(1, null);
             cst.setString(2, DateFormat.toFormat1(FE_DESDE));
             cst.setString(3, ID_DGP);
@@ -267,7 +267,7 @@ public class Solicitud_RequerimientoDAO implements InterfaceSolicitud_Requerimie
     public void procesar_solicitud(String tipo, String id_sol, String fecha, String usuario, String comentario) {
         try {
             this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            CallableStatement cst = this.conn.conex.prepareCall("{CALL rhsp_procesar_solicitud( ?, ?, ?, ?, ?,? )} ");
+            CallableStatement cst = this.conn.connection.prepareCall("{CALL rhsp_procesar_solicitud( ?, ?, ?, ?, ?,? )} ");
             cst.setString(1, tipo.trim());
             cst.setString(2, id_sol);
             cst.setString(3, DateFormat.toFormat1(fecha));
@@ -293,7 +293,7 @@ public class Solicitud_RequerimientoDAO implements InterfaceSolicitud_Requerimie
         boolean estado = false;
         try {
             this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            CallableStatement cs = this.conn.conex.prepareCall("begin   ? :=rhfu_activar_hacer_solicitud(?);end;");
+            CallableStatement cs = this.conn.connection.prepareCall("begin   ? :=rhfu_activar_hacer_solicitud(?);end;");
             cs.registerOutParameter(1, Types.INTEGER);
             cs.setString(2, dgp);
             cs.execute();

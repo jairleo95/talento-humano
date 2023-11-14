@@ -12,8 +12,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import com.app.persistence.dao_imp.InterfaceDireccionDAO;
-import com.app.config.factory.ConexionBD;
+import com.app.persistence.dao_imp.IDireccionDAO;
+import com.app.config.factory.DBConnection;
 import com.app.config.factory.FactoryConnectionDB;
 import com.app.domain.model.Direccion;
 import com.app.domain.model.Via;
@@ -23,9 +23,9 @@ import com.app.domain.model.Zona;
  *
  * @author joserodrigo
  */
-public class DireccionDAO implements InterfaceDireccionDAO {
+public class DireccionDAO implements IDireccionDAO {
 
-    ConexionBD conn;
+    DBConnection conn;
 
     @Override
     public List<Direccion> Listar_Direccion() {
@@ -135,7 +135,7 @@ public class DireccionDAO implements InterfaceDireccionDAO {
         boolean x = false;
         try {
             this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            CallableStatement cst = this.conn.conex.prepareCall("{CALL RHSP_MOD_DIRECCION( ?, ?, ?, ?, ?)}");
+            CallableStatement cst = this.conn.connection.prepareCall("{CALL RHSP_MOD_DIRECCION( ?, ?, ?, ?, ?)}");
             cst.setString(1, id);
             cst.setString(2, nombre);
             cst.setString(3, ncorto);
@@ -161,7 +161,7 @@ public class DireccionDAO implements InterfaceDireccionDAO {
         boolean x = false;
         try {
             this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            CallableStatement cst = this.conn.conex.prepareCall("{CALL RHSP_INSERT_DIRECCION( ?, ?, ?, ?)}");
+            CallableStatement cst = this.conn.connection.prepareCall("{CALL RHSP_INSERT_DIRECCION( ?, ?, ?, ?)}");
             cst.setString(1, nombre);
             cst.setString(2, ncorto);
             cst.setString(3, estado);
@@ -186,7 +186,7 @@ public class DireccionDAO implements InterfaceDireccionDAO {
         boolean x = false;
         try {
             this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            CallableStatement cst = this.conn.conex.prepareCall("{CALL RHSP_ELIMINAR_DIRECCION(?)}");
+            CallableStatement cst = this.conn.connection.prepareCall("{CALL RHSP_ELIMINAR_DIRECCION(?)}");
             cst.setString(1, id);
             x = cst.execute();
         } catch (SQLException e) {
@@ -208,7 +208,7 @@ public class DireccionDAO implements InterfaceDireccionDAO {
         boolean x = false;
         try {
             this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            CallableStatement cst = this.conn.conex.prepareCall("{CALL RHSP_ACTIVAR_DIRECCION(?)}");
+            CallableStatement cst = this.conn.connection.prepareCall("{CALL RHSP_ACTIVAR_DIRECCION(?)}");
             cst.setString(1, id);
             x = cst.execute();
         } catch (SQLException e) {
@@ -230,7 +230,7 @@ public class DireccionDAO implements InterfaceDireccionDAO {
         boolean x = false;
         try {
             this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            CallableStatement cst = this.conn.conex.prepareCall("{CALL RHSP_DESACTIVAR_DIRECCION(?)}");
+            CallableStatement cst = this.conn.connection.prepareCall("{CALL RHSP_DESACTIVAR_DIRECCION(?)}");
             cst.setString(1, id);
             x = cst.execute();
         } catch (SQLException e) {

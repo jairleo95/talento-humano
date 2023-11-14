@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.app.persistence.dao_imp.InterfaceProcesoDAO;
-import com.app.config.factory.ConexionBD;
+import com.app.config.factory.DBConnection;
 import com.app.config.factory.FactoryConnectionDB;
 import com.app.controller.util.DateFormat;
 
@@ -24,7 +24,7 @@ import com.app.controller.util.DateFormat;
  */
 public class ProcesoDAO implements InterfaceProcesoDAO {
 
-    ConexionBD conn;
+    DBConnection conn;
     DateFormat c = new DateFormat();
 
     @Override
@@ -120,7 +120,7 @@ public class ProcesoDAO implements InterfaceProcesoDAO {
     public void statupdate(String id, String es) {
         try {
             this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            CallableStatement cst = this.conn.conex.prepareCall("{CALL RHSP_UPDATE_ES_PROCESO(?,?)}");
+            CallableStatement cst = this.conn.connection.prepareCall("{CALL RHSP_UPDATE_ES_PROCESO(?,?)}");
             cst.setString(1, id);
             cst.setString(2, es);
             cst.execute();
@@ -167,7 +167,7 @@ public class ProcesoDAO implements InterfaceProcesoDAO {
     public void editprocess(String id, String nom, String desc) {
         try {
             this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            CallableStatement cst = this.conn.conex.prepareCall("{CALL RHSP_UPDATE_PROCESO(?,?,?)}");
+            CallableStatement cst = this.conn.connection.prepareCall("{CALL RHSP_UPDATE_PROCESO(?,?,?)}");
             cst.setString(1, id);
             cst.setString(2, nom);
             cst.setString(3, desc);
@@ -184,7 +184,7 @@ public class ProcesoDAO implements InterfaceProcesoDAO {
     public void create(String nom, String desc) {
         try {
             this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            CallableStatement cst = this.conn.conex.prepareCall("{CALL RHSP_INSERT_PROCESO(?,?)}");
+            CallableStatement cst = this.conn.connection.prepareCall("{CALL RHSP_INSERT_PROCESO(?,?)}");
             cst.setString(1, nom);
             cst.setString(2, desc);
             cst.execute();

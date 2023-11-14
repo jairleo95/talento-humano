@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.app.persistence.dao_imp.InterfaceComentario_DGPDAO;
-import com.app.config.factory.ConexionBD;
+import com.app.config.factory.DBConnection;
 import com.app.config.factory.FactoryConnectionDB;
 
 /**
@@ -23,7 +23,7 @@ import com.app.config.factory.FactoryConnectionDB;
  */
 public class Comentario_DGPDAO implements InterfaceComentario_DGPDAO {
 
-    ConexionBD conn;
+    DBConnection conn;
 
     @Override
     public void INSERT_COMENTARIO_DGP(String ID_COMENTARIO_DGP, String ID_DGP, String ID_AUTORIZACION, String CM_COMENTARIO, String US_CREACION, String FE_CREACION, String US_MODIFICACION, String FE_MODIFICACION, String ES_COMENTARIO_DGP) {
@@ -31,7 +31,7 @@ public class Comentario_DGPDAO implements InterfaceComentario_DGPDAO {
         CallableStatement cst;
         try {
             this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            cst = conn.conex.prepareCall("{CALL RHSP_INSERT_COMENTARIO_DGP( ?, ?, ?, ?, ?, ?, ?, ?)}");
+            cst = conn.connection.prepareCall("{CALL RHSP_INSERT_COMENTARIO_DGP( ?, ?, ?, ?, ?, ?, ?, ?)}");
             cst.setString(1, ID_COMENTARIO_DGP);
             cst.setString(2, ID_DGP);
             cst.setString(3, ID_AUTORIZACION);

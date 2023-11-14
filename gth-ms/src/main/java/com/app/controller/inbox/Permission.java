@@ -1,72 +1,22 @@
 package com.app.controller.inbox;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Permission {
 
-    /*permisos*/
-    private boolean asigFam = false;
-    private boolean esSistema = false;
-    private boolean direccionFilter = false;
-    private boolean departFilter = false;
-    private boolean puestoFilter = false;
+    private boolean asigFam;
+    private boolean esSistema ;
+    private boolean direccionFilter;
+    private boolean departFilter;
+    private boolean puestoFilter;
 
-    private boolean admin = false;
-    private boolean regDGPAddiotionals = false;
-
-    public boolean isAsigFam() {
-        return asigFam;
-    }
-
-    public boolean isEsSistema() {
-        return esSistema;
-    }
-
-    public boolean isDireccionFilter() {
-        return direccionFilter;
-    }
-
-    public boolean isDepartFilter() {
-        return departFilter;
-    }
-
-    public boolean isPuestoFilter() {
-        return puestoFilter;
-    }
-
-    public void setAsigFam(boolean asigFam) {
-        this.asigFam = asigFam;
-    }
-
-    public void setEsSistema(boolean esSistema) {
-        this.esSistema = esSistema;
-    }
-
-    public void setDireccionFilter(boolean direccionFilter) {
-        this.direccionFilter = direccionFilter;
-    }
-
-    public void setDepartFilter(boolean departFilter) {
-        this.departFilter = departFilter;
-    }
-
-    public void setPuestoFilter(boolean puestoFilter) {
-        this.puestoFilter = puestoFilter;
-    }
-
-    public void setAdmin(boolean admin) {
-        this.admin = admin;
-    }
-
-    public void setRegDGPAddiotionals(boolean regDGPAddiotionals) {
-        this.regDGPAddiotionals = regDGPAddiotionals;
-    }
-
-    public boolean isAdmin() {
-        return admin;
-    }
-
-    public boolean isRegDGPAddiotionals() {
-        return regDGPAddiotionals;
-    }
+    private boolean admin;
+    private boolean regDGPAddiotionals;
 
     public Permission getPermissions(String idRol){
         switch (idRol) {

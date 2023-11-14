@@ -7,11 +7,11 @@ package com.app.persistence.dao;
 
 import java.sql.CallableStatement;
 
-import com.app.persistence.dao_imp.InterfaceUsuarioDAO;
-import com.app.config.factory.ConexionBD;
+import com.app.persistence.dao_imp.IUsuarioDAO;
+import com.app.config.factory.DBConnection;
 import com.app.config.factory.FactoryConnectionDB;
 import com.app.domain.model.Trabajador;
-import com.app.domain.model.Usuario;
+import com.app.domain.model.User;
 import com.app.domain.model.V_Usuario;
 import com.app.domain.model.V_Var_Usuario;
 import com.app.config.UserMachineProperties;
@@ -25,19 +25,19 @@ import java.util.List;
  *
  * @author Alfa.sistemas
  */
-public class UsuarioDAO implements InterfaceUsuarioDAO {
+public class UsuarioDAO implements IUsuarioDAO {
 
-    ConexionBD conn;
+    DBConnection conn;
 
     @Override
-    public List<Usuario> List_Usuario() {
+    public List<User> List_Usuario() {
         this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
         String sql = "SELECT * FROM RHTC_USUARIO";
-        List<Usuario> list = new ArrayList<Usuario>();
+        List<User> list = new ArrayList<User>();
         try {
             ResultSet rs = this.conn.query(sql);
             while (rs.next()) {
-                Usuario us = new Usuario();
+                User us = new User();
                 us.setId_usuario(rs.getString("id_usuario"));
                 us.setId_rol(rs.getString("id_rol"));
                 us.setId_empleado(rs.getString("id_empleado"));
@@ -62,14 +62,14 @@ public class UsuarioDAO implements InterfaceUsuarioDAO {
     }
 
     @Override
-    public List<Usuario> USER_LOGIN(String Usuario, String PWD) {
+    public List<User> USER_LOGIN(String Usuario, String PWD) {
         this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
         String sql = "SELECT * FROM RHTC_USUARIO where no_usuario='" + Usuario.trim() + "' and pw_usuario='" + PWD.trim() + "'";
-        List<Usuario> list = new ArrayList<Usuario>();
+        List<User> list = new ArrayList<User>();
         try {
             ResultSet rs = this.conn.query(sql);
             while (rs.next()) {
-                Usuario us = new Usuario();
+                User us = new User();
                 us.setId_usuario(rs.getString("id_usuario"));
                 us.setId_rol(rs.getString("id_rol"));
                 us.setId_empleado(rs.getString("id_empleado"));
@@ -174,7 +174,7 @@ public class UsuarioDAO implements InterfaceUsuarioDAO {
     }
 
     @Override
-    public boolean Mod_perfil(Usuario proveedor, Trabajador trabajador) {
+    public boolean Mod_perfil(User proveedor, Trabajador trabajador) {
         this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
         boolean save = false;
         /*try {
@@ -270,7 +270,7 @@ public class UsuarioDAO implements InterfaceUsuarioDAO {
         CallableStatement cst;
         try {
             this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            cst = conn.conex.prepareCall("{CALL RHSP_MOD_USUARIO_CL( ?,?,?)}");
+            cst = conn.connection.prepareCall("{CALL RHSP_MOD_USUARIO_CL( ?,?,?)}");
             cst.setString(1, id_usuario);
             cst.setString(2, usuario);
             cst.setString(3, clave);
@@ -293,7 +293,7 @@ public class UsuarioDAO implements InterfaceUsuarioDAO {
         CallableStatement cst;
         try {
             this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            cst = conn.conex.prepareCall("{CALL RHSP_ELIMINAR_USUARIO(?)}");
+            cst = conn.connection.prepareCall("{CALL RHSP_ELIMINAR_USUARIO(?)}");
             cst.setString(1, ID);
             cst.execute();
         } catch (SQLException ex) {
@@ -310,14 +310,14 @@ public class UsuarioDAO implements InterfaceUsuarioDAO {
     }
 
     @Override
-    public List<Usuario> List_ID_User(String id_user) {
+    public List<User> List_ID_User(String id_user) {
         this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
         String sql = "select * from RHTC_USUARIO where ID_USUARIO ='" + id_user + "'";
-        List<Usuario> list = new ArrayList<Usuario>();
+        List<User> list = new ArrayList<User>();
         try {
             ResultSet rs = this.conn.query(sql);
             while (rs.next()) {
-                Usuario us = new Usuario();
+                User us = new User();
                 us.setId_usuario(rs.getString("id_usuario"));
                 us.setId_rol(rs.getString("id_rol"));
                 us.setId_empleado(rs.getString("id_empleado"));
@@ -345,7 +345,7 @@ public class UsuarioDAO implements InterfaceUsuarioDAO {
         try {
             String id_usuario = "";
             this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            cst = conn.conex.prepareCall("{CALL RHSP_INSERT_USUARIO( ?,?,?,?,?,?)}");
+            cst = conn.connection.prepareCall("{CALL RHSP_INSERT_USUARIO( ?,?,?,?,?,?)}");
             cst.setString(1, id_usuario);
             cst.setString(2, No_usuario);
             cst.setString(3, pw_usuario);
@@ -459,7 +459,7 @@ public class UsuarioDAO implements InterfaceUsuarioDAO {
         CallableStatement cst;
         try {
             this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            cst = conn.conex.prepareCall("{CALL RHSP_MOD_USUARIO_ROL( ?,?,?)}");
+            cst = conn.connection.prepareCall("{CALL RHSP_MOD_USUARIO_ROL( ?,?,?)}");
             cst.setString(1, id_usuario);
             cst.setString(2, IDROLES);
             cst.setString(3, no_user);
@@ -482,7 +482,7 @@ public class UsuarioDAO implements InterfaceUsuarioDAO {
         CallableStatement cst;
         try {
             this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            cst = conn.conex.prepareCall("{CALL RHSP_ACTIVAR_USUARIO( ?)}");
+            cst = conn.connection.prepareCall("{CALL RHSP_ACTIVAR_USUARIO( ?)}");
             cst.setString(1, id_usuario);
             cst.execute();
         } catch (SQLException ex) {
@@ -503,7 +503,7 @@ public class UsuarioDAO implements InterfaceUsuarioDAO {
         CallableStatement cst;
         try {
             this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            cst = conn.conex.prepareCall("{CALL RHSP_DESACTIVAR_USUARIO( ?)}");
+            cst = conn.connection.prepareCall("{CALL RHSP_DESACTIVAR_USUARIO( ?)}");
             cst.setString(1, id_usuario);
             cst.execute();
         } catch (SQLException ex) {
@@ -526,7 +526,7 @@ public class UsuarioDAO implements InterfaceUsuarioDAO {
         try {
 
             this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            cst = conn.conex.prepareCall("{CALL RHSP_MOD_PERFIL( ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?, ?, ?)}");
+            cst = conn.connection.prepareCall("{CALL RHSP_MOD_PERFIL( ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?, ?, ?)}");
             cst.setString(1, ID_USUARIO);
             cst.setString(2, NO_USUARIO);
             cst.setString(3, PW_USUARIO);
@@ -592,7 +592,7 @@ public class UsuarioDAO implements InterfaceUsuarioDAO {
         CallableStatement cst;
         try {
             this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            cst = conn.conex.prepareCall("{CALL RHSP_MOD_USUARIO_CLAVE( ?,?,?,?)}");
+            cst = conn.connection.prepareCall("{CALL RHSP_MOD_USUARIO_CLAVE( ?,?,?,?)}");
             cst.setString(1, id_usuario);
             cst.setString(2, pwd);
             cst.setString(3, us_modif);

@@ -12,19 +12,19 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import com.app.persistence.dao_imp.InterfacePuestoDAO;
-import com.app.config.factory.ConexionBD;
+import com.app.persistence.dao_imp.IPuestoDAO;
+import com.app.config.factory.DBConnection;
 import com.app.config.factory.FactoryConnectionDB;
-import com.app.domain.model.Puesto;
+import com.app.domain.model.Job;
 import com.app.domain.model.V_Puesto_Direccion;
 
 /**
  *
  * @author Admin
  */
-public class PuestoDAO implements InterfacePuestoDAO {
+public class PuestoDAO implements IPuestoDAO {
 
-    ConexionBD conn;
+    DBConnection conn;
 
     @Override
     public boolean Guardar_Puesto() {
@@ -37,15 +37,15 @@ public class PuestoDAO implements InterfacePuestoDAO {
     }
 
     @Override
-    public List<Puesto> List_Puesto() {
+    public List<Job> List_Puesto() {
         this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
         String sql = "select id_puesto,no_puesto,no_corto_pu,es_puesto,id_seccion,co_grupo from rhtr_puesto ORDER BY no_puesto ASC";
-        List<Puesto> list = new ArrayList<Puesto>();
+        List<Job> list = new ArrayList<Job>();
         try {
             ResultSet rs = this.conn.query(sql);
 
             while (rs.next()) {
-                Puesto p = new Puesto();
+                Job p = new Job();
                 p.setCo_grupo(rs.getString("co_grupo"));
                 p.setEs_puesto(rs.getString("es_puesto"));
                 p.setId_puesto(rs.getString("id_puesto"));
@@ -121,13 +121,13 @@ public class PuestoDAO implements InterfacePuestoDAO {
     }
 
     @Override
-    public List<Puesto> List_Id_Puesto(String id_puesto) {
+    public List<Job> List_Id_Puesto(String id_puesto) {
         this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
         String sql = "Select * from rhtr_puesto where id_puesto = '" + id_puesto + "' ";
-        List<Puesto> list = new ArrayList<Puesto>();
+        List<Job> list = new ArrayList<Job>();
         try {
             ResultSet rs = this.conn.query(sql);
-            Puesto p = new Puesto();
+            Job p = new Job();
             while (rs.next()) {
                 p.setCo_grupo(rs.getString("co_grupo"));
                 p.setEs_puesto(rs.getString("es_puesto"));
@@ -272,15 +272,15 @@ public class PuestoDAO implements InterfacePuestoDAO {
         return Maxdgp;
     }
     @Override
-    public List<Puesto> List_Puesto_lima() {
+    public List<Job> List_Puesto_lima() {
         this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
         String sql = "SELECT NO_PUESTO FROM RHVD_PUESTO_DIRECCION where ID_DIRECCION='DIR-0002' OR ID_DIRECCION='DIR-0001' OR ID_DIRECCION='DIR-0003' OR ID_DIRECCION='DIR-0004' GROUP BY NO_PUESTO ORDER by NO_PUESTO";
-        List<Puesto> list = new ArrayList<Puesto>();
+        List<Job> list = new ArrayList<Job>();
         try {
             ResultSet rs = this.conn.query(sql);
 
             while (rs.next()) {
-                Puesto p = new Puesto();
+                Job p = new Job();
                 p.setNo_puesto(rs.getString("NO_PUESTO"));
                 list.add(p);
             }
@@ -294,7 +294,7 @@ public class PuestoDAO implements InterfacePuestoDAO {
     public void Registrar_Puesto_Paso(String ID_DETALLE_PASOS, String ID_PASOS, String ID_PUESTO, String ES_DETALLE_PASOS, String CO_PUESTO) {
         try {
             this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            CallableStatement cst = this.conn.conex.prepareCall("{CALL RHSP_INSERT_DETALLE_PASOS( ?, ?, ?, ?, ? )} ");
+            CallableStatement cst = this.conn.connection.prepareCall("{CALL RHSP_INSERT_DETALLE_PASOS( ?, ?, ?, ?, ? )} ");
             cst.setString(1, null);
             cst.setString(2, ID_PASOS);
             cst.setString(3, ID_PUESTO);
@@ -352,7 +352,7 @@ public class PuestoDAO implements InterfacePuestoDAO {
         boolean x = false;
         try {
             this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            CallableStatement cst = this.conn.conex.prepareCall("{CALL RHSP_INSERT_PUESTO( ?, ?, ?, ?, ?,?)}");
+            CallableStatement cst = this.conn.connection.prepareCall("{CALL RHSP_INSERT_PUESTO( ?, ?, ?, ?, ?,?)}");
             cst.setString(1, null);
             cst.setString(2, nombre);
             cst.setString(3, ncorto);
@@ -379,7 +379,7 @@ public class PuestoDAO implements InterfacePuestoDAO {
         boolean x = false;
         try {
             this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            CallableStatement cst = this.conn.conex.prepareCall("{CALL RHSP_MOD_PUESTO( ?, ?, ?, ?, ?,?)}");
+            CallableStatement cst = this.conn.connection.prepareCall("{CALL RHSP_MOD_PUESTO( ?, ?, ?, ?, ?,?)}");
             cst.setString(1, id);
             cst.setString(2, nombre);
             cst.setString(3, ncorto);
@@ -407,7 +407,7 @@ public class PuestoDAO implements InterfacePuestoDAO {
         boolean x = false;
         try {
             this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            CallableStatement cst = this.conn.conex.prepareCall("{CALL RHSP_ACTIVAR_PUESTO(?)}");
+            CallableStatement cst = this.conn.connection.prepareCall("{CALL RHSP_ACTIVAR_PUESTO(?)}");
             cst.setString(1, id);
             x = cst.execute();
         } catch (SQLException e) {
@@ -429,7 +429,7 @@ public class PuestoDAO implements InterfacePuestoDAO {
         boolean x = false;
         try {
             this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            CallableStatement cst = this.conn.conex.prepareCall("{CALL RHSP_DESACTIVAR_PUESTO(?)}");
+            CallableStatement cst = this.conn.connection.prepareCall("{CALL RHSP_DESACTIVAR_PUESTO(?)}");
             cst.setString(1, id);
             x = cst.execute();
         } catch (SQLException e) {
@@ -451,7 +451,7 @@ public class PuestoDAO implements InterfacePuestoDAO {
         boolean x = false;
         try {
             this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            CallableStatement cst = this.conn.conex.prepareCall("{CALL RHSP_ELIMINAR_PUESTO(?)}");
+            CallableStatement cst = this.conn.connection.prepareCall("{CALL RHSP_ELIMINAR_PUESTO(?)}");
             cst.setString(1, id);
             x = cst.execute();
         } catch (SQLException e) {

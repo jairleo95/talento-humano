@@ -6,7 +6,7 @@
 package com.app.persistence.dao_imp;
 
 import java.util.List;
-import com.app.domain.model.DetalleReqProceso;
+import com.app.domain.model.ProcessDetail;
 
 /**
  *
@@ -14,11 +14,11 @@ import com.app.domain.model.DetalleReqProceso;
  */
 public interface InterfaceDetalleReqProcesoDAO {
 
-    public String insertDetalleReqProceso(DetalleReqProceso detalleReqProceso);
+    public String insertDetalleReqProceso(ProcessDetail detalleReqProceso);
 
     public Boolean deleteDetalleReqProceso(String id);
 
-    public Boolean updateDetalleReqProceso(DetalleReqProceso detalleReqProceso);
+    public Boolean updateDetalleReqProceso(ProcessDetail detalleReqProceso);
 
-    public List<DetalleReqProceso> listDetalleReqProceso();
+    public List<ProcessDetail> listDetalleReqProceso();
 }

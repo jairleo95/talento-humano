@@ -12,8 +12,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.app.persistence.dao_imp.InterfaceUbigeoDAO;
-import com.app.config.factory.ConexionBD;
+import com.app.persistence.dao_imp.IUbigeoDAO;
+import com.app.config.factory.DBConnection;
 import com.app.config.factory.FactoryConnectionDB;
 import com.app.domain.model.Ub_Departamento;
 import com.app.domain.model.Ub_Distrito;
@@ -24,9 +24,9 @@ import com.app.domain.model.V_Ubigeo;
  *
  * @author Admin
  */
-public class UbigeoDAO implements InterfaceUbigeoDAO {
+public class UbigeoDAO implements IUbigeoDAO {
 
-    ConexionBD conn;
+    DBConnection conn;
 
     @Override
     public List<V_Ubigeo> List_Distrito() {

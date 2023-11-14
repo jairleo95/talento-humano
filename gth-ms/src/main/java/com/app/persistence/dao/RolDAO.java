@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.app.persistence.dao_imp.InterfaceRolDAO;
-import com.app.config.factory.ConexionBD;
+import com.app.config.factory.DBConnection;
 import com.app.config.factory.FactoryConnectionDB;
 import com.app.domain.model.Privilegio_Rol;
 import com.app.domain.model.Rol;
@@ -26,7 +26,7 @@ import com.app.domain.model.V_Privilegio;
  */
 public class RolDAO implements InterfaceRolDAO {
 
-    ConexionBD conn;
+    DBConnection conn;
 
     @Override
     public List<Rol> List_Rol() {
@@ -86,7 +86,7 @@ public class RolDAO implements InterfaceRolDAO {
         try {
             String id_rol = "";
             this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            cst = conn.conex.prepareCall("{CALL RHSP_INSERT_ROL( ?,?,?)}");
+            cst = conn.connection.prepareCall("{CALL RHSP_INSERT_ROL( ?,?,?)}");
             cst.setString(1, id_rol);
             cst.setString(2, no_rol);
             cst.setString(3, es_rol);
@@ -102,7 +102,7 @@ public class RolDAO implements InterfaceRolDAO {
         CallableStatement cst;
         try {
             this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            cst = conn.conex.prepareCall("{CALL RHSP_DESACTIVAR_ROL(?)}");
+            cst = conn.connection.prepareCall("{CALL RHSP_DESACTIVAR_ROL(?)}");
             cst.setString(1, id_rol);
             cst.execute();
         } catch (SQLException ex) {
@@ -116,7 +116,7 @@ public class RolDAO implements InterfaceRolDAO {
         CallableStatement cst;
         try {
             this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            cst = conn.conex.prepareCall("{CALL RHSP_ACTIVAR_ROL(?)}");
+            cst = conn.connection.prepareCall("{CALL RHSP_ACTIVAR_ROL(?)}");
             cst.setString(1, id_rol);
             cst.execute();
         } catch (SQLException ex) {
@@ -174,7 +174,7 @@ public class RolDAO implements InterfaceRolDAO {
         CallableStatement cst;
         try {
             this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            cst = conn.conex.prepareCall("{CALL RHSP_MOD_ROL(?,?,?)}");
+            cst = conn.connection.prepareCall("{CALL RHSP_MOD_ROL(?,?,?)}");
             cst.setString(1, Id_rol);
             cst.setString(2, No_Rol);
             cst.setString(3, Es_Rol);

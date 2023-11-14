@@ -69,9 +69,7 @@ public class PhotoController {
                 String no_original = null;
                 String tipo_archivo = null;
                 long sizeInBytes = 0;
-                Iterator it = p.iterator();
-                while (it.hasNext()) {
-                    FileItem item = (FileItem) it.next();
+                for (FileItem item : p) {
                     if (item.isFormField()) {
                         String nombre = item.getFieldName();
                         String valor = item.getString();

@@ -14,10 +14,10 @@ import java.sql.SQLException;
  *
  * @author Docente
  */
-public final class MYSQLConnectionDB extends ConexionBD{
+public final class MYSQLConnectionDB extends DBConnection {
 
     public MYSQLConnectionDB(String[] parametro) {
-        this.parametro = parametro;
+        this.parameter = parametro;
         this.open();
     }
    
@@ -25,11 +25,11 @@ public final class MYSQLConnectionDB extends ConexionBD{
     public Connection open() {
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            this.conex = DriverManager.getConnection("jdbc:mysql://localhost/"+this.parametro[0],this.parametro[1],this.parametro[2]);
+            this.connection = DriverManager.getConnection("jdbc:mysql://localhost/"+this.parameter[0],this.parameter[1],this.parameter[2]);
         } catch (ClassNotFoundException e) {
         } catch (SQLException e) {
         }
-        return this.conex;
+        return this.connection;
     }
     
 }

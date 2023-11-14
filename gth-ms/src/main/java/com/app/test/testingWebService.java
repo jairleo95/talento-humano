@@ -9,7 +9,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.app.persistence.dao.Carga_AcademicaDAO;
-import com.app.persistence.dao_imp.InterfaceCarga_AcademicaDAO;
+import com.app.persistence.dao_imp.ICargaAcademicaDAO;
 import com.app.config.globalProperties;
 
 /**
@@ -21,7 +21,7 @@ public class testingWebService {
     public static void main(String[] args) {
         
         System.out.println(":::::test");
-        InterfaceCarga_AcademicaDAO a = new Carga_AcademicaDAO();
+        ICargaAcademicaDAO a = new Carga_AcademicaDAO();
         try {
             a.syncupCargaAcademica("2017-1", globalProperties.DOCENTESXCURSO_METHOD);
         } catch (Exception ex) {

@@ -13,7 +13,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import com.app.persistence.dao.ContratoDAO;
-import com.app.persistence.dao_imp.InterfaceContratoDAO;
+import com.app.persistence.dao_imp.IContratoDAO;
 import com.app.config.factory.FactoryConnectionDB;
 import com.app.domain.model.Renombrar;
 import org.apache.commons.fileupload.FileItem;
@@ -37,7 +37,7 @@ public class ContratoAdjuntoController {
     public void process(HttpServletRequest request) {
 
         String ubicacion = "";
-        InterfaceContratoDAO c = new ContratoDAO();
+        IContratoDAO contratoDAO = new ContratoDAO();
         try {
             ubicacion = FactoryConnectionDB.url + "Contratos_Adjuntos/";
             DiskFileItemFactory f = new DiskFileItemFactory();
@@ -57,10 +57,7 @@ public class ContratoAdjuntoController {
             String no_original = null;
             long tamaño = 0;
             //  long sizeInBytes = 0;
-            Iterator it = p.iterator();
-            while (it.hasNext()) {
-
-                FileItem item = (FileItem) it.next();
+            for (FileItem item : p) {
 
                 if (item.isFormField()) {
 
@@ -94,7 +91,7 @@ public class ContratoAdjuntoController {
             }
             if (tamaño <= 500000) {
                 if (nombre_archivo != null) {
-                    c.INSERT_CONTRATO_ADJUNTO(null, idc, nombre_archivo, no_original, null, null, null, null, null, null);
+                    contratoDAO.INSERT_CONTRATO_ADJUNTO(null, idc, nombre_archivo, no_original, null, null, null, null, null, null);
                 }
                 System.out.println(no_original);
                 System.out.println(nombre_archivo);

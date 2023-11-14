@@ -18,8 +18,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import com.app.persistence.dao_imp.InterfaceCarga_AcademicaDAO;
-import com.app.persistence.dao_imp.InterfacePagoDocenteDAO;
+import com.app.persistence.dao_imp.ICargaAcademicaDAO;
+import com.app.persistence.dao_imp.IPagoDocenteDAO;
 import com.app.domain.model.PagoDocente;
 import com.app.controller.util.CCriptografiar;
 import com.app.controller.util.DateFormat;
@@ -33,8 +33,8 @@ import com.app.controller.util.DateFormat;
 @RequestMapping("pago_docente")
 public class PagoDocenteController {
 
-    InterfaceCarga_AcademicaDAO c = new Carga_AcademicaDAO();
-    InterfacePagoDocenteDAO pd = new PagoDocenteDAO();
+    ICargaAcademicaDAO cargaAcademicaDAO = new Carga_AcademicaDAO();
+    IPagoDocenteDAO pagoDocenteDAO = new PagoDocenteDAO();
 
     @PostMapping
     public ResponseEntity<?> processRequest(HttpServletRequest request) {
@@ -52,7 +52,7 @@ public class PagoDocenteController {
                     Double ca_pago_semanal = Double.parseDouble(pagoSemanal);
                     feDesde = DateFormat.toFormat3(feDesde);
                     feHasta = DateFormat.toFormat3(feHasta);
-                    lista = c.Cuotas_Pago_Docente(DateFormat.toFormat1(feDesde), DateFormat.toFormat1(feHasta), ca_pago_semanal);
+                    lista = cargaAcademicaDAO.Cuotas_Pago_Docente(DateFormat.toFormat1(feDesde), DateFormat.toFormat1(feHasta), ca_pago_semanal);
                 } else {
                     rpta.put("statusListCuotas", "No se recibieron los parametros correctamente");
                 }
@@ -60,7 +60,7 @@ public class PagoDocenteController {
             }
             if (opc.equals("getPagoDocenteHtml")) {
                 String idpca = CCriptografiar.Desencriptar(request.getParameter("id"));
-                List<PagoDocente> x = pd.getPagoDocenteByIdProcCA(idpca);
+                List<PagoDocente> x = pagoDocenteDAO.getPagoDocenteByIdProcCA(idpca);
                 String html = "";
                 html += "<div class='row text-center'><div class='col-md-2'>Mes</div><div class='col-md-5'>Fecha Pago Aprox.</div><div class='col-md-5'>Monto</div></div>";
 
@@ -99,7 +99,5 @@ public class PagoDocenteController {
         }
         return new ResponseEntity<>(rpta, HttpStatus.OK);
     }
-
-
 
 }

@@ -13,8 +13,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.app.persistence.dao_imp.InterfaceDatos_Hijo_Trabajador;
-import com.app.config.factory.ConexionBD;
+import com.app.persistence.dao_imp.IDatosHijoTrabajador;
+import com.app.config.factory.DBConnection;
 import com.app.config.factory.FactoryConnectionDB;
 import com.app.domain.model.Datos_Hijo_Trabajador;
 import com.app.config.UserMachineProperties;
@@ -24,9 +24,9 @@ import com.app.controller.util.DateFormat;
  *
  * @author Jose
  */
-public class Datos_Hijo_TrabajadorDAO implements InterfaceDatos_Hijo_Trabajador {
+public class Datos_Hijo_TrabajadorDAO implements IDatosHijoTrabajador {
 
-    ConexionBD conn;
+    DBConnection conn;
     DateFormat c = new DateFormat();
 
     @Override
@@ -34,7 +34,7 @@ public class Datos_Hijo_TrabajadorDAO implements InterfaceDatos_Hijo_Trabajador 
         CallableStatement cst;
         try {
             this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            cst = conn.conex.prepareCall("{CALL RHSP_INSERT_DA_HI_TRA( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}");
+            cst = conn.connection.prepareCall("{CALL RHSP_INSERT_DA_HI_TRA( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}");
             cst.setString(1, null);
             cst.setString(2, ID_TRABAJADOR);
             cst.setString(3, AP_PATERNO);
@@ -140,7 +140,7 @@ public class Datos_Hijo_TrabajadorDAO implements InterfaceDatos_Hijo_Trabajador 
         CallableStatement cst;
         try {
             this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            cst = conn.conex.prepareCall("{CALL RHSP_MOD_HIJOS( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?,? )}");
+            cst = conn.connection.prepareCall("{CALL RHSP_MOD_HIJOS( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?,? )}");
             cst.setString(1, ID_DATOS_HIJOS_TRABAJADOR);
             cst.setString(2, AP_PATERNO);
             cst.setString(3, AP_MATERNO);

@@ -14,9 +14,9 @@ public class TipoHoraPago {
     private String idTiHoraPago;
     private String idTrabajador;
     private Double caTiHoraPago;
-    private Usuario usCreacion;
+    private User usCreacion;
     private String FeCreacion;
-    private Usuario usModdif;
+    private User usModdif;
     private String feModdif;
     private String ipUsuario;
 
@@ -44,11 +44,11 @@ public class TipoHoraPago {
         this.caTiHoraPago = caTiHoraPago;
     }
 
-    public Usuario getUsCreacion() {
+    public User getUsCreacion() {
         return usCreacion;
     }
 
-    public void setUsCreacion(Usuario usCreacion) {
+    public void setUsCreacion(User usCreacion) {
         this.usCreacion = usCreacion;
     }
 
@@ -60,11 +60,11 @@ public class TipoHoraPago {
         this.FeCreacion = FeCreacion;
     }
 
-    public Usuario getUsModdif() {
+    public User getUsModdif() {
         return usModdif;
     }
 
-    public void setUsModdif(Usuario usModdif) {
+    public void setUsModdif(User usModdif) {
         this.usModdif = usModdif;
     }
 
@@ -84,7 +84,7 @@ public class TipoHoraPago {
         this.ipUsuario = ipUsuario;
     }
 
-    public TipoHoraPago(String idTiHoraPago, String idTrabajador, Double caTiHoraPago, Usuario usCreacion, String FeCreacion, Usuario usModdif, String feModdif, String ipUsuario) {
+    public TipoHoraPago(String idTiHoraPago, String idTrabajador, Double caTiHoraPago, User usCreacion, String FeCreacion, User usModdif, String feModdif, String ipUsuario) {
         this.idTiHoraPago = idTiHoraPago;
         this.idTrabajador = idTrabajador;
         this.caTiHoraPago = caTiHoraPago;
@@ -99,9 +99,9 @@ public class TipoHoraPago {
         this.idTiHoraPago = "";
         this.idTrabajador = "";
         this.caTiHoraPago = 0.0;
-        this.usCreacion = new Usuario();
+        this.usCreacion = new User();
         this.FeCreacion = "";
-        this.usModdif = new Usuario();
+        this.usModdif = new User();
         this.feModdif = "";
         this.ipUsuario = "";
     }

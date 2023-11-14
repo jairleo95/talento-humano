@@ -24,10 +24,10 @@ import javax.servlet.http.HttpSession;
 import com.app.persistence.dao.AutorizacionDAO;
 import com.app.persistence.dao.DgpDAO;
 import com.app.persistence.dao.UsuarioDAO;
-import com.app.persistence.dao_imp.InterfaceAutorizacionDAO;
-import com.app.persistence.dao_imp.InterfaceDgpDAO;
-import com.app.persistence.dao_imp.InterfaceNotificationDAO;
-import com.app.persistence.dao_imp.InterfaceUsuarioDAO;
+import com.app.persistence.dao_imp.IAutorizacionDAO;
+import com.app.persistence.dao_imp.IDgpDAO;
+import com.app.persistence.dao_imp.INotificationDAO;
+import com.app.persistence.dao_imp.IUsuarioDAO;
 
 /**
  *
@@ -38,33 +38,39 @@ import com.app.persistence.dao_imp.InterfaceUsuarioDAO;
 @RequestMapping("imbox")
 public class AuthorizationController {
 
-    InterfaceAutorizacionDAO a = new AutorizacionDAO();
-    InterfaceDgpDAO dgp = new DgpDAO();
+    IAutorizacionDAO a = new AutorizacionDAO();
+    IDgpDAO dgp = new DgpDAO();
+
+    public UserSession getUserSession(HttpSession httpSession){
+        return UserSession.builder()
+                .id((String) httpSession.getAttribute("IDUSER"))
+                .puestoId((String) httpSession.getAttribute("PUESTO_ID"))
+                .roId((String) httpSession.getAttribute("IDROL"))
+                .depId((String) httpSession.getAttribute("DEPARTAMENTO_ID"))
+                .dirId((String) httpSession.getAttribute("IDDIR"))
+                .build();
+    }
 
     @PostMapping("core")
     public ResponseEntity<?> coreProcess(HttpServletRequest request, HttpServletResponse response) throws IOException {
         HttpSession session = request.getSession(true);
-        String iduser = (String) session.getAttribute("IDUSER");
-        String idp = (String) session.getAttribute("PUESTO_ID");
-        String idrol = (String) session.getAttribute("IDROL");
-        String iddep = (String) session.getAttribute("DEPARTAMENTO_ID");
-        String iddir = (String) session.getAttribute("IDDIR");
+        UserSession userSession = getUserSession(session);
 
         String opc = request.getParameter("opc");
         Map<String, Object> rpta = new HashMap<String, Object>();
 
-        if (iduser != null) {
+        if (userSession.getId() != null) {
             if (opc != null) {
                 //check Permissions
-                Permission permission = new Permission().getPermissions(idrol);
+                Permission permission = new Permission().getPermissions(userSession.getRoId());
 
                 if (opc.equals("Aceptar")) {
                     String iddgp = request.getParameter("IDDETALLE_DGP");
                     String estado = "1";
 
                     /*Cambiar con un trigger al momento de insertar*/
+                    List<V_Autorizar_Dgp> autDGP = a.List_id_Autorizacion(userSession.getDepId(), userSession.getId(), iddgp);
                     System.out.println("Call List_id_Autorizacion");
-                    List<V_Autorizar_Dgp> autDGP = a.List_id_Autorizacion(idp, iduser, iddgp);
                     if (autDGP.size() == 1) {
 
                         System.out.println("Enter to Autorizacion DGP");
@@ -74,41 +80,41 @@ public class AuthorizationController {
                         /*Cambiar con un trigger al momento de insertar (esta generando mucho retrazo)*/
                         //  dgp.VAL_DGP_PASOS();
                         /*Autorización*/
-                        a.Insert_Autorizacion("", iddgp, estado, vAut.getNu_pasos(), "", iduser, "", "", vAut.getCo_pasos(), idp, vAut.getId_detalle_req_proceso(), vAut.getId_pasos());
+                        a.Insert_Autorizacion("", iddgp, estado, vAut.getNu_pasos(), "", userSession.getId(), "", "", vAut.getCo_pasos(), userSession.getPuestoId(), vAut.getId_detalle_req_proceso(), vAut.getId_pasos());
 
-                        session.setAttribute("List_id_Autorizacion", a.List_id_Autorizacion(idp, iduser, ""));
+                        session.setAttribute("List_id_Autorizacion", a.List_id_Autorizacion(userSession.getDepId(), userSession.getId(), ""));
                         rpta.put("rpta", true);
                         /*Notificaciones*/
-                        InterfaceNotificationDAO notdao = new NotificationDAO();
-                        Notification not = new Notification();
-                        InterfaceUsuarioDAO udao = new UsuarioDAO();
-                        String username = udao.List_ID_User(iduser).get(0).getNo_usuario();
-                        not.setId_rol(idrol);
-                        not.setEs_visualizado("0");
-                        not.setEs_leido("0");
-                        not.setTipo_notification("1");
-                        not.setDe_notification("Empleado autorizado por " + username);
+                        INotificationDAO notdao = new NotificationDAO();
+                        Notification notification = new Notification();
+                        IUsuarioDAO udao = new UsuarioDAO();
+                        String username = udao.List_ID_User(userSession.getId()).get(0).getNo_usuario();
+                        notification.setId_rol(userSession.getRoId());
+                        notification.setEs_visualizado("0");
+                        notification.setEs_leido("0");
+                        notification.setTipo_notification("1");
+                        notification.setDe_notification("Empleado autorizado por " + username);
 
-                        not.setDi_notification("trabajador?idtr=" + vAut.getId_trabajador() + "&opc=list");
-                        not.setTitulo(vAut.getNo_trabajador() + " " + vAut.getAp_paterno() + " " + vAut.getAp_materno());
+                        notification.setDi_notification("trabajador?idtr=" + vAut.getId_trabajador() + "&opc=list");
+                        notification.setTitulo(vAut.getNo_trabajador() + " " + vAut.getAp_paterno() + " " + vAut.getAp_materno());
 
                         List<String> ids = notdao.PrevSteps(iddgp);
-                        for(int i = 0; i < ids.size(); i++) {
-                            not.setId_usuario(ids.get(i));
-                            notdao.Registrar(not);
+                        for (String id : ids) {
+                            notification.setId_usuario(id);
+                            notdao.Registrar(notification);
                         }
                         /*End Notify*/
-                        // sesion.setAttribute("List_id_Autorizados", a.List_Autorizados(idp));
+                        // sesion.setAttribute("List_id_Autorizados", a.List_Autorizados(userSession.getPuestoId()));
                     } else {
                         System.out.println("Enter to Autorizacion academico");
-                        List<V_Autorizar_Dgp> autAcademico = a.List_Autorizacion_Academico(idp, iduser, iddgp);
+                        List<V_Autorizar_Dgp> autAcademico = a.List_Autorizacion_Academico(userSession.getPuestoId(), userSession.getId(), iddgp);
                         if (autAcademico.size() == 1) {
 
                             V_Autorizar_Dgp vAutAcademico = autAcademico.get(0);
 
                             /*Autorización*/
-                            a.Insert_Autorizacion("", iddgp, estado, vAutAcademico.getNu_pasos(), "", iduser, "", "", vAutAcademico.getCo_pasos(), idp, vAutAcademico.getId_detalle_req_proceso(), vAutAcademico.getId_pasos());
-                            session.setAttribute("List_Autorizacion_Academico", a.List_Autorizacion_Academico(idp, iduser, ""));
+                            a.Insert_Autorizacion("", iddgp, estado, vAutAcademico.getNu_pasos(), "", userSession.getId(), "", "", vAutAcademico.getCo_pasos(), userSession.getPuestoId(), vAutAcademico.getId_detalle_req_proceso(), vAutAcademico.getId_pasos());
+                            session.setAttribute("List_Autorizacion_Academico", a.List_Autorizacion_Academico(userSession.getPuestoId(), userSession.getId(), ""));
                             rpta.put("rpta", true);
                         } else {
                             rpta.put("rpta", false);
@@ -123,17 +129,17 @@ public class AuthorizationController {
                     //out.print(iddgp);
                     dgp.HABILITAR_DGP(iddgp);
                     if (permission.isDepartFilter()) {
-                        session.setAttribute("LIST_DGP_PROCESO", dgp.LIST_DGP_PROCESO(iddep, "", "", false,false));
+                        session.setAttribute("LIST_DGP_PROCESO", dgp.LIST_DGP_PROCESO(userSession.getDepId(), "", "", false,false));
                     }
                     if (permission.isDireccionFilter()) {
-                        session.setAttribute("LIST_DGP_PROCESO", dgp.LIST_DGP_PROCESO("", iddir, "", false,false));
+                        session.setAttribute("LIST_DGP_PROCESO", dgp.LIST_DGP_PROCESO("", userSession.getDirId(), "", false,false));
                     }
                     if (permission.isPuestoFilter()) {
-                        session.setAttribute("LIST_DGP_PROCESO", dgp.LIST_DGP_PROCESO("", "", idp, false,false));
+                        session.setAttribute("LIST_DGP_PROCESO", dgp.LIST_DGP_PROCESO("", "", userSession.getPuestoId(), false,false));
                     } else {
-                        session.setAttribute("LIST_DGP_PROCESO", dgp.LIST_DGP_PROCESO(iddep, "", "", false,false));
+                        session.setAttribute("LIST_DGP_PROCESO", dgp.LIST_DGP_PROCESO(userSession.getDepId(), "", "", false,false));
                     }
-                    // sesion.setAttribute("LIST_DGP_PROCESO", dgp.LIST_DGP_PROCESO(iddep));
+                    // sesion.setAttribute("LIST_DGP_PROCESO", dgp.LIST_DGP_PROCESO(userSession.getDepId()));
                      response.sendRedirect("views/Dgp/Proceso_Dgp.html");
                 }
                 if (opc.equals("eliminarDGP")) {
@@ -141,17 +147,17 @@ public class AuthorizationController {
 
                     dgp.eliminarDGP(iddgp);
                     if (permission.isDepartFilter()) {
-                        session.setAttribute("LIST_DGP_PROCESO", dgp.LIST_DGP_PROCESO(iddep, "", "", false,false));
+                        session.setAttribute("LIST_DGP_PROCESO", dgp.LIST_DGP_PROCESO(userSession.getDepId(), "", "", false,false));
                     }
                     if (permission.isDireccionFilter()) {
-                        session.setAttribute("LIST_DGP_PROCESO", dgp.LIST_DGP_PROCESO("", iddir, "", false,false));
+                        session.setAttribute("LIST_DGP_PROCESO", dgp.LIST_DGP_PROCESO("", userSession.getDirId(), "", false,false));
                     }
                     if (permission.isPuestoFilter()) {
-                        session.setAttribute("LIST_DGP_PROCESO", dgp.LIST_DGP_PROCESO("", "", idp, false,false));
+                        session.setAttribute("LIST_DGP_PROCESO", dgp.LIST_DGP_PROCESO("", "", userSession.getPuestoId(), false,false));
                     } else {
-                        session.setAttribute("LIST_DGP_PROCESO", dgp.LIST_DGP_PROCESO(iddep, "", "", false,false));
+                        session.setAttribute("LIST_DGP_PROCESO", dgp.LIST_DGP_PROCESO(userSession.getDepId(), "", "", false,false));
                     }
-                    // sesion.setAttribute("LIST_DGP_PROCESO", dgp.LIST_DGP_PROCESO(iddep));
+                    // sesion.setAttribute("LIST_DGP_PROCESO", dgp.LIST_DGP_PROCESO(userSession.getDepId()));
                     response.sendRedirect("views/Dgp/Proceso_Dgp.html");
 
                 }
@@ -169,29 +175,29 @@ public class AuthorizationController {
                     /*Cambiar con un trigger al momento de insertar*/
                     dgp.VAL_DGP_PASOS();
                     dgp.RECHAZAR_DGP(iddgp);
-                    String id_autorizacion = a.Insert_Autorizacion_dev("", iddgp, estado, nropaso, "", iduser, "", "", cod.trim(), idp, iddrp, idpasos);
-                    a.Insert_comentario_Aut("", id_autorizacion, iddgp, iduser, "1", id_autorizacion, comentario);
-                    InterfaceNotificationDAO notdao = new NotificationDAO();
-                    Notification not = new Notification();
-                    InterfaceUsuarioDAO udao = new UsuarioDAO();
-                    String username = udao.List_ID_User(iduser).get(0).getNo_usuario();
-                    not.setId_rol(idrol);
-                    not.setEs_visualizado("0");
-                    not.setEs_leido("0");
-                    not.setTipo_notification("0");
-                    not.setDe_notification("Empleado rechazado por " + username);
-                    not.setDi_notification("trabajador?idtr=" + idtrab + "&opc=list");
-                    not.setTitulo(nombres);
-                    List<String> ids = notdao.PrevSteps(iddgp);
-                    for (int i = 0; i < ids.size(); i++) {
-                        not.setId_usuario(ids.get(i));
-                        notdao.Registrar(not);
+                    String id_autorizacion = a.Insert_Autorizacion_dev("", iddgp, estado, nropaso, "", userSession.getId(), "", "", cod.trim(), userSession.getPuestoId(), iddrp, idpasos);
+                    a.Insert_comentario_Aut("", id_autorizacion, iddgp, userSession.getId(), "1", id_autorizacion, comentario);
+                    INotificationDAO notificationDAO = new NotificationDAO();
+                    Notification notification = new Notification();
+                    IUsuarioDAO udao = new UsuarioDAO();
+                    String username = udao.List_ID_User(userSession.getId()).get(0).getNo_usuario();
+                    notification.setId_rol(userSession.getRoId());
+                    notification.setEs_visualizado("0");
+                    notification.setEs_leido("0");
+                    notification.setTipo_notification("0");
+                    notification.setDe_notification("Empleado rechazado por " + username);
+                    notification.setDi_notification("trabajador?idtr=" + idtrab + "&opc=list");
+                    notification.setTitulo(nombres);
+                    List<String> ids = notificationDAO.PrevSteps(iddgp);
+                    for (String id : ids) {
+                        notification.setId_usuario(id);
+                        notificationDAO.Registrar(notification);
                     }
-                    session.setAttribute("List_id_Autorizacion", a.List_id_Autorizacion(idp, iduser, ""));
-                    session.setAttribute("List_id_Autorizados", a.List_Autorizados(idp));
+                    session.setAttribute("List_id_Autorizacion", a.List_id_Autorizacion(userSession.getPuestoId(), userSession.getId(), ""));
+                    session.setAttribute("List_id_Autorizados", a.List_Autorizados(userSession.getPuestoId()));
                     response.sendRedirect("views/Dgp/Autorizar_Requerimiento.html?r=ok");
-                    session.setAttribute("List_id_Autorizacion", a.List_id_Autorizacion(idp, iduser, ""));
-                    session.setAttribute("List_id_Autorizados", a.List_Autorizados(idp));
+                    session.setAttribute("List_id_Autorizacion", a.List_id_Autorizacion(userSession.getPuestoId(), userSession.getId(), ""));
+                    session.setAttribute("List_id_Autorizados", a.List_Autorizados(userSession.getPuestoId()));
                     //out.print(id_autorizacion);
                     response.sendRedirect("views/Dgp/Autorizar_Requerimiento.html?r=ok");
                    
@@ -201,6 +207,4 @@ public class AuthorizationController {
         return new ResponseEntity<>(rpta ,HttpStatus.OK);
 
     }
-
-
 }

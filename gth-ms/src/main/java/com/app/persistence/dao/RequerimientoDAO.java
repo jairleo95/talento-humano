@@ -13,8 +13,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import com.app.persistence.dao_imp.InterfaceRequerimientoDAO;
-import com.app.config.factory.ConexionBD;
+import com.app.persistence.dao_imp.IRequerimientoDAO;
+import com.app.config.factory.DBConnection;
 import com.app.config.factory.FactoryConnectionDB;
 import com.app.domain.model.Requerimiento;
 
@@ -22,9 +22,9 @@ import com.app.domain.model.Requerimiento;
  *
  * @author Admin
  */
-public class RequerimientoDAO implements InterfaceRequerimientoDAO {
+public class RequerimientoDAO implements IRequerimientoDAO {
 
-    ConexionBD conn;
+    DBConnection conn;
 
     @Override
     public List<Requerimiento> Listar_Requerimiento() {
@@ -53,7 +53,7 @@ public class RequerimientoDAO implements InterfaceRequerimientoDAO {
         this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
         System.out.println(iddgp+"   sdfdfs");
         try {
-            CallableStatement sentencia = this.conn.conex.prepareCall("{?=call RHFU_REQ_PRO_ID_DGP(?)}");
+            CallableStatement sentencia = this.conn.connection.prepareCall("{?=call RHFU_REQ_PRO_ID_DGP(?)}");
             sentencia.registerOutParameter(1, Types.VARCHAR);
             sentencia.setString(2, iddgp);
             sentencia.executeQuery();

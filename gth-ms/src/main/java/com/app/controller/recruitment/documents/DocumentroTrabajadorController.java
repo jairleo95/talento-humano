@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.app.persistence.dao_imp.InterfaceDocumentoDAO;
+import com.app.persistence.dao_imp.IDocumentoDAO;
 import com.app.config.factory.FactoryConnectionDB;
 import com.app.domain.model.Renombrar;
 import org.apache.commons.fileupload.FileItem;
@@ -41,7 +41,7 @@ import com.app.persistence.dao.DocumentoDAO;
 public class DocumentroTrabajadorController {
 
 
-    InterfaceDocumentoDAO d = new DocumentoDAO();
+    IDocumentoDAO d = new DocumentoDAO();
 
     @PostMapping(produces = MediaType.TEXT_HTML_VALUE)
     public ResponseEntity<?> processRequest(HttpServletRequest request, HttpServletResponse response) {

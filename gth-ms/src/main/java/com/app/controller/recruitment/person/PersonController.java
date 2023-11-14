@@ -9,8 +9,8 @@ import com.app.persistence.dao.Carrera_UniversidadDAO;
 import com.app.persistence.dao.DireccionDAO;
 import com.app.persistence.dao.Hist_Estado_CivilDAO;
 import com.app.persistence.dao.ListaDAO;
-import com.app.domain.model.Cuenta_Sueldo;
-import com.app.domain.model.Empleado;
+import com.app.domain.model.SalaryAccount;
+import com.app.domain.model.Employee;
 import com.app.domain.model.TipoHoraPago;
 import com.app.controller.util.CCriptografiar;
 import com.app.controller.util.DateFormat;
@@ -36,17 +36,17 @@ import com.app.persistence.dao.Tipo_DocumentoDAO;
 import com.app.persistence.dao.TrabajadorDAO;
 import com.app.persistence.dao.UbigeoDAO;
 import com.app.persistence.dao_imp.InterfaceCarrera_UniversidadDAO;
-import com.app.persistence.dao_imp.InterfaceDatos_Hijo_Trabajador;
-import com.app.persistence.dao_imp.InterfaceDgpDAO;
-import com.app.persistence.dao_imp.InterfaceDireccionDAO;
-import com.app.persistence.dao_imp.InterfaceDocumentoDAO;
-import com.app.persistence.dao_imp.InterfaceEmpleadoDAO;
+import com.app.persistence.dao_imp.IDatosHijoTrabajador;
+import com.app.persistence.dao_imp.IDgpDAO;
+import com.app.persistence.dao_imp.IDireccionDAO;
+import com.app.persistence.dao_imp.IDocumentoDAO;
+import com.app.persistence.dao_imp.IEmpleadoDAO;
 import com.app.persistence.dao_imp.InterfaceHist_Estado_CivilDAO;
-import com.app.persistence.dao_imp.InterfaceListaDAO;
+import com.app.persistence.dao_imp.IListaDAO;
 import com.app.persistence.dao_imp.InterfaceTipoHoraPagoDAO;
-import com.app.persistence.dao_imp.InterfaceTipo_DocumentoDAO;
-import com.app.persistence.dao_imp.InterfaceTrabajadorDAO;
-import com.app.persistence.dao_imp.InterfaceUbigeoDAO;
+import com.app.persistence.dao_imp.ITipo_DocumentoDAO;
+import com.app.persistence.dao_imp.ITrabajadorDAO;
+import com.app.persistence.dao_imp.IUbigeoDAO;
 
 /**
  *
@@ -56,18 +56,18 @@ import com.app.persistence.dao_imp.InterfaceUbigeoDAO;
 @RequestMapping("trabajador")
 public class PersonController {
 
-    InterfaceTrabajadorDAO tr = new TrabajadorDAO();
+    ITrabajadorDAO tr = new TrabajadorDAO();
     InterfaceTipoHoraPagoDAO thp = new TipoHoraPagoDAO();
-    InterfaceListaDAO li = new ListaDAO();
-    InterfaceUbigeoDAO ub = new UbigeoDAO();
-    InterfaceDocumentoDAO d = new DocumentoDAO();
-    InterfaceEmpleadoDAO em = new EmpleadoDAO();
-    InterfaceDgpDAO dgp = new DgpDAO();
-    InterfaceDireccionDAO dir = new DireccionDAO();
-    InterfaceTipo_DocumentoDAO tdoc = new Tipo_DocumentoDAO();
+    IListaDAO li = new ListaDAO();
+    IUbigeoDAO ub = new UbigeoDAO();
+    IDocumentoDAO d = new DocumentoDAO();
+    IEmpleadoDAO em = new EmpleadoDAO();
+    IDgpDAO dgp = new DgpDAO();
+    IDireccionDAO dir = new DireccionDAO();
+    ITipo_DocumentoDAO tdoc = new Tipo_DocumentoDAO();
     InterfaceCarrera_UniversidadDAO cu = new Carrera_UniversidadDAO();
     InterfaceHist_Estado_CivilDAO ec = new Hist_Estado_CivilDAO();
-    InterfaceDatos_Hijo_Trabajador h = new Datos_Hijo_TrabajadorDAO();
+    IDatosHijoTrabajador h = new Datos_Hijo_TrabajadorDAO();
 
     @PostMapping("diezmo")
     public ResponseEntity<?> diezmo(HttpServletRequest request) {
@@ -288,7 +288,7 @@ public class PersonController {
             }
             if (opc.equals("Mostrar_Cod_APS")) {
                 String idtr = request.getParameter("tr");
-                List<Empleado> e = em.id_empleadox_ide(idtr);
+                List<Employee> e = em.id_empleadox_ide(idtr);
                 if (e.size() == 0) {
                     rpta.put("msg", "0");
                 } else {
@@ -465,7 +465,7 @@ public class PersonController {
         if (opc.equals("Editar_Asp_Acad")) {
             String idtr = request.getParameter("idtr");
             String edit = request.getParameter("edit");
-            List<Cuenta_Sueldo> li1 = tr.List_Cuenta_Sueldo(idtr);
+            List<SalaryAccount> li1 = tr.List_Cuenta_Sueldo(idtr);
             if (!li1.isEmpty()) {
                 session.setAttribute("List_Cuenta_Sueldo", li1);
             } else {

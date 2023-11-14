@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.app.persistence.dao_imp.InterfaceTipoHoraPagoDAO;
-import com.app.config.factory.ConexionBD;
+import com.app.config.factory.DBConnection;
 import com.app.config.factory.FactoryConnectionDB;
 import com.app.domain.model.TipoHoraPago;
 import com.app.controller.util.CCriptografiar;
@@ -22,7 +22,7 @@ import com.app.controller.util.CCriptografiar;
  */
 public class TipoHoraPagoDAO implements InterfaceTipoHoraPagoDAO {
 
-    ConexionBD conn;
+    DBConnection conn;
 
     @Override
     public List<TipoHoraPago> listTiHoraPagoByIdTrabajador(String idtr) {

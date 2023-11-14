@@ -14,7 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import com.app.persistence.dao_imp.InterfaceCentroCosto;
-import com.app.config.factory.ConexionBD;
+import com.app.config.factory.DBConnection;
 import com.app.config.factory.FactoryConnectionDB;
 
 /**
@@ -23,7 +23,7 @@ import com.app.config.factory.FactoryConnectionDB;
  */
 public class CentroCostoDAO implements InterfaceCentroCosto {
 
-    ConexionBD cnn;
+    DBConnection cnn;
     String sql;
 
     @Override
@@ -106,7 +106,7 @@ public class CentroCostoDAO implements InterfaceCentroCosto {
         boolean x = false;
         try {
             this.cnn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            CallableStatement cst = this.cnn.conex.prepareCall("{CALL RHSP_INSERT_CENTRO_COSTO( ?, ?, ?, ?, ?)}");
+            CallableStatement cst = this.cnn.connection.prepareCall("{CALL RHSP_INSERT_CENTRO_COSTO( ?, ?, ?, ?, ?)}");
             cst.setString(1, CO_CENTRO_COSTO);
             cst.setString(2, DE_CENTRO_COSTO);
             cst.setString(3, ID_DEPARTAMENTO);
@@ -133,7 +133,7 @@ public class CentroCostoDAO implements InterfaceCentroCosto {
         try {
             this.cnn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
             System.out.println(ID_CENTRO_COSTO + " " + CO_CENTRO_COSTO + " " + DE_CENTRO_COSTO + " " + ID_DEPARTAMENTO + " " + ID_AREA + " " + ID_SECCION + " " + id_det_cc);
-            CallableStatement cst = this.cnn.conex.prepareCall("{CALL RHSP_MOD_CENTRO_COSTO( ?, ?, ?, ?, ?, ?,?)}");
+            CallableStatement cst = this.cnn.connection.prepareCall("{CALL RHSP_MOD_CENTRO_COSTO( ?, ?, ?, ?, ?, ?,?)}");
 
             cst.setString(1, ID_CENTRO_COSTO);
             cst.setString(2, CO_CENTRO_COSTO);
@@ -162,7 +162,7 @@ public class CentroCostoDAO implements InterfaceCentroCosto {
         boolean x = true;
         try {
             this.cnn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            CallableStatement cst = this.cnn.conex.prepareCall("{CALL RHSP_ELIMINAR_CENTRO_COSTO( ?)}");
+            CallableStatement cst = this.cnn.connection.prepareCall("{CALL RHSP_ELIMINAR_CENTRO_COSTO( ?)}");
             cst.setString(1, ID_CENTRO_COSTO);
             cst.execute();
         } catch (SQLException e) {
@@ -185,7 +185,7 @@ public class CentroCostoDAO implements InterfaceCentroCosto {
         String id = "";
         try {
             this.cnn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            CallableStatement cst = this.cnn.conex.prepareCall("{CALL RHSP_INSERT_DEPART_CENTRO_C( ?,?,?,?,?,?,?)}");
+            CallableStatement cst = this.cnn.connection.prepareCall("{CALL RHSP_INSERT_DEPART_CENTRO_C( ?,?,?,?,?,?,?)}");
             cst.setString(1, null);
             cst.setString(2, id_departamento);
             cst.setString(3, id_area);

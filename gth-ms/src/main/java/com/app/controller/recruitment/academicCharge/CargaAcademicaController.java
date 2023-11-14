@@ -7,7 +7,7 @@ package com.app.controller.recruitment.academicCharge;
 
 import com.app.domain.model.DGP;
 import com.app.domain.model.V_Detalle_Carga_Academica;
-import com.app.config.Strings;
+import com.app.config.Constants;
 import com.app.config.UserMachineProperties;
 import com.app.config.globalProperties;
 import com.app.controller.util.CCriptografiar;
@@ -35,15 +35,15 @@ import com.app.persistence.dao.ScheduledTest;
 import com.app.persistence.dao.Tipo_DocumentoDAO;
 import com.app.persistence.dao.TrabajadorDAO;
 import com.app.persistence.dao.UbigeoDAO;
-import com.app.persistence.dao_imp.InterfaceAutorizacionDAO;
-import com.app.persistence.dao_imp.InterfaceCarga_AcademicaDAO;
-import com.app.persistence.dao_imp.InterfaceDgpDAO;
-import com.app.persistence.dao_imp.InterfaceDireccionDAO;
-import com.app.persistence.dao_imp.InterfaceListaDAO;
-import com.app.persistence.dao_imp.InterfaceRequerimientoDAO;
-import com.app.persistence.dao_imp.InterfaceTipo_DocumentoDAO;
-import com.app.persistence.dao_imp.InterfaceTrabajadorDAO;
-import com.app.persistence.dao_imp.InterfaceUbigeoDAO;
+import com.app.persistence.dao_imp.IAutorizacionDAO;
+import com.app.persistence.dao_imp.ICargaAcademicaDAO;
+import com.app.persistence.dao_imp.IDgpDAO;
+import com.app.persistence.dao_imp.IDireccionDAO;
+import com.app.persistence.dao_imp.IListaDAO;
+import com.app.persistence.dao_imp.IRequerimientoDAO;
+import com.app.persistence.dao_imp.ITipo_DocumentoDAO;
+import com.app.persistence.dao_imp.ITrabajadorDAO;
+import com.app.persistence.dao_imp.IUbigeoDAO;
 
 /**
  *
@@ -53,16 +53,16 @@ import com.app.persistence.dao_imp.InterfaceUbigeoDAO;
 @RequestMapping("carga_academica")
 public class CargaAcademicaController {
 
-        InterfaceCarga_AcademicaDAO carga = new Carga_AcademicaDAO();
-        InterfaceTrabajadorDAO tr = new TrabajadorDAO();
-        InterfaceListaDAO li = new ListaDAO();
-        InterfaceUbigeoDAO ub = new UbigeoDAO();
-        InterfaceDireccionDAO dir = new DireccionDAO();
-        InterfaceTipo_DocumentoDAO tdoc = new Tipo_DocumentoDAO();
+        ICargaAcademicaDAO carga = new Carga_AcademicaDAO();
+        ITrabajadorDAO trabajadorDAO = new TrabajadorDAO();
+        IListaDAO listaDAO = new ListaDAO();
+        IUbigeoDAO ubigeoDAO = new UbigeoDAO();
+        IDireccionDAO direccionDAO = new DireccionDAO();
+        ITipo_DocumentoDAO tipoDocumentoDAO = new Tipo_DocumentoDAO();
 
-        InterfaceRequerimientoDAO IReq = new RequerimientoDAO();
-        InterfaceAutorizacionDAO a = new AutorizacionDAO();
-        InterfaceDgpDAO dgp = new DgpDAO();
+        IRequerimientoDAO requerimientoDAO = new RequerimientoDAO();
+        IAutorizacionDAO autorizacionDAO = new AutorizacionDAO();
+        IDgpDAO dgp = new DgpDAO();
 
         @Autowired
         ServletContext context;
@@ -133,7 +133,7 @@ public class CargaAcademicaController {
 
     @PutMapping("persons")//Completar_Datos
     public ResponseEntity<?> completeData(HttpServletRequest request){
-        HttpSession sesion = request.getSession(true);
+        HttpSession session = request.getSession(true);
         //if (opc.equals("Completar_Datos")) {
             String eap = request.getParameter("eap");
             String facu = request.getParameter("facultad");
@@ -141,15 +141,15 @@ public class CargaAcademicaController {
             String idtr = carga.DNI_ID_TRABAJADOR(dni);
 
             if (idtr.equals("")) {
-                sesion.setAttribute("List_Carrera", li.List_Carrera());
-                sesion.setAttribute("List_Nacionalidad", li.List_Nacionalidad());
-                sesion.setAttribute("List_Universidad", li.List_Universidad());
-                sesion.setAttribute("List_Departamento", ub.List_Departamento());
-                sesion.setAttribute("List_Situacion_Educativa", li.List_Situacion_Educativa());
-                sesion.setAttribute("Listar_via", dir.Listar_via());
-                sesion.setAttribute("Listar_zona", dir.Listar_zona());
-                sesion.setAttribute("Listar_tipo_doc", tdoc.Listar_tipo_doc());
-                sesion.setAttribute("list_año", li.lista_años());
+                session.setAttribute("List_Carrera", listaDAO.List_Carrera());
+                session.setAttribute("List_Nacionalidad", listaDAO.List_Nacionalidad());
+                session.setAttribute("List_Universidad", listaDAO.List_Universidad());
+                session.setAttribute("List_Departamento", ubigeoDAO.List_Departamento());
+                session.setAttribute("List_Situacion_Educativa", listaDAO.List_Situacion_Educativa());
+                session.setAttribute("Listar_via", direccionDAO.Listar_via());
+                session.setAttribute("Listar_zona", direccionDAO.Listar_zona());
+                session.setAttribute("Listar_tipo_doc", tipoDocumentoDAO.Listar_tipo_doc());
+                session.setAttribute("list_año", listaDAO.lista_años());
 
                 String no_trabajador = request.getParameter("no_tr");
                 String ap_p = request.getParameter("ap_p");
@@ -158,8 +158,8 @@ public class CargaAcademicaController {
                 //response.sendRedirect("views/Trabajador/Reg_Trabajador.html?nro_doc=" + dni + "&ap_p=" + ap_p + "&ap_m=" + ap_m + "&ti_doc=" + ti_doc + "&no_tr=" + no_trabajador);
             } else {
                 String hl = request.getParameter("hl");
-                sesion.setAttribute("ListaridTrabajador", tr.ListaridTrabajador(idtr));
-                sesion.setAttribute("Lista_detalle_academico", carga.Lista_detalle_academico(idtr, facu, eap, "", ""));
+                session.setAttribute("ListaridTrabajador", trabajadorDAO.ListaridTrabajador(idtr));
+                session.setAttribute("Lista_detalle_academico", carga.Lista_detalle_academico(idtr, facu, eap, "", ""));
 
                 //response.sendRedirect("views/Trabajador/Detalle_Trabajador.html?" + "idtr=" + idtr + "&academico=true" + "&hl=" + hl + "&eap=" + eap + "&facultad=" + facu);
             }
@@ -242,7 +242,6 @@ public class CargaAcademicaController {
                     String FE_PAGO = request.getParameter("fe_pago" + i);
                     String id = carga.INSERT_PAGO_DOCENTE(null, NU_CUOTA, CA_CUOTA, FE_PAGO, null,
                             ID_PROCESO_CARGA_AC.trim(), null, null, null, ipUser, iduser);
-                    System.out.println("::Cuota " + i + " " + "registrada. ");
                 }
                 System.out.println("::Insertando detalle carga academica...");
                 /*DETALLE CARGA ACADEMICA*/
@@ -250,16 +249,15 @@ public class CargaAcademicaController {
                 for (int i = 0; i < lCargaAcad.size(); i++) {
                     carga.INSERT_DETALLE_CARGA_ACADEMICA(null, ID_PROCESO_CARGA_AC.trim(), CCriptografiar.Desencriptar(lCargaAcad.get(i).getId_carga_academica()), "1");
                 }
-                String idrp = IReq.id_det_req_proc(iddgp.trim());
+                String idrp = requerimientoDAO.id_det_req_proc(iddgp.trim());
                 /* REGISTRAR PRIMERA AUTORIZACION*/
-                List<String> list = a.Det_Autorizacion(idrp);
-                a.Insert_Autorizacion("", iddgp.trim(), "1", "P1", "", iduser, "", "", "", list.get(1).trim(), idrp.trim(), list.get(0));
+                List<String> list = autorizacionDAO.Det_Autorizacion(idrp);
+                autorizacionDAO.Insert_Autorizacion("", iddgp.trim(), "1", "P1", "", iduser, "", "", "", list.get(1).trim(), idrp.trim(), list.get(0));
 
                 dataMap.put("dgp", CCriptografiar.Encriptar(iddgp));
                 dataMap.put("proceso", CCriptografiar.Encriptar(idrp));
                 dataMap.put("rpta", true);
             }
-
 
 
             if (opc.equals("initUpdateCAData")) {
@@ -281,7 +279,7 @@ public class CargaAcademicaController {
 
             }
             if (opc.equals("stopSyncUpCargaAcademica")) {
-                Boolean x = false;
+                boolean x = false;
                 System.out.println("::Enter to stopSyncUpCargaAcademica");
                 if (context.getAttribute("runnableCA") != null) {
                     System.out.println("ScheduleFuture__:" + context.getAttribute("runnableCA"));
@@ -300,7 +298,7 @@ public class CargaAcademicaController {
             dataMap.put("status", false);
             dataMap.put("rpta", false);
             dataMap.put("message", e.getMessage());
-            dataMap.put("errorMessage", Strings.ERROR_MESSAGE);
+            dataMap.put("errorMessage", Constants.ERROR_MESSAGE);
         }
         return new ResponseEntity<>(dataMap, HttpStatus.OK);
     }

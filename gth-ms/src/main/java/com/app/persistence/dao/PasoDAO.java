@@ -13,7 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import com.app.persistence.dao_imp.InterfacePasoDAO;
-import com.app.config.factory.ConexionBD;
+import com.app.config.factory.DBConnection;
 import com.app.config.factory.FactoryConnectionDB;
 import com.app.controller.util.DateFormat;
 
@@ -23,7 +23,7 @@ import com.app.controller.util.DateFormat;
  */
 public class PasoDAO implements InterfacePasoDAO {
 
-    ConexionBD conn;
+    DBConnection conn;
     DateFormat c = new DateFormat();
 
     @Override
@@ -105,7 +105,7 @@ public class PasoDAO implements InterfacePasoDAO {
     public void INSERT_PASOS(String ID_PASOS, String ID_PROCESO, String DE_PASOS, String NU_PASOS, String CO_PASOS) {
         try {
             this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            CallableStatement cst = this.conn.conex.prepareCall("{CALL RHSP_INSERT_PASOS( ?, ?, ?, ?, ? )} ");
+            CallableStatement cst = this.conn.connection.prepareCall("{CALL RHSP_INSERT_PASOS( ?, ?, ?, ?, ? )} ");
             cst.setString(1, null);
             cst.setString(2, ID_PROCESO);
             cst.setString(3, DE_PASOS);
@@ -129,7 +129,7 @@ public class PasoDAO implements InterfacePasoDAO {
     public void UPDATE_PASOS(String ID_PASOS, String ID_PROCESO, String DE_PASOS, String NU_PASOS, String CO_PASOS, String ES_PASO) {
         try {
             this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            CallableStatement cst = this.conn.conex.prepareCall("{CALL RHSP_UPDATE_PASOS( ?, ?, ?, ?, ? ,?)} ");
+            CallableStatement cst = this.conn.connection.prepareCall("{CALL RHSP_UPDATE_PASOS( ?, ?, ?, ?, ? ,?)} ");
             cst.setString(1, ID_PASOS);
             cst.setString(2, ID_PROCESO);
             cst.setString(3, DE_PASOS);
@@ -155,7 +155,7 @@ public class PasoDAO implements InterfacePasoDAO {
         try {
             this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
             String sql = " DELETE FROM RHTC_PASOS WHERE ID_PASOS='" + ID_PASOS.trim() + "'";
-            this.conn.ejecutar(sql);
+            this.conn.execute(sql);
         } catch (Exception e) {
             this.conn.close();
         }
@@ -167,7 +167,7 @@ public class PasoDAO implements InterfacePasoDAO {
 
         try {
             this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            CallableStatement cst = this.conn.conex.prepareCall("{CALL DELETE_PUESTO_PASO( ?)} ");
+            CallableStatement cst = this.conn.connection.prepareCall("{CALL DELETE_PUESTO_PASO( ?)} ");
             cst.setString(1, IDDP);
             cst.execute();
         } catch (SQLException e) {
@@ -189,7 +189,7 @@ public class PasoDAO implements InterfacePasoDAO {
 
         try {
             this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            CallableStatement cst = this.conn.conex.prepareCall("{CALL UPDATE_PASOS_PROCESO(?, ?)} ");
+            CallableStatement cst = this.conn.connection.prepareCall("{CALL UPDATE_PASOS_PROCESO(?, ?)} ");
             cst.setString(1, NU_PASO);
             cst.setString(2, ID_PASO);
             cst.execute();
@@ -211,7 +211,7 @@ public class PasoDAO implements InterfacePasoDAO {
 
         try {
             this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            CallableStatement cst = this.conn.conex.prepareCall("{CALL RHSP_ESTADO_DETALLE_PUESTO( ?,?)} ");
+            CallableStatement cst = this.conn.connection.prepareCall("{CALL RHSP_ESTADO_DETALLE_PUESTO( ?,?)} ");
             cst.setString(1, ID);
             cst.setInt(2, Integer.parseInt(ESTADO));
             cst.execute();

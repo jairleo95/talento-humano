@@ -11,8 +11,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.app.persistence.dao_imp.InterfaceGrupo_ocupacionesDAO;
-import com.app.config.factory.ConexionBD;
+import com.app.persistence.dao_imp.IGrupo_ocupacionesDAO;
+import com.app.config.factory.DBConnection;
 import com.app.config.factory.FactoryConnectionDB;
 import com.app.domain.model.Grupo_Ocupaciones;
 
@@ -20,8 +20,8 @@ import com.app.domain.model.Grupo_Ocupaciones;
  *
  * @author joserodrigo
  */
-public class GrupoOcupacionesDAO implements InterfaceGrupo_ocupacionesDAO {
-    ConexionBD conn;
+public class GrupoOcupacionesDAO implements IGrupo_ocupacionesDAO {
+    DBConnection conn;
     @Override
     public List<Grupo_Ocupaciones> List_grup_ocu() {
         this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);

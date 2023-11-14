@@ -5,7 +5,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 import javax.servlet.ServletContext;
-import com.app.persistence.dao_imp.InterfaceCarga_AcademicaDAO;
+import com.app.persistence.dao_imp.ICargaAcademicaDAO;
 import com.app.config.globalProperties;
 
 /*
@@ -26,7 +26,7 @@ public class ScheduledTest {
         Runnable runnable = new Runnable() {
             public void run() {
                 System.out.println("---------------Actualizando Carga Academica :::");
-                InterfaceCarga_AcademicaDAO a = new Carga_AcademicaDAO();
+                ICargaAcademicaDAO a = new Carga_AcademicaDAO();
                 a.syncupCargaAcademica("2017-1", globalProperties.DOCENTESXCURSO_METHOD);
                 System.out.println("------Carga academica actualizada.::::");
 

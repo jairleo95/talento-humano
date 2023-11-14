@@ -11,9 +11,9 @@ import java.sql.Types;
 import java.util.List;
 
 import com.app.persistence.dao_imp.InterfaceDetalleReqProcesoDAO;
-import com.app.config.factory.ConexionBD;
+import com.app.config.factory.DBConnection;
 import com.app.config.factory.FactoryConnectionDB;
-import com.app.domain.model.DetalleReqProceso;
+import com.app.domain.model.ProcessDetail;
 import com.app.controller.util.DateFormat;
 
 /**
@@ -23,15 +23,15 @@ import com.app.controller.util.DateFormat;
 public class DetalleReqProcesoDAO implements InterfaceDetalleReqProcesoDAO {
 
     DateFormat c = new DateFormat();
-    ConexionBD conn;
+    DBConnection conn;
 
     @Override
-    public String insertDetalleReqProceso(DetalleReqProceso detalleReqProceso) {
+    public String insertDetalleReqProceso(ProcessDetail detalleReqProceso) {
         CallableStatement cst;
         String id = "";
         try {
             this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            cst = conn.conex.prepareCall("{CALL RHSP_INSERT_DETALLE_REQ_PROC( ?,?,?,?,?,?,?)}");
+            cst = conn.connection.prepareCall("{CALL RHSP_INSERT_DETALLE_REQ_PROC( ?,?,?,?,?,?,?)}");
             cst.setString(1, detalleReqProceso.getIdProceso());
             cst.setString(2, detalleReqProceso.getEsReqProceso());
             cst.setString(3, detalleReqProceso.getIdDireccion());
@@ -61,13 +61,13 @@ public class DetalleReqProcesoDAO implements InterfaceDetalleReqProcesoDAO {
     }
 
     @Override
-    public Boolean updateDetalleReqProceso(DetalleReqProceso detalleReqProceso) {
+    public Boolean updateDetalleReqProceso(ProcessDetail detalleReqProceso) {
 
         CallableStatement cst;
         Boolean x = false;
         try {
             this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            cst = conn.conex.prepareCall("{CALL RHSP_UPDATE_DETALLE_REQ_PROC( ?,?,?,?,?,?,?,?)}");
+            cst = conn.connection.prepareCall("{CALL RHSP_UPDATE_DETALLE_REQ_PROC( ?,?,?,?,?,?,?,?)}");
             cst.setString(1, detalleReqProceso.getIdDetalleReqProceso());
             cst.setString(2, detalleReqProceso.getIdProceso());
             cst.setString(3, detalleReqProceso.getEsReqProceso());
@@ -93,7 +93,7 @@ public class DetalleReqProcesoDAO implements InterfaceDetalleReqProcesoDAO {
     }
 
     @Override
-    public List<DetalleReqProceso> listDetalleReqProceso() {
+    public List<ProcessDetail> listDetalleReqProceso() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

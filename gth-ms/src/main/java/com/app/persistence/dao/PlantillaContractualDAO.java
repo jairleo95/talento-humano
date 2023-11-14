@@ -7,17 +7,17 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import com.app.persistence.dao_imp.InterfacePlantillaContractualDAO;
-import com.app.config.factory.ConexionBD;
+import com.app.persistence.dao_imp.IContractTemplateDAO;
+import com.app.config.factory.DBConnection;
 import com.app.config.factory.FactoryConnectionDB;
 
 /**
  *
  * @author joserodrigo
  */
-public class PlantillaContractualDAO implements InterfacePlantillaContractualDAO {
+public class PlantillaContractualDAO implements IContractTemplateDAO {
 
-    ConexionBD cnn;
+    DBConnection cnn;
 
     @Override
     public List<Map<String, ?>> List_PLantillas(String id_puesto) {
@@ -51,7 +51,7 @@ public class PlantillaContractualDAO implements InterfacePlantillaContractualDAO
     public void Crear_Plantilla(String no_pl, String User_crea) {
         try {
             this.cnn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            CallableStatement cst = this.cnn.conex.prepareCall("{CALL RHSP_INSERT_PLANTILLA( ?,?,?,?,?,?,?,? )} ");
+            CallableStatement cst = this.cnn.connection.prepareCall("{CALL RHSP_INSERT_PLANTILLA( ?,?,?,?,?,?,?,? )} ");
             cst.setString(1, null);
             cst.setString(2, no_pl);
             cst.setString(3, null);
@@ -174,7 +174,7 @@ public class PlantillaContractualDAO implements InterfacePlantillaContractualDAO
     public void Insertar_pertenencia(String id_plt_con, String dir, String dep, String area, String sec, String puesto, String id_user) {
         try {
             this.cnn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            CallableStatement cst = this.cnn.conex.prepareCall("{CALL RHSP_INSERT_PLANTILLA_PUEST( ?,?,?,?,?,?,? )} ");
+            CallableStatement cst = this.cnn.connection.prepareCall("{CALL RHSP_INSERT_PLANTILLA_PUEST( ?,?,?,?,?,?,? )} ");
             cst.setString(1, id_plt_con.trim());
             cst.setString(2, dir.trim());
             cst.setString(3, dep.trim());
@@ -213,7 +213,7 @@ public class PlantillaContractualDAO implements InterfacePlantillaContractualDAO
     public void Activar_pl_pu(String id_pp, String id_user) {
         try {
             this.cnn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            CallableStatement cst = this.cnn.conex.prepareCall("{CALL RHSP_ACTIVAR_PLANTILLA_PUESTO( ?,? )}");
+            CallableStatement cst = this.cnn.connection.prepareCall("{CALL RHSP_ACTIVAR_PLANTILLA_PUESTO( ?,? )}");
             cst.setString(1, id_pp);
             cst.setString(2, id_user);
             cst.execute();
@@ -229,7 +229,7 @@ public class PlantillaContractualDAO implements InterfacePlantillaContractualDAO
     public void Desactivar_pl_pu(String id_pp, String id_user) {
         try {
             this.cnn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            CallableStatement cst = this.cnn.conex.prepareCall("{CALL RHSP_DES_PLANTILLA_PUESTO(?,? )}");
+            CallableStatement cst = this.cnn.connection.prepareCall("{CALL RHSP_DES_PLANTILLA_PUESTO(?,? )}");
             cst.setString(1, id_pp);
             cst.setString(2, id_user);
             cst.execute();
@@ -246,7 +246,7 @@ public class PlantillaContractualDAO implements InterfacePlantillaContractualDAO
         boolean x = false;
         try {
             this.cnn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            CallableStatement cst = this.cnn.conex.prepareCall("{CALL rhsp_update_nombre_plantilla(?,? )}");
+            CallableStatement cst = this.cnn.connection.prepareCall("{CALL rhsp_update_nombre_plantilla(?,? )}");
             cst.setString(1, id);
             cst.setString(2, nombre);
             cst.execute();

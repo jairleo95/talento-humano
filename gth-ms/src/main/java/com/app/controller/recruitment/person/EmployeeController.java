@@ -5,7 +5,7 @@
  */
 package com.app.controller.recruitment.person;
 
-import com.app.persistence.dao_imp.InterfaceEmpleadoDAO;
+import com.app.persistence.dao_imp.IEmpleadoDAO;
 import com.app.domain.model.page.Datatable;
 
 import java.util.HashMap;
@@ -17,8 +17,6 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.app.persistence.dao.EmpleadoDAO;
@@ -31,7 +29,7 @@ import com.app.persistence.dao.EmpleadoDAO;
 @RequestMapping("empleado")
 public class EmployeeController {
 
-    InterfaceEmpleadoDAO Iem = new EmpleadoDAO();
+    IEmpleadoDAO Iem = new EmpleadoDAO();
 
     @RequestMapping
     public ResponseEntity<?> process(HttpServletRequest request, HttpServletResponse response) {
@@ -60,7 +58,7 @@ public class EmployeeController {
 
             }
             if (opc.equals("Reg_Evaluar_Emp")) {
-                String ID_EVALUACION_EMP = null;
+                String ID_EVALUACION_EMP = "";
                 String ES_EVALUACION = request.getParameter("ESTADO");
                 String RE_EVALUACION = request.getParameter("RE_EVALUACION");
                 String ID_TRABAJADOR = request.getParameter("ID_TRABAJADOR");
@@ -151,7 +149,7 @@ public class EmployeeController {
                 String idtr = request.getParameter("idtr");
                 String html = "";
                 List<Map<String, ?>> Lista = Iem.List_co_huella(idtr);
-                if (Lista.size() > 0) {
+                if (!Lista.isEmpty()) {
                     String codigo = "";
                     Map<String, ?> x = Lista.get(0);
                     codigo = String.valueOf(x.get("codigo_huella"));
@@ -193,7 +191,7 @@ public class EmployeeController {
                 String idtr = request.getParameter("idtr");
                 String html = "";
                 List<Map<String, ?>> Lista = Iem.List_co_aps(idtr);
-                if (Lista.size() > 0) {
+                if (!Lista.isEmpty()) {
                     String codigo = "";
                     Map<String, ?> x = Lista.get(0);
                     codigo = String.valueOf(x.get("aps"));

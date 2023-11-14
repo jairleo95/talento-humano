@@ -6,9 +6,9 @@
 package com.app.controller.recruitment.dgp;
 
 import com.app.persistence.dao.DireccionDAO;
-import com.app.persistence.dao_imp.InterfaceDepartamentoDAO;
-import com.app.persistence.dao_imp.InterfaceDireccionDAO;
-import com.app.persistence.dao_imp.InterfaceFormato_HorarioDAO;
+import com.app.persistence.dao_imp.IDepartamentoDAO;
+import com.app.persistence.dao_imp.IDireccionDAO;
+import com.app.persistence.dao_imp.IFormato_HorarioDAO;
 
 import java.util.HashMap;
 
@@ -36,16 +36,16 @@ import com.app.persistence.dao.Formato_HorarioDAO;
 @RequestMapping("schedule")//formato_horario
 public class FormatoHorarioController {
 
-    InterfaceFormato_HorarioDAO Ifh = new Formato_HorarioDAO();
-    InterfaceDepartamentoDAO dp = new DepartamentoDao();
-    InterfaceDireccionDAO di = new DireccionDAO();
+    IFormato_HorarioDAO formatoHorarioDAO = new Formato_HorarioDAO();
+    IDepartamentoDAO departamentoDao = new DepartamentoDao();
+    IDireccionDAO direccionDAO = new DireccionDAO();
     ///InterfaceCarrera_UniversidadDAO model = new Carrera_UniversidadDAO();
 
 
     @PostMapping
     public ResponseEntity<?> process(HttpServletRequest request, HttpServletResponse response) {
 
-        HttpSession sesion = request.getSession(true);
+        HttpSession session = request.getSession(true);
 
         String opc = request.getParameter("opc");
         Map<String, Object> rpta = new HashMap<String, Object>();
@@ -61,14 +61,14 @@ public class FormatoHorarioController {
         try {
 
             if (opc.equals("registrar")) {
-                String ID_TIPO_HORARIO = null;
+                String ID_TIPO_HORARIO = "";
                 String NO_HORARIO = request.getParameter("NO_HORARIO");
                 String DE_HORARIO = request.getParameter("DE_HORARIO");
                 String ES_HORARIO = request.getParameter("ES_HORARIO");
                 Double CA_HORAS = Double.parseDouble(request.getParameter("CA_HORAS"));
 
-                Ifh.Insert_Horario(ID_TIPO_HORARIO, NO_HORARIO, DE_HORARIO, ES_HORARIO, CA_HORAS, null, null, null);
-                sesion.setAttribute("List_Tipo_Horario", Ifh.Listar_Tipo_Horario());
+                formatoHorarioDAO.Insert_Horario(ID_TIPO_HORARIO, NO_HORARIO, DE_HORARIO, ES_HORARIO, CA_HORAS, null, null, null);
+                session.setAttribute("List_Tipo_Horario", formatoHorarioDAO.Listar_Tipo_Horario());
                 //response.sendRedirect("views/Formato_Horario/Detalle_Formato_Horario.html");
 
             }
@@ -76,12 +76,12 @@ public class FormatoHorarioController {
                 String NO_HORARIO = request.getParameter("NO_HORARIO");
                 String DE_HORARIO = request.getParameter("DE_HORARIO");
                 String ES_HORARIO = "1";
-                String ID_DEP = sesion.getAttribute("DEPARTAMENTO_ID").toString();
+                String ID_DEP = session.getAttribute("DEPARTAMENTO_ID").toString();
                 Double CA_HORAS = Double.parseDouble(request.getParameter("CA_HORAS"));
                 String id_ar = request.getParameter("id_ar");
                 String id_sec = request.getParameter("id_sec");
 
-                Ifh.Insert_Horario(null, NO_HORARIO, DE_HORARIO, ES_HORARIO, CA_HORAS, ID_DEP, id_ar, id_sec);
+                formatoHorarioDAO.Insert_Horario(null, NO_HORARIO, DE_HORARIO, ES_HORARIO, CA_HORAS, ID_DEP, id_ar, id_sec);
             }
             if (opc.equals("GuardarFHAdmin")) {
                 String NO_HORARIO = request.getParameter("NO_HORARIO");
@@ -96,21 +96,21 @@ public class FormatoHorarioController {
                 }
                 String id_ar = request.getParameter("id_ar");
                 String id_sec = request.getParameter("id_sec");
-                Ifh.Insert_Horario(null, NO_HORARIO, DE_HORARIO, ES_HORARIO, CA_HORAS, ID_DEP, id_ar, id_sec);
+                formatoHorarioDAO.Insert_Horario(null, NO_HORARIO, DE_HORARIO, ES_HORARIO, CA_HORAS, ID_DEP, id_ar, id_sec);
             }
 
             if (opc.equals("Listar_Formato")) {
-                sesion.setAttribute("List_Tipo_Horario", Ifh.Listar_Tipo_Horario());
-                sesion.setAttribute("Listar_Direccion", di.Listar_Direccion());
+                session.setAttribute("List_Tipo_Horario", formatoHorarioDAO.Listar_Tipo_Horario());
+                session.setAttribute("Listar_Direccion", direccionDAO.Listar_Direccion());
                 response.sendRedirect("views/Formato_Horario/Detalle_Formato_Horario.html");
             }
             if (opc.equals("LFH")) {
-                List<Map<String, ?>> lista = Ifh.List_Tipo_Horarios();
+                List<Map<String, ?>> lista = formatoHorarioDAO.List_Tipo_Horarios();
                 rpta.put("rpta", "1");
                 rpta.put("lista", lista);
             }
             if (opc.equals("ultimo_fh")) {
-                String id = Ifh.ultimo_Tipo_Horario();
+                String id = formatoHorarioDAO.ultimo_Tipo_Horario();
                 rpta.put("rpta", "1");
                 rpta.put("lista", id);
             }
@@ -128,8 +128,8 @@ public class FormatoHorarioController {
                 }
                 String id_ar = request.getParameter("id_ar");
                 String id_sec = request.getParameter("id_sec");
-                Ifh.Editar_FH(ID_HORARIO, NO_HORARIO, DE_HORARIO, ES_HORARIO, CA_HORAS, ID_DEP, id_ar, id_sec);
-                Ifh.Eliminar_formato_horario(ID_HORARIO);
+                formatoHorarioDAO.Editar_FH(ID_HORARIO, NO_HORARIO, DE_HORARIO, ES_HORARIO, CA_HORAS, ID_DEP, id_ar, id_sec);
+                formatoHorarioDAO.Eliminar_formato_horario(ID_HORARIO);
                 String ID_FORMATO_HORARIO = null;
                 String ES_F_HORARIO = "1";
 
@@ -142,7 +142,7 @@ public class FormatoHorarioController {
                         String NO_DIA = request.getParameter("DIA_" + dia.get(i) + j);
                         if (HO_DESDE != null & NO_DIA != null & HO_HASTA != null) {
                             if (!HO_HASTA.equals("") & !HO_DESDE.equals("") & !NO_DIA.equals("")) {
-                                Ifh.Insert_Formato_Horario(ID_FORMATO_HORARIO, "T" + j, NO_DIA, HO_DESDE, HO_HASTA, ES_F_HORARIO, ID_HORARIO);
+                                formatoHorarioDAO.Insert_Formato_Horario(ID_FORMATO_HORARIO, "T" + j, NO_DIA, HO_DESDE, HO_HASTA, ES_F_HORARIO, ID_HORARIO);
                             }
                         }
                     }
@@ -152,12 +152,12 @@ public class FormatoHorarioController {
             if (opc.equals("eliminar_fh")) {
                 String ID_HORARIO = request.getParameter("ID_HORARIO");
                 System.out.println(ID_HORARIO);
-                Ifh.Eliminar_formato_horario(ID_HORARIO);
-                Ifh.Eliminar_horario(ID_HORARIO);
+                formatoHorarioDAO.Eliminar_formato_horario(ID_HORARIO);
+                formatoHorarioDAO.Eliminar_horario(ID_HORARIO);
             }
             if (opc.equals("REGISTRAR_FORMATOS")) {
-                String ID_FORMATO_HORARIO = null;
-                String ID_TIPO_HORARIO = Ifh.ultimo_Tipo_Horario();
+                String ID_FORMATO_HORARIO = "";
+                String ID_TIPO_HORARIO = formatoHorarioDAO.ultimo_Tipo_Horario();
                 String ES_F_HORARIO = "1";
 
                 for (int i = 0; i < dia.size(); i++) {
@@ -169,7 +169,7 @@ public class FormatoHorarioController {
                         String NO_DIA = request.getParameter("DIA_" + dia.get(i) + j);
                         if (HO_DESDE != null & NO_DIA != null & HO_HASTA != null) {
                             if (!HO_HASTA.equals("") & !HO_DESDE.equals("") & !NO_DIA.equals("")) {
-                                Ifh.Insert_Formato_Horario(ID_FORMATO_HORARIO, "T" + j, NO_DIA, HO_DESDE, HO_HASTA, ES_F_HORARIO, ID_TIPO_HORARIO);
+                                formatoHorarioDAO.Insert_Formato_Horario(ID_FORMATO_HORARIO, "T" + j, NO_DIA, HO_DESDE, HO_HASTA, ES_F_HORARIO, ID_TIPO_HORARIO);
                             }
                         }
                     }
@@ -190,52 +190,52 @@ public class FormatoHorarioController {
 
                         if (HO_DESDE != null & NO_DIA != null & HO_HASTA != null) {
                             if (!HO_HASTA.equals("") & !HO_DESDE.equals("") & !NO_DIA.equals("")) {
-                                Ifh.Insert_Formato_Horario(ID_FORMATO_HORARIO, NO_TURNO, NO_DIA, HO_DESDE, HO_HASTA, ES_F_HORARIO, ID_TIPO_HORARIO);
+                                formatoHorarioDAO.Insert_Formato_Horario(ID_FORMATO_HORARIO, NO_TURNO, NO_DIA, HO_DESDE, HO_HASTA, ES_F_HORARIO, ID_TIPO_HORARIO);
                             }
                         }
                     }
 
                 }
-                sesion.setAttribute("List_Tipo_Horario", Ifh.Listar_Tipo_Horario());
+                session.setAttribute("List_Tipo_Horario", formatoHorarioDAO.Listar_Tipo_Horario());
                 response.sendRedirect("views/Formato_Horario/Detalle_Formato_Horario.html");
 
             }
             if (opc.equals("LISTAR_FORMATO_HORARIO")) {
                 String ID_TIPO_HORARIO = request.getParameter("idth");
                 String nofor = request.getParameter("nofor");
-                sesion.setAttribute("LISTAR_FORMATO_HORARIO", Ifh.Listar_Formato_Horario(ID_TIPO_HORARIO));
-                sesion.setAttribute("List_D", Ifh.List_D());
+                session.setAttribute("LISTAR_FORMATO_HORARIO", formatoHorarioDAO.Listar_Formato_Horario(ID_TIPO_HORARIO));
+                session.setAttribute("List_D", formatoHorarioDAO.List_D());
                 response.sendRedirect("views/Formato_Horario/List_Formato_Horario.html?nofor=" + nofor + "");
             }
             if (opc.equals("Listar_Tip_Horario")) {
                 String id = request.getParameter("sec");
-                List<Map<String, ?>> lista = Ifh.List_Tipo_HorarioSec(id);
+                List<Map<String, ?>> lista = formatoHorarioDAO.List_Tipo_HorarioSec(id);
                 rpta.put("rpta", "1");
                 rpta.put("lista", lista);
             }
             if (opc.equals("statupdate")) {
                 String id = request.getParameter("id");
                 String es = request.getParameter("es");
-                Ifh.StatUpdate(id, es);
+                formatoHorarioDAO.StatUpdate(id, es);
             }
             if (opc.equals("Eliminar_turno")) {
                 String id_horario = request.getParameter("id_horario");
-                Ifh.Eliminar_turno(id_horario);
+                formatoHorarioDAO.Eliminar_turno(id_horario);
             }
             if (opc.equals("Listar_Horas_horario")) {
                 String id_dgp = request.getParameter("iddgp");
-                List<Map<String, ?>> lista = Ifh.Listar_Horario_dgp(id_dgp);
+                List<Map<String, ?>> lista = formatoHorarioDAO.Listar_Horario_dgp(id_dgp);
                 rpta.put("rpta", "1");
                 rpta.put("lista", lista);
             }
             if (opc.equals("Listar_Horario")) {
                 String id = request.getParameter("id");
-                List<Map<String, ?>> lista = Ifh.List_Formato_h(id);
+                List<Map<String, ?>> lista = formatoHorarioDAO.List_Formato_h(id);
                 rpta.put("rpta", "1");
                 rpta.put("lista", lista);
             }
             if (opc.equals("cargar_dep")) {
-                List<Map<String, ?>> lista = dp.List_departamento_2();
+                List<Map<String, ?>> lista = departamentoDao.List_departamento_2();
                 rpta.put("rpta", "1");
                 rpta.put("lista", lista);
             }

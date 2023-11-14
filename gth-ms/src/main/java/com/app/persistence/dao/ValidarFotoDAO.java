@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.app.persistence.dao_imp.InterfaceValidarFoto;
-import com.app.config.factory.ConexionBD;
+import com.app.config.factory.DBConnection;
 import com.app.config.factory.FactoryConnectionDB;
 
 /**
@@ -22,7 +22,7 @@ import com.app.config.factory.FactoryConnectionDB;
  * @author USUARIO
  */
 public class ValidarFotoDAO implements InterfaceValidarFoto {
-  ConexionBD cnn;
+  DBConnection cnn;
     @Override
     public List<Map<String, ?>> ListFotos(String tipo) {
         List<Map<String, ?>> lista = new ArrayList<Map<String, ?>>();
@@ -69,7 +69,7 @@ public class ValidarFotoDAO implements InterfaceValidarFoto {
     public void validar(String idtr, String estado) {
         try {
             this.cnn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            CallableStatement cst = cnn.conex.prepareCall("{CALL RHSP_VAL_FOTO_TRABAJADOR( ?, ?)}");
+            CallableStatement cst = cnn.connection.prepareCall("{CALL RHSP_VAL_FOTO_TRABAJADOR( ?, ?)}");
             cst.setString(1, idtr);
             cst.setString(2, estado);
 

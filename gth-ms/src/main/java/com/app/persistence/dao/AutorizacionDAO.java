@@ -16,8 +16,8 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.app.persistence.dao_imp.InterfaceAutorizacionDAO;
-import com.app.config.factory.ConexionBD;
+import com.app.persistence.dao_imp.IAutorizacionDAO;
+import com.app.config.factory.DBConnection;
 import com.app.config.factory.FactoryConnectionDB;
 import com.app.domain.model.Autorizacion;
 import com.app.domain.model.V_Autorizar_Dgp;
@@ -32,17 +32,17 @@ import oracle.sql.ArrayDescriptor;
  *
  * @author Admin
  */
-public class AutorizacionDAO implements InterfaceAutorizacionDAO {
+public class AutorizacionDAO implements IAutorizacionDAO {
 
     DateFormat c = new DateFormat();
-    ConexionBD conn;
+    DBConnection conn;
 
     @Override
     public void Insert_Autorizacion(String ID_AUTORIZACION, String ID_DGP, String ES_AUTORIZACION, String NU_PASOS, String IP_USUARIO, String US_CREACION, String US_MODIF, String FE_MODIF, String CO_PUESTO, String ID_PUESTO, String ID_DETALLE_REQ_PROCESO, String ID_PASOS) {
         CallableStatement cst;
         try {
             this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            cst = conn.conex.prepareCall("{CALL RHSP_INSERT_AUTORIZACION( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}");
+            cst = conn.connection.prepareCall("{CALL RHSP_INSERT_AUTORIZACION( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}");
             cst.setString(1, null);
             cst.setString(2, ID_DGP);
             cst.setString(3, ES_AUTORIZACION);
@@ -319,7 +319,7 @@ public class AutorizacionDAO implements InterfaceAutorizacionDAO {
                 v.setTa_ar_foto(rs.getString("ta_ar_foto"));
                 v.setTi_ar_foto(rs.getString("ti_ar_foto"));
                 v.setFe_creacion(rs.getString("fe_creacion"));
-                v.setVal_plazo(rs.getInt("val_plazo"));
+//                v.setVal_plazo(rs.getInt("val_plazo"));
                 v.setVer_list_plazo(rs.getString("ver_list_plazo"));
                 v.setElab_contrato(rs.getString("elab_contrato"));
                 v.setVal_firm_contrato(rs.getString("val_firm_contrato"));
@@ -427,7 +427,7 @@ public class AutorizacionDAO implements InterfaceAutorizacionDAO {
     public void Elim_Aut(String id_Autorizacion) {
         this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
         String sql = "DELETE FROM RHTV_AUTORIZACION WHERE ID_AUTORIZACION='" + id_Autorizacion.trim() + "'";
-        this.conn.ejecutar(sql);
+        this.conn.execute(sql);
         this.conn.close();
 
     }
@@ -507,7 +507,7 @@ public class AutorizacionDAO implements InterfaceAutorizacionDAO {
         String id = "";
         try {
             this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            CallableStatement cst = this.conn.conex.prepareCall("{CALL RHSP_INSERT_AUTORIZACION_DEV( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )}");
+            CallableStatement cst = this.conn.connection.prepareCall("{CALL RHSP_INSERT_AUTORIZACION_DEV( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )}");
             cst.setString(1, null);
             cst.setString(2, ID_DGP);
             cst.setString(3, ES_AUTORIZACION);
@@ -544,7 +544,7 @@ public class AutorizacionDAO implements InterfaceAutorizacionDAO {
         try {
 
             this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            cst = conn.conex.prepareCall("{CALL RHSP_INSERT_COMENTARIO_AUTOR( ?, ?, ?, ?, ?, ?,?)}");
+            cst = conn.connection.prepareCall("{CALL RHSP_INSERT_COMENTARIO_AUTOR( ?, ?, ?, ?, ?, ?,?)}");
             cst.setString(1, null);
             cst.setString(2, id_autorizacion.trim());
             cst.setString(3, id_dgp.trim());
@@ -840,9 +840,9 @@ public class AutorizacionDAO implements InterfaceAutorizacionDAO {
         try {
             int e = (estado) ? 1 : 0;
             this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            ArrayDescriptor des = ArrayDescriptor.createDescriptor("ARRAY_ID_DGP", conn.conex);
-            ARRAY array_to_pass = new ARRAY(des, conn.conex, iddgp);
-            CallableStatement st = conn.conex.prepareCall("call actualizar_dgps(?,?,?)");
+            ArrayDescriptor des = ArrayDescriptor.createDescriptor("ARRAY_ID_DGP", conn.connection);
+            ARRAY array_to_pass = new ARRAY(des, conn.connection, iddgp);
+            CallableStatement st = conn.connection.prepareCall("call actualizar_dgps(?,?,?)");
             st.setArray(1, array_to_pass);
             st.setInt(2, tipo);
             st.setInt(3, e);

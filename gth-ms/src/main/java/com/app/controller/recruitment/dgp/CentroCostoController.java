@@ -6,7 +6,7 @@
 package com.app.controller.recruitment.dgp;
 
 import com.app.persistence.dao.Centro_CostoDAO;
-import com.app.persistence.dao_imp.InterfaceCentro_CostosDAO;
+import com.app.persistence.dao_imp.ICentro_CostosDAO;
 
 import java.util.HashMap;
 import java.util.List;
@@ -33,7 +33,7 @@ public class CentroCostoController {
         String opc = request.getParameter("opc");
         HttpSession sesion = request.getSession(true);
         String iddep = (String) sesion.getAttribute("DEPARTAMENTO_ID");
-        InterfaceCentro_CostosDAO cc = new Centro_CostoDAO();
+        ICentro_CostosDAO cc = new Centro_CostoDAO();
         try {
             if (opc.equals("Listar_cc")) {
                 List<Map<String, ?>> list = cc.List_centro_costo(iddep);

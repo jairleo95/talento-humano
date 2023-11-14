@@ -5,10 +5,10 @@
  */
 package com.app.controller.recruitment.person.job;
 
-import com.app.persistence.dao_imp.InterfaceDatos_Hijo_Trabajador;
+import com.app.persistence.dao_imp.IDatosHijoTrabajador;
 import com.app.persistence.dao_imp.InterfacePadre_Madre_ConyugueDAO;
-import com.app.persistence.dao_imp.InterfaceTipo_DocumentoDAO;
-import com.app.persistence.dao_imp.InterfaceTrabajadorDAO;
+import com.app.persistence.dao_imp.ITipo_DocumentoDAO;
+import com.app.persistence.dao_imp.ITrabajadorDAO;
 import com.app.controller.util.DateFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -38,10 +38,10 @@ import com.app.persistence.dao.TrabajadorDAO;
 @RequestMapping("familiar")
 public class FamiliarController {
 
-    InterfaceDatos_Hijo_Trabajador h = new Datos_Hijo_TrabajadorDAO();
+    IDatosHijoTrabajador h = new Datos_Hijo_TrabajadorDAO();
     InterfacePadre_Madre_ConyugueDAO pmc = new Padre_Madre_ConyugueDAO();
-    InterfaceTrabajadorDAO tr = new TrabajadorDAO();
-    InterfaceTipo_DocumentoDAO td = new Tipo_DocumentoDAO();
+    ITrabajadorDAO tr = new TrabajadorDAO();
+    ITipo_DocumentoDAO td = new Tipo_DocumentoDAO();
 
     @PostMapping
     public ResponseEntity<?> process(HttpServletRequest request, HttpServletResponse response) {

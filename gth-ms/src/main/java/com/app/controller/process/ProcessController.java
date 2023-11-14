@@ -7,7 +7,7 @@ package com.app.controller.process;
 
 import com.app.persistence.dao_imp.InterfaceDetalleReqProcesoDAO;
 import com.app.persistence.dao_imp.InterfaceProcesoDAO;
-import com.app.domain.model.DetalleReqProceso;
+import com.app.domain.model.ProcessDetail;
 import com.app.controller.util.CCriptografiar;
 
 import java.util.HashMap;
@@ -121,7 +121,7 @@ public class ProcessController {
                 log.info("All is right in controller " + es + " " + id);
             }
             if (opc.equals("insertDetalleReqProceso")) {
-                DetalleReqProceso drp = new DetalleReqProceso();
+                ProcessDetail drp = new ProcessDetail();
                 drp.setEsReqProceso("1");
 
                 String area = "0";
