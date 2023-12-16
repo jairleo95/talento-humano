@@ -7,13 +7,13 @@
 %>
 <%@page import="com.app.config.factory.FactoryConnectionDB"%>
 <%@page import="com.app.persistence.dao.AutorizacionDAO"%>
-<%@page import="com.app.persistence.dao_imp.InterfaceAutorizacionDAO"%>
-<%@page import="com.app.domain.model.Usuario"%>
-<%@page import="com.app.persistence.dao_imp.InterfaceComentario_DGPDAO"%>
+<%@page import="com.app.persistence.dao_imp.IAutorizacionDAO"%>
+<%@page import="com.app.domain.model.User"%>
+<%@page import="com.app.persistence.dao_imp.IComentario_DGPDAO"%>
 <%@page import="com.app.persistence.dao.Comentario_DGPDAO"%>
 <%@page import="java.util.Iterator"%>
 <%@page import="com.app.persistence.dao.DgpDAO"%>
-<%@page import="com.app.persistence.dao_imp.InterfaceDgpDAO"%>
+<%@page import="com.app.persistence.dao_imp.IDgpDAO"%>
 <%@page import="java.util.Map"%>
 <%@page import="java.util.List"%>
 <%@page import="com.app.domain.model.V_Es_Requerimiento"%>
@@ -23,10 +23,10 @@
 <link href='css/Css_Bootstrap/fileinput.css' media='all' rel='stylesheet' type='text/css' />
 
 
-    <%
-        if (request.getParameter("a") != null) {
-            if (request.getParameter("a").equals("t")) {
-    %>
+<%
+    if (request.getParameter("a") != null) {
+        if (request.getParameter("a").equals("t")) {
+%>
     <body onload="closedthis();
           ">
         <%
@@ -284,7 +284,7 @@
 
     <!-------------- Modal Historial ----------->
 
-    <%InterfaceComentario_DGPDAO cm = new Comentario_DGPDAO();
+    <%IComentario_DGPDAO cm = new Comentario_DGPDAO();
         HttpSession sesion = request.getSession();
         String rol = (String) sesion.getAttribute("IDROL");%>
 

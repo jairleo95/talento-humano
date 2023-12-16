@@ -40,7 +40,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("documento_adjunto")
 public class DocumentoAdjuntoController {
 
-    IContratoDAO c = new ContratoDAO();
+    IContratoDAO contratoDAO = new ContratoDAO();
 
     @PostMapping(produces = MediaType.TEXT_HTML_VALUE)
     protected ResponseEntity<?> process(HttpServletRequest request, HttpServletResponse response) throws FileUploadException, InterruptedException, IOException {
@@ -58,8 +58,8 @@ public class DocumentoAdjuntoController {
         if (opc != null) {
             if (opc.equals("Eliminar")) {
                 String id_c = request.getParameter("idc");
-                c.Eliminar_Contratos_firmados(id_c);
-                int coun_doc = c.Count_doc_con(request.getParameter("idc"));
+                contratoDAO.Eliminar_Contratos_firmados(id_c);
+                int coun_doc = contratoDAO.Count_doc_con(request.getParameter("idc"));
                 response.sendRedirect("views/Contrato/Formato_Plantilla/Subir_Contrato_Firmado.html?idc=" + id_c + "&coun_doc=" + coun_doc);
                 //out.print(coun_doc + id_c);
             }
@@ -134,9 +134,9 @@ public class DocumentoAdjuntoController {
 
                             estado = ((estado == null) ? "0" : estado);
 
-                            for (int t = 0; t < list_files.size(); t++) {
-                                c.INSERT_CONTRATO_ADJUNTO(null, idc, nombre_archivo, no_original, null, null, null, null, null, null);
-                                String g[] = list_files.get(t).split(":");
+                            for (String listFile : list_files) {
+                                contratoDAO.INSERT_CONTRATO_ADJUNTO(null, idc, nombre_archivo, no_original, null, null, null, null, null, null);
+                                String g[] = listFile.split(":");
 
                             }
                             list_files.clear();
@@ -153,7 +153,7 @@ public class DocumentoAdjuntoController {
 
             Thread.sleep(2000);
 
-            int coun_doc = c.Count_doc_con(idc);
+            int coun_doc = contratoDAO.Count_doc_con(idc);
             if (coun_doc > 0) {
                 response.sendRedirect("views/Contrato/Formato_Plantilla/Subir_Contrato_Firmado.html?idc=" + idc + "&coun_doc=" + coun_doc);
             } else {

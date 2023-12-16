@@ -29,7 +29,7 @@ import com.app.persistence.dao.Formato_HorarioDAO;
 @RequestMapping("templates")
 public class ContractTemplateController {
 
-    IContractTemplateDAO pl = new PlantillaContractualDAO();
+    IContractTemplateDAO plantillaContractualDAO = new PlantillaContractualDAO();
 
     @GetMapping
     public ResponseEntity<?> list(HttpServletRequest request) {
@@ -58,7 +58,7 @@ public class ContractTemplateController {
                     String texto = "";
                     String imprimir = "";
                     String no_archivo = request.getParameter("id");
-                    String no_arhivo_or = pl.List_pl_con_x_id(no_archivo);
+                    String no_arhivo_or = plantillaContractualDAO.List_pl_con_x_id(no_archivo);
                     FileReader lector = new FileReader(ubicacion + no_arhivo_or);
                     BufferedReader contenido = new BufferedReader(lector);
                     while ((texto = contenido.readLine()) != null) {
@@ -73,7 +73,7 @@ public class ContractTemplateController {
                     String id_are = request.getParameter("id_are");
                     String id_sec = request.getParameter("sec");
                     String id_pu = request.getParameter("id_pu");
-                    List<Map<String, ?>> lista = pl.List_PLant_x_sel(id_pu, id_sec, id_are, id_dep, id_dir);
+                    List<Map<String, ?>> lista = plantillaContractualDAO.List_PLant_x_sel(id_pu, id_sec, id_are, id_dep, id_dir);
                     rpta.put("rpta", "1");
                     rpta.put("lista", lista);
                 }
@@ -94,7 +94,7 @@ public class ContractTemplateController {
         IFormato_HorarioDAO f = new Formato_HorarioDAO();
 
         HttpSession sesion = request.getSession(true);
-        IDireccionDAO dir = new DireccionDAO();
+        IDireccionDAO direccionDAO = new DireccionDAO();
         String iduser = (String) sesion.getAttribute("IDUSER");
         String opc = request.getParameter("opc");
         String ubicacion = FactoryConnectionDB.url + "Formato/";
@@ -108,11 +108,11 @@ public class ContractTemplateController {
                     String DIR = request.getParameter("id_di_asig");
                     String PUES = request.getParameter("id_pu_asig");
                     String id = request.getParameter("id_pc");
-                    pl.Insertar_pertenencia(id, DIR, DEP, AREA, SEC, PUES, iduser);
+                    plantillaContractualDAO.Insertar_pertenencia(id, DIR, DEP, AREA, SEC, PUES, iduser);
                     rpta.put("rpta", "1");
                 }
                 if (opc.equals("asignar")) {
-                    sesion.setAttribute("Listar_Direccion_X", dir.Listar_Direccion());
+                    sesion.setAttribute("Listar_Direccion_X", direccionDAO.Listar_Direccion());
                     //response.sendRedirect("views/Contrato/Formato_Plantilla/Reg_Formato_Plantilla.html");
                 }
                 if (opc.equals("Actualizar")) {
@@ -134,7 +134,7 @@ public class ContractTemplateController {
                 if (opc.equals("UpdateNameFile")) {
                     String id = request.getParameter("id");
                     String nombre_pl = request.getParameter("nom_pl");
-                    if (pl.Update_Name_File(id, nombre_pl)) {
+                    if (plantillaContractualDAO.Update_Name_File(id, nombre_pl)) {
                         rpta.put("rpta", "1");
                     } else {
                         rpta.put("rpta", "-1");
@@ -143,11 +143,11 @@ public class ContractTemplateController {
 
                 if (opc.equals("activar_pp")) {
                     String id_pp = request.getParameter("id_pp");
-                    pl.Activar_pl_pu(id_pp, iduser);
+                    plantillaContractualDAO.Activar_pl_pu(id_pp, iduser);
                 }
                 if (opc.equals("Desactivar_pp")) {
                     String id_pp = request.getParameter("id_pp");
-                    pl.Desactivar_pl_pu(id_pp, iduser);
+                    plantillaContractualDAO.Desactivar_pl_pu(id_pp, iduser);
                 }
                 if (opc.equals("Crear_Plantilla")) {
                     String texto_html = request.getParameter("valor");
@@ -158,10 +158,10 @@ public class ContractTemplateController {
                     String PUES = request.getParameter("id_pu_asig");
                     String no_pl = request.getParameter("no_pl");
 
-                    pl.Crear_Plantilla(no_pl, iduser);
-                    String id_pl = pl.ob_id_pl_max();
-                    pl.Insertar_pertenencia(id_pl, DIR, DEP, AREA, SEC, PUES, iduser);
-                    String no_arch = pl.Obt_no_arch();
+                    plantillaContractualDAO.Crear_Plantilla(no_pl, iduser);
+                    String id_pl = plantillaContractualDAO.ob_id_pl_max();
+                    plantillaContractualDAO.Insertar_pertenencia(id_pl, DIR, DEP, AREA, SEC, PUES, iduser);
+                    String no_arch = plantillaContractualDAO.Obt_no_arch();
                     File archivo = new File(ubicacion + no_arch);
                     FileWriter escribir = new FileWriter(archivo, true);
                     escribir.write(texto_html);

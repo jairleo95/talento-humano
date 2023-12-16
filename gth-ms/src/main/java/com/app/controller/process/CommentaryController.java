@@ -6,7 +6,7 @@ import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 
-import com.app.persistence.dao_imp.InterfaceComentario_DGPDAO;
+import com.app.persistence.dao_imp.IComentario_DGPDAO;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -36,7 +36,7 @@ public class CommentaryController {
 
         //response.setContentType("text/html;charset=UTF-8");
 
-        InterfaceComentario_DGPDAO comentarioDgpdao = new Comentario_DGPDAO();
+        IComentario_DGPDAO comentarioDgpdao = new Comentario_DGPDAO();
         String opc = request.getParameter("opc");
         HttpSession session = request.getSession(true);
         String idu=(String)session.getAttribute("IDUSER");
@@ -51,7 +51,7 @@ public class CommentaryController {
             String US_MODIFICACION = null;
             String FE_MODIFICACION = null;
             String ES_COMENTARIO_DGP = "1";
-            comentarioDgpdao.INSERT_COMENTARIO_DGP(ID_COMENTARIO_DGP, ID_DGP, ID_AUTORIZACION, CM_COMENTARIO, idu, FE_CREACION, US_MODIFICACION, FE_MODIFICACION, ES_COMENTARIO_DGP);
+            comentarioDgpdao.insert(ID_COMENTARIO_DGP, ID_DGP, ID_AUTORIZACION, CM_COMENTARIO, idu, FE_CREACION, US_MODIFICACION, FE_MODIFICACION, ES_COMENTARIO_DGP);
             session.setAttribute("List_Comentario_DGP", comentarioDgpdao.List_Comentario_DGP(ID_DGP));
             //response.sendRedirect("views/Dgp/Comentario/Reg_Comentario.html?iddgp="+ID_DGP);
         }
@@ -83,7 +83,7 @@ public class CommentaryController {
 //        response.setHeader("Pragma", "no-cache");
 //        response.setHeader("Expires", "-1");
         
-        InterfaceComentario_DGPDAO x = new Comentario_DGPDAO();
+        IComentario_DGPDAO x = new Comentario_DGPDAO();
         Map<String, Object> rpta = new HashMap<String, Object>();
         
         
@@ -96,7 +96,7 @@ public class CommentaryController {
             String US_MODIFICACION = null;
             String FE_MODIFICACION = null;
             String ES_COMENTARIO_DGP = "1";
-            x.INSERT_COMENTARIO_DGP(ID_COMENTARIO_DGP, ID_DGP, ID_AUTORIZACION, CM_COMENTARIO, idu, FE_CREACION, US_MODIFICACION, FE_MODIFICACION, ES_COMENTARIO_DGP);
+            x.insert(ID_COMENTARIO_DGP, ID_DGP, ID_AUTORIZACION, CM_COMENTARIO, idu, FE_CREACION, US_MODIFICACION, FE_MODIFICACION, ES_COMENTARIO_DGP);
         }
             if(opc.equals("list")){
             rpta.put("List_Comentarios",x.List_Comentario_DGP(iddgp));

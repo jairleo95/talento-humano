@@ -34,11 +34,10 @@ import oracle.sql.ArrayDescriptor;
  */
 public class AutorizacionDAO implements IAutorizacionDAO {
 
-    DateFormat c = new DateFormat();
     DBConnection conn;
 
     @Override
-    public void Insert_Autorizacion(String ID_AUTORIZACION, String ID_DGP, String ES_AUTORIZACION, String NU_PASOS, String IP_USUARIO, String US_CREACION, String US_MODIF, String FE_MODIF, String CO_PUESTO, String ID_PUESTO, String ID_DETALLE_REQ_PROCESO, String ID_PASOS) {
+    public void insert(String ID_AUTORIZACION, String ID_DGP, String ES_AUTORIZACION, String NU_PASOS, String IP_USUARIO, String US_CREACION, String US_MODIF, String FE_MODIF, String CO_PUESTO, String ID_PUESTO, String ID_DETALLE_REQ_PROCESO, String ID_PASOS) {
         CallableStatement cst;
         try {
             this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
@@ -392,7 +391,7 @@ public class AutorizacionDAO implements IAutorizacionDAO {
                 v.setTa_ar_foto(rs.getString("ta_ar_foto"));
                 v.setTi_ar_foto(rs.getString("ti_ar_foto"));
                 v.setFe_creacion(rs.getString("fe_creacion"));
-                v.setVal_plazo(rs.getInt("val_plazo"));
+//                v.setVal_plazo(rs.getInt("val_plazo"));
                 v.setVer_list_plazo(rs.getString("ver_list_plazo"));
                 v.setElab_contrato(rs.getString("elab_contrato"));
                 v.setVal_firm_contrato(rs.getString("val_firm_contrato"));
@@ -438,7 +437,7 @@ public class AutorizacionDAO implements IAutorizacionDAO {
     }
 
     @Override
-    public List<String> Det_Autorizacion(String id_rpp) {
+    public List<String> getDetail(String id_rpp) {
         this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
         String sql = "select * from rhvd_req_paso_pu where id_detalle_req_proceso ='" + id_rpp.trim() + "' and trim(nu_pasos)='P1'";
         List<String> list = new ArrayList<String>();
@@ -503,7 +502,7 @@ public class AutorizacionDAO implements IAutorizacionDAO {
     }
 
     @Override
-    public String Insert_Autorizacion_dev(String ID_AUTORIZACION, String ID_DGP, String ES_AUTORIZACION, String NU_PASOS, String IP_USUARIO, String US_CREACION, String US_MODIF, String FE_MODIF, String CO_PUESTO, String ID_PUESTO, String ID_DETALLE_REQ_PROCESO, String ID_PASOS) {
+    public String insertDev(String ID_AUTORIZACION, String ID_DGP, String ES_AUTORIZACION, String NU_PASOS, String IP_USUARIO, String US_CREACION, String US_MODIF, String FE_MODIF, String CO_PUESTO, String ID_PUESTO, String ID_DETALLE_REQ_PROCESO, String ID_PASOS) {
         String id = "";
         try {
             this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
@@ -538,7 +537,7 @@ public class AutorizacionDAO implements IAutorizacionDAO {
     }
 
     @Override
-    public void Insert_comentario_Aut(String ID_COMENTARIO_DGP_SP, String id_autorizacion, String id_dgp, String us_creacion, String es_comentario, String fe_creacion, String comentario) {
+    public void insert(String ID_COMENTARIO_DGP_SP, String id_autorizacion, String id_dgp, String us_creacion, String es_comentario, String fe_creacion, String comentario) {
         CallableStatement cst;
 
         try {

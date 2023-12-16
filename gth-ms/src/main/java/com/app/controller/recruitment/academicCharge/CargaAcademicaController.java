@@ -251,8 +251,8 @@ public class CargaAcademicaController {
                 }
                 String idrp = requerimientoDAO.id_det_req_proc(iddgp.trim());
                 /* REGISTRAR PRIMERA AUTORIZACION*/
-                List<String> list = autorizacionDAO.Det_Autorizacion(idrp);
-                autorizacionDAO.Insert_Autorizacion("", iddgp.trim(), "1", "P1", "", iduser, "", "", "", list.get(1).trim(), idrp.trim(), list.get(0));
+                List<String> list = autorizacionDAO.getDetail(idrp);
+                autorizacionDAO.insert("", iddgp.trim(), "1", "P1", "", iduser, "", "", "", list.get(1).trim(), idrp.trim(), list.get(0));
 
                 dataMap.put("dgp", CCriptografiar.Encriptar(iddgp));
                 dataMap.put("proceso", CCriptografiar.Encriptar(idrp));

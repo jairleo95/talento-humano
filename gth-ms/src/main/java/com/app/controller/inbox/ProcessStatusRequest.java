@@ -18,14 +18,14 @@ public class ProcessStatusRequest {
     @Getter
     @Setter
     @ToString
-    public static class DGPDetails{
+    public static class DGPDetails {
         @JsonProperty("iddgp")
         private String iddgp;
         @JsonProperty("iddrp")
         private String iddrp;
         @JsonProperty("iddep")
         private String iddep;
-        @JsonProperty("html")
-        private String html;
+//        @JsonProperty("html")
+//        private String html;
     }
 }

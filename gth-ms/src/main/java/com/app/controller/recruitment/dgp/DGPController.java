@@ -92,7 +92,7 @@ public class DGPController {
     IFuncionDAO funcion = new FuncionDAO();
     IListaDAO lista = new ListaDAO();
     IUsuarioDAO usuario = new UsuarioDAO();
-    IDireccionDAO dir = new DireccionDAO();
+    IDireccionDAO direccionDAO = new DireccionDAO();
     InterfacePeriodo_PagoDAO periodoPago = new Periodo_PagoDAO();
 
     @GetMapping
@@ -110,7 +110,8 @@ public class DGPController {
         String idrol = (String) session.getAttribute("IDROL");
         String idtr = request.getParameter("idtr");
         String idpuesto = (String) session.getAttribute("PUESTO_ID");
-        Permission permission = new Permission().getPermissions(idrol);
+
+        Permission permission = Permission.builder().build().getPermissions(idrol);
 
         if (opc.equals("Listar_Req")) {
             String id_tr = request.getParameter("idtr");
@@ -144,7 +145,7 @@ public class DGPController {
                     String id_dir = puesto.List_Puesto_x_iddgp(iddgp);
                     session.setAttribute("LIST_ID_DGP", dgp.LIST_ID_DGP(iddgp));
                     session.setAttribute("List_Puesto", puesto.List_Puesto());
-                    session.setAttribute("Listar_Direccion", dir.Listar_Direccion());
+                    session.setAttribute("Listar_Direccion", direccionDAO.Listar_Direccion());
                     session.setAttribute("List_modalidad", contrato.List_modalidad());
                     session.setAttribute("list_reg_labo", contrato.list_reg_labo());
                     session.setAttribute("List_grup_ocu", grupoOcupacionesDAO.List_grup_ocu());
@@ -152,23 +153,23 @@ public class DGPController {
 
                     int asig = datosHijoTrabajadorDAO.ASIGNACION_F(ID_TRABAJADOR);
                     Calendar fecha = new GregorianCalendar();
-                    int año = fecha.get(Calendar.YEAR);
-                    int mes = fecha.get(Calendar.MONTH);
-                    int dia = fecha.get(Calendar.DAY_OF_MONTH);
+                    int year = fecha.get(Calendar.YEAR);
+                    int month = fecha.get(Calendar.MONTH);
+                    int day = fecha.get(Calendar.DAY_OF_MONTH);
                     String fe_subs = "";
-                    if (mes < 9 && dia < 9) {
-                        fe_subs = año + "-" + "0" + (mes + 1) + "-" + "0" + dia;
+                    if (month < 9 && day < 9) {
+                        fe_subs = year + "-" + "0" + (month + 1) + "-" + "0" + day;
                     }
 
-                    if (mes < 9 && dia > 9) {
-                        fe_subs = año + "-" + "0" + (mes + 1) + "-" + dia;
+                    if (month < 9 && day > 9) {
+                        fe_subs = year + "-" + "0" + (month + 1) + "-" + day;
                     }
 
-                    if (mes >= 9 && dia < 9) {
-                        fe_subs = año + "-" + (mes + 1) + "-" + "0" + dia;
+                    if (month >= 9 && day < 9) {
+                        fe_subs = year + "-" + (month + 1) + "-" + "0" + day;
                     }
-                    if (mes >= 9 && dia > 9) {
-                        fe_subs = año + "-" + (mes + 1) + "-" + dia;
+                    if (month >= 9 && day > 9) {
+                        fe_subs = year + "-" + (month + 1) + "-" + day;
                     }
                     response.sendRedirect("Reg_Contrato?num=" + asig + "&id_direc=" + id_dir + "&fe_subs=" + fe_subs);
 
@@ -448,7 +449,7 @@ public class DGPController {
                 FE_HASTA = DateFormat.toFormat3(FE_HASTA);
                 //out.println("Nueva fecha :" + DateFormat.toFormat1(FE_HASTA));
 
-                dgp.INSERT_DGP(null, FE_DESDE, FE_HASTA, CA_SUELDO, DE_DIAS_TRABAJO, ID_PUESTO, ID_REQUERIMIENTO, ID_TRABAJADOR, CO_RUC, DE_LUGAR_SERVICIO,
+                dgp.insert(null, FE_DESDE, FE_HASTA, CA_SUELDO, DE_DIAS_TRABAJO, ID_PUESTO, ID_REQUERIMIENTO, ID_TRABAJADOR, CO_RUC, DE_LUGAR_SERVICIO,
                         DE_SERVICIO, DE_PERIODO_PAGO, DE_DOMICILIO_FISCAL, DE_SUBVENCION, DE_HORARIO_CAPACITACION, DE_HORARIO_REFRIGERIO, DE_DIAS_CAPACITACION,
                         ES_DGP, iduser, FE_CREACION, US_MODIF, FE_MODIF, IP_USUARIO, CA_BONO_ALIMENTARIO, DE_BEV, DE_ANTECEDENTES_POLICIALES, ES_CERTIFICADO_SALUD,
                         DE_MONTO_HONORARIO, LI_MOTIVO, ES_MFL, BONO_PUESTO, ASIGNACION_FAMILIAR, ES_PRESUPUESTADO);
@@ -461,7 +462,7 @@ public class DGPController {
                 }
                 String idrp = requerimientoDAO.id_det_req_proc(iddgp);
                 for (int i = 1; i <= cantidad; i++) {
-                    String ID_PERIODO_PAG0 = null;
+                    String ID_PERIODO_PAG0 = "";
                     double NU_CUOTA = Double.parseDouble(request.getParameter("CUOTA_" + i));
                     String FE_PAGAR = request.getParameter("FEC_PAGAR_" + i);
                     double CA_MONTO = Double.parseDouble(request.getParameter("MONTO_" + i));
@@ -477,9 +478,9 @@ public class DGPController {
                         detalleCentroCostoDao.INSERT_DETALLE_CENTRO_COSTO(null, iddgp, porcentaje, "1", iduser, null, null, null, UserMachineProperties.getAll(), null, ID_CENTRO_COSTO);
                     }
                 }
-                List<String> list = autorizacionDAO.Det_Autorizacion(idrp);
+                List<String> list = autorizacionDAO.getDetail(idrp);
                 System.out.println("Insertando autorizacion...");
-                autorizacionDAO.Insert_Autorizacion("", iddgp, "1", "P1", "12312", iduser, "", "", "", list.get(1), idrp, list.get(0));
+                autorizacionDAO.insert("", iddgp, "1", "P1", "12312", iduser, "", "", "", list.get(1), idrp, list.get(0));
 
                 //HORARIO
                 List<String> dia = new ArrayList<String>();
@@ -501,14 +502,14 @@ public class DGPController {
                 id_d_hor = horarioDAO.Insert_Detalle_Horario(ID_DETALLE_HORARIO, iddgp, ES_DETALLE_HORARIO, iduser, null, null, null, ID_TIPO_HORARIO, ES_MOD_FORMATO, horas_totales);
                 System.out.println("Insertando detalle horario...");
                 System.out.println("dias totales:" + dia);
-                for (int i = 0; i < dia.size(); i++) {
+                for (String s : dia) {
                     for (int j = 0; j < 10; j++) {
 
-                        String hora_desde = request.getParameter("HORA_DESDE_" + dia.get(i) + j);
+                        String hora_desde = request.getParameter("HORA_DESDE_" + s + j);
 
-                        String hora_hasta = request.getParameter("HORA_HASTA_" + dia.get(i) + j);
+                        String hora_hasta = request.getParameter("HORA_HASTA_" + s + j);
 
-                        String d = request.getParameter("DIA_" + dia.get(i) + j);
+                        String d = request.getParameter("DIA_" + s + j);
 
                         /*  System.out.println("dia:" + d);
                         System.out.println("desde:" + hora_desde);
@@ -704,7 +705,7 @@ public class DGPController {
                 }
                 FE_DESDE = DateFormat.toFormat3(FE_DESDE);
                 FE_HASTA = DateFormat.toFormat3(FE_HASTA);
-                dgp.MODIFICAR_DGP(ID_DGP, FE_DESDE, FE_HASTA, CA_SUELDO, DE_DIAS_TRABAJO, ID_PUESTO, ID_REQUERIMIENTO, ID_TRABAJADOR, CO_RUC, DE_LUGAR_SERVICIO,
+                dgp.update(ID_DGP, FE_DESDE, FE_HASTA, CA_SUELDO, DE_DIAS_TRABAJO, ID_PUESTO, ID_REQUERIMIENTO, ID_TRABAJADOR, CO_RUC, DE_LUGAR_SERVICIO,
                         DE_SERVICIO, DE_PERIODO_PAGO, DE_DOMICILIO_FISCAL, DE_SUBVENCION, DE_HORARIO_CAPACITACION, DE_HORARIO_REFRIGERIO, DE_DIAS_CAPACITACION,
                         ES_DGP, null, FE_CREACION, iduser, FE_MODIF, IP_USUARIO, CA_BONO_ALIMENTARIO, DE_BEV, DE_ANTECEDENTES_POLICIALES, ES_CERTIFICADO_SALUD,
                         DE_MONTO_HONORARIO, LI_MOTIVO, ES_MFL, BONO_PUESTO, ES_PRESUPUESTADO);
@@ -774,11 +775,11 @@ public class DGPController {
                     Double horas_totales = Double.parseDouble(request.getParameter("h_total"));
                     String id_d_hor = "";
                     id_d_hor = horarioDAO.Insert_Detalle_Horario(ID_DETALLE_HORARIO, ID_DGP, ES_DETALLE_HORARIO, iduser, null, null, null, ID_TIPO_HORARIO, ES_MOD_FORMATO, horas_totales);
-                    for (int i = 0; i < dia.size(); i++) {
+                    for (String s : dia) {
                         for (int j = 0; j < 10; j++) {
-                            String hora_desde = request.getParameter("HORA_DESDE_" + dia.get(i) + j);
-                            String hora_hasta = request.getParameter("HORA_HASTA_" + dia.get(i) + j);
-                            String d = request.getParameter("DIA_" + dia.get(i) + j);
+                            String hora_desde = request.getParameter("HORA_DESDE_" + s + j);
+                            String hora_hasta = request.getParameter("HORA_HASTA_" + s + j);
+                            String d = request.getParameter("DIA_" + s + j);
                             if (hora_desde != null & d != null & hora_hasta != null) {
                                 if (!hora_hasta.equals("") & !hora_desde.equals("") & !d.equals("")) {
                                     horarioDAO.Insert_Horario("", hora_desde, hora_hasta, d, ES_HORARIO, id_d_hor);

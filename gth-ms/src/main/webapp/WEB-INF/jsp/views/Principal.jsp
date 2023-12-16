@@ -3,13 +3,13 @@
     HttpSession sesion = request.getSession();
     String id_user = (String) sesion.getAttribute("IDUSER");
     if (id_user != null) {
-        Usuario us = new Usuario();
+        User us = new User();
         String id_rol = (String) sesion.getAttribute("IDROL");
 %>
 <%@page import="com.app.config.factory.FactoryConnectionDB"%>
 <%@page import="com.app.domain.model.V_Privilegio"%>
 <%@page import="com.app.domain.model.V_Usuario"%>
-<%@page import="com.app.domain.model.Usuario"%>
+<%@page import="com.app.domain.model.User"%>
 <jsp:useBean id="listarURL" scope="session" class="java.util.ArrayList"/>
 
 <!DOCTYPE html>

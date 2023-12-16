@@ -41,7 +41,7 @@ import com.app.persistence.dao.DocumentoDAO;
 public class DocumentroTrabajadorController {
 
 
-    IDocumentoDAO d = new DocumentoDAO();
+    IDocumentoDAO documentoDAO = new DocumentoDAO();
 
     @PostMapping(produces = MediaType.TEXT_HTML_VALUE)
     public ResponseEntity<?> processRequest(HttpServletRequest request, HttpServletResponse response) {
@@ -56,13 +56,13 @@ public class DocumentroTrabajadorController {
             if (opc != null) {
                 if (opc.equals("Eliminar")) {
                     String id_doc_adj = request.getParameter("id_doc");
-                    d.Desactivar_doc(id_doc_adj);
-                    session.setAttribute("List_Hijos", d.List_Hijos(idtr));
-                    session.setAttribute("Documentos", d.Documentos());
-                    session.setAttribute("Lis_doc_trabajador", d.Lis_doc_trabajador(idtr));
-                    session.setAttribute("List_Conyugue", d.List_Conyugue(idtr));
-                    int s = d.List_Req_nacionalidad(idtr);
-                    int num_ad = d.List_Adventista(idtr);
+                    documentoDAO.Desactivar_doc(id_doc_adj);
+                    session.setAttribute("List_Hijos", documentoDAO.List_Hijos(idtr));
+                    session.setAttribute("Documentos", documentoDAO.Documentos());
+                    session.setAttribute("Lis_doc_trabajador", documentoDAO.Lis_doc_trabajador(idtr));
+                    session.setAttribute("List_Conyugue", documentoDAO.List_Conyugue(idtr));
+                    int s = documentoDAO.List_Req_nacionalidad(idtr);
+                    int num_ad = documentoDAO.List_Adventista(idtr);
                     //    response.sendRedirect("views/Trabajador/Documento/Reg_Documento.html?n_nac=" + s + "&num_ad=" + num_ad + "&idtr=" + idtr + "&pro=pr_dgp&P2=TRUE");
                     String pr = request.getParameter("P2");
                     String url = "views/Trabajador/Documento/Reg_Documento.html?n_nac=" + s + "&num_ad=" + num_ad + "&idtr=" + idtr;
@@ -76,33 +76,33 @@ public class DocumentroTrabajadorController {
                 }
                 if (opc.equals("Ver_Documento")) {
 
-                    session.setAttribute("List_doc_req_pla", d.List_doc_req_pla(dgp, idtr));
-                    int i = d.List_Req_nacionalidad(idtr);
-                    int num_ad = d.List_Adventista(idtr);
-                    session.setAttribute("List_Hijos", d.List_Hijos(idtr));
-                    session.setAttribute("List_Conyugue", d.List_Conyugue(idtr));
+                    session.setAttribute("List_doc_req_pla", documentoDAO.List_doc_req_pla(dgp, idtr));
+                    int i = documentoDAO.List_Req_nacionalidad(idtr);
+                    int num_ad = documentoDAO.List_Adventista(idtr);
+                    session.setAttribute("List_Hijos", documentoDAO.List_Hijos(idtr));
+                    session.setAttribute("List_Conyugue", documentoDAO.List_Conyugue(idtr));
 
                     response.sendRedirect("Reg_Documento?n_nac=" + i + "&num_ad=" + num_ad);
                 }
                 if (opc.equals("Reg_Pro_Dgp")) {
-                    session.setAttribute("List_doc_req_pla", d.List_doc_req_pla(dgp, idtr));
-                    int i = d.List_Req_nacionalidad(idtr);
-                    int num_ad = d.List_Adventista(idtr);
-                    session.setAttribute("List_Hijos", d.List_Hijos(idtr));
-                    session.setAttribute("List_Conyugue", d.List_Conyugue(idtr));
+                    session.setAttribute("List_doc_req_pla", documentoDAO.List_doc_req_pla(dgp, idtr));
+                    int i = documentoDAO.List_Req_nacionalidad(idtr);
+                    int num_ad = documentoDAO.List_Adventista(idtr);
+                    session.setAttribute("List_Hijos", documentoDAO.List_Hijos(idtr));
+                    session.setAttribute("List_Conyugue", documentoDAO.List_Conyugue(idtr));
 
                     response.sendRedirect("Reg_Documento?n_nac=" + i + "&num_ad=" + num_ad + "&pro=pr_dgp");
                 }
 
                 if (("Listar_doc").equals(opc)) {
 
-                    session.setAttribute("List_Hijos", d.List_Hijos(idtr));
-                    session.setAttribute("Documentos", d.Documentos());
-                    session.setAttribute("Lis_doc_trabajador", d.Lis_doc_trabajador(idtr));
-                    session.setAttribute("List_Conyugue", d.List_Conyugue(idtr));
-                    int s = d.List_Req_nacionalidad(idtr);
-                    int num_ad = d.List_Adventista(idtr);
-                    int count = d.count_documentos_x_tra(idtr);
+                    session.setAttribute("List_Hijos", documentoDAO.List_Hijos(idtr));
+                    session.setAttribute("Documentos", documentoDAO.Documentos());
+                    session.setAttribute("Lis_doc_trabajador", documentoDAO.Lis_doc_trabajador(idtr));
+                    session.setAttribute("List_Conyugue", documentoDAO.List_Conyugue(idtr));
+                    int s = documentoDAO.List_Req_nacionalidad(idtr);
+                    int num_ad = documentoDAO.List_Adventista(idtr);
+                    int count = documentoDAO.count_documentos_x_tra(idtr);
                     if (count > 0) {
                         response.sendRedirect("views/Trabajador/Documento/Reg_Documento.html?n_nac=" + s + "&num_ad=" + num_ad + "&Vol=volver&idtr=" + idtr);
                     } else {
@@ -173,10 +173,7 @@ public class DocumentroTrabajadorController {
 
                 String validar_nombre = "";
                 for (int i = 0; i < num_filas; i++) {
-                    Iterator it = p.iterator();
-                    while (it.hasNext()) {
-
-                        FileItem item = (FileItem) it.next();
+                    for (FileItem item : p) {
 
                         if (item.isFormField()) {
                             String nombre = item.getFieldName();
@@ -220,12 +217,12 @@ public class DocumentroTrabajadorController {
 
                             estado = ((estado == null) ? "0" : estado);
 
-                            String id = d.INSERT_DOCUMENTO_ADJUNTO(null, iddoc, "1", user, null, null, null, null, desc, null, estado, id_ctr);
+                            String id = documentoDAO.INSERT_DOCUMENTO_ADJUNTO(null, iddoc, "1", user, null, null, null, null, desc, null, estado, id_ctr);
                             //out.print(id);
-                            d.INSERT_DGP_DOC_tra(null, null, id, null, idtr, idh);
+                            documentoDAO.INSERT_DGP_DOC_tra(null, null, id, null, idtr, idh);
                             for (int t = 0; t < list_files.size(); t++) {
                                 String g[] = list_files.get(t).split(":");
-                                d.INSERT_ARCHIVO_DOCUMENTO(null, id, g[1], g[0], null);
+                                documentoDAO.INSERT_ARCHIVO_DOCUMENTO(null, id, g[1], g[0], null);
                             }
                             list_files.clear();
 
@@ -242,16 +239,15 @@ public class DocumentroTrabajadorController {
 
                 }
 
-                session.setAttribute("List_Hijos", d.List_Hijos(idtr));
-                session.setAttribute("Documentos", d.Documentos());
-                session.setAttribute("Lis_doc_trabajador", d.Lis_doc_trabajador(idtr));
-                session.setAttribute("List_Conyugue", d.List_Conyugue(idtr));
+                session.setAttribute("List_Hijos", documentoDAO.List_Hijos(idtr));
+                session.setAttribute("Documentos", documentoDAO.Documentos());
+                session.setAttribute("Lis_doc_trabajador", documentoDAO.Lis_doc_trabajador(idtr));
+                session.setAttribute("List_Conyugue", documentoDAO.List_Conyugue(idtr));
 
-                int s = d.List_Req_nacionalidad(idtr);
-                int num_ad = d.List_Adventista(idtr);
+                int s = documentoDAO.List_Req_nacionalidad(idtr);
+                int num_ad = documentoDAO.List_Adventista(idtr);
 
-                System.out.print(idtr);
-                int count = d.count_documentos_x_tra(idtr);
+                int count = documentoDAO.count_documentos_x_tra(idtr);
 
                 if (count > 0) {
                     String url = "views/Trabajador/Documento/Reg_Documento.html?n_nac=" + s + "&num_ad=" + num_ad + "&idtr=" + idtr + "&m=si";

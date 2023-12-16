@@ -4,7 +4,7 @@ import com.app.persistence.dao.AutorizacionDAO;
 import com.app.persistence.dao.CorreoDAO;
 import com.app.persistence.dao.EmpleadoDAO;
 import com.app.persistence.dao_imp.IAutorizacionDAO;
-import com.app.persistence.dao_imp.InterfaceCorreoDAO;
+import com.app.persistence.dao_imp.ICorreoDAO;
 import com.app.persistence.dao_imp.IEmpleadoDAO;
 import com.app.domain.model.V_Autorizar_Dgp;
 import com.app.controller.util.CCriptografiar;
@@ -26,9 +26,9 @@ import java.util.Map;
 @RequestMapping("academicImbox")
 public class AcademicImboxController {
 
-    IEmpleadoDAO e = new EmpleadoDAO();
-    IAutorizacionDAO a = new AutorizacionDAO();
-    InterfaceCorreoDAO correo = new CorreoDAO();
+    IEmpleadoDAO empleadoDAO = new EmpleadoDAO();
+    IAutorizacionDAO autorizacionDAO = new AutorizacionDAO();
+    ICorreoDAO correo = new CorreoDAO();
 
     @RequestMapping
     public ResponseEntity<?> academicProcess(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -57,8 +57,8 @@ public class AcademicImboxController {
 
                     //AUTORIZACION CARGA ACADEMICA POR DOCENTE
                     if (opc.equals("Autorizacion_CD")) {
-                        String idpu = e.Id_Puesto_Personal(ide);
-                        session.setAttribute("List_Autorizacion_Academico", a.List_Autorizacion_Academico(idpu, iduser, ""));
+                        String idpu = empleadoDAO.Id_Puesto_Personal(ide);
+                        session.setAttribute("List_Autorizacion_Academico", autorizacionDAO.List_Autorizacion_Academico(idpu, iduser, ""));
                         response.sendRedirect("Autorizar_Carga_Academica");
                     }
                     if (opc.equals("headerTableAutorizacionCA")) {
@@ -135,7 +135,7 @@ public class AcademicImboxController {
                         int num_cod_aps = 0;
                         int num_cod_huella = 0;
 
-                        List<V_Autorizar_Dgp> listaAutCA = a.List_Autorizacion_Academico(idp, iduser, "");
+                        List<V_Autorizar_Dgp> listaAutCA = autorizacionDAO.List_Autorizacion_Academico(idp, iduser, "");
 
                         for (int f = 0; f < listaAutCA.size(); f++) {
                             V_Autorizar_Dgp autCA = new V_Autorizar_Dgp();
@@ -187,7 +187,7 @@ public class AcademicImboxController {
                             htmlBody += " </div>";
                             htmlBody += " </td>";
                             htmlBody += " <td >";
-                            htmlBody += a.Mes_plazo(autCA.getId_dgp());
+                            htmlBody += autorizacionDAO.Mes_plazo(autCA.getId_dgp());
                             htmlBody += "  </td>   ";
                             if (autCA.getAr_foto() == null) {
                                 htmlBody += " <td>";
@@ -243,12 +243,12 @@ public class AcademicImboxController {
                             htmlBody += " </td> ";
                             if (iddep.equals("DPT-0019")) {
                                 htmlBody += "<td>";
-                                if (autCA.getVal_plazo() > 0) {
-                                    htmlBody += " <a href='plazo_dgp?opc=Ver_detalle_plazo&iddgp=" + autCA.getId_dgp() + "' class='label label-danger popoverPlazo'  data-toggle='popover' data-trigger='hover' data-placement='top' title='Record de plazos cumplidos' data-content=\"" + autCA.getVer_list_plazo() + "\" data-html='true'> <strong>No cumplio plazos</strong></a>";
-                                    htmlBody += " </td>";
-                                } else if (autCA.getVal_plazo() == 0) {
-                                    htmlBody += "   <a href='plazo_dgp?opc=Ver_detalle_plazo&iddgp=" + autCA.getId_dgp() + "' class='label label-primary popoverPlazo' data-toggle='popover' data-trigger='hover' data-placement='top' title='Record de plazos cumplidos' data-content=\"" + autCA.getVer_list_plazo() + "\" data-html='true'> <strong>Cumplio plazos</strong></a></td>";
-                                }
+//                                if (autCA.getVal_plazo() > 0) {
+//                                    htmlBody += " <a href='plazo_dgp?opc=Ver_detalle_plazo&iddgp=" + autCA.getId_dgp() + "' class='label label-danger popoverPlazo'  data-toggle='popover' data-trigger='hover' data-placement='top' title='Record de plazos cumplidos' data-content=\"" + autCA.getVer_list_plazo() + "\" data-html='true'> <strong>No cumplio plazos</strong></a>";
+//                                    htmlBody += " </td>";
+//                                } else if (autCA.getVal_plazo() == 0) {
+//                                    htmlBody += "   <a href='plazo_dgp?opc=Ver_detalle_plazo&iddgp=" + autCA.getId_dgp() + "' class='label label-primary popoverPlazo' data-toggle='popover' data-trigger='hover' data-placement='top' title='Record de plazos cumplidos' data-content=\"" + autCA.getVer_list_plazo() + "\" data-html='true'> <strong>Cumplio plazos</strong></a></td>";
+//                                }
                                 if (idrol.trim().equals("ROL-0006")) {
 
                                     htmlBody += "<td >";
@@ -339,15 +339,15 @@ public class AcademicImboxController {
                         rpta.put("access", true);
                     }
                     if (opc.equals("mens_cod_aps")) {
-                        String idpu = e.Id_Puesto_Personal(ide);
-                        session.setAttribute("List_id_Autorizacion", a.List_id_Autorizacion(idpu, iduser, ""));
-                        session.setAttribute("List_id_Autorizados", a.List_Autorizados(idpu));
+                        String idpu = empleadoDAO.Id_Puesto_Personal(ide);
+                        session.setAttribute("List_id_Autorizacion", autorizacionDAO.List_id_Autorizacion(idpu, iduser, ""));
+                        session.setAttribute("List_id_Autorizados", autorizacionDAO.List_Autorizados(idpu));
                         response.sendRedirect("views/Dgp/Autorizar_Requerimiento.html?m=si");
                     }
                     if (opc.equals("mens_cod_huella")) {
-                        String idpu = e.Id_Puesto_Personal(ide);
-                        session.setAttribute("List_id_Autorizacion", a.List_id_Autorizacion(idpu, iduser, ""));
-                        session.setAttribute("List_id_Autorizados", a.List_Autorizados(idpu));
+                        String idpu = empleadoDAO.Id_Puesto_Personal(ide);
+                        session.setAttribute("List_id_Autorizacion", autorizacionDAO.List_id_Autorizacion(idpu, iduser, ""));
+                        session.setAttribute("List_id_Autorizados", autorizacionDAO.List_Autorizados(idpu));
                         response.sendRedirect("views/Dgp/Autorizar_Requerimiento.html?h=si");
                     }
                     if (opc.equals("Enviar_Correo")) {
@@ -386,8 +386,8 @@ public class AcademicImboxController {
                                 mes = Integer.parseInt(request.getParameter("mes"));
                             }
                         }
-                        List<Map<String, ?>> lista = a.List_Dgp_Autorizados(iduser, pageNumber, length, mes, anno);
-                        int size = a.getListAuthorizeRequirementsSize(iduser, mes, anno);
+                        List<Map<String, ?>> lista = autorizacionDAO.List_Dgp_Autorizados(iduser, pageNumber, length, mes, anno);
+                        int size = autorizacionDAO.getListAuthorizeRequirementsSize(iduser, mes, anno);
                         rpta.put("rpta", "1");
                         rpta.put("draw", draw);
                         rpta.put("recordsTotal", size);
@@ -398,7 +398,7 @@ public class AcademicImboxController {
                         String html = "";
                         String idtr = request.getParameter("trabajador");
                         if (idrol.trim().equals("ROL-0009")) {
-                            int val_aps = val_aps = e.val_cod_aps_empleado(idtr);
+                            int val_aps = val_aps = empleadoDAO.val_cod_aps_empleado(idtr);
                             if (val_aps > 0) {
                                 html = "<button class='btn btn-labeled btn-success btn-autor' type='button'>"
                                         + "                            <span class='btn-label'><i class='glyphicon glyphicon-ok'></i></span>PROCESAR REQUERIMIENTO "
@@ -407,7 +407,7 @@ public class AcademicImboxController {
                                 html = "<div class='alert alert-warning fade in'><i class='fa-fw fa fa-warning'></i><strong>Atención!</strong> Usted no puede <strong>AUTORIZAR</strong> el requerimiento, debe primero registrar el <strong>Código APS</strong>.</div>";
                             }
                         } else if (idrol.trim().equals("ROL-0007") | idrol.trim().equals("ROL-0001")) {
-                            int val_huella = e.val_cod_huella(idtr);
+                            int val_huella = empleadoDAO.val_cod_huella(idtr);
                             if (val_huella > 0) {
                                 html = "<button class='btn btn-labeled btn-success btn-autor' type='button'>"
                                         + "                            <span class='btn-label'><i class='glyphicon glyphicon-ok'></i></span>AUTORIZAR REQUERIMIENTO "
@@ -466,7 +466,7 @@ public class AcademicImboxController {
                             html_table += "<tbody class='tbody_procesar_req_aut'> </tbody> ";
                         }
                         html_table += "</table>";
-                        List<Map<String, ?>> lista = a.List_procesar_req(tipo_lista, permission.isAsigFam(), permission.isEsSistema());
+                        List<Map<String, ?>> lista = autorizacionDAO.List_procesar_req(tipo_lista, permission.isAsigFam(), permission.isEsSistema());
                         String text_html = "";
                         for (int i = 0; i < lista.size(); i++) {
                             Map<String, ?> x = lista.get(i);
@@ -503,14 +503,14 @@ public class AcademicImboxController {
                         boolean estado = Boolean.parseBoolean(request.getParameter("estado"));
                         int tipo = Integer.parseInt(request.getParameter("tipo"));
                         String[] array = request.getParameterValues("json[]");
-                        a.UpdateDgp_EstadoProcesar(array, tipo, estado);
+                        autorizacionDAO.UpdateDgp_EstadoProcesar(array, tipo, estado);
                         rpta.put("rpta", "1");
                         rpta.put("aaas", array);
                     }
                     if (opc.equals("ShowCkbEstado_procesarIndiviual")) {
                         String iddgp = request.getParameter("iddgp");
 
-                        List<Map<String, ?>> lista = a.ShowCkbEstado_procesarIndiviual(iddgp);
+                        List<Map<String, ?>> lista = autorizacionDAO.ShowCkbEstado_procesarIndiviual(iddgp);
                         if (lista.size() > 0) {
 
                             Map<String, ?> x = lista.get(0);
@@ -546,7 +546,7 @@ public class AcademicImboxController {
                 } else {
                     // Logger.getLogger(getClass().getName()).log(Level.INFO, ide);
                     //  String idpu = e.Id_Puesto_Personal(ide);
-                    session.setAttribute("List_id_Autorizacion", a.List_id_Autorizacion(idp, iduser, ""));
+                    session.setAttribute("List_id_Autorizacion", autorizacionDAO.List_id_Autorizacion(idp, iduser, ""));
 
                     response.sendRedirect("views/Dgp/Autorizar_Requerimiento.html");
                 }

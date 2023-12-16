@@ -13,7 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.app.persistence.dao_imp.InterfaceComentario_DGPDAO;
+import com.app.persistence.dao_imp.IComentario_DGPDAO;
 import com.app.config.factory.DBConnection;
 import com.app.config.factory.FactoryConnectionDB;
 
@@ -21,12 +21,12 @@ import com.app.config.factory.FactoryConnectionDB;
  *
  * @author Admin
  */
-public class Comentario_DGPDAO implements InterfaceComentario_DGPDAO {
+public class Comentario_DGPDAO implements IComentario_DGPDAO {
 
     DBConnection conn;
 
     @Override
-    public void INSERT_COMENTARIO_DGP(String ID_COMENTARIO_DGP, String ID_DGP, String ID_AUTORIZACION, String CM_COMENTARIO, String US_CREACION, String FE_CREACION, String US_MODIFICACION, String FE_MODIFICACION, String ES_COMENTARIO_DGP) {
+    public void insert(String ID_COMENTARIO_DGP, String ID_DGP, String ID_AUTORIZACION, String CM_COMENTARIO, String US_CREACION, String FE_CREACION, String US_MODIFICACION, String FE_MODIFICACION, String ES_COMENTARIO_DGP) {
 
         CallableStatement cst;
         try {

@@ -17,17 +17,25 @@ public class ProcessStatusController {
     IDgpDAO dgpDAO = new DgpDAO();
 
     @PostMapping("status")
-    public ResponseEntity<?> getStatus (@RequestBody ProcessStatusRequest request){
-
-        log.info(request.getDgps().size()+"");
+    public ResponseEntity<?> getStatus(@RequestBody ProcessStatusRequest request) {
+//        log.info(request.getDgps().size()+"");
         List<String> html =  new ArrayList<>();
         request.getDgps().stream()
                 .limit(10).forEach(d ->{
                     html.add(
-                            dgpDAO.Imprimir_det_proceso(d.getIddgp(), d.getIddrp(), d.getIddep())
+                            dgpDAO.getProcessDetail(d.getIddgp(), d.getIddrp(), d.getIddep())
                     );
                 });
 //        List<ProcessStatusResponse> processStatusResponse;
         return new ResponseEntity<>(html, HttpStatus.OK);
+    }
+
+    @PostMapping("{id}/status")
+    public ResponseEntity<?> getStatus(@PathVariable("id") String id, @RequestBody GetProcessStatusRequest request){
+        ProcessStatusResponse response =  new ProcessStatusResponse();
+
+                response.setHtml(dgpDAO.getProcessDetail(id, request.getIddrp(), request.getIddep()));
+        return new ResponseEntity<>(response,
+                HttpStatus.OK);
     }
 }

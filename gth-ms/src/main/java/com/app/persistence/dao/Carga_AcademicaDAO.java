@@ -36,7 +36,6 @@ import com.app.controller.util.WebServiceClient;
 public class Carga_AcademicaDAO implements ICargaAcademicaDAO {
 
     DBConnection conn;
-    DateFormat c = new DateFormat();
 
     @Override
     public String DNI_ID_TRABAJADOR(String dni) {
@@ -61,45 +60,6 @@ public class Carga_AcademicaDAO implements ICargaAcademicaDAO {
             }
         }
         return idtr;
-    }
-
-    @Override
-    public void INSERT_CARGA_ACADEMICA(String ID_CARGA_ACADEMICA, String ES_CARGA_ACADEMICA, String CAMPUS, String ES_TIPO_DOC, String NU_DOC, String AP_PATERNO, String AP_MATERNO, String NO_TRABAJADOR, String NO_FACULTAD, String NO_EAP, String DE_CARGA, String NO_CURSO, String NU_GRUPO, String DE_HORARIO, int CA_HLAB, String DE_CONDICION, String DE_TIPO_CURSO, String ES_PROCESADO, String FE_CREACION) {
-        try {
-            this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            CallableStatement cst = this.conn.connection.prepareCall("{CALL RHSP_INSERT_CARGA_ACADEMICA( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )} ");
-            cst.setString(1, null);
-            cst.setString(2, null);
-            cst.setString(3, CAMPUS);
-            cst.setString(4, ES_TIPO_DOC);
-            cst.setString(5, NU_DOC);
-            cst.setString(6, AP_PATERNO);
-            cst.setString(7, AP_MATERNO);
-            cst.setString(8, NO_TRABAJADOR);
-            cst.setString(9, NO_FACULTAD);
-            cst.setString(10, NO_EAP);
-            cst.setString(11, DE_CARGA);
-            cst.setString(12, NO_CURSO);
-            cst.setString(13, NU_GRUPO);
-            cst.setString(14, DE_HORARIO);
-            cst.setInt(15, CA_HLAB);
-            cst.setString(16, DE_CONDICION);
-            cst.setString(17, DE_TIPO_CURSO);
-            cst.setString(18, ES_PROCESADO);
-            cst.setString(19, null);
-            cst.execute();
-        } catch (SQLException e) {
-            throw new RuntimeException(e.getMessage());
-        } catch (Exception e) {
-            throw new RuntimeException("ERROR: " + e.getMessage());
-        } finally {
-            try {
-                this.conn.close();
-            } catch (Exception e) {
-                throw new RuntimeException(e.getMessage());
-
-            }
-        }
     }
 
     @Override
@@ -265,49 +225,6 @@ public class Carga_AcademicaDAO implements ICargaAcademicaDAO {
             cst.registerOutParameter(5, Types.CHAR);
             cst.execute();
             id = cst.getString(5);
-        } catch (SQLException e) {
-            throw new RuntimeException(e.getMessage());
-        } catch (Exception e) {
-            throw new RuntimeException("ERROR :" + e.getMessage());
-        } finally {
-            try {
-                this.conn.close();
-            } catch (Exception e) {
-                throw new RuntimeException(e.getMessage());
-            }
-        }
-        return id;
-    }
-
-    @Override
-    public String INSERT_CARGA_ACADEMICA(String ID_CARGA_ACADEMICA, String ES_CARGA_ACADEMICA, String CAMPUS, String ES_TIPO_DOC, String NU_DOC, String AP_PATERNO, String AP_MATERNO, String NO_TRABAJADOR, String NO_FACULTAD, String NO_EAP, String DE_CARGA, String NO_CURSO, String NU_GRUPO, String DE_HORARIO, double CA_HLAB, String DE_CONDICION, String DE_TIPO_CURSO, String ES_PROCESADO, String FE_CREACION, String ID_PROCESO_CARGA_AC) {
-        String id = "";
-        try {
-            this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-            CallableStatement cst = this.conn.connection.prepareCall("{CALL RHSP_INSERT_RHTM_CARGA_ACADEMICA( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,? )} ");
-            cst.setString(1, null);
-            cst.setString(2, null);
-            cst.setString(3, CAMPUS);
-            cst.setString(4, ES_TIPO_DOC);
-            cst.setString(5, NU_DOC);
-            cst.setString(6, AP_PATERNO);
-            cst.setString(7, AP_MATERNO);
-            cst.setString(8, NO_TRABAJADOR);
-            cst.setString(9, NO_FACULTAD);
-            cst.setString(10, NO_EAP);
-            cst.setString(11, DE_CARGA);
-            cst.setString(12, NO_CURSO);
-            cst.setString(13, NU_GRUPO);
-            cst.setString(14, DE_HORARIO);
-            cst.setDouble(15, CA_HLAB);
-            cst.setString(16, DE_CONDICION);
-            cst.setString(17, DE_TIPO_CURSO);
-            cst.setString(18, ES_PROCESADO);
-            cst.setString(19, FE_CREACION);
-            cst.setString(20, ID_PROCESO_CARGA_AC);
-            cst.registerOutParameter(21, Types.CHAR);
-            cst.execute();
-            id = cst.getString(21);
         } catch (SQLException e) {
             throw new RuntimeException(e.getMessage());
         } catch (Exception e) {

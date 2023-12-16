@@ -15,7 +15,6 @@ function ListarMotivo(at) {
         if (lista.length > 0) {
             var ma = '';
             for (var i = 0; i < lista.length; i++) {
-                //  alert("asdasdasd");
                 $(".contMO").append("<td>" + lista[i].getDe_pasos + "</td>");
                 $(".contMO").append("<td class='alert alert-danger'>" + lista[i].id_dgp + "</td>");
             }
@@ -147,6 +146,7 @@ function closedthis2() {
 function printDetProceso(objProgAut, postData) {
 
 }
+
 function getProcessStatus(postData) {
 //    objProgAut.empty();
 //    objProgAut.append('<img src="img/ajax-loader/horizontal_fountain.gif" />');
@@ -155,8 +155,10 @@ function getProcessStatus(postData) {
         dataType: 'json',
         data: JSON.stringify({"dgps": postData}),
         contentType: "application/json",
-        type: 'POST', async: true,
+        type: 'POST',
+        async: true,
         success: function (data, textStatus, jqXHR) {
+        console.log(data)
 //            if (data.status) {
 //                objProgAut.hide();
 //                objProgAut.empty();
@@ -170,6 +172,35 @@ function getProcessStatus(postData) {
 //                objProgAut.show();
 //                console.log('Ocurrio un error al obtener el detalle del proceso');
 //            }
+        }
+    });
+}
+
+function getProcessStatusById(idDgp, idDrp, idDep, objItem) {
+    objItem.empty();
+    objItem.append('<img src="img/ajax-loader/horizontal_fountain.gif" />');
+    $.ajax({
+        url: "http://localhost:8090/process/"+idDgp+"/status",
+        dataType: 'json',
+        data: JSON.stringify({"iddgp": idDgp, "iddrp": idDrp, "iddep": idDep}),
+        contentType: "application/json",
+        type: 'POST',
+        async: true,
+        success: function (data, textStatus, jqXHR) {
+        console.log(textStatus)
+            if (textStatus=='success') {
+                objItem.hide();
+                objItem.empty();
+                objItem.append(data.html);
+                objItem.show(250);
+                objItem.find(".new-circle").popover({trigger: 'hover click'});
+            } else {
+                objItem.hide();
+                objItem.empty();
+                objItem.append('Error al obtener el detalle del proceso.');
+                objItem.show();
+                console.log('Ocurrio un error al obtener el detalle del proceso');
+            }
         }
     });
 }
@@ -191,8 +222,12 @@ function initStatusProcessDGP() {
                 responsiveHelper_dt_basic = new ResponsiveDatatablesHelper($('#dt_status_process'), breakpointDefinition);
             }
         },
-        "rowCallback": function (nRow) {
-            responsiveHelper_dt_basic.createExpandIcon(nRow);
+        "rowCallback": function (row) {
+            console.log(":enter to rowCallback dt_status_process");
+            responsiveHelper_dt_basic.createExpandIcon(row);
+
+            var item = $('td:eq(4)', row).find(".prog_aut");
+            getProcessStatusById(item.data("dgp"), item.data("iddrp"), item.data("iddep"), item)
         },
         "drawCallback": function (oSettings) {
             responsiveHelper_dt_basic.respond();
@@ -308,7 +343,7 @@ function initStatusProcessDGP() {
     });
 }
 $(document).ready(function () {
-    pageSetUp();
+//    pageSetUp();
     console.log('Entering to statusdgp')
 
     $(".seeDocuments").click(function () {
@@ -325,5 +360,25 @@ $(document).ready(function () {
     $(".btnHorario").click(function () {
         listHorario($(this).data("valor"));
     });
-    initStatusProcessDGP();
+
+    //initStatusProcessDGP();
+});
+var pagefunction = function () {
+        console.log("::enter to pagefunction");
+        pageSetUp();
+//        initCAGlobalEvents();
+        initStatusProcessDGP();
+        console.log("::finish to pagefunction");
+}
+
+loadScript("js/plugin/jquery-form/jquery-form.min.js", function () {
+    loadScript("js/plugin/datatables/jquery.dataTables.min.js", function () {
+        loadScript("js/plugin/datatables/dataTables.colVis.min.js", function () {
+            loadScript("js/plugin/datatables/dataTables.tableTools.min.js", function () {
+                loadScript("js/plugin/datatables/dataTables.bootstrap.min.js", function () {
+                    loadScript("js/plugin/datatable-responsive/datatables.responsive.min.js", pagefunction);
+                });
+            });
+        });
+    });
 });

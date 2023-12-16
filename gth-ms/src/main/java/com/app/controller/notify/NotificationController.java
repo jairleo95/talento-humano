@@ -46,10 +46,7 @@ public class NotificationController {
                     rpta.put("rpta", "-1");
                     rpta.put("mensaje", e.getMessage());
                 }
-                //Gson gson = new Gson();
-                //out.print(gson.toJson(rpta));
-                //out.flush();
-                //out.close();
+
                 break;
             case 2:
                 String id = request.getParameter("data");
@@ -66,10 +63,7 @@ public class NotificationController {
                     rpta.put("rpta", "-1");
                     rpta.put("mensaje", e.getMessage());
                 }
-                //gson = new Gson();
-                //out.print(gson.toJson(rpta));
-                //out.flush();
-                //out.close();
+
                 break;
             case 4:
                 try {
@@ -97,10 +91,7 @@ public class NotificationController {
                     rpta.put("rpta", "-1");
                     rpta.put("mensaje", ex.getMessage());
                 }
-//                gson = new Gson();
-//                out.print(gson.toJson(rpta));
-//                out.flush();
-//                out.close();
+
                 break;
         }
         return new ResponseEntity<>(rpta , HttpStatus.OK);

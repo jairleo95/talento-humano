@@ -18,10 +18,10 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 
-import com.app.persistence.dao_imp.InterfaceCorreoDAO;
+import com.app.persistence.dao_imp.ICorreoDAO;
 import com.app.config.factory.FactoryConnectionDB;
 
-public class CorreoDAO implements InterfaceCorreoDAO {
+public class CorreoDAO implements ICorreoDAO {
 
     @Override
     public void Enviar(final String emailSubject, final String pwdSubject, String to, String from, String Asunto, String Cuerpo) {

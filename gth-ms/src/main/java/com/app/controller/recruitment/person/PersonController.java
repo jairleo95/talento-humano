@@ -56,18 +56,18 @@ import com.app.persistence.dao_imp.IUbigeoDAO;
 @RequestMapping("trabajador")
 public class PersonController {
 
-    ITrabajadorDAO tr = new TrabajadorDAO();
-    InterfaceTipoHoraPagoDAO thp = new TipoHoraPagoDAO();
-    IListaDAO li = new ListaDAO();
-    IUbigeoDAO ub = new UbigeoDAO();
-    IDocumentoDAO d = new DocumentoDAO();
-    IEmpleadoDAO em = new EmpleadoDAO();
-    IDgpDAO dgp = new DgpDAO();
-    IDireccionDAO dir = new DireccionDAO();
-    ITipo_DocumentoDAO tdoc = new Tipo_DocumentoDAO();
-    InterfaceCarrera_UniversidadDAO cu = new Carrera_UniversidadDAO();
-    InterfaceHist_Estado_CivilDAO ec = new Hist_Estado_CivilDAO();
-    IDatosHijoTrabajador h = new Datos_Hijo_TrabajadorDAO();
+    ITrabajadorDAO trabajadorDAO = new TrabajadorDAO();
+    InterfaceTipoHoraPagoDAO tipoHoraPagoDAO = new TipoHoraPagoDAO();
+    IListaDAO listaDAO = new ListaDAO();
+    IUbigeoDAO ubigeoDAO = new UbigeoDAO();
+    IDocumentoDAO documentoDAO = new DocumentoDAO();
+    IEmpleadoDAO empleadoDAO = new EmpleadoDAO();
+    IDgpDAO dgpDAO = new DgpDAO();
+    IDireccionDAO direccionDAO = new DireccionDAO();
+    ITipo_DocumentoDAO tipoDocumentoDAO = new Tipo_DocumentoDAO();
+    InterfaceCarrera_UniversidadDAO carreraUniversidadDAO = new Carrera_UniversidadDAO();
+    InterfaceHist_Estado_CivilDAO histEstadoCivilDAO = new Hist_Estado_CivilDAO();
+    IDatosHijoTrabajador datosHijoTrabajadorDAO = new Datos_Hijo_TrabajadorDAO();
 
     @PostMapping("diezmo")
     public ResponseEntity<?> diezmo(HttpServletRequest request) {
@@ -80,7 +80,7 @@ public class PersonController {
         if (user != null) {
             if (opc.equals("ModDiezmoDetalleTrabajador")) {
                 String idtr = request.getParameter("id");
-                int i = tr.ShowEsDiezmoTrabajador(idtr);
+                int i = trabajadorDAO.ShowEsDiezmoTrabajador(idtr);
                 String html = "";
                 html += "   <div class='input-group'> "
                         + "          <span class='form-control' style='padding: 5px;padding-left: 10px'> ¿Autorizar descuento?</span>     "
@@ -107,7 +107,7 @@ public class PersonController {
             if (opc.equals("UpdateEsDiezmo")) {
                 String idtr = request.getParameter("id");
                 int estado = Integer.parseInt(request.getParameter("estado"));
-                rpta.put("status", tr.UpdateEsDiezmo(idtr, estado));
+                rpta.put("status", trabajadorDAO.UpdateEsDiezmo(idtr, estado));
                 rpta.put("rpta", "1");
             }
         }
@@ -126,7 +126,7 @@ public class PersonController {
         if (user != null) {
             if (opc.equals("ShowAFP_SP")) {
                 String idtr = request.getParameter("id");
-                String data[] = tr.ShowAFP_ONP(idtr);
+                String data[] = trabajadorDAO.ShowAFP_ONP(idtr);
                 String html = "";
 
                 boolean permisoShowAFP_SP = false;
@@ -141,9 +141,9 @@ public class PersonController {
                     html += " <div class='col-md-8'><strong>Nombre AFP:</strong>";
                     html += " </div>";
                     html += " <div class='col-md-4'>";
-                    for (int w = 0; w < li.List_Nom_AFP().size(); w++) {
+                    for (int w = 0; w < listaDAO.List_Nom_AFP().size(); w++) {
                         if (data[0].trim().equals(w + 1 + "")) {
-                            html += li.List_Nom_AFP().get(w);
+                            html += listaDAO.List_Nom_AFP().get(w);
                         }
                     }
                     html += " </div>";
@@ -152,9 +152,9 @@ public class PersonController {
                     html += " <div class='col-md-8'><strong>Sistema Pensionario:</strong>";
                     html += " </div>";
                     html += " <div class='col-md-4'>";
-                    for (int dd = 0; dd < li.List_Sp().size(); dd++) {
+                    for (int dd = 0; dd < listaDAO.List_Sp().size(); dd++) {
                         if (data[1].trim().equals(dd + 1 + "")) {
-                            html += (li.List_Sp().get(dd));
+                            html += (listaDAO.List_Sp().get(dd));
                         }
                     }
                     html += " </div>";
@@ -186,7 +186,7 @@ public class PersonController {
             // System.out.println((request.getParameter("idtr")));
             //  System.out.println("id:"+CCriptografiar.Encriptar("TRB-002172"));
             String html = "";
-            List<TipoHoraPago> t = thp.listTiHoraPagoByIdTrabajador(idtr);
+            List<TipoHoraPago> t = tipoHoraPagoDAO.listTiHoraPagoByIdTrabajador(idtr);
             html += "<select  name='TiHoraPago' class='form-control input-sm TiHoraPago bounceIn animated' required>";
             if (t.isEmpty()) {
                 html += "<option>[Sin datos]</option>";
@@ -228,7 +228,7 @@ public class PersonController {
                 if (("Buscar".equals(Buscar) & (!"".equals(dni) | !"".equals(nom) | !"".equals(ape_mat) | !"".equals(ape_pat)))) {
                     String busc = (String) request.getParameter("busc");
                     if (busc != null) {
-                        session.setAttribute("ListarTrabajador2", tr.Buscar_Trabajador_Requerimiento(iddep, dni, nom, ape_pat, ape_mat, id_req));
+                        session.setAttribute("ListarTrabajador2", trabajadorDAO.Buscar_Trabajador_Requerimiento(iddep, dni, nom, ape_pat, ape_mat, id_req));
                         //no va getServletContext().setAttribute(nom, dgp.VAL_OPC_DGP(dni));
 
                         response.sendRedirect("views/Dgp/Generar_Dgp.html?text=" + Text);
@@ -249,7 +249,7 @@ public class PersonController {
                 System.out.println(ape_mat);
                 System.out.println(nom);
                 if (("Buscar".equals(Buscar) & (!"".equals(dni) | !"".equals(nom) | !"".equals(ape_mat) | !"".equals(ape_pat)))) {
-                    session.setAttribute("ListarTrabajador", tr.Buscar_Ficha_Trabajador(iddep, dni, nom, ape_pat, ape_mat));
+                    session.setAttribute("ListarTrabajador", trabajadorDAO.Buscar_Ficha_Trabajador(iddep, dni, nom, ape_pat, ape_mat));
                     //getServletContext().setAttribute(nom, dgp.VAL_OPC_DGP(dni));
                     response.sendRedirect("Ficha_Trabajador");
                 } else {
@@ -258,13 +258,13 @@ public class PersonController {
             }
             if ("list".equals(opc)) {
                 String idtr = request.getParameter("idtr");
-                session.setAttribute("List_Cuenta_Sueldo", tr.List_Cuenta_Sueldo(idtr));
-                session.setAttribute("ListaridTrabajador", tr.ListaridTrabajador(idtr));
-                session.setAttribute("List_Universidad", li.List_Universidad());
-                session.setAttribute("List_tipo_institucion", cu.List_Tipo_Ins());
-                session.setAttribute("List_Ubigeo", ub.List_Distrito());
-                session.setAttribute("Listar_tipo_doc", tdoc.Listar_tipo_doc());
-                session.setAttribute("id_empleadox_ide", em.id_empleadox_ide(idtr));
+                session.setAttribute("List_Cuenta_Sueldo", trabajadorDAO.List_Cuenta_Sueldo(idtr));
+                session.setAttribute("ListaridTrabajador", trabajadorDAO.ListaridTrabajador(idtr));
+                session.setAttribute("List_Universidad", listaDAO.List_Universidad());
+                session.setAttribute("List_tipo_institucion", carreraUniversidadDAO.List_Tipo_Ins());
+                session.setAttribute("List_Ubigeo", ubigeoDAO.List_Distrito());
+                session.setAttribute("Listar_tipo_doc", tipoDocumentoDAO.Listar_tipo_doc());
+                session.setAttribute("id_empleadox_ide", empleadoDAO.id_empleadox_ide(idtr));
                 if (request.getParameter("dgp") != null) {
                     response.sendRedirect("Detalle_Trabajador?idtr=" + idtr + "&dgp=" + request.getParameter("dgp"));
                 } else {
@@ -278,17 +278,17 @@ public class PersonController {
                 if (op != null) {
                     me = "t";
                 }
-                session.setAttribute("List_Cuenta_Sueldo", tr.List_Cuenta_Sueldo(idtr));
-                session.setAttribute("ListaridTrabajador", tr.ListaridTrabajador(idtr));
-                session.setAttribute("List_Universidad", li.List_Universidad());
-                session.setAttribute("List_tipo_institucion", cu.List_Tipo_Ins());
-                session.setAttribute("List_Ubigeo", ub.List_Distrito());
-                session.setAttribute("Listar_tipo_doc", tdoc.Listar_tipo_doc());
+                session.setAttribute("List_Cuenta_Sueldo", trabajadorDAO.List_Cuenta_Sueldo(idtr));
+                session.setAttribute("ListaridTrabajador", trabajadorDAO.ListaridTrabajador(idtr));
+                session.setAttribute("List_Universidad", listaDAO.List_Universidad());
+                session.setAttribute("List_tipo_institucion", carreraUniversidadDAO.List_Tipo_Ins());
+                session.setAttribute("List_Ubigeo", ubigeoDAO.List_Distrito());
+                session.setAttribute("Listar_tipo_doc", tipoDocumentoDAO.Listar_tipo_doc());
                     response.sendRedirect("views/Trabajador/Detalle_Trabajador.html?idtr=" + idtr.trim() + "&ms=" + me);
             }
             if (opc.equals("Mostrar_Cod_APS")) {
                 String idtr = request.getParameter("tr");
-                List<Employee> e = em.id_empleadox_ide(idtr);
+                List<Employee> e = empleadoDAO.id_empleadox_ide(idtr);
                 if (e.size() == 0) {
                     rpta.put("msg", "0");
                 } else {
@@ -301,7 +301,7 @@ public class PersonController {
             }
             if (opc.equals("ShowEsDiezmoTrabajador")) {
                 String idtr = request.getParameter("id");
-                int i = tr.ShowEsDiezmoTrabajador(idtr);
+                int i = trabajadorDAO.ShowEsDiezmoTrabajador(idtr);
                 String html = "";
                 html += "             <label  id='titu'>    Descuento de Diezmo: </label>    ";
                 html += "   <div class='input-group'> "
@@ -355,21 +355,21 @@ public class PersonController {
             }
             if (opc.equals("ShowPorcentageTrabajador")) {
                 String id = request.getParameter("id");
-                rpta.put("porcentaje", tr.ShowPorcentageTrabajador(id));
+                rpta.put("porcentaje", trabajadorDAO.ShowPorcentageTrabajador(id));
             }
             if (opc.equals("Listar_Asp_Social")) {
                 String idtr = request.getParameter("idtr");
-                session.setAttribute("ListaridTrabajador", tr.ListaridTrabajador(idtr));
-                session.setAttribute("Listar_via", dir.Listar_via());
-                session.setAttribute("Listar_zona", dir.Listar_zona());
-                session.setAttribute("ListarDir_Dom", li.List_Dom_D3_Id());
-                session.setAttribute("List_Provincia", ub.List_Provincia());
-                session.setAttribute("List_Distrito", ub.List_DistritoTra());
-                session.setAttribute("List_Ubigeo", ub.List_Distrito());
-                session.setAttribute("List_Departamento", ub.List_Departamento());
-                session.setAttribute("List_Dom_D1_Id", li.List_Dom_D1_Id());
-                session.setAttribute("List_Dom_D5_Id", li.List_Dom_D5_Id());
-                session.setAttribute("List_Dom_D3_Id", li.List_Dom_D3_Id());
+                session.setAttribute("ListaridTrabajador", trabajadorDAO.ListaridTrabajador(idtr));
+                session.setAttribute("Listar_via", direccionDAO.Listar_via());
+                session.setAttribute("Listar_zona", direccionDAO.Listar_zona());
+                session.setAttribute("ListarDir_Dom", listaDAO.List_Dom_D3_Id());
+                session.setAttribute("List_Provincia", ubigeoDAO.List_Provincia());
+                session.setAttribute("List_Distrito", ubigeoDAO.List_DistritoTra());
+                session.setAttribute("List_Ubigeo", ubigeoDAO.List_Distrito());
+                session.setAttribute("List_Departamento", ubigeoDAO.List_Departamento());
+                session.setAttribute("List_Dom_D1_Id", listaDAO.List_Dom_D1_Id());
+                session.setAttribute("List_Dom_D5_Id", listaDAO.List_Dom_D5_Id());
+                session.setAttribute("List_Dom_D3_Id", listaDAO.List_Dom_D3_Id());
                 response.sendRedirect("Trabajador/Aspecto_Social.html?idtr=" + idtr);
             }
         }
@@ -386,18 +386,18 @@ public class PersonController {
 
         if ("actualizar".equals(opc)) {
             String idtr = request.getParameter("idtr");
-            session.setAttribute("ListaridTrabajador", tr.ListaridTrabajador(idtr));
+            session.setAttribute("ListaridTrabajador", trabajadorDAO.ListaridTrabajador(idtr));
             response.sendRedirect("views/Trabajador/Detalle_Trabajador.html?idtr=" + idtr.trim());
         }
         if ("edit_perfil".equals(opc)) {
-            String idtr = tr.ID_TRB(iduser);
-            session.setAttribute("List_Cuenta_Sueldo", tr.List_Cuenta_Sueldo(idtr));
-            session.setAttribute("ListaridTrabajador", tr.ListaridTrabajador(idtr));
-            session.setAttribute("List_Universidad", li.List_Universidad());
-            session.setAttribute("List_tipo_institucion", cu.List_Tipo_Ins());
-            session.setAttribute("List_Ubigeo", ub.List_Distrito());
-            session.setAttribute("Listar_tipo_doc", tdoc.Listar_tipo_doc());
-            session.setAttribute("id_empleadox_ide", em.id_empleadox_ide(idtr));
+            String idtr = trabajadorDAO.ID_TRB(iduser);
+            session.setAttribute("List_Cuenta_Sueldo", trabajadorDAO.List_Cuenta_Sueldo(idtr));
+            session.setAttribute("ListaridTrabajador", trabajadorDAO.ListaridTrabajador(idtr));
+            session.setAttribute("List_Universidad", listaDAO.List_Universidad());
+            session.setAttribute("List_tipo_institucion", carreraUniversidadDAO.List_Tipo_Ins());
+            session.setAttribute("List_Ubigeo", ubigeoDAO.List_Distrito());
+            session.setAttribute("Listar_tipo_doc", tipoDocumentoDAO.Listar_tipo_doc());
+            session.setAttribute("id_empleadox_ide", empleadoDAO.id_empleadox_ide(idtr));
             response.sendRedirect("views/Trabajador/Detalle_Trabajador.html?edit=ok&idtr=" + idtr);
         }
         if (opc.equals("Modificar_Dat_Gen")) {
@@ -434,16 +434,16 @@ public class PersonController {
             String LI_TIPO_TRABAJADOR = request.getParameter("TIPO_TRABAJADOR_ID");
             String idtr = request.getParameter("idtr");
             String US_MODIF = iduser;
-            String IP_USUARIO = tr.ip();
+            String IP_USUARIO = trabajadorDAO.ip();
             String FE_MODIFICACION = "";
             String ES_CIVIL_A = request.getParameter("ES_CIVIL_A");
             String ES_REGISTRO = request.getParameter("ES_REGISTRO");
             if (!ES_CIVIL.equals(ES_CIVIL_A)) {
-                ec.INSERT_HIST_ESTADO_CIVIL(null, ES_CIVIL_A, FE_MODIFICACION, US_MODIF, ID_TRABAJADOR, ES_REGISTRO);
+                histEstadoCivilDAO.INSERT_HIST_ESTADO_CIVIL(null, ES_CIVIL_A, FE_MODIFICACION, US_MODIF, ID_TRABAJADOR, ES_REGISTRO);
             }
             FE_NAC = DateFormat.toFormat3(FE_NAC);
-            tr.MOD_DAT_GEN(AP_PATERNO, AP_MATERNO, NO_TRABAJADOR, TI_DOC, NU_DOC, ES_CIVIL, FE_NAC, ID_NACIONALIDAD, ID_DEPARTAMENTO, ID_PROVINCIA, ID_DISTRITO, TE_TRABAJADOR, CL_TRA, DI_CORREO_PERSONAL, DI_CORREO_INST, CO_SISTEMA_PENSIONARIO, ES_SEXO, LI_GRUPO_SANGUINEO, ID_NO_AFP, ES_AFILIADO_ESSALUD, LI_TIPO_TRABAJADOR, ES_FACTOR_RH, idtr, US_MODIF, IP_USUARIO);
-            session.setAttribute("ListaridTrabajador", tr.ListaridTrabajador(idtr));
+            trabajadorDAO.MOD_DAT_GEN(AP_PATERNO, AP_MATERNO, NO_TRABAJADOR, TI_DOC, NU_DOC, ES_CIVIL, FE_NAC, ID_NACIONALIDAD, ID_DEPARTAMENTO, ID_PROVINCIA, ID_DISTRITO, TE_TRABAJADOR, CL_TRA, DI_CORREO_PERSONAL, DI_CORREO_INST, CO_SISTEMA_PENSIONARIO, ES_SEXO, LI_GRUPO_SANGUINEO, ID_NO_AFP, ES_AFILIADO_ESSALUD, LI_TIPO_TRABAJADOR, ES_FACTOR_RH, idtr, US_MODIF, IP_USUARIO);
+            session.setAttribute("ListaridTrabajador", trabajadorDAO.ListaridTrabajador(idtr));
             if (edit.equals("ok")) {
                 response.sendRedirect("views/Trabajador/Datos_Generales.html?idtr=" + idtr + "&edit=" + edit);
             } else {
@@ -453,32 +453,32 @@ public class PersonController {
         if (opc.equals("Editar_Dat_Gen")) {
             String idtr = request.getParameter("idtr");
             String edit = request.getParameter("edit");
-            session.setAttribute("3e", tr.ListaridTrabajador(idtr));
-            session.setAttribute("List_Nacionalidad", li.List_Nacionalidad());
-            session.setAttribute("List_Departamento", ub.List_Departamento());
-            session.setAttribute("List_Provincia", ub.List_Provincia());
-            session.setAttribute("List_Distrito", ub.List_DistritoTra());
-            session.setAttribute("Listar_tipo_doc", tdoc.Listar_tipo_doc());
+            session.setAttribute("3e", trabajadorDAO.ListaridTrabajador(idtr));
+            session.setAttribute("List_Nacionalidad", listaDAO.List_Nacionalidad());
+            session.setAttribute("List_Departamento", ubigeoDAO.List_Departamento());
+            session.setAttribute("List_Provincia", ubigeoDAO.List_Provincia());
+            session.setAttribute("List_Distrito", ubigeoDAO.List_DistritoTra());
+            session.setAttribute("Listar_tipo_doc", tipoDocumentoDAO.Listar_tipo_doc());
             response.sendRedirect("views/Trabajador/Mod_Datos_Generales.html?idtr=" + idtr + "&edit=" + edit);
         }
 
         if (opc.equals("Editar_Asp_Acad")) {
             String idtr = request.getParameter("idtr");
             String edit = request.getParameter("edit");
-            List<SalaryAccount> li1 = tr.List_Cuenta_Sueldo(idtr);
+            List<SalaryAccount> li1 = trabajadorDAO.List_Cuenta_Sueldo(idtr);
             if (!li1.isEmpty()) {
                 session.setAttribute("List_Cuenta_Sueldo", li1);
             } else {
-                tr.INSERT_CUENTA_SUELDO(null, null, null, null, "0", null, idtr, "0");
+                trabajadorDAO.INSERT_CUENTA_SUELDO(null, null, null, null, "0", null, idtr, "0");
             }
             if (li1.get(0).getEs_cuenta_sueldo().trim().equals("1")) {
                 edit = "ok";
             }
-            session.setAttribute("List_tipo_institucion", cu.List_Tipo_Ins());
-            session.setAttribute("list_año", li.lista_años());
-            session.setAttribute("List_Universidad", li.List_Universidad());
-            session.setAttribute("List_Carrera", li.List_Carrera());
-            session.setAttribute("List_Situacion_Educativa", li.List_Situacion_Educativa());
+            session.setAttribute("List_tipo_institucion", carreraUniversidadDAO.List_Tipo_Ins());
+            session.setAttribute("list_año", listaDAO.lista_años());
+            session.setAttribute("List_Universidad", listaDAO.List_Universidad());
+            session.setAttribute("List_Carrera", listaDAO.List_Carrera());
+            session.setAttribute("List_Situacion_Educativa", listaDAO.List_Situacion_Educativa());
             response.sendRedirect("views/Trabajador/Mod_Aspecto_Academico.html?idtr=" + idtr + "&edit=" + edit);
 
         }
@@ -494,8 +494,8 @@ public class PersonController {
             String CA_TIPO_HORA_PAGO_REFEERENCIAL = request.getParameter("TIPO_HORA_PAGO_REFEERENCIAL");
             String CO_UNIVERSITARIO = request.getParameter("CO_UNIVERSITARIO");
             String US_MODIF = iduser;
-            String IP_USUARIO = tr.ip();
-            tr.MOD_ASPEC_ACADEM(LI_NIVEL_EDUCATIVO, REGIMEN, ES_INST_PERU, CARRERA, DE_ANNO_EGRESO, CM_OTROS_ESTUDIOS, CA_TIPO_HORA_PAGO_REFEERENCIAL, idtr, CO_UNIVERSITARIO, US_MODIF, IP_USUARIO);
+            String IP_USUARIO = trabajadorDAO.ip();
+            trabajadorDAO.MOD_ASPEC_ACADEM(LI_NIVEL_EDUCATIVO, REGIMEN, ES_INST_PERU, CARRERA, DE_ANNO_EGRESO, CM_OTROS_ESTUDIOS, CA_TIPO_HORA_PAGO_REFEERENCIAL, idtr, CO_UNIVERSITARIO, US_MODIF, IP_USUARIO);
             //MODIFICAR CUENTA SUELDO
             String NO_BANCO = "";
             String NU_CUENTA = "";
@@ -515,26 +515,26 @@ public class PersonController {
                 } else {
                     ES_CUENTA_SUELDO = "1";
                 }
-                tr.MOD_CUENTA_SUELDO(NO_BANCO, NU_CUENTA, NU_CUENTA_BANC, ES_GEM_NU_CUENTA, NO_BANCO_OTROS, idtr, ES_CUENTA_SUELDO);
+                trabajadorDAO.MOD_CUENTA_SUELDO(NO_BANCO, NU_CUENTA, NU_CUENTA_BANC, ES_GEM_NU_CUENTA, NO_BANCO_OTROS, idtr, ES_CUENTA_SUELDO);
             }
-            session.setAttribute("ListaridTrabajador", tr.ListaridTrabajador(idtr));
-            session.setAttribute("List_Cuenta_Sueldo", tr.List_Cuenta_Sueldo(idtr));
+            session.setAttribute("ListaridTrabajador", trabajadorDAO.ListaridTrabajador(idtr));
+            session.setAttribute("List_Cuenta_Sueldo", trabajadorDAO.List_Cuenta_Sueldo(idtr));
             response.sendRedirect("views/Trabajador/Aspecto_Academico.html?idtr=" + idtr);
 
         }
         if (opc.equals("Editar_Asp_Soc")) {
             String idtr = request.getParameter("idtr");
-            session.setAttribute("ListaridTrabajador", tr.ListaridTrabajador(idtr));
-            session.setAttribute("Listar_via", dir.Listar_via());
-            session.setAttribute("Listar_zona", dir.Listar_zona());
-            session.setAttribute("ListarDir_Dom", li.List_Dom_D3_Id());
-            session.setAttribute("List_Provincia", ub.List_Provincia());
-            session.setAttribute("List_Distrito", ub.List_DistritoTra());
-            session.setAttribute("List_Ubigeo", ub.List_Distrito());
-            session.setAttribute("List_Departamento", ub.List_Departamento());
-            session.setAttribute("List_Dom_D1_Id", li.List_Dom_D1_Id());
-            session.setAttribute("List_Dom_D5_Id", li.List_Dom_D5_Id());
-            session.setAttribute("List_Dom_D3_Id", li.List_Dom_D3_Id());
+            session.setAttribute("ListaridTrabajador", trabajadorDAO.ListaridTrabajador(idtr));
+            session.setAttribute("Listar_via", direccionDAO.Listar_via());
+            session.setAttribute("Listar_zona", direccionDAO.Listar_zona());
+            session.setAttribute("ListarDir_Dom", listaDAO.List_Dom_D3_Id());
+            session.setAttribute("List_Provincia", ubigeoDAO.List_Provincia());
+            session.setAttribute("List_Distrito", ubigeoDAO.List_DistritoTra());
+            session.setAttribute("List_Ubigeo", ubigeoDAO.List_Distrito());
+            session.setAttribute("List_Departamento", ubigeoDAO.List_Departamento());
+            session.setAttribute("List_Dom_D1_Id", listaDAO.List_Dom_D1_Id());
+            session.setAttribute("List_Dom_D5_Id", listaDAO.List_Dom_D5_Id());
+            session.setAttribute("List_Dom_D3_Id", listaDAO.List_Dom_D3_Id());
 
             response.sendRedirect("views/Trabajador/Mod_Aspecto_Social.html?idtr=" + idtr);
         }
@@ -559,14 +559,14 @@ public class PersonController {
             String CA_ING_QTA_CAT_RUC = request.getParameter("ING_QTA_CAT_RUC");
             String CA_ING_QTA_CAT_OTRAS_EMPRESAS = request.getParameter("ING_QTA_CAT_OTRAS_EMPRESAS");
             String US_MODIF = iduser;
-            String IP_USUARIO = tr.ip();
-            tr.MOD_ASPEC_SOCIAL(LI_DI_DOM_A_D1, DI_DOM_A_D2, LI_DI_DOM_A_D3, DI_DOM_A_D4, LI_DI_DOM_A_D5, DI_DOM_A_D6, DI_DOM_A_REF, ID_DI_DOM_A_DISTRITO, LI_DI_DOM_LEG_D1, DI_DOM_LEG_D2, LI_DI_DOM_LEG_D3, DI_DOM_LEG_D4, LI_DI_DOM_LEG_D5, DI_DOM_LEG_D6, ID_DI_DOM_LEG_DISTRITO, CA_ING_QTA_CAT_EMPRESA, CA_ING_QTA_CAT_RUC, CA_ING_QTA_CAT_OTRAS_EMPRESAS, idtr, US_MODIF, IP_USUARIO);
-            session.setAttribute("ListaridTrabajador", tr.ListaridTrabajador(idtr));
+            String IP_USUARIO = trabajadorDAO.ip();
+            trabajadorDAO.MOD_ASPEC_SOCIAL(LI_DI_DOM_A_D1, DI_DOM_A_D2, LI_DI_DOM_A_D3, DI_DOM_A_D4, LI_DI_DOM_A_D5, DI_DOM_A_D6, DI_DOM_A_REF, ID_DI_DOM_A_DISTRITO, LI_DI_DOM_LEG_D1, DI_DOM_LEG_D2, LI_DI_DOM_LEG_D3, DI_DOM_LEG_D4, LI_DI_DOM_LEG_D5, DI_DOM_LEG_D6, ID_DI_DOM_LEG_DISTRITO, CA_ING_QTA_CAT_EMPRESA, CA_ING_QTA_CAT_RUC, CA_ING_QTA_CAT_OTRAS_EMPRESAS, idtr, US_MODIF, IP_USUARIO);
+            session.setAttribute("ListaridTrabajador", trabajadorDAO.ListaridTrabajador(idtr));
             response.sendRedirect("views/Trabajador/Aspecto_Social.html?idtr=" + idtr);
         }
         if ("Editar_Asp_Rel".equals(opc)) {
             String idtr = request.getParameter("idtr");
-            session.setAttribute("ListaridTrabajador", tr.ListaridTrabajador(idtr));
+            session.setAttribute("ListaridTrabajador", trabajadorDAO.ListaridTrabajador(idtr));
             response.sendRedirect("views/Trabajador/Historial_Religion/Mod_Asp_Religioso.jsp?idtr=" + idtr + "&iduser=" + iduser);
         }
         if ("Modificar_Asp_Rel".equals(opc)) {
@@ -578,9 +578,9 @@ public class PersonController {
             String NO_AP_AUTORIDAD = request.getParameter("AUT_APELLIDOSNOMBRES");
             String CL_AUTORIDAD = request.getParameter("AUT_CELULAR");
             String FE_MODIF = "";
-            tr.INSERT_HIST_RELIGION(null, LI_RELIGION, NO_IGLESIA, DE_CARGO, LI_AUTORIDAD, NO_AP_AUTORIDAD, CL_AUTORIDAD, "1", idtr, iduser, FE_MODIF);
-            tr.MOD_ASP_REL(LI_RELIGION, NO_IGLESIA, DE_CARGO, LI_AUTORIDAD, NO_AP_AUTORIDAD, CL_AUTORIDAD, idtr, iduser, tr.ip());
-            session.setAttribute("ListaridTrabajador", tr.ListaridTrabajador(idtr));
+            trabajadorDAO.INSERT_HIST_RELIGION(null, LI_RELIGION, NO_IGLESIA, DE_CARGO, LI_AUTORIDAD, NO_AP_AUTORIDAD, CL_AUTORIDAD, "1", idtr, iduser, FE_MODIF);
+            trabajadorDAO.MOD_ASP_REL(LI_RELIGION, NO_IGLESIA, DE_CARGO, LI_AUTORIDAD, NO_AP_AUTORIDAD, CL_AUTORIDAD, idtr, iduser, trabajadorDAO.ip());
+            session.setAttribute("ListaridTrabajador", trabajadorDAO.ListaridTrabajador(idtr));
             response.sendRedirect("views/Trabajador/Aspecto_Social.html");
         }
 
@@ -605,15 +605,15 @@ public class PersonController {
                 Text = (String) request.getParameter("text");
 
                 if (opc.equals("Form_Reg")) {
-                    session.setAttribute("List_Carrera", li.List_Carrera());
-                    session.setAttribute("List_Nacionalidad", li.List_Nacionalidad());
-                    session.setAttribute("List_Universidad", li.List_Universidad());
-                    session.setAttribute("List_Departamento", ub.List_Departamento());
-                    session.setAttribute("List_Situacion_Educativa", li.List_Situacion_Educativa());
-                    session.setAttribute("Listar_via", dir.Listar_via());
-                    session.setAttribute("Listar_zona", dir.Listar_zona());
-                    session.setAttribute("Listar_tipo_doc", tdoc.Listar_tipo_doc());
-                    session.setAttribute("list_año", li.lista_años());
+                    session.setAttribute("List_Carrera", listaDAO.List_Carrera());
+                    session.setAttribute("List_Nacionalidad", listaDAO.List_Nacionalidad());
+                    session.setAttribute("List_Universidad", listaDAO.List_Universidad());
+                    session.setAttribute("List_Departamento", ubigeoDAO.List_Departamento());
+                    session.setAttribute("List_Situacion_Educativa", listaDAO.List_Situacion_Educativa());
+                    session.setAttribute("Listar_via", direccionDAO.Listar_via());
+                    session.setAttribute("Listar_zona", direccionDAO.Listar_zona());
+                    session.setAttribute("Listar_tipo_doc", tipoDocumentoDAO.Listar_tipo_doc());
+                    session.setAttribute("list_año", listaDAO.lista_años());
                     response.sendRedirect("views/Trabajador/Reg_Trabajador.html");
                 }
                 if (opc.equals("Registrar")) {
@@ -711,7 +711,7 @@ public class PersonController {
                         ES_CUENTA_SUELDO = "1";
                     }
 
-                    if (tr.val_nu_doc(NU_DOC)) {
+                    if (trabajadorDAO.val_nu_doc(NU_DOC)) {
 //                        out.print("Trabajador ya existe!");
                     } else {
 
@@ -721,15 +721,15 @@ public class PersonController {
 //                        out.println(" fecha nac :" + DateFormat.toFormat1(FE_NAC));
 //                        out.println(" fecha nac C :" + DateFormat.toFormat1(FE_NAC_C));
 
-                        tr.INSERT_TRABAJADOR(null, AP_PATERNO, AP_MATERNO, NO_TRABAJADOR, TI_DOC, NU_DOC, ES_CIVIL, FE_NAC, ID_NACIONALIDAD, ID_DEPARTAMENTO, ID_PROVINCIA, ID_DISTRITO, TE_TRABAJADOR, CL_TRA, DI_CORREO_PERSONAL, DI_CORREO_INST, CO_SISTEMA_PENSIONARIO, LI_NIVEL_EDUCATIVO, REGIMEN, ES_INST_PERU, CARRERA, DE_ANNO_EGRESO, CM_OTROS_ESTUDIOS, ES_SEXO, LI_GRUPO_SANGUINEO, DE_REFERENCIA, LI_RELIGION, NO_IGLESIA, DE_CARGO, LI_AUTORIDAD, NO_AP_AUTORIDAD, CL_AUTORIDAD, ID_NO_AFP, ES_AFILIADO_ESSALUD, LI_TIPO_TRABAJADOR, CA_TIPO_HORA_PAGO_REFEERENCIAL, ES_FACTOR_RH, LI_DI_DOM_A_D1, DI_DOM_A_D2, LI_DI_DOM_A_D3, DI_DOM_A_D4, LI_DI_DOM_A_D5, DI_DOM_A_D6, DI_DOM_A_REF, ID_DI_DOM_A_DISTRITO, LI_DI_DOM_LEG_D1, DI_DOM_LEG_D2, LI_DI_DOM_LEG_D3, DI_DOM_LEG_D4, LI_DI_DOM_LEG_D5, DI_DOM_LEG_D6, ID_DI_DOM_LEG_DISTRITO, CA_ING_QTA_CAT_EMPRESA, CA_ING_QTA_CAT_RUC, CA_ING_QTA_CAT_OTRAS_EMPRESAS, CM_OBSERVACIONES, US_CREACION, FE_CREACION, US_MODIF, FE_MODIF, IP_USUARIO, AP_NOMBRES_PADRE, AP_NOMBRES_MADRE,
+                        trabajadorDAO.INSERT_TRABAJADOR(null, AP_PATERNO, AP_MATERNO, NO_TRABAJADOR, TI_DOC, NU_DOC, ES_CIVIL, FE_NAC, ID_NACIONALIDAD, ID_DEPARTAMENTO, ID_PROVINCIA, ID_DISTRITO, TE_TRABAJADOR, CL_TRA, DI_CORREO_PERSONAL, DI_CORREO_INST, CO_SISTEMA_PENSIONARIO, LI_NIVEL_EDUCATIVO, REGIMEN, ES_INST_PERU, CARRERA, DE_ANNO_EGRESO, CM_OTROS_ESTUDIOS, ES_SEXO, LI_GRUPO_SANGUINEO, DE_REFERENCIA, LI_RELIGION, NO_IGLESIA, DE_CARGO, LI_AUTORIDAD, NO_AP_AUTORIDAD, CL_AUTORIDAD, ID_NO_AFP, ES_AFILIADO_ESSALUD, LI_TIPO_TRABAJADOR, CA_TIPO_HORA_PAGO_REFEERENCIAL, ES_FACTOR_RH, LI_DI_DOM_A_D1, DI_DOM_A_D2, LI_DI_DOM_A_D3, DI_DOM_A_D4, LI_DI_DOM_A_D5, DI_DOM_A_D6, DI_DOM_A_REF, ID_DI_DOM_A_DISTRITO, LI_DI_DOM_LEG_D1, DI_DOM_LEG_D2, LI_DI_DOM_LEG_D3, DI_DOM_LEG_D4, LI_DI_DOM_LEG_D5, DI_DOM_LEG_D6, ID_DI_DOM_LEG_DISTRITO, CA_ING_QTA_CAT_EMPRESA, CA_ING_QTA_CAT_RUC, CA_ING_QTA_CAT_OTRAS_EMPRESAS, CM_OBSERVACIONES, US_CREACION, FE_CREACION, US_MODIF, FE_MODIF, IP_USUARIO, AP_NOMBRES_PADRE, AP_NOMBRES_MADRE,
                                 ((ES_TRABAJA_UPEU_C!=null)? ES_TRABAJA_UPEU_C : "0"), AP_NOMBRES_C, FE_NAC_C, ID_TIPO_DOC_C, NU_DOC_C, LI_INSCRIPCION_VIG_ESSALUD_C,
                                 ID_CONYUGUE, CO_UNIVERSITARIO, ES_DIEZMO);
-                        String idtr = tr.MAX_ID_DATOS_TRABAJADOR();
-                        tr.INSERT_CUENTA_SUELDO(null, NO_BANCO, NU_CUENTA, NU_CUENTA_BANC, ES_GEM_NU_CUENTA, NO_BANCO_OTROS, idtr, ES_CUENTA_SUELDO);
-                        tr.INSERT_HIST_RELIGION(null, LI_RELIGION, NO_IGLESIA, DE_CARGO, LI_AUTORIDAD, NO_AP_AUTORIDAD, CL_AUTORIDAD, "1", idtr, iduser, FE_MODIF);
+                        String idtr = trabajadorDAO.MAX_ID_DATOS_TRABAJADOR();
+                        trabajadorDAO.INSERT_CUENTA_SUELDO(null, NO_BANCO, NU_CUENTA, NU_CUENTA_BANC, ES_GEM_NU_CUENTA, NO_BANCO_OTROS, idtr, ES_CUENTA_SUELDO);
+                        trabajadorDAO.INSERT_HIST_RELIGION(null, LI_RELIGION, NO_IGLESIA, DE_CARGO, LI_AUTORIDAD, NO_AP_AUTORIDAD, CL_AUTORIDAD, "1", idtr, iduser, FE_MODIF);
                         US_MODIF = iduser;
-                        IP_USUARIO = tr.ip();
-                        tr.UPDATE_ID_CONYUGUE(idtr, ID_CONYUGUE, US_MODIF, IP_USUARIO);
+                        IP_USUARIO = trabajadorDAO.ip();
+                        trabajadorDAO.UPDATE_ID_CONYUGUE(idtr, ID_CONYUGUE, US_MODIF, IP_USUARIO);
                         for (int i = 1; i <= num_hijo; i++) {
                             String AP_PATERNO_H = request.getParameter("APELLIDO_P_H" + i);
                             String AP_MATERNO_H = request.getParameter("APELLIDO_M_H" + i);
@@ -745,17 +745,17 @@ public class PersonController {
                             if (NU_DOC_H != null) {
                                 if (!NU_DOC_H.equals("")) {
                                     FE_NACIMIENTO = DateFormat.toFormat3(FE_NACIMIENTO);
-                                    h.INSERT_DATOS_HIJO_TRABAJADOR(null, idtr, AP_PATERNO_H, AP_MATERNO_H, NO_HIJO_TRABAJADOR, FE_NACIMIENTO, ES_SEXO_H, ES_TIPO_DOC, NU_DOC_H, ES_PRESENTA_DOCUMENTO, ES_INSCRIPCION_VIG_ESSALUD, ES_ESTUDIO_NIV_SUPERIOR, US_CREACION, FE_CREACION, US_MODIF, FE_MODIF, IP_USUARIO, ES_DATOS_HIJO_TRABAJADOR);
+                                    datosHijoTrabajadorDAO.INSERT_DATOS_HIJO_TRABAJADOR(null, idtr, AP_PATERNO_H, AP_MATERNO_H, NO_HIJO_TRABAJADOR, FE_NACIMIENTO, ES_SEXO_H, ES_TIPO_DOC, NU_DOC_H, ES_PRESENTA_DOCUMENTO, ES_INSCRIPCION_VIG_ESSALUD, ES_ESTUDIO_NIV_SUPERIOR, US_CREACION, FE_CREACION, US_MODIF, FE_MODIF, IP_USUARIO, ES_DATOS_HIJO_TRABAJADOR);
                                 }
                             }
                         }
-                        session.setAttribute("List_Hijos", d.List_Hijos(idtr));
-                        session.setAttribute("Documentos", d.Documentos());
-                        session.setAttribute("Lis_doc_trabajador", d.Lis_doc_trabajador(idtr));
-                        session.setAttribute("List_Conyugue", d.List_Conyugue(idtr));
-                        int s = d.List_Req_nacionalidad(idtr);
-                        int num_ad = d.List_Adventista(idtr);
-                        int count = d.count_documentos_x_tra(idtr);
+                        session.setAttribute("List_Hijos", documentoDAO.List_Hijos(idtr));
+                        session.setAttribute("Documentos", documentoDAO.Documentos());
+                        session.setAttribute("Lis_doc_trabajador", documentoDAO.Lis_doc_trabajador(idtr));
+                        session.setAttribute("List_Conyugue", documentoDAO.List_Conyugue(idtr));
+                        int s = documentoDAO.List_Req_nacionalidad(idtr);
+                        int num_ad = documentoDAO.List_Adventista(idtr);
+                        int count = documentoDAO.count_documentos_x_tra(idtr);
                         if (count > 0) {
                            response.sendRedirect("Reg_Documento?pro=regTR&idtr=" + idtr);
                         } else {
@@ -766,7 +766,7 @@ public class PersonController {
 
                 if ("Documento_Trabajador".equals(opc)) {
                     String idtr = request.getParameter("idtr");
-                    session.setAttribute("Lis_doc_trabajador_hab", d.Lis_doc_trabajador_hab(idtr));
+                    session.setAttribute("Lis_doc_trabajador_hab", documentoDAO.Lis_doc_trabajador_hab(idtr));
                     response.sendRedirect("views/Trabajador/List_Doc_Trabajador.html?idtr=" + idtr);
                 }
                 if ("aut".equals(opc)) {
@@ -779,13 +779,13 @@ public class PersonController {
                     String idpasos = request.getParameter("idpasos");
                     String drp = request.getParameter("IDDETALLE_REQ_PROCESO");
                     String np = request.getParameter("nup");
-                    int num_c_dgp = dgp.VALIDAR_DGP_CONTRATO(iddgp);
-                    val_aps = em.val_cod_aps_empleado(idtr);
-                    val_huella = em.val_cod_huella(idtr);
-                    session.setAttribute("id_empleadox_ide", em.id_empleadox_ide(idtr));
-                    session.setAttribute("ListaridTrabajador", tr.ListaridTrabajador(idtr));
-                    session.setAttribute("List_Auto_mostrar", li.List_Auto_mostrar(idrol));
-                    session.setAttribute("List_", li.List_Auto_mostrar(idrol));
+                    int num_c_dgp = dgpDAO.VALIDAR_DGP_CONTRATO(iddgp);
+                    val_aps = empleadoDAO.val_cod_aps_empleado(idtr);
+                    val_huella = empleadoDAO.val_cod_huella(idtr);
+                    session.setAttribute("id_empleadox_ide", empleadoDAO.id_empleadox_ide(idtr));
+                    session.setAttribute("ListaridTrabajador", trabajadorDAO.ListaridTrabajador(idtr));
+                    session.setAttribute("List_Auto_mostrar", listaDAO.List_Auto_mostrar(idrol));
+                    session.setAttribute("List_", listaDAO.List_Auto_mostrar(idrol));
 
                     response.sendRedirect("views/Trabajador/Detalle_Trabajador.html?idtr=" + idtr.trim() + "&aut=1&dgp=" + iddgp + "&p=" + puesto_id + "&c=" + cod + "&pas=" + idpasos + "&drp=" + drp + "&np=" + np + "&vnc=" + num_c_dgp + "&val_aps=" + val_aps + "&val_huella=" + val_huella);
                 }
@@ -793,15 +793,15 @@ public class PersonController {
                 if ("reg_aps_masivo".equals(opc)) {
                     String idtr = request.getParameter("idtr");
                     int co_aps = Integer.parseInt(request.getParameter("cod"));
-                    em.Reg_aps(idtr, co_aps);
-                    session.setAttribute("id_empleadox_ide", em.id_empleadox_ide(idtr));
+                    empleadoDAO.Reg_aps(idtr, co_aps);
+                    session.setAttribute("id_empleadox_ide", empleadoDAO.id_empleadox_ide(idtr));
                     rpta.put("rpta", true);
                     // response.sendRedirect("views/Trabajador/Detalle_Trabajador.html?idtr=" + idtr + "");
                 }
                 if ("registrar_huella".equals(opc)) {
                     String idtr = request.getParameter("idtr");
                     int co_huella = Integer.parseInt(request.getParameter("cod"));
-                    em.Reg_cod_huella(idtr, co_huella);
+                    empleadoDAO.Reg_cod_huella(idtr, co_huella);
                     rpta.put("rpta", true);
                 }
 
@@ -811,7 +811,7 @@ public class PersonController {
                 if (opc.equals("Val_num_Doc")) {
                     String nu_doc = request.getParameter("doc");
                     rpta.put("rpta", "1");
-                    rpta.put("nu_doc", tr.val_nu_doc(nu_doc));
+                    rpta.put("nu_doc", trabajadorDAO.val_nu_doc(nu_doc));
                 }
 
                 if (opc.equals("reg_trb")) {
@@ -819,7 +819,7 @@ public class PersonController {
                 }
                 if (opc.equals("validar_cod_uni")) {
                     String cod_uni = request.getParameter("cod_uni");
-                    int n = tr.cod_uni_unico(cod_uni);
+                    int n = trabajadorDAO.cod_uni_unico(cod_uni);
                     rpta.put("rpta", "1");
                     rpta.put("cod", n);
                 }
