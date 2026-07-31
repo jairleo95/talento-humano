@@ -12,8 +12,8 @@ export class AddUserComponent implements OnInit {
   user: User = {
     id: '',
     username: '',
-    password:'',
-    active: false
+    email: '',
+    enabled: false
   };
   submitted = false;
 
@@ -25,7 +25,7 @@ export class AddUserComponent implements OnInit {
   saveUser(): void {
     const data = {
       username: this.user.username,
-      password: this.user.password
+      email: this.user.email
     };
 
     this.userService.create(data)
@@ -42,8 +42,8 @@ export class AddUserComponent implements OnInit {
     this.submitted = false;
     this.user = {
       username: '',
-      password: '',
-      active: false
+      email: '',
+      enabled: false
     };
   }
 
