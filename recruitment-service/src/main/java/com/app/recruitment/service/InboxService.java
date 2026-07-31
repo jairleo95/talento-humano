@@ -34,7 +34,8 @@ public class InboxService {
 
     public Mono<InboxItemResponse> assign(InboxItemRequest request) {
         TransactionalOperator tx = TransactionalOperator.create(transactionManager);
-        InboxItem entity = mapper.toEntity(request, UUID.randomUUID());
+        InboxItem entity = mapper.toEntity(request);
+        entity.setId(UUID.randomUUID());
 
         Mono<Void> ensureRefs = requisitionRepository.findById(request.requisitionId())
                 .switchIfEmpty(Mono.error(new IllegalArgumentException("Requisition not found: " + request.requisitionId())))

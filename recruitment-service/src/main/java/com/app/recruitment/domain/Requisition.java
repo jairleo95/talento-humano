@@ -105,4 +105,34 @@ public class Requisition {
 
     @Column("created_by")
     private String createdBy;
+
+    @Column("worker_id")
+    private String workerId;
+
+    @Column("motive")
+    private String motive;
+
+    @Column("is_mfl")
+    private Boolean isMfl;
+
+    @Column("is_budgeted")
+    private Boolean isBudgeted;
+
+    @Column("ruc")
+    private String ruc;
+
+    @Column("position_bonus")
+    private Double positionBonus;
+
+    @Column("bev_bonus")
+    private Double bevBonus;
+
+    @Column("family_allowance")
+    private Double familyAllowance;
+
+    @Column("subsidy")
+    private String subsidy;
+
+    @Column("honorarium_amount")
+    private Double honorariumAmount;
 }

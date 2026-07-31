@@ -25,7 +25,8 @@ public class TemplateService {
     }
 
     public Mono<TemplateResponse> create(TemplateRequest request) {
-        ContractTemplate entity = mapper.toEntity(request, UUID.randomUUID());
+        ContractTemplate entity = mapper.toEntity(request);
+        entity.setId(UUID.randomUUID());
         return repository.save(entity).map(mapper::toResponse);
     }
 }

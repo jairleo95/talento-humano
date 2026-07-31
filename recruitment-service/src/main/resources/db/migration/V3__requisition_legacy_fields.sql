@@ -1,0 +1,10 @@
+ALTER TABLE requisition ADD COLUMN worker_id VARCHAR(64);
+ALTER TABLE requisition ADD COLUMN motive VARCHAR(32);
+ALTER TABLE requisition ADD COLUMN is_mfl BOOLEAN;
+ALTER TABLE requisition ADD COLUMN is_budgeted BOOLEAN;
+ALTER TABLE requisition ADD COLUMN ruc VARCHAR(20);
+ALTER TABLE requisition ADD COLUMN position_bonus NUMERIC(14,2);
+ALTER TABLE requisition ADD COLUMN bev_bonus NUMERIC(14,2);
+ALTER TABLE requisition ADD COLUMN family_allowance NUMERIC(14,2);
+ALTER TABLE requisition ADD COLUMN subsidy TEXT;
+ALTER TABLE requisition ADD COLUMN honorarium_amount NUMERIC(14,2);

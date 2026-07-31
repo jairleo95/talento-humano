@@ -6,8 +6,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class GthGtwApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(GthGtwApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(GthGtwApplication.class, args);
+    }
 
 }

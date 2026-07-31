@@ -35,7 +35,8 @@ public class RequisitionService {
     }
 
     public Mono<RequisitionResponse> create(RequisitionRequest request) {
-        Requisition entity = mapper.toEntity(request, UUID.randomUUID());
+        Requisition entity = mapper.toEntity(request);
+        entity.setId(UUID.randomUUID());
         return repository.save(entity).map(mapper::toResponse);
     }
 

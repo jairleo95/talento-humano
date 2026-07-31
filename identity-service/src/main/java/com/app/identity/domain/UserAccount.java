@@ -34,6 +34,9 @@ public class UserAccount {
     @Column("enabled")
     private Boolean enabled;
 
+    @Column("password_hash")
+    private String passwordHash;
+
     @Column("created_at")
     private Instant createdAt;
 }

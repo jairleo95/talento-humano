@@ -9,6 +9,7 @@ import java.util.UUID;
 public record UserRequest(
         @NotBlank String username,
         @NotBlank @Email String email,
+        String password,
         Set<UUID> roleIds
 ) {
 }

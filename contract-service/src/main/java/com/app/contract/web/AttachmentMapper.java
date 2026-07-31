@@ -3,37 +3,18 @@ package com.app.contract.web;
 import com.app.contract.domain.ContractAttachment;
 import com.app.contract.web.dto.AttachmentRequest;
 import com.app.contract.web.dto.AttachmentResponse;
-import org.springframework.stereotype.Component;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
 import java.time.Instant;
-import java.util.UUID;
 
-@Component
-public class AttachmentMapper {
+@Mapper(componentModel = "spring", imports = { Instant.class })
+public interface AttachmentMapper {
 
-    public ContractAttachment toEntity(AttachmentRequest request, UUID id) {
-        return ContractAttachment.builder()
-                .id(id)
-                .contractId(request.contractId())
-                .filename(request.filename())
-                .contentType(request.contentType())
-                .uri(request.uri())
-                .sizeBytes(request.sizeBytes())
-                .checksum(request.checksum())
-                .createdAt(Instant.now())
-                .build();
-    }
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "version", ignore = true)
+    @Mapping(target = "createdAt", expression = "java(Instant.now())")
+    ContractAttachment toEntity(AttachmentRequest request);
 
-    public AttachmentResponse toResponse(ContractAttachment entity) {
-        return new AttachmentResponse(
-                entity.getId(),
-                entity.getContractId(),
-                entity.getFilename(),
-                entity.getContentType(),
-                entity.getUri(),
-                entity.getSizeBytes(),
-                entity.getChecksum(),
-                entity.getCreatedAt()
-        );
-    }
+    AttachmentResponse toResponse(ContractAttachment entity);
 }

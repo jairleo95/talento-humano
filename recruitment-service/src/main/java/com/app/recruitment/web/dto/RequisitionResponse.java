@@ -31,6 +31,16 @@ public record RequisitionResponse(
         String status,
         Instant createdAt,
         Instant updatedAt,
-        String createdBy
+        String createdBy,
+        String workerId,
+        String motive,
+        Boolean isMfl,
+        Boolean isBudgeted,
+        String ruc,
+        Double positionBonus,
+        Double bevBonus,
+        Double familyAllowance,
+        String subsidy,
+        Double honorariumAmount
 ) {
 }

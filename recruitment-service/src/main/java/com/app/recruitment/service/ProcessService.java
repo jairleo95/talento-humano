@@ -34,7 +34,8 @@ public class ProcessService {
     }
 
     public Mono<ProcessResponse> create(ProcessRequest request) {
-        Process process = mapper.toEntity(request, UUID.randomUUID());
+        Process process = mapper.toEntity(request);
+        process.setId(UUID.randomUUID());
         return processRepository.save(process).map(mapper::toResponse);
     }
 
@@ -43,7 +44,7 @@ public class ProcessService {
         return processRepository.findById(processId)
                 .switchIfEmpty(Mono.error(new IllegalArgumentException("Process not found: " + processId)))
                 .flatMap(p -> {
-                    ProcessStep step = mapper.toStep(request, processId, UUID.randomUUID());
+                    ProcessStep step = mapper.toStep(request, processId);
                     return stepRepository.save(step);
                 })
                 .map(mapper::toStepResponse)

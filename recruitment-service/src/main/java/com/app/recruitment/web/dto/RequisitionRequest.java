@@ -29,6 +29,16 @@ public record RequisitionRequest(
         String policeRecordDesc,
         String healthCertificateDesc,
         String bankName,
-        String bankAccount
+        String bankAccount,
+        String workerId,
+        String motive,
+        Boolean isMfl,
+        Boolean isBudgeted,
+        String ruc,
+        Double positionBonus,
+        Double bevBonus,
+        Double familyAllowance,
+        String subsidy,
+        Double honorariumAmount
 ) {
 }

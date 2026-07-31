@@ -31,7 +31,8 @@ public class AttachmentService {
 
     public Mono<AttachmentResponse> create(AttachmentRequest request) {
         TransactionalOperator tx = TransactionalOperator.create(transactionManager);
-        ContractAttachment entity = mapper.toEntity(request, UUID.randomUUID());
+        ContractAttachment entity = mapper.toEntity(request);
+        entity.setId(UUID.randomUUID());
 
         return contractRepository.findById(request.contractId())
                 .switchIfEmpty(Mono.error(new IllegalArgumentException("Contract not found: " + request.contractId())))

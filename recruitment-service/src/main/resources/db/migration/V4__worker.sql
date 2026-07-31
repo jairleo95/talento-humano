@@ -1,0 +1,23 @@
+CREATE TABLE IF NOT EXISTS worker (
+    id UUID PRIMARY KEY,
+    version BIGINT NOT NULL DEFAULT 0,
+    first_name VARCHAR(120) NOT NULL,
+    last_name_paternal VARCHAR(120) NOT NULL,
+    last_name_maternal VARCHAR(120),
+    document_type VARCHAR(8),
+    document_number VARCHAR(20) UNIQUE,
+    birth_date DATE,
+    gender VARCHAR(1),
+    civil_status VARCHAR(32),
+    phone VARCHAR(32),
+    email VARCHAR(120),
+    address VARCHAR(255),
+    district_id VARCHAR(32),
+    education_level VARCHAR(64),
+    degree VARCHAR(128),
+    professional_title VARCHAR(128),
+    pension_system VARCHAR(64),
+    legacy_id VARCHAR(32),
+    created_at TIMESTAMP WITH TIME ZONE NOT NULL,
+    updated_at TIMESTAMP WITH TIME ZONE NOT NULL
+);

@@ -27,6 +27,11 @@ management:
     sampling:
       probability: 1.0
 
+app:
+  jwt:
+    secret: ${JWT_SECRET:d94a1f5c8e7b03a2f91c6d4e82b5073a9f0e1d2c3b4a59687a8b9c0d1e2f3a4b5c}
+    expiration: ${JWT_EXPIRATION:1h}
+
 logging:
   level:
     root: INFO

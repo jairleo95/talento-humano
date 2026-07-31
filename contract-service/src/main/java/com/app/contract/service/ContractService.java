@@ -29,7 +29,8 @@ public class ContractService {
     }
 
     public Mono<ContractResponse> create(ContractRequest request) {
-        Contract entity = mapper.toEntity(request, UUID.randomUUID());
+        Contract entity = mapper.toEntity(request);
+        entity.setId(UUID.randomUUID());
         return repository.save(entity).map(mapper::toResponse);
     }
 
