@@ -1,0 +1,32 @@
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+
+CREATE TABLE IF NOT EXISTS requisition (
+    id UUID PRIMARY KEY,
+    title VARCHAR(140) NOT NULL,
+    description TEXT NOT NULL,
+    request_number VARCHAR(64) NOT NULL,
+    payroll_type_id VARCHAR(64),
+    position_id VARCHAR(64),
+    cost_center_id UUID,
+    start_date TIMESTAMP WITH TIME ZONE,
+    end_date TIMESTAMP WITH TIME ZONE,
+    salary_amount NUMERIC(14,2),
+    food_bonus NUMERIC(14,2),
+    work_days TEXT,
+    service_location TEXT,
+    service_description TEXT,
+    payment_period VARCHAR(64),
+    fiscal_address TEXT,
+    allowance_description TEXT,
+    training_schedule TEXT,
+    break_schedule TEXT,
+    training_days TEXT,
+    police_record_desc TEXT,
+    health_certificate_desc TEXT,
+    bank_name VARCHAR(120),
+    bank_account VARCHAR(120),
+    status VARCHAR(32) NOT NULL,
+    created_at TIMESTAMP WITH TIME ZONE NOT NULL,
+    updated_at TIMESTAMP WITH TIME ZONE NOT NULL,
+    created_by VARCHAR(120) NOT NULL
+);

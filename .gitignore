@@ -1,0 +1,27 @@
+# Java / Gradle
+.gradle/
+build/
+bin/
+out/
+*.class
+*.jar
+!gradle/wrapper/gradle-wrapper.jar
+
+# IDE
+.idea/
+*.iml
+.vscode/
+.settings/
+.project
+.classpath
+
+# Node
+node_modules/
+dist/
+npm-debug.log*
+
+# OS
+.DS_Store
+
+# Logs
+*.log

@@ -1,0 +1,36 @@
+spring:
+  application:
+    name: contract-service
+  threads:
+    virtual:
+      enabled: true
+  r2dbc:
+    url: r2dbc:postgresql://localhost:5432/contract_db
+    username: contract_user
+    password: changeme
+  flyway:
+    enabled: true
+    url: jdbc:postgresql://localhost:5432/contract_db
+    user: contract_user
+    password: changeme
+    schemas: public
+  jackson:
+    serialization:
+      write-dates-as-timestamps: false
+
+server:
+  port: 8083
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,prometheus
+  tracing:
+    sampling:
+      probability: 1.0
+
+logging:
+  level:
+    root: INFO
+    org.springframework.r2dbc.core: DEBUG

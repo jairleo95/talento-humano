@@ -1,0 +1,18 @@
+ALTER TABLE requisition
+    ADD COLUMN IF NOT EXISTS start_date TIMESTAMP WITH TIME ZONE,
+    ADD COLUMN IF NOT EXISTS end_date TIMESTAMP WITH TIME ZONE,
+    ADD COLUMN IF NOT EXISTS salary_amount NUMERIC(14,2),
+    ADD COLUMN IF NOT EXISTS food_bonus NUMERIC(14,2),
+    ADD COLUMN IF NOT EXISTS work_days TEXT,
+    ADD COLUMN IF NOT EXISTS service_location TEXT,
+    ADD COLUMN IF NOT EXISTS service_description TEXT,
+    ADD COLUMN IF NOT EXISTS payment_period VARCHAR(64),
+    ADD COLUMN IF NOT EXISTS fiscal_address TEXT,
+    ADD COLUMN IF NOT EXISTS allowance_description TEXT,
+    ADD COLUMN IF NOT EXISTS training_schedule TEXT,
+    ADD COLUMN IF NOT EXISTS break_schedule TEXT,
+    ADD COLUMN IF NOT EXISTS training_days TEXT,
+    ADD COLUMN IF NOT EXISTS police_record_desc TEXT,
+    ADD COLUMN IF NOT EXISTS health_certificate_desc TEXT,
+    ADD COLUMN IF NOT EXISTS bank_name VARCHAR(120),
+    ADD COLUMN IF NOT EXISTS bank_account VARCHAR(120);
