@@ -1,5 +1,6 @@
 CREATE TABLE IF NOT EXISTS requisition (
     id UUID PRIMARY KEY,
+    version BIGINT NOT NULL DEFAULT 0,
     title VARCHAR(140) NOT NULL,
     description TEXT NOT NULL,
     request_number VARCHAR(64) NOT NULL,

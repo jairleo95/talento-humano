@@ -12,6 +12,7 @@ CREATE TABLE IF NOT EXISTS contract_template (
 
 CREATE TABLE IF NOT EXISTS contract (
     id UUID PRIMARY KEY,
+    version BIGINT NOT NULL DEFAULT 0,
     requisition_id UUID NOT NULL,
     template_id UUID NOT NULL REFERENCES contract_template (id),
     contract_number VARCHAR(64),
@@ -40,6 +41,7 @@ CREATE TABLE IF NOT EXISTS contract (
 
 CREATE TABLE IF NOT EXISTS contract_attachment (
     id UUID PRIMARY KEY,
+    version BIGINT NOT NULL DEFAULT 0,
     contract_id UUID NOT NULL REFERENCES contract (id) ON DELETE CASCADE,
     filename VARCHAR(255) NOT NULL,
     content_type VARCHAR(120) NOT NULL,

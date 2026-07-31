@@ -21,6 +21,7 @@ public class TemplateMapper {
                 .status(request.status() == null ? "ACTIVE" : request.status())
                 .createdAt(Instant.now())
                 .createdBy(request.createdBy())
+                .isNew(true)
                 .build();
     }
 
