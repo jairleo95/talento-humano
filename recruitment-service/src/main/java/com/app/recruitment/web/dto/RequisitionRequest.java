@@ -3,6 +3,8 @@ package com.app.recruitment.web.dto;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
+import java.time.Instant;
+
 public record RequisitionRequest(
         @NotBlank @Size(max = 140) String title,
         @NotBlank String description,

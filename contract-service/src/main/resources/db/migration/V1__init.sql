@@ -1,5 +1,3 @@
-CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
-
 CREATE TABLE IF NOT EXISTS contract_template (
     id UUID PRIMARY KEY,
     name VARCHAR(140) NOT NULL,

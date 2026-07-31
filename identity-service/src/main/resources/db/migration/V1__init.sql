@@ -1,5 +1,3 @@
-CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
-
 CREATE TABLE IF NOT EXISTS role (
     id UUID PRIMARY KEY,
     name VARCHAR(64) UNIQUE NOT NULL,
@@ -13,7 +11,7 @@ CREATE TABLE IF NOT EXISTS privilege (
 );
 
 CREATE TABLE IF NOT EXISTS role_privilege (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     role_id UUID NOT NULL REFERENCES role (id) ON DELETE CASCADE,
     privilege_id UUID NOT NULL REFERENCES privilege (id) ON DELETE CASCADE,
     UNIQUE(role_id, privilege_id)
