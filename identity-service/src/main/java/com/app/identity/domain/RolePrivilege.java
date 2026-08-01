@@ -5,7 +5,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.annotation.Version;
 import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 
@@ -15,30 +14,21 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table("privilege")
-public class Privilege {
+@Table("role_privilege")
+public class RolePrivilege {
 
     @Id
     private UUID id;
 
-    @Version
-    private Long version;
+    @Column("role_id")
+    private UUID roleId;
 
-    @Column("code")
-    private String code;
-
-    @Column("description")
-    private String description;
-
-    @Column("link_url")
-    private String linkUrl;
-
-    @Column("icon")
-    private String icon;
-
-    @Column("module_name")
-    private String moduleName;
+    @Column("privilege_id")
+    private UUID privilegeId;
 
     @Column("sort_order")
     private Integer sortOrder;
+
+    @Column("is_active")
+    private Boolean isActive;
 }

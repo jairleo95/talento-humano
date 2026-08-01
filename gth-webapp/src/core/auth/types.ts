@@ -5,6 +5,16 @@ export interface MeResponse {
   enabled: boolean;
   createdAt: string;
   roles: string[];
+  privileges: PrivilegeInfo[];
+}
+
+export interface PrivilegeInfo {
+  code: string;
+  description: string;
+  linkUrl: string;
+  icon: string;
+  moduleName: string;
+  sortOrder: number;
 }
 
 export interface LoginRequest {

@@ -15,6 +15,7 @@ import { CostCenterPage } from '../features/budget/CostCenterPage';
 import { AcademicPage } from '../features/academic/AcademicPage';
 import { ReportsPage } from '../features/reports/ReportsPage';
 import { FunctionsPage } from '../features/functions/FunctionsPage';
+import { PrivilegeManagementPage } from '../features/privileges/PrivilegeManagementPage';
 import { AppShell } from '../core/layout/AppShell';
 import { RequireAuth } from './RequireAuth';
 
@@ -40,6 +41,7 @@ export function AppRouter() {
           <Route path="/academic" element={<AcademicPage />} />
           <Route path="/reports" element={<ReportsPage />} />
           <Route path="/functions" element={<FunctionsPage />} />
+          <Route path="/privileges" element={<PrivilegeManagementPage />} />
         </Route>
       </Route>
       <Route path="*" element={<Navigate to="/" replace />} />

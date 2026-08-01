@@ -1,8 +1,13 @@
 package com.app.identity.service;
 
 import com.app.identity.config.JwtService;
+import com.app.identity.domain.Privilege;
+import com.app.identity.domain.Role;
+import com.app.identity.domain.RolePrivilege;
 import com.app.identity.domain.UserAccount;
 import com.app.identity.domain.UserRole;
+import com.app.identity.persistence.PrivilegeRepository;
+import com.app.identity.persistence.RolePrivilegeRepository;
 import com.app.identity.persistence.RoleRepository;
 import com.app.identity.persistence.UserRepository;
 import com.app.identity.persistence.UserRoleRepository;
@@ -14,8 +19,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.util.Comparator;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -30,6 +38,8 @@ public class AuthService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final UserRoleRepository userRoleRepository;
+    private final RolePrivilegeRepository rolePrivilegeRepository;
+    private final PrivilegeRepository privilegeRepository;
     private final JwtService jwtService;
     private final PasswordEncoder passwordEncoder;
 
@@ -66,17 +76,37 @@ public class AuthService {
         return userRoleRepository.findByUserId(user.getId())
                 .map(UserRole::getRoleId)
                 .collectList()
-                .flatMapMany(roleRepository::findAllById)
+                .flatMap(roleIds -> {
+                    if (roleIds.isEmpty()) {
+                        return Mono.just(new MeResponse(
+                                user.getId(), user.getUsername(), user.getEmail(),
+                                user.getEnabled(), user.getCreatedAt(),
+                                Set.of(), List.of()
+                        ));
+                    }
+                    return roleRepository.findAllById(roleIds).collectList()
+                            .flatMap(roles -> fetchPrivileges(roleIds)
+                                    .map(privileges -> new MeResponse(
+                                            user.getId(), user.getUsername(), user.getEmail(),
+                                            user.getEnabled(), user.getCreatedAt(),
+                                            roles.stream().map(Role::getName).collect(Collectors.toUnmodifiableSet()),
+                                            privileges
+                                    )));
+                });
+    }
+
+    private Mono<List<MeResponse.PrivilegeInfo>> fetchPrivileges(List<UUID> roleIds) {
+        return Flux.fromIterable(roleIds)
+                .flatMap(rolePrivilegeRepository::findByRoleIdAndIsActiveTrue)
+                .map(RolePrivilege::getPrivilegeId)
+                .distinct()
                 .collectList()
-                .map(roles -> new MeResponse(
-                        user.getId(),
-                        user.getUsername(),
-                        user.getEmail(),
-                        user.getEnabled(),
-                        user.getCreatedAt(),
-                        roles.stream()
-                                .map(r -> r.getName())
-                                .collect(Collectors.toUnmodifiableSet())
-                ));
+                .flatMapMany(privilegeRepository::findAllById)
+                .sort(Comparator.comparing(Privilege::getSortOrder, Comparator.nullsLast(Comparator.naturalOrder())))
+                .map(p -> new MeResponse.PrivilegeInfo(
+                        p.getCode(), p.getDescription(),
+                        p.getLinkUrl(), p.getIcon(), p.getModuleName(), p.getSortOrder()
+                ))
+                .collectList();
     }
 }

@@ -432,3 +432,58 @@ Contenedores para el frontend (nginx:alpine + build) y servicios backend (openjd
 - Documentación del legacy: [docs/gth-legacy/](gth-legacy/README.md)
 - Repo legacy: [jairleo95/TALENTO_HUMANO](https://github.com/jairleo95/TALENTO_HUMANO)
 - Config nginx: `deploy/nginx.conf`
+
+## 14. Análisis de brechas
+
+### 14.1 Requerimientos (DGP) — 85%
+| Sub-módulo | Estado |
+|---|---|
+| CRUD DGP (33 campos) | ✅ |
+| Comentarios | ✅ V9 |
+| Documentos | ✅ V9 |
+| Plazos | ⬜ V_Dgp_Plazo |
+| Horario semanal | ⬜ |
+
+### 14.2 Contrato — 90%
+| Sub-módulo | Estado |
+|---|---|
+| CRUD Contrato (56 campos) | ✅ |
+| Firmar / Plantillas / Adjuntos | ✅ |
+| Tipo_Contrato catálogo | ⬜ |
+| Plantilla_Puesto / Casos Especiales | ⬜ |
+
+### 14.3 Trabajador — 70%
+| Sub-módulo | Estado |
+|---|---|
+| CRUD (43 campos) | ✅ |
+| Familiar / Hijos (9 JSPs) | ⬜ |
+| Documentos trabajador | ⬜ |
+| Fotos / Historial | ⬜ |
+
+### 14.4 Organigrama — 95%
+| Sub-módulo | Estado |
+|---|---|
+| Dirección→Puesto | ✅ |
+| Funciones por puesto | ⬜ |
+| Grupo_Ocupaciones / Ubigeo | ⬜ |
+
+### 14.5 Presupuesto — 40%
+| Sub-módulo | Estado |
+|---|---|
+| Centros de Costo | ✅ |
+| Gestión presupuestaria | ⬜ |
+| Pedido / SFP / Solicitud DGP | ⬜ |
+
+### 14.6 Usuario/Seguridad — 70%
+| Sub-módulo | Estado |
+|---|---|
+| CRUD Usuarios / Roles | ✅ |
+| Privilegios (módulos) | ⬜ |
+| Menú dinámico por privilegios | ⬜ |
+
+### 14.7 Académico — 60%
+| Sub-módulo | Estado |
+|---|---|
+| Universidades / Carreras | ✅ |
+| Carga académica / Pago docente | ⬜ |
+| Modalidad / Período | ⬜ |
