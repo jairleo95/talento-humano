@@ -1,0 +1,75 @@
+# ---- Docker Compose para Talento Humano ----
+# Uso: docker compose up -d
+# Frontend en http://localhost:4200 (dev) o http://localhost (prod con nginx)
+
+services:
+
+  # --- PostgreSQL ---
+  postgres:
+    image: postgres:16
+    container_name: talento-postgres
+    environment:
+      POSTGRES_PASSWORD: changeme
+    ports:
+      - "5434:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      retries: 5
+
+  # --- Servicios backend (opcional — se pueden correr localmente con java -jar) ---
+  # Descomentar para usar los servicios en contenedores en vez de procesos locales
+
+  # identity-service:
+  #   build:
+  #     context: ./identity-service
+  #     dockerfile: ../deploy/Dockerfile.service
+  #   ports:
+  #     - "8081:8081"
+  #   depends_on:
+  #     postgres:
+  #       condition: service_healthy
+  #   environment:
+  #     SPRING_R2DBC_URL: r2dbc:postgresql://postgres:5432/identity_db
+  #     SPRING_FLYWAY_URL: jdbc:postgresql://postgres:5432/identity_db
+  #     JWT_SECRET: d94a1f5c8e7b03a2f91c6d4e82b5073a9f0e1d2c3b4a59687a8b9c0d1e2f3a4b5c
+  #     JWT_EXPIRATION: 1h
+
+  # recruitment-service:
+  #   build:
+  #     context: ./recruitment-service
+  #     dockerfile: ../deploy/Dockerfile.service
+  #   ports:
+  #     - "8082:8082"
+  #   depends_on:
+  #     postgres:
+  #       condition: service_healthy
+
+  # contract-service:
+  #   build:
+  #     context: ./contract-service
+  #     dockerfile: ../deploy/Dockerfile.service
+  #   ports:
+  #     - "8083:8083"
+  #   depends_on:
+  #     postgres:
+  #       condition: service_healthy
+
+  # --- Nginx (frontend producción) ---
+  # Descomentar para servir el SPA compilado + proxy al gateway
+
+  # nginx:
+  #   build:
+  #     context: ./gth-webapp
+  #     dockerfile: ../deploy/Dockerfile.nginx
+  #   ports:
+  #     - "80:80"
+  #   depends_on:
+  #     - identity-service
+  #     - recruitment-service
+  #     - contract-service
+
+volumes:
+  pgdata:
