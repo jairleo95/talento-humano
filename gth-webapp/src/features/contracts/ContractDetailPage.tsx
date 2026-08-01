@@ -92,6 +92,50 @@ export function ContractDetailPage() {
               <div className="col-4"><label className="text-xs text-color-secondary">Tipo contrato</label><p className="m-0">{contract.contractType || '—'}</p></div>
             </div>
           </div>
+
+          <div className="surface-card border-round p-3">
+            <h4 className="mt-0 mb-2">Bonificaciones</h4>
+            <div className="grid">
+              <div className="col-3"><label className="text-xs text-color-secondary">Bono Alimentación</label><p className="m-0">Gs. {(contract.foodBonus || 0).toLocaleString()}</p></div>
+              <div className="col-3"><label className="text-xs text-color-secondary">BEV</label><p className="m-0">Gs. {(contract.bevBonus || 0).toLocaleString()}</p></div>
+              <div className="col-3"><label className="text-xs text-color-secondary">Bono Puesto</label><p className="m-0">Gs. {(contract.positionBonus || 0).toLocaleString()}</p></div>
+              <div className="col-3"><label className="text-xs text-color-secondary">Total Salario</label><p className="m-0">Gs. {(contract.totalSalary || 0).toLocaleString()}</p></div>
+              <div className="col-3"><label className="text-xs text-color-secondary">Tipo Hora Pago</label><p className="m-0">{contract.paymentHourType || '—'}</p></div>
+              <div className="col-3"><label className="text-xs text-color-secondary">Moneda</label><p className="m-0">{contract.currencyType || '—'}</p></div>
+            </div>
+          </div>
+
+          <div className="surface-card border-round p-3">
+            <h4 className="mt-0 mb-2">Estructura organizacional</h4>
+            <div className="grid">
+              <div className="col-3"><label className="text-xs text-color-secondary">Dirección</label><p className="m-0">{contract.directionId || '—'}</p></div>
+              <div className="col-3"><label className="text-xs text-color-secondary">Departamento</label><p className="m-0">{contract.departmentId || '—'}</p></div>
+              <div className="col-3"><label className="text-xs text-color-secondary">Área</label><p className="m-0">{contract.areaId || '—'}</p></div>
+              <div className="col-3"><label className="text-xs text-color-secondary">Sección</label><p className="m-0">{contract.sectionId || '—'}</p></div>
+              <div className="col-3"><label className="text-xs text-color-secondary">Filial</label><p className="m-0">{contract.branchId || '—'}</p></div>
+              <div className="col-3"><label className="text-xs text-color-secondary">Sucursal</label><p className="m-0">{contract.branchCode || '—'}</p></div>
+              <div className="col-3"><label className="text-xs text-color-secondary">RUC Emp.</label><p className="m-0">{contract.companyRuc || '—'}</p></div>
+            </div>
+          </div>
+
+          <div className="surface-card border-round p-3">
+            <h4 className="mt-0 mb-2">Flags y fechas adicionales</h4>
+            <div className="grid">
+              <div className="col-2"><label className="text-xs text-color-secondary">Es Jefe</label><p className="m-0">{contract.isBoss ? 'Sí' : 'No'}</p></div>
+              <div className="col-2"><label className="text-xs text-color-secondary">Discapacidad</label><p className="m-0">{contract.isDisability ? 'Sí' : 'No'}</p></div>
+              <div className="col-2"><label className="text-xs text-color-secondary">Practicante</label><p className="m-0">{contract.isIntern ? 'Sí' : 'No'}</p></div>
+              <div className="col-2"><label className="text-xs text-color-secondary">Docs. Entregados</label><p className="m-0">{contract.documentsDelivered ? 'Sí' : 'No'}</p></div>
+              <div className="col-2"><label className="text-xs text-color-secondary">Huella</label><p className="m-0">{contract.fingerprintRegistered ? 'Sí' : 'No'}</p></div>
+              <div className="col-2"><label className="text-xs text-color-secondary">Planilla</label><p className="m-0">{contract.payrollRegistered ? 'Sí' : 'No'}</p></div>
+              <div className="col-3"><label className="text-xs text-color-secondary">Tipo Convenio</label><p className="m-0">{contract.agreementType || '—'}</p></div>
+              <div className="col-3"><label className="text-xs text-color-secondary">Rem. Variable</label><p className="m-0">{contract.variableRemuneration || '—'}</p></div>
+              <div className="col-3"><label className="text-xs text-color-secondary">Grupo Ocup.</label><p className="m-0">{contract.occupationGroupId || '—'}</p></div>
+              <div className="col-3"><label className="text-xs text-color-secondary">Sub Modalidad</label><p className="m-0">{contract.subModalityId || '—'}</p></div>
+              <div className="col-4"><label className="text-xs text-color-secondary">Fec. Suscripción</label><p className="m-0">{fmt(contract.signingDate)}</p></div>
+              <div className="col-4"><label className="text-xs text-color-secondary">Vac. Inicio</label><p className="m-0">{fmt(contract.vacationStartDate)}</p></div>
+              <div className="col-4"><label className="text-xs text-color-secondary">Vac. Fin</label><p className="m-0">{fmt(contract.vacationEndDate)}</p></div>
+            </div>
+          </div>
         </>
       )}
 

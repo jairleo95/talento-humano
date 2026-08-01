@@ -137,6 +137,86 @@ function Section({ icon, title, children }: { icon: string; title: string; child
   );
 }
 
+function DgpDetailSections({ requisitionId }: { requisitionId: string }) {
+  const [commentText, setCommentText] = useState('');
+  const [docName, setDocName] = useState('');
+  const [docDesc, setDocDesc] = useState('');
+
+  const { data: comments = [], refetch: refetchComments } = useQuery({
+    queryKey: ['dgp-comments', requisitionId],
+    queryFn: () => apiGet<{ id: string; username: string; content: string; createdAt: string }[]>(`${BASE_PATH}/${requisitionId}/comments`),
+    enabled: !!requisitionId,
+  });
+
+  const { data: documents = [], refetch: refetchDocuments } = useQuery({
+    queryKey: ['dgp-documents', requisitionId],
+    queryFn: () => apiGet<{ id: string; filename: string; contentType: string; description: string; sizeBytes: number; createdAt: string }[]>(`${BASE_PATH}/${requisitionId}/documents`),
+    enabled: !!requisitionId,
+  });
+
+  const addComment = async () => {
+    if (!commentText.trim()) return;
+    await apiPost(`${BASE_PATH}/${requisitionId}/comments`, {
+      requisitionId, username: 'admin', content: commentText,
+    });
+    setCommentText('');
+    refetchComments();
+  };
+
+  const addDocument = async () => {
+    if (!docName.trim()) return;
+    await apiPost(`${BASE_PATH}/${requisitionId}/documents`, {
+      requisitionId, filename: docName, contentType: 'application/pdf',
+      description: docDesc, uri: `/docs/${docName}`, sizeBytes: 0,
+    });
+    setDocName('');
+    setDocDesc('');
+    refetchDocuments();
+  };
+
+  return (
+    <>
+      <div className="flex flex-column gap-2">
+        <label className="text-xs font-semibold text-color-secondary">Comentarios ({comments.length})</label>
+        <div className="flex gap-2">
+          <InputText value={commentText} onChange={(e) => setCommentText(e.target.value)}
+            placeholder="Agregar comentario..." className="flex-1" />
+          <Button icon="pi pi-send" label="Enviar" size="small" onClick={addComment} />
+        </div>
+        {comments.slice(0, 5).map((c, i) => (
+          <div key={i} className="border-bottom-1 surface-border pb-2">
+            <span className="text-xs font-semibold">{c.username}</span>
+            <span className="text-xs text-color-secondary ml-2">{dayjs(c.createdAt).format('DD/MM HH:mm')}</span>
+            <p className="m-0 mt-1 text-sm">{c.content}</p>
+          </div>
+        ))}
+      </div>
+
+      <Divider />
+      <div className="flex flex-column gap-2">
+        <label className="text-xs font-semibold text-color-secondary">Documentos ({documents.length})</label>
+        <div className="flex gap-2">
+          <InputText value={docName} onChange={(e) => setDocName(e.target.value)}
+            placeholder="Nombre del archivo" className="flex-1" />
+          <InputText value={docDesc} onChange={(e) => setDocDesc(e.target.value)}
+            placeholder="Descripción (opcional)" className="flex-1" />
+          <Button icon="pi pi-plus" label="Agregar" size="small" onClick={addDocument} />
+        </div>
+        {documents.map((d, i) => (
+          <div key={i} className="flex align-items-center gap-2 border-bottom-1 surface-border pb-2">
+            <i className="pi pi-file-pdf text-color-secondary" />
+            <div className="flex-1">
+              <span className="text-sm font-medium">{d.filename}</span>
+              {d.description && <span className="text-xs text-color-secondary ml-2">— {d.description}</span>}
+            </div>
+            <span className="text-xs text-color-secondary">{dayjs(d.createdAt).format('DD/MM HH:mm')}</span>
+          </div>
+        ))}
+      </div>
+    </>
+  );
+}
+
 export function RequirementsPage() {
   const queryClient = useQueryClient();
   const [filterStatus, setFilterStatus] = useState<string | null>(null);
@@ -274,6 +354,9 @@ export function RequirementsPage() {
               <div className="col-12"><label className="text-xs text-color-secondary">Descripción del Servicio</label><p className="m-0">{detailReq.serviceDescription || '—'}</p></div>
               <div className="col-12"><label className="text-xs text-color-secondary">Descripción</label><p className="m-0">{detailReq.description || '—'}</p></div>
             </div>
+
+            <Divider />
+            <DgpDetailSections requisitionId={detailReq.id} />
           </div>
         )}
       </Dialog>
