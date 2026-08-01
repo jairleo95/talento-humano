@@ -42,4 +42,9 @@ public class ContractController {
     public Mono<ContractResponse> sign(@PathVariable UUID id) {
         return service.sign(id);
     }
+
+    @PatchMapping("/{id}")
+    public Mono<ContractResponse> update(@PathVariable UUID id, @RequestBody ContractRequest request) {
+        return service.update(id, request);
+    }
 }

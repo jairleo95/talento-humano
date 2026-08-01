@@ -47,4 +47,33 @@ public class ContractService {
                 .map(mapper::toResponse)
                 .as(tx::transactional);
     }
+
+    public Mono<ContractResponse> update(UUID id, ContractRequest request) {
+        TransactionalOperator tx = TransactionalOperator.create(transactionManager);
+        return repository.findById(id)
+                .switchIfEmpty(Mono.error(new IllegalArgumentException("Contract not found: " + id)))
+                .flatMap(c -> {
+                    c.setContractNumber(request.contractNumber());
+                    c.setWorkerId(request.workerId());
+                    c.setPositionId(request.positionId());
+                    c.setStartDate(request.startDate());
+                    c.setEndDate(request.endDate());
+                    c.setTerminationDate(request.terminationDate());
+                    c.setConditionType(request.conditionType());
+                    c.setSalaryAmount(request.salaryAmount());
+                    c.setReintegrationAmount(request.reintegrationAmount());
+                    c.setFamilyAllowance(request.familyAllowance());
+                    c.setWeeklyHours(request.weeklyHours());
+                    c.setDailyHours(request.dailyHours());
+                    c.setLaborRegime(request.laborRegime());
+                    c.setPensionRegime(request.pensionRegime());
+                    c.setContractType(request.contractType());
+                    c.setObservation(request.observation());
+                    c.setUpdatedAt(Instant.now());
+                    c.setUpdatedBy(request.createdBy());
+                    return repository.save(c);
+                })
+                .map(mapper::toResponse)
+                .as(tx::transactional);
+    }
 }
