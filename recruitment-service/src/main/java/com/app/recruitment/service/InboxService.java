@@ -60,4 +60,28 @@ public class InboxService {
                 .map(mapper::toResponse)
                 .as(tx::transactional);
     }
+
+    public Mono<InboxItemResponse> approve(UUID id, String comment) {
+        TransactionalOperator tx = TransactionalOperator.create(transactionManager);
+        return repository.findById(id)
+                .switchIfEmpty(Mono.error(new IllegalArgumentException("Inbox item not found: " + id)))
+                .flatMap(item -> {
+                    item.setStatus("COMPLETED");
+                    item.setUpdatedAt(Instant.now());
+                    return repository.save(item).map(mapper::toResponse);
+                })
+                .as(tx::transactional);
+    }
+
+    public Mono<InboxItemResponse> reject(UUID id, String comment) {
+        TransactionalOperator tx = TransactionalOperator.create(transactionManager);
+        return repository.findById(id)
+                .switchIfEmpty(Mono.error(new IllegalArgumentException("Inbox item not found: " + id)))
+                .flatMap(item -> {
+                    item.setStatus("CANCELLED");
+                    item.setUpdatedAt(Instant.now());
+                    return repository.save(item).map(mapper::toResponse);
+                })
+                .as(tx::transactional);
+    }
 }

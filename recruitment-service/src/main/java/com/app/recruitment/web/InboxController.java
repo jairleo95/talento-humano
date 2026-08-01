@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.util.Map;
 import java.util.UUID;
 
 @RestController
@@ -41,5 +42,17 @@ public class InboxController {
     @PatchMapping("/{id}/status")
     public Mono<InboxItemResponse> updateStatus(@PathVariable UUID id, @RequestParam("status") String status) {
         return service.updateStatus(id, status);
+    }
+
+    @PatchMapping("/{id}/approve")
+    public Mono<InboxItemResponse> approve(@PathVariable UUID id, @RequestBody Map<String, String> body) {
+        String comment = body.getOrDefault("comment", "");
+        return service.approve(id, comment);
+    }
+
+    @PatchMapping("/{id}/reject")
+    public Mono<InboxItemResponse> reject(@PathVariable UUID id, @RequestBody Map<String, String> body) {
+        String comment = body.getOrDefault("comment", "");
+        return service.reject(id, comment);
     }
 }
