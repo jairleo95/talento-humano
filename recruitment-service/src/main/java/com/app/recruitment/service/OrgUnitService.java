@@ -49,6 +49,7 @@ public class OrgUnitService {
                     unit.setUnitType(request.unitType());
                     unit.setParentId(request.parentId());
                     unit.setIsActive(request.isActive());
+                    unit.setOccupationGroupCode(request.occupationGroupCode());
                     unit.setUpdatedAt(Instant.now());
                     return repository.save(unit).map(mapper::toResponse);
                 });

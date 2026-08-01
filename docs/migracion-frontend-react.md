@@ -2,7 +2,7 @@
 
 Documento de planificación y ejecución de la migración del frontend legacy (JSP + jQuery/SmartAdmin) a un SPA moderno en React, consumiendo la API vía el gateway único.
 
-Estado: **en ejecución** — Fases R0-R4 completadas.
+Estado: **completado** — Fases R0-R5 finalizadas. 12 módulos en el menú.
 
 ## 1. Decisiones confirmadas
 
@@ -17,6 +17,8 @@ Estado: **en ejecución** — Fases R0-R4 completadas.
 | Estrategia | **Strangler fig**: incremental por módulo, convivencia con legacy `/gth/**` |
 | Servidor prod | **nginx** sirviendo el SPA y proxying al gateway |
 | Diseño | **Tema moderno custom** replicando paleta legacy (SmartAdmin dark header/sidebar + light content) |
+| Validaciones | **react-hook-form + zod** con reglas extraídas de `Reg_Dgp.jsp` y `editDGP.js` |
+| Commits | **Uno por fase completada** (R0, R1, R2, R3, R4, R5...), mensaje descriptivo con prefijo `feat(phase):` |
 
 ## 2. Arquitectura de integración
 
@@ -157,6 +159,64 @@ Los formularios replican el diseño de `Reg_Dgp.jsp` y `Editar_DGP.jsp` con los 
 | Trabajador | Datos personales | `pi pi-user` |
 | | Formación | `pi pi-graduation-cap` |
 
+### 3.6 Validaciones de formulario (legacy-match)
+
+Las validaciones se replican del legacy (`Reg_Dgp.jsp`, `editDGP.js`). Se implementan con **zod** + **react-hook-form**.
+
+**Reglas extraídas del legacy:**
+
+| Campo legacy | Regla | Zod equivalente |
+|---|---|---|
+| `SUELDO` | `maxlength=13`, solo numérico | `z.number().min(0).max(9999999999999)` |
+| `BONO_ALIMENTARIO` | `maxlength=13`, numérico | `z.number().min(0)` |
+| `CUENTA` / `CUENTA_BANC` | `maxlength=30` si banco=BBVA/BCP | `z.string().max(30)` |
+| `RUC` | `maxlength=20`, requerido REQ-0010 | `z.string().max(20)` |
+| `DOMICILIO_FISCAL` | requerido REQ-0010 | `z.string().min(1)` |
+| `LUGAR_SERVICIO` | `maxlength=50`, requerido REQ-0010/REQ-0011 | `z.string().max(50)` |
+| `DESCRIPCION_SERVICIO` | `maxlength=300` | `z.string().max(300)` |
+| `HORARIO_CAPACITACION` | texto libre | `z.string().max(140)` |
+| `DIAS_CAPACITACION` | texto libre | `z.string().max(140)` |
+| `MONTO` (cuota) | numérico | `z.number().min(0)` |
+| `title` (DGP) | `maxlength=140` | `z.string().max(140)` |
+| `cuenta_bancaria` | `maxlength=21` BBVA, `maxlength=14` BCP | `z.string().max(30)` |
+| `horas_totales` | `max=48`, requerido | `z.number().max(48)` |
+| Username | requerido | `z.string().min(1)` |
+| Email | formato email | `z.string().email()` |
+| Password | requerido | `z.string().min(1)` |
+| `ANTECEDENTES_POLICIALES` | select Si/No | `z.string().optional()` |
+| `CERTIFICADO_SALUD` | select Si/No | `z.string().optional()` |
+| `ES_PRESUPUESTADO` | checkbox/toggle | `z.boolean()` |
+| `MFL` | checkbox/toggle | `z.boolean()` |
+| `MOTIVO` | select | `z.string().optional()` |
+| `BANCO` | select con valores 0-3 | `z.string().optional()` |
+| Fechas | formato `99/99/9999` (data-mask) | `z.string().regex(/^\d{2}\/\d{2}\/\d{4}$/)` o `z.string().optional()` |
+
+**Patrón de validación en componentes React:**
+
+```tsx
+const schema = z.object({
+  title: z.string().min(1, 'Requerido').max(140, 'Máximo 140 caracteres'),
+  description: z.string().min(1, 'Requerido'),
+  salaryAmount: z.number().min(0, 'Debe ser >= 0').optional(),
+  bankAccount: z.string().max(30, 'Máximo 30 caracteres').optional(),
+  // ... más reglas del legacy
+});
+```
+
+**Archivo de constantes de validación (`shared/validations.ts`):**
+
+```ts
+export const VALIDATION_RULES = {
+  SALARY_MAX: 13,        // maxlength legacy para campos monetarios
+  BANK_ACCOUNT_MAX: 30,  // nro cuenta BBVA/BCP
+  RUC_MAX: 20,           // RUC
+  SERVICE_MAX: 300,      // descripción servicio
+  LOCATION_MAX: 50,      // lugar servicio  
+  TITLE_MAX: 140,        // título
+  HOURS_MAX: 48,         // horas semanales
+} as const;
+```
+
 ## 4. Autenticación (JWT)
 
 ### Backend (identity-service)
@@ -226,15 +286,19 @@ gth-webapp/
 
 ## 6. Módulos y orden de migración
 
-| Fase | Módulo | Servicio destino | Backend | Frontend | Estado |
-|---|---|---|---|---|---|
-| R0 | Andamiaje (shell, router, auth) | — | Redis eliminado del gateway, CORS `:4200` | Vite + React 18 + PrimeReact + TanStack Query + react-hook-form + zod | ✅ |
-| R1 | **Requerimientos (DGP)** | recruitment-service | `POST/GET/PATCH /requisitions`. V3: +10 campos legacy (workerId, motive, isMfl, isBudgeted, ruc, positionBonus, bevBonus, familyAllowance, subsidy, honorariumAmount) | CRUD + detalle en diálogo. Formulario con 33 campos en 5 secciones. Tabla con Nro, Título, Estado, Trabajador, Motivo, Total, Presup., MFL | ✅ |
-| R2 | **Proceso + Inbox** | recruitment-service | `POST/GET/PATCH /processes`, `GET/POST /{id}/steps`, `POST/GET/PATCH /inbox` | ProcessList, ProcessDetail (pasos), InboxPage (asignar) | ✅ |
-| R3 | **Contrato** | contract-service | `POST/GET /contracts`, `PATCH /{id}/sign`, `POST/GET /templates`, `POST/GET /attachments` | ContractList (crear/firmar), ContractDetail (adjuntos), TemplatePage (plantillas) | ✅ |
-| R4 | **Usuario/Seguridad** | identity-service | `POST/GET/PATCH/DELETE /users`, `GET /roles` (nuevo: search, toggle enabled, delete, assign roles) | UserManagementPage (CRUD + roles) | ✅ |
-| R5 | Trabajador, Puesto, Presupuesto, Académico, Reportes | Ampliación | Pendiente | Pendiente | ⬜ |
-| R9 | Corte del legacy | — | Descomisionar `gth-ms :8080` | Eliminar ruta `/gth/**` del gateway | ⬜ |
+| Fase | Módulo | Backend | Frontend | Estado |
+|---|---|---|---|---|
+| R0 | Andamiaje (shell, router, auth) | identity-service JWT | Vite + React + PrimeReact + TanStack Query | ✅ |
+| R1 | **Requerimientos (DGP)** | +10 campos legacy (V3) | 33 campos, 5 secciones con íconos | ✅ |
+| R2 | **Proceso + Inbox** | Pasos, bandeja | ProcessList, ProcessDetail, InboxPage | ✅ |
+| R3 | **Contrato** | +28 campos legacy (V2) | Crear/firmar/adjuntos/plantillas | ✅ |
+| R4 | **Usuario/Seguridad** | Search, PATCH, DELETE, /roles | UserManagementPage CRUD | ✅ |
+| R5a | **Trabajador** | 43 campos (V4+V5) | WorkerList, WorkerDetail | ✅ |
+| R5b | **Organigrama + Puesto** | Jerarquía unificada (V6+V7) | OrgStructurePage con filtro | ✅ |
+| R5c | **Presupuesto** | CostCenter (ya existía) | CostCenterPage CRUD | ✅ |
+| R5d | **Académico** | Career + University (V8) | AcademicPage (TabView) | ✅ |
+| R5e | **Reportes** | — | Placeholder con 6 categorías | ✅ |
+| R5f | **Funciones** | Pendiente | Placeholder | ⬜ backend |
 
 ## 7. Endpoints backend — estado
 

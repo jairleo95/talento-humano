@@ -38,7 +38,7 @@ export function OrgStructurePage() {
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ['org-units'] }),
   });
 
-  const DEFAULT = { name: '', shortName: '', unitType: 'DEPARTAMENTO', parentId: '' };
+  const DEFAULT = { name: '', shortName: '', unitType: 'DEPARTAMENTO', parentId: '', occupationGroupCode: '' };
   const { control, handleSubmit, reset } = useForm({ defaultValues: DEFAULT });
 
   const unitMap = Object.fromEntries(units.map((u) => [u.id, u]));
@@ -53,7 +53,6 @@ export function OrgStructurePage() {
   );
 
   const parentOptions = units
-    .filter((u) => u.unitType !== 'SECCION')
     .map((u) => ({ label: `${TYPE_LABELS[u.unitType]}: ${u.name}`, value: u.id }));
 
   return (
@@ -69,6 +68,8 @@ export function OrgStructurePage() {
         <Column body={(r: OrgUnitResponse) => TYPE_LABELS[r.unitType] || r.unitType} header="Tipo" sortable sortField="unitType" style={{ width: '130px' }} />
         <Column body={(r: OrgUnitResponse) => r.parentId ? unitMap[r.parentId]?.name || r.parentId.substring(0, 8)+'...' : '—'}
           header="Depende de" sortable sortField="parentId" />
+        <Column body={(r: OrgUnitResponse) => r.occupationGroupCode || '—'}
+          header="Grupo Ocup." style={{ width: '110px' }} />
         <Column body={(r: OrgUnitResponse) => (
           <Tag severity={r.isActive ? 'success' : 'danger'} value={r.isActive ? 'Activo' : 'Inactivo'} />
         )} header="Estado" sortable sortField="isActive" style={{ width: '100px' }} />
@@ -114,6 +115,11 @@ export function OrgStructurePage() {
                 <Dropdown value={field.value || null} options={[{ label: '— Ninguno (raíz) —', value: '' }, ...parentOptions]}
                   onChange={(e) => field.onChange(e.value || '')} className="w-full" filter />
               )} />
+          </div>
+          <div className="flex flex-column gap-1">
+            <label className="text-sm font-semibold">Grupo Ocupacional</label>
+            <Controller name="occupationGroupCode" control={control}
+              render={({ field }) => <InputText {...field} className="w-full" />} />
           </div>
         </form>
       </Dialog>

@@ -16,8 +16,8 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table("organizational_unit")
-public class OrganizationalUnit {
+@Table("university")
+public class University {
 
     @Id
     private UUID id;
@@ -31,21 +31,6 @@ public class OrganizationalUnit {
     @Column("short_name")
     private String shortName;
 
-    @Column("unit_type")
-    private String unitType;
-
-    @Column("parent_id")
-    private UUID parentId;
-
-    @Column("is_active")
-    private Boolean isActive;
-
     @Column("created_at")
     private Instant createdAt;
-
-    @Column("updated_at")
-    private Instant updatedAt;
-
-    @Column("occupation_group_code")
-    private String occupationGroupCode;
 }

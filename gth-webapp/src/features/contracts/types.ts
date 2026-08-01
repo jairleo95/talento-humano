@@ -24,6 +24,34 @@ export interface ContractResponse {
   updatedAt: string;
   createdBy: string;
   updatedBy: string;
+  directionId: string;
+  departmentId: string;
+  areaId: string;
+  sectionId: string;
+  branchId: string;
+  foodBonus: number;
+  bevBonus: number;
+  positionBonus: number;
+  totalSalary: number;
+  paymentHourType: string;
+  isDisability: boolean;
+  isBoss: boolean;
+  agreementType: string;
+  signingDate: string;
+  vacationStartDate: string;
+  vacationEndDate: string;
+  currencyType: string;
+  variableRemuneration: string;
+  occupationGroupId: string;
+  subModalityId: string;
+  isIntern: boolean;
+  documentsDelivered: boolean;
+  fingerprintRegistered: boolean;
+  payrollRegistered: boolean;
+  companyRuc: string;
+  branchCode: string;
+  specialSituationId: string;
+  specialSituationDesc: string;
 }
 
 export interface ContractRequest {
@@ -46,6 +74,34 @@ export interface ContractRequest {
   contractType: string;
   observation: string;
   createdBy: string;
+  directionId: string;
+  departmentId: string;
+  areaId: string;
+  sectionId: string;
+  branchId: string;
+  foodBonus: number;
+  bevBonus: number;
+  positionBonus: number;
+  totalSalary: number;
+  paymentHourType: string;
+  isDisability: boolean;
+  isBoss: boolean;
+  agreementType: string;
+  signingDate: string;
+  vacationStartDate: string;
+  vacationEndDate: string;
+  currencyType: string;
+  variableRemuneration: string;
+  occupationGroupId: string;
+  subModalityId: string;
+  isIntern: boolean;
+  documentsDelivered: boolean;
+  fingerprintRegistered: boolean;
+  payrollRegistered: boolean;
+  companyRuc: string;
+  branchCode: string;
+  specialSituationId: string;
+  specialSituationDesc: string;
 }
 
 export interface TemplateResponse {

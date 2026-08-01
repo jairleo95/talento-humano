@@ -8,6 +8,7 @@ import { Dialog } from 'primereact/dialog';
 import { InputText } from 'primereact/inputtext';
 import { InputTextarea } from 'primereact/inputtextarea';
 import { InputNumber } from 'primereact/inputnumber';
+import { Dropdown } from 'primereact/dropdown';
 import { Toolbar } from 'primereact/toolbar';
 import { Tag } from 'primereact/tag';
 import { useForm, Controller } from 'react-hook-form';
@@ -16,15 +17,17 @@ import { z } from 'zod';
 import dayjs from 'dayjs';
 import { apiGet, apiPost, apiPatch } from '../../core/api/client';
 import type { ContractResponse, ContractRequest } from './types';
+import { VALIDATION_RULES } from '../../shared/validations';
 
 const BASE_PATH = '/contract/api/v1/contracts';
+const VR = VALIDATION_RULES;
 
 const createSchema = z.object({
   requisitionId: z.string().min(1, 'Requerido'),
   templateId: z.string().min(1, 'Requerido'),
   contractNumber: z.string().min(1, 'Requerido'),
-  workerId: z.string().optional().default(''),
   positionId: z.string().optional().default(''),
+  workerId: z.string().optional().default(''),
   startDate: z.string().optional().default(''),
   endDate: z.string().optional().default(''),
   terminationDate: z.string().optional().default(''),
@@ -37,8 +40,36 @@ const createSchema = z.object({
   laborRegime: z.string().optional().default(''),
   pensionRegime: z.string().optional().default(''),
   contractType: z.string().optional().default(''),
-  observation: z.string().optional().default(''),
+  observation: z.string().max(VR.OBSERVATION_MAX).optional().default(''),
   createdBy: z.string().min(1, 'Requerido'),
+  directionId: z.string().optional().default(''),
+  departmentId: z.string().optional().default(''),
+  areaId: z.string().optional().default(''),
+  sectionId: z.string().optional().default(''),
+  branchId: z.string().optional().default(''),
+  foodBonus: z.number().min(0).optional().default(0),
+  bevBonus: z.number().min(0).optional().default(0),
+  positionBonus: z.number().min(0).optional().default(0),
+  totalSalary: z.number().min(0).optional().default(0),
+  paymentHourType: z.string().optional().default(''),
+  isDisability: z.boolean().optional().default(false),
+  isBoss: z.boolean().optional().default(false),
+  agreementType: z.string().optional().default(''),
+  signingDate: z.string().optional().default(''),
+  vacationStartDate: z.string().optional().default(''),
+  vacationEndDate: z.string().optional().default(''),
+  currencyType: z.string().optional().default(''),
+  variableRemuneration: z.string().optional().default(''),
+  occupationGroupId: z.string().optional().default(''),
+  subModalityId: z.string().optional().default(''),
+  isIntern: z.boolean().optional().default(false),
+  documentsDelivered: z.boolean().optional().default(false),
+  fingerprintRegistered: z.boolean().optional().default(false),
+  payrollRegistered: z.boolean().optional().default(false),
+  companyRuc: z.string().max(VR.RUC_MAX).optional().default(''),
+  branchCode: z.string().optional().default(''),
+  specialSituationId: z.string().optional().default(''),
+  specialSituationDesc: z.string().max(VR.DESCRIPTION_MAX).optional().default(''),
 });
 
 type CreateForm = z.infer<typeof createSchema>;
@@ -49,6 +80,13 @@ const DEFAULT_VALUES: CreateForm = {
   salaryAmount: 0, reintegrationAmount: 0, familyAllowance: 0,
   weeklyHours: 0, dailyHours: 0, laborRegime: '', pensionRegime: '', contractType: '',
   observation: '', createdBy: '',
+  directionId: '', departmentId: '', areaId: '', sectionId: '', branchId: '',
+  foodBonus: 0, bevBonus: 0, positionBonus: 0, totalSalary: 0,
+  paymentHourType: '', isDisability: false, isBoss: false, agreementType: '',
+  signingDate: '', vacationStartDate: '', vacationEndDate: '',
+  currencyType: '', variableRemuneration: '', occupationGroupId: '', subModalityId: '',
+  isIntern: false, documentsDelivered: false, fingerprintRegistered: false, payrollRegistered: false,
+  companyRuc: '', branchCode: '', specialSituationId: '', specialSituationDesc: '',
 };
 
 const STATUS_TAGS: Record<string, { severity: 'info' | 'success' | 'warning' | 'danger'; label: string }> = {
@@ -109,6 +147,12 @@ export function ContractListPage() {
   const numberInput = (name: keyof CreateForm) => (
     <Controller name={name} control={control} render={({ field }) => (
       <InputNumber {...field} value={Number(field.value) || 0} onValueChange={(e) => field.onChange(e.value ?? 0)} min={0} mode="currency" currency="PYG" locale="es-PY" className={errors[name] ? 'p-invalid' : ''} />
+    )} />
+  );
+
+  const boolDropdown = (name: keyof CreateForm) => (
+    <Controller name={name} control={control} render={({ field }) => (
+      <Dropdown value={field.value} options={[{ label: 'Sí', value: true }, { label: 'No', value: false }]} onChange={(e) => field.onChange(e.value)} className="w-full" />
     )} />
   );
 
@@ -238,6 +282,50 @@ export function ContractListPage() {
               <div className="col-4"><div className="flex flex-column gap-1"><label className="text-sm font-medium">Régimen laboral</label>{textInput('laborRegime')}</div></div>
               <div className="col-4"><div className="flex flex-column gap-1"><label className="text-sm font-medium">Régimen pensión</label>{textInput('pensionRegime')}</div></div>
               <div className="col-4"><div className="flex flex-column gap-1"><label className="text-sm font-medium">Tipo de contrato</label>{textInput('contractType')}</div></div>
+            </div>
+          </div>
+
+          <div className="flex flex-column gap-2">
+            <div className="gth-section-title"><i className="pi pi-sitemap" /> Estructura organizacional</div>
+            <div className="grid">
+              <div className="col-3"><div className="flex flex-column gap-1"><label className="text-sm font-medium">Dirección</label>{textInput('directionId')}</div></div>
+              <div className="col-3"><div className="flex flex-column gap-1"><label className="text-sm font-medium">Departamento</label>{textInput('departmentId')}</div></div>
+              <div className="col-3"><div className="flex flex-column gap-1"><label className="text-sm font-medium">Área</label>{textInput('areaId')}</div></div>
+              <div className="col-3"><div className="flex flex-column gap-1"><label className="text-sm font-medium">Sección</label>{textInput('sectionId')}</div></div>
+              <div className="col-3"><div className="flex flex-column gap-1"><label className="text-sm font-medium">Filial</label>{textInput('branchId')}</div></div>
+              <div className="col-3"><div className="flex flex-column gap-1"><label className="text-sm font-medium">Sucursal</label>{textInput('branchCode')}</div></div>
+              <div className="col-3"><div className="flex flex-column gap-1"><label className="text-sm font-medium">RUC Emp.</label>{textInput('companyRuc')}</div></div>
+            </div>
+          </div>
+
+          <div className="flex flex-column gap-2">
+            <div className="gth-section-title"><i className="pi pi-dollar" /> Bonificaciones</div>
+            <div className="grid">
+              <div className="col-4"><div className="flex flex-column gap-1"><label className="text-sm font-medium">Bono Alimentación</label>{numberInput('foodBonus')}</div></div>
+              <div className="col-4"><div className="flex flex-column gap-1"><label className="text-sm font-medium">BEV</label>{numberInput('bevBonus')}</div></div>
+              <div className="col-4"><div className="flex flex-column gap-1"><label className="text-sm font-medium">Bono Puesto</label>{numberInput('positionBonus')}</div></div>
+              <div className="col-4"><div className="flex flex-column gap-1"><label className="text-sm font-medium">Total Salario</label>{numberInput('totalSalary')}</div></div>
+              <div className="col-4"><div className="flex flex-column gap-1"><label className="text-sm font-medium">Tipo Hora Pago</label>{textInput('paymentHourType')}</div></div>
+              <div className="col-4"><div className="flex flex-column gap-1"><label className="text-sm font-medium">Moneda</label>{textInput('currencyType')}</div></div>
+            </div>
+          </div>
+
+          <div className="flex flex-column gap-2">
+            <div className="gth-section-title"><i className="pi pi-check-square" /> Flags y fechas adicionales</div>
+            <div className="grid">
+              <div className="col-3"><div className="flex flex-column gap-1"><label className="text-sm font-medium">Es Jefe</label>{boolDropdown('isBoss')}</div></div>
+              <div className="col-3"><div className="flex flex-column gap-1"><label className="text-sm font-medium">Discapacidad</label>{boolDropdown('isDisability')}</div></div>
+              <div className="col-3"><div className="flex flex-column gap-1"><label className="text-sm font-medium">Practicante</label>{boolDropdown('isIntern')}</div></div>
+              <div className="col-3"><div className="flex flex-column gap-1"><label className="text-sm font-medium">Docs. Entregados</label>{boolDropdown('documentsDelivered')}</div></div>
+              <div className="col-3"><div className="flex flex-column gap-1"><label className="text-sm font-medium">Huella Registrada</label>{boolDropdown('fingerprintRegistered')}</div></div>
+              <div className="col-3"><div className="flex flex-column gap-1"><label className="text-sm font-medium">Reg. Planilla</label>{boolDropdown('payrollRegistered')}</div></div>
+              <div className="col-3"><div className="flex flex-column gap-1"><label className="text-sm font-medium">Tipo Convenio</label>{textInput('agreementType')}</div></div>
+              <div className="col-3"><div className="flex flex-column gap-1"><label className="text-sm font-medium">Rem. Variable</label>{textInput('variableRemuneration')}</div></div>
+              <div className="col-3"><div className="flex flex-column gap-1"><label className="text-sm font-medium">Grupo Ocup.</label>{textInput('occupationGroupId')}</div></div>
+              <div className="col-3"><div className="flex flex-column gap-1"><label className="text-sm font-medium">Sub Modalidad</label>{textInput('subModalityId')}</div></div>
+              <div className="col-4"><div className="flex flex-column gap-1"><label className="text-sm font-medium">Fec. Suscripción</label>{textInput('signingDate')}</div></div>
+              <div className="col-4"><div className="flex flex-column gap-1"><label className="text-sm font-medium">Vac. Inicio</label>{textInput('vacationStartDate')}</div></div>
+              <div className="col-4"><div className="flex flex-column gap-1"><label className="text-sm font-medium">Vac. Fin</label>{textInput('vacationEndDate')}</div></div>
             </div>
           </div>
 

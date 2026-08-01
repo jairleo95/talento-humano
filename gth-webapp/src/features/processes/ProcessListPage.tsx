@@ -17,13 +17,15 @@ import dayjs from 'dayjs';
 import { apiGet, apiPost, apiPatch } from '../../core/api/client';
 import type { ProcessResponse, ProcessRequest } from './types';
 import { PROCESS_STATUSES } from './types';
+import { VALIDATION_RULES } from '../../shared/validations';
 
 const BASE_PATH = '/recruitment/api/v1/recruitment/processes';
+const VR = VALIDATION_RULES;
 
 const createSchema = z.object({
-  name: z.string().min(1, 'Requerido').max(140),
-  code: z.string().min(1, 'Requerido').max(50),
-  description: z.string().optional().default(''),
+  name: z.string().min(1, 'Requerido').max(VR.NAME_MAX, `Máx ${VR.NAME_MAX}`),
+  code: z.string().min(1, 'Requerido').max(VR.CODE_MAX, `Máx ${VR.CODE_MAX}`),
+  description: z.string().max(VR.DESCRIPTION_MAX).optional().default(''),
 });
 
 type CreateForm = z.infer<typeof createSchema>;

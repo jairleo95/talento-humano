@@ -1,0 +1,15 @@
+CREATE TABLE IF NOT EXISTS university (
+    id UUID PRIMARY KEY,
+    version BIGINT NOT NULL DEFAULT 0,
+    name VARCHAR(255) NOT NULL,
+    short_name VARCHAR(64),
+    created_at TIMESTAMP WITH TIME ZONE NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS career (
+    id UUID PRIMARY KEY,
+    version BIGINT NOT NULL DEFAULT 0,
+    name VARCHAR(255) NOT NULL,
+    university_id UUID REFERENCES university(id),
+    created_at TIMESTAMP WITH TIME ZONE NOT NULL
+);

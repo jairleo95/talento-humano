@@ -127,15 +127,15 @@ export function UserManagementPage() {
         <form className="flex flex-column gap-3">
           <div className="flex flex-column gap-1">
             <label className="text-sm font-semibold">Usuario *</label>
-            <Controller name="username" control={control} rules={{ required: 'Requerido' }}
+            <Controller name="username" control={control} rules={{ required: 'Requerido', maxLength: { value: 120, message: 'Máx 120' } }}
               render={({ field }) => <InputText {...field} className={errors.username ? 'p-invalid' : ''} />} />
-            {errors.username && <small className="p-error">Requerido</small>}
+            {errors.username && <small className="p-error">{errors.username.message}</small>}
           </div>
           <div className="flex flex-column gap-1">
             <label className="text-sm font-semibold">Email *</label>
-            <Controller name="email" control={control} rules={{ required: 'Requerido' }}
+            <Controller name="email" control={control} rules={{ required: 'Requerido', pattern: { value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/, message: 'Email inválido' } }}
               render={({ field }) => <InputText {...field} className={errors.email ? 'p-invalid' : ''} />} />
-            {errors.email && <small className="p-error">Requerido</small>}
+            {errors.email && <small className="p-error">{errors.email.message || 'Requerido'}</small>}
           </div>
           <div className="flex flex-column gap-1">
             <label className="text-sm font-semibold">Contraseña</label>

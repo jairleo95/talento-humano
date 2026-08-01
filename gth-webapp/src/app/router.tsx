@@ -11,6 +11,10 @@ import { UserManagementPage } from '../features/users/UserManagementPage';
 import { WorkerListPage } from '../features/workers/WorkerListPage';
 import { WorkerDetailPage } from '../features/workers/WorkerDetailPage';
 import { OrgStructurePage } from '../features/organization/OrgStructurePage';
+import { CostCenterPage } from '../features/budget/CostCenterPage';
+import { AcademicPage } from '../features/academic/AcademicPage';
+import { ReportsPage } from '../features/reports/ReportsPage';
+import { FunctionsPage } from '../features/functions/FunctionsPage';
 import { AppShell } from '../core/layout/AppShell';
 import { RequireAuth } from './RequireAuth';
 
@@ -32,6 +36,10 @@ export function AppRouter() {
           <Route path="/workers" element={<WorkerListPage />} />
           <Route path="/workers/:id" element={<WorkerDetailPage />} />
           <Route path="/organization" element={<OrgStructurePage />} />
+          <Route path="/budget" element={<CostCenterPage />} />
+          <Route path="/academic" element={<AcademicPage />} />
+          <Route path="/reports" element={<ReportsPage />} />
+          <Route path="/functions" element={<FunctionsPage />} />
         </Route>
       </Route>
       <Route path="*" element={<Navigate to="/" replace />} />

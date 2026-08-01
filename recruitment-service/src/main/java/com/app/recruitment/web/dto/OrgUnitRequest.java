@@ -9,6 +9,7 @@ public record OrgUnitRequest(
         String shortName,
         @NotBlank String unitType,
         UUID parentId,
-        Boolean isActive
+        Boolean isActive,
+        String occupationGroupCode
 ) {
 }

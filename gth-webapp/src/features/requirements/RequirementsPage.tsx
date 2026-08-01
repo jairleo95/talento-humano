@@ -18,38 +18,41 @@ import dayjs from 'dayjs';
 import { apiGet, apiPost, apiPatch } from '../../core/api/client';
 import type { RequirementResponse, RequirementRequest } from './types';
 import { REQUIREMENT_STATUSES } from './types';
+import { VALIDATION_RULES } from '../../shared/validations';
 
 const BASE_PATH = '/recruitment/api/v1/recruitment/requisitions';
 
+const MAX = VALIDATION_RULES;
+
 const createSchema = z.object({
-  title: z.string().min(1, 'Requerido').max(140),
-  description: z.string().min(1, 'Requerido'),
+  title: z.string().min(1, 'Requerido').max(MAX.TITLE_MAX, `Máximo ${MAX.TITLE_MAX} caracteres`),
+  description: z.string().min(1, 'Requerido').max(MAX.DESCRIPTION_MAX, `Máximo ${MAX.DESCRIPTION_MAX} caracteres`),
   createdBy: z.string().min(1, 'Requerido'),
   requestNumber: z.string().min(1, 'Requerido'),
-  workerId: z.string().optional().default(''),
-  motive: z.string().optional().default(''),
+  workerId: z.string().max(MAX.BANK_ACCOUNT_MAX).optional().default(''),
+  motive: z.string().max(32).optional().default(''),
   isMfl: z.boolean().optional().default(false),
   isBudgeted: z.boolean().optional().default(false),
-  ruc: z.string().optional().default(''),
-  salaryAmount: z.number().min(0).optional().default(0),
+  ruc: z.string().max(MAX.RUC_MAX, `Máximo ${MAX.RUC_MAX} caracteres`).optional().default(''),
+  salaryAmount: z.number().min(0, 'Debe ser >= 0').optional().default(0),
   foodBonus: z.number().min(0).optional().default(0),
   positionBonus: z.number().min(0).optional().default(0),
   bevBonus: z.number().min(0).optional().default(0),
   familyAllowance: z.number().min(0).optional().default(0),
-  workDays: z.string().optional().default(''),
-  serviceLocation: z.string().optional().default(''),
-  serviceDescription: z.string().optional().default(''),
-  paymentPeriod: z.string().optional().default(''),
-  fiscalAddress: z.string().optional().default(''),
-  allowanceDescription: z.string().optional().default(''),
-  trainingSchedule: z.string().optional().default(''),
-  breakSchedule: z.string().optional().default(''),
-  trainingDays: z.string().optional().default(''),
-  policeRecordDesc: z.string().optional().default(''),
-  healthCertificateDesc: z.string().optional().default(''),
-  bankName: z.string().optional().default(''),
-  bankAccount: z.string().optional().default(''),
-  subsidy: z.string().optional().default(''),
+  workDays: z.string().max(MAX.NAME_MAX).optional().default(''),
+  serviceLocation: z.string().max(MAX.LOCATION_MAX, `Máximo ${MAX.LOCATION_MAX} caracteres`).optional().default(''),
+  serviceDescription: z.string().max(MAX.SERVICE_DESC_MAX, `Máximo ${MAX.SERVICE_DESC_MAX} caracteres`).optional().default(''),
+  paymentPeriod: z.string().max(32).optional().default(''),
+  fiscalAddress: z.string().max(MAX.DESCRIPTION_MAX).optional().default(''),
+  allowanceDescription: z.string().max(MAX.DESCRIPTION_MAX).optional().default(''),
+  trainingSchedule: z.string().max(MAX.NAME_MAX).optional().default(''),
+  breakSchedule: z.string().max(MAX.NAME_MAX).optional().default(''),
+  trainingDays: z.string().max(MAX.NAME_MAX).optional().default(''),
+  policeRecordDesc: z.string().max(MAX.DESCRIPTION_MAX).optional().default(''),
+  healthCertificateDesc: z.string().max(MAX.DESCRIPTION_MAX).optional().default(''),
+  bankName: z.string().max(MAX.NAME_MAX).optional().default(''),
+  bankAccount: z.string().max(MAX.BANK_ACCOUNT_MAX, `Máximo ${MAX.BANK_ACCOUNT_MAX} caracteres`).optional().default(''),
+  subsidy: z.string().max(MAX.DESCRIPTION_MAX).optional().default(''),
   honorariumAmount: z.number().min(0).optional().default(0),
 });
 

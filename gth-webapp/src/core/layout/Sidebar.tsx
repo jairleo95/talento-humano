@@ -14,6 +14,10 @@ const ALL_MENU_ITEMS: MenuItem[] = [
   { label: 'Contratos', icon: 'pi pi-id-card', path: '/contracts' },
   { label: 'Trabajadores', icon: 'pi pi-users', path: '/workers' },
   { label: 'Organigrama', icon: 'pi pi-building', path: '/organization' },
+  { label: 'Presupuesto', icon: 'pi pi-chart-bar', path: '/budget' },
+  { label: 'Académico', icon: 'pi pi-book', path: '/academic' },
+  { label: 'Funciones', icon: 'pi pi-list', path: '/functions' },
+  { label: 'Reportes', icon: 'pi pi-chart-line', path: '/reports' },
   { label: 'Usuarios', icon: 'pi pi-shield', path: '/users' },
 ];
 

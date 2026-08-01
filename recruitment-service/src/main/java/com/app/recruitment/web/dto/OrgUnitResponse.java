@@ -10,6 +10,7 @@ public record OrgUnitResponse(
         String unitType,
         UUID parentId,
         Boolean isActive,
+        String occupationGroupCode,
         Instant createdAt,
         Instant updatedAt
 ) {
