@@ -9,12 +9,15 @@ import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
 import java.time.Instant;
 import java.util.Date;
+import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @Component
 public class JwtService {
 
     private static final String CLAIM_USERNAME = "username";
+    private static final String CLAIM_ROLES = "roles";
 
     private final SecretKey key;
     private final JwtProperties properties;
@@ -24,11 +27,12 @@ public class JwtService {
         this.key = Keys.hmacShaKeyFor(properties.secret().getBytes(StandardCharsets.UTF_8));
     }
 
-    public String generate(UUID userId, String username) {
+    public String generate(UUID userId, String username, Set<String> roles) {
         Instant now = Instant.now();
         return Jwts.builder()
                 .subject(userId.toString())
                 .claim(CLAIM_USERNAME, username)
+                .claim(CLAIM_ROLES, roles)
                 .issuedAt(Date.from(now))
                 .expiration(Date.from(now.plus(properties.expiration())))
                 .signWith(key)
@@ -41,9 +45,17 @@ public class JwtService {
                 .build()
                 .parseSignedClaims(token)
                 .getPayload();
+        Object rawRoles = claims.get(CLAIM_ROLES);
+        Set<String> roles = Set.of();
+        if (rawRoles instanceof List<?> rolesList) {
+            roles = rolesList.stream()
+                    .map(String::valueOf)
+                    .collect(java.util.stream.Collectors.toUnmodifiableSet());
+        }
         return new TokenClaims(
                 UUID.fromString(claims.getSubject()),
-                claims.get(CLAIM_USERNAME, String.class)
+                claims.get(CLAIM_USERNAME, String.class),
+                roles
         );
     }
 
@@ -51,6 +63,6 @@ public class JwtService {
         return properties.expiration().toSeconds();
     }
 
-    public record TokenClaims(UUID userId, String username) {
+    public record TokenClaims(UUID userId, String username, Set<String> roles) {
     }
 }

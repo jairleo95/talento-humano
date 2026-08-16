@@ -27,7 +27,8 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.fileupload.servlet.ServletRequestContext;
-import org.apache.commons.io.FilenameUtils;
+import com.app.controller.util.FileUploadValidator;
+import com.app.controller.util.Html;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -134,7 +135,7 @@ public class DocumentController {
                     htmlDoca += " <div class='well well-sm'>";
 
                     htmlDoca += "<div class=''>";
-                    htmlDoca += "<label >" + d.getNo_documento() + "</label>";
+                    htmlDoca += "<label >" + Html.esc(d.getNo_documento()) + "</label>";
                     htmlDoca += "  </div>";
 
                     htmlDoca += " <div class=' caji" + (i + 1) + "'  >";
@@ -162,7 +163,7 @@ public class DocumentController {
                         htmlDoca += " <label class='null' >No Registrado</label>";
                     } else {
                         htmlDoca += "<label >Descripción:</label>";
-                        htmlDoca += "<label style='font-weight: normal;'>" + d.getDe_documento_adjunto() + "</label>";
+                        htmlDoca += "<label style='font-weight: normal;'>" + Html.esc(d.getDe_documento_adjunto()) + "</label>";
 
                     }
                     htmlDoca += "</div>";
@@ -214,7 +215,7 @@ public class DocumentController {
                     htmlCOFE += "<div  class='well wel-sm'>";
 
                     htmlCOFE += " <div class=''>";
-                    htmlCOFE += " <label>" + d.getNo_documento() + "</label>";
+                    htmlCOFE += " <label>" + Html.esc(d.getNo_documento()) + "</label>";
                     htmlCOFE += " </div>";
 
                     htmlCOFE += " <div  class='caji" + (i + 1) + "'  >";
@@ -241,7 +242,7 @@ public class DocumentController {
                         htmlCOFE += " <label class='null' >No Registrado</label>";
                     } else {
                         htmlCOFE += " <label>Descripción:</label> ";
-                        htmlCOFE += "   <label >" + d.getDe_documento_adjunto() + " </label>";
+                        htmlCOFE += "   <label >" + Html.esc(d.getDe_documento_adjunto()) + " </label>";
 
                     }
                     htmlCOFE += " </div>";
@@ -298,10 +299,10 @@ public class DocumentController {
                     htmlConyugue += "   <label>";
 
                     if (d.getTi_documento().trim().equals("ACMA")) {
-                        htmlConyugue += ("Acta de matrimonio con: <p class='txt-color-red' >' " + co.getAp_nombres_conyugue() + " '</p>");
+                        htmlConyugue += ("Acta de matrimonio con: <p class='txt-color-red' >' " + Html.esc(co.getAp_nombres_conyugue()) + " '</p>");
                     }
                     if (d.getTi_documento().trim().equals("DNIC")) {
-                        htmlConyugue += " Copia DNI cónyugue : <p class='txt-color-red' >' " + co.getAp_nombres_conyugue() + " '</p>";
+                        htmlConyugue += " Copia DNI cónyugue : <p class='txt-color-red' >' " + Html.esc(co.getAp_nombres_conyugue()) + " '</p>";
                     }
 
                     htmlConyugue += "    </label>";
@@ -330,7 +331,7 @@ public class DocumentController {
                         htmlConyugue += "   <label class='null' >No Registrado</label>";
                     } else {
                         htmlConyugue += "   <label>Descripción:</label>";
-                        htmlConyugue += "   <label> " + d.getDe_documento_adjunto() + "</label>";
+                        htmlConyugue += "   <label> " + Html.esc(d.getDe_documento_adjunto()) + "</label>";
 
                     }
                     htmlConyugue += "     </div>";
@@ -387,7 +388,7 @@ public class DocumentController {
                             htmlDNIH += "   <div  class='well well-sm' >";
 
                             htmlDNIH += " <div class=''>";
-                            htmlDNIH += "<label>Copia DNI hijo :   </label> <p class='txt-color-red'> " + h.getAp_paterno() + " " + h.getAp_materno() + " " + h.getNo_hijo_trabajador() + "</p>";
+                            htmlDNIH += "<label>Copia DNI hijo :   </label> <p class='txt-color-red'> " + Html.esc(h.getAp_paterno()) + " " + Html.esc(h.getAp_materno()) + " " + Html.esc(h.getNo_hijo_trabajador()) + "</p>";
 
                             htmlDNIH += "</div>";
                             htmlDNIH += "<div  class=' caji" + (i + 1) + "' >";
@@ -413,7 +414,7 @@ public class DocumentController {
                                 htmlDNIH += "  <label class='null' >No Registrado</label>";
                             } else {
                                 htmlDNIH += "  <label>Descripción:</label>";
-                                htmlDNIH += "  <label>" + d.getDe_documento_adjunto() + "</label>";
+                                htmlDNIH += "  <label>" + Html.esc(d.getDe_documento_adjunto()) + "</label>";
 
                             }
                             htmlDNIH += "  </div>";
@@ -462,7 +463,7 @@ public class DocumentController {
                             htmlSecondDNIH += "<div  class='well well-sm'>";
 
                             htmlSecondDNIH += " <div class=''>";
-                            htmlSecondDNIH += "<label>Copia DNI hijo:   </label> <p class='txt-color-red'> " + h.getAp_paterno() + " " + h.getAp_materno() + " " + h.getNo_hijo_trabajador() + "</p>";
+                            htmlSecondDNIH += "<label>Copia DNI hijo:   </label> <p class='txt-color-red'> " + Html.esc(h.getAp_paterno()) + " " + Html.esc(h.getAp_materno()) + " " + Html.esc(h.getNo_hijo_trabajador()) + "</p>";
 
                             htmlSecondDNIH += " </div>";
 
@@ -487,7 +488,7 @@ public class DocumentController {
                                 htmlSecondDNIH += " <label class='null' >No Registrado</label>";
                             } else {
                                 htmlSecondDNIH += " <label>Descripción:</label> ";
-                                htmlSecondDNIH += "   <label >" + d.getDe_documento_adjunto() + " </label>";
+                                htmlSecondDNIH += "   <label >" + Html.esc(d.getDe_documento_adjunto()) + " </label>";
 
                             }
                             htmlSecondDNIH += " </div>";
@@ -537,7 +538,7 @@ public class DocumentController {
                             htmlHijoFaltante += "<div  class='well well-sm'>";
 
                             htmlHijoFaltante += " <div class=''>";
-                            htmlHijoFaltante += "<label>Copia DNI hijo:   </label> <p class='txt-color-red'> " + h.getAp_paterno() + " " + h.getAp_materno() + " " + h.getNo_hijo_trabajador() + "</p>";
+                            htmlHijoFaltante += "<label>Copia DNI hijo:   </label> <p class='txt-color-red'> " + Html.esc(h.getAp_paterno()) + " " + Html.esc(h.getAp_materno()) + " " + Html.esc(h.getNo_hijo_trabajador()) + "</p>";
 
                             htmlHijoFaltante += " </div>";
                             htmlHijoFaltante += " <div  class='caji" + (i + 1) + "'  >";
@@ -563,7 +564,7 @@ public class DocumentController {
                             }
                                         /*else {
                                             htmlHijoFaltante += " <label>Descripción:</label> ";
-                                            htmlHijoFaltante += "   <label >" + d.getDe_documento_adjunto() + " </label>";
+                                            htmlHijoFaltante += "   <label >" + Html.esc(d.getDe_documento_adjunto()) + " </label>";
 
                                         }*/
                             htmlHijoFaltante += " </div>";
@@ -620,7 +621,7 @@ public class DocumentController {
                 htmlOtherItem += " <div class='well well-sm'>";
 
                 htmlOtherItem += "<div class=''>";
-                htmlOtherItem += "<label >" + d.getNo_documento() + "</label>";
+                htmlOtherItem += "<label >" + Html.esc(d.getNo_documento()) + "</label>";
                 htmlOtherItem += "  </div>";
 
                 htmlOtherItem += " <div class=' caji" + (i + 1) + "'  >";
@@ -648,7 +649,7 @@ public class DocumentController {
                     htmlOtherItem += " <label class='null' >No Registrado</label>";
                 } else {
                     htmlOtherItem += "<label >Descripción:</label>";
-                    htmlOtherItem += "<label style='font-weight: normal;'>" + d.getDe_documento_adjunto() + "</label>";
+                    htmlOtherItem += "<label style='font-weight: normal;'>" + Html.esc(d.getDe_documento_adjunto()) + "</label>";
 
                 }
                 htmlOtherItem += "</div>";
@@ -844,8 +845,9 @@ public class DocumentController {
 
                             if (fieldName.equals("archivos" + i) & item.getName() != null) {
                                 if (!item.getName().equals("")) {
-                                    no_original = item.getName();
-                                    String extension = FilenameUtils.getExtension(no_original);
+                                    FileUploadValidator.validateDocument(item);
+                                    no_original = FileUploadValidator.sanitizeFileName(item.getName());
+                                    String extension = FileUploadValidator.getExtension(no_original);
                                     nombre_archivo = String.valueOf(year) + String.valueOf(month) + String.valueOf(day) + String.valueOf(hora) + String.valueOf(min) + String.valueOf(sec) + "_sysgth." + extension;
                                     //Thread thread = new Thread(new Renombrar(item, ubicacion, nombre_archivo));
                                     //  thread.start();

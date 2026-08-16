@@ -20,8 +20,8 @@ NC='\033[0m'
 PROJECT_DIR="${HOME}/talento-humano"
 REPO_URL="https://github.com/jairleo95/TALENTO_HUMANO.git"
 PG_PORT=5434
-PG_PASSWORD="changeme"
-JWT_SECRET="d94a1f5c8e7b03a2f91c6d4e82b5073a9f0e1d2c3b4a59687a8b9c0d1e2f3a4b5c"
+PG_PASSWORD="${DB_PASSWORD:-$(openssl rand -base64 18)}"
+JWT_SECRET="${JWT_SECRET:-$(openssl rand -hex 32)}"
 
 echo -e "${BLUE}============================================${NC}"
 echo -e "${BLUE}  Talento Humano — Instalación Automática  ${NC}"
@@ -167,9 +167,14 @@ echo -e "${YELLOW}[6/7] Configurando variables de entorno...${NC}"
 
 export JWT_SECRET="${JWT_SECRET:-$JWT_SECRET}"
 export JWT_EXPIRATION="${JWT_EXPIRATION:-1h}"
+export DB_PASSWORD="${DB_PASSWORD:-$PG_PASSWORD}"
+export GTH_CRYPTO_SECRET="${GTH_CRYPTO_SECRET:-$(openssl rand -hex 32)}"
+export CONFIG_SERVER_PASSWORD="${CONFIG_SERVER_PASSWORD:-$(openssl rand -base64 18)}"
 
 echo "  JWT_SECRET: ${JWT_SECRET:0:15}..."
 echo "  JWT_EXPIRATION: ${JWT_EXPIRATION}"
+echo "  DB_PASSWORD: ${DB_PASSWORD:0:4}..."
+echo "  GTH_CRYPTO_SECRET: ${GTH_CRYPTO_SECRET:0:4}..."
 echo "  PG_PORT: $PG_PORT"
 echo ""
 

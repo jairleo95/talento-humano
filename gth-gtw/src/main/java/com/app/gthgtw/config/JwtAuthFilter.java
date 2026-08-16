@@ -1,5 +1,6 @@
 package com.app.gthgtw.config;
 
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
@@ -8,8 +9,10 @@ import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.core.Ordered;
 import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.stereotype.Component;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.web.server.ServerWebExchange;
@@ -17,14 +20,23 @@ import reactor.core.publisher.Mono;
 
 import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 import java.util.Set;
 
 @Component
 public class JwtAuthFilter implements GlobalFilter, Ordered {
 
     private static final String BEARER_PREFIX = "Bearer ";
+    private static final String CLAIM_ROLES = "roles";
+    private static final String ADMIN_ROLE = "ADMIN";
     private static final Set<String> PUBLIC_PATHS = Set.of(
-            "/identity/api/v1/auth/login"
+            "/identity/api/v1/auth/login",
+            "/gth/valida"
+    );
+    private static final Set<String> ADMIN_PATHS = Set.of(
+            "/identity/api/v1/users",
+            "/identity/api/v1/roles",
+            "/identity/api/v1/privileges"
     );
     private static final AntPathMatcher PATH_MATCHER = new AntPathMatcher();
 
@@ -36,22 +48,29 @@ public class JwtAuthFilter implements GlobalFilter, Ordered {
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
-        String path = exchange.getRequest().getURI().getPath();
+        ServerHttpRequest request = exchange.getRequest();
+        String path = request.getURI().getPath();
 
-        if (path.startsWith("/gth/") || path.startsWith("/actuator/") || isPublicPath(path)) {
+        if (path.startsWith("/actuator/") || isPublicPath(path)) {
             return chain.filter(exchange);
         }
 
-        String authHeader = exchange.getRequest().getHeaders().getFirst(HttpHeaders.AUTHORIZATION);
+        String authHeader = request.getHeaders().getFirst(HttpHeaders.AUTHORIZATION);
         if (authHeader == null || !authHeader.startsWith(BEARER_PREFIX)) {
             return unauthorized(exchange, "Missing or invalid Authorization header");
         }
 
         String token = authHeader.substring(BEARER_PREFIX.length());
+        Set<String> roles;
         try {
-            Jwts.parser().verifyWith(key).build().parseSignedClaims(token);
+            Claims claims = Jwts.parser().verifyWith(key).build().parseSignedClaims(token).getPayload();
+            roles = parseRoles(claims);
         } catch (Exception ex) {
             return unauthorized(exchange, "Invalid or expired token");
+        }
+
+        if (requiresAdminRole(request, path) && !roles.contains(ADMIN_ROLE)) {
+            return forbidden(exchange);
         }
 
         return chain.filter(exchange);
@@ -62,12 +81,42 @@ public class JwtAuthFilter implements GlobalFilter, Ordered {
         return -100;
     }
 
+    private boolean requiresAdminRole(ServerHttpRequest request, String path) {
+        HttpMethod method = request.getMethod();
+        if (method == null) {
+            return false;
+        }
+        boolean isWrite = method == HttpMethod.POST || method == HttpMethod.PUT
+                || method == HttpMethod.PATCH || method == HttpMethod.DELETE;
+        if (!isWrite) {
+            return false;
+        }
+        return ADMIN_PATHS.stream().anyMatch(p -> PATH_MATCHER.match(p + "/**", path) || PATH_MATCHER.match(p, path));
+    }
+
+    private Set<String> parseRoles(Claims claims) {
+        Object rawRoles = claims.get(CLAIM_ROLES);
+        if (rawRoles instanceof List<?> rolesList) {
+            return rolesList.stream().map(String::valueOf).collect(java.util.stream.Collectors.toUnmodifiableSet());
+        }
+        return Set.of();
+    }
+
     private boolean isPublicPath(String path) {
         return PUBLIC_PATHS.stream().anyMatch(p -> PATH_MATCHER.match(p, path));
     }
 
     private Mono<Void> unauthorized(ServerWebExchange exchange, String message) {
         exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
+        return writeError(exchange, message);
+    }
+
+    private Mono<Void> forbidden(ServerWebExchange exchange) {
+        exchange.getResponse().setStatusCode(HttpStatus.FORBIDDEN);
+        return writeError(exchange, "Insufficient privileges");
+    }
+
+    private Mono<Void> writeError(ServerWebExchange exchange, String message) {
         exchange.getResponse().getHeaders().setContentType(MediaType.APPLICATION_JSON);
         byte[] body = ("{\"error\":\"" + message + "\"}").getBytes(StandardCharsets.UTF_8);
         DataBuffer buffer = exchange.getResponse().bufferFactory().wrap(body);

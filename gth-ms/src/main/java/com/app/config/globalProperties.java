@@ -17,21 +17,19 @@ public class globalProperties {
     public static String VERSION_JS = "2.7.7";
 
     /* WebService Carga Academica*/
-    public static final String keyApp = "4a7c88ee0791cad24a15d43a525982f8";
-    public static final String keyID = "d57d9c1cd0cfdec68805a5055388177b";
-    public static final String serverURI = "https://webapp.upeu.edu.pe/";
-    public static final String service = "https://webapp.upeu.edu.pe/webservices/wsdl4rrhh/";
+    public static final String keyApp = System.getenv().getOrDefault("GTH_WS_KEYAPP", "");
+    public static final String keyID = System.getenv().getOrDefault("GTH_WS_KEYID", "");
+    public static final String serverURI = System.getenv().getOrDefault("GTH_WS_SERVER_URI", "https://webapp.upeu.edu.pe/");
+    public static final String service = System.getenv().getOrDefault("GTH_WS_SERVICE_URI", "https://webapp.upeu.edu.pe/webservices/wsdl4rrhh/");
 
     public static final String DOCENTESXCURSO_METHOD[] = {"DocenteXCurso", "ns1", "ns1:DocenteXCursoResponse"};
 
     /*oracle bd connection */
-    //public static final String HOSTNAME = "192.168.1.18";
-    //public static final String HOSTNAME = "192.168.1.18";
-    public static final String HOSTNAME = "DESKTOP-MS5NN2M";
-    public static final String USER = "procesosrh";
-    public static final String USER_PWD = "gestionrrhh";
-    public static final String PORT = "1521";
-    public static final String SID = "xe";
+    public static final String HOSTNAME = System.getenv().getOrDefault("GTH_ORACLE_HOST", "localhost");
+    public static final String USER = System.getenv().getOrDefault("GTH_ORACLE_USER", "");
+    public static final String USER_PWD = System.getenv().getOrDefault("GTH_ORACLE_PASSWORD", "");
+    public static final String PORT = System.getenv().getOrDefault("GTH_ORACLE_PORT", "1521");
+    public static final String SID = System.getenv().getOrDefault("GTH_ORACLE_SID", "xe");
     
      /*public static final String HOSTNAME = "localhost";
      public static final String USER = "gth";

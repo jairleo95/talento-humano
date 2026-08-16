@@ -49,7 +49,6 @@ public class IndexController {
                 sesion.setAttribute("USER", user.getNo_usuario());
                 sesion.setAttribute("IDPER", user.getId_empleado());
                 sesion.setAttribute("IDROL", user.getId_rol().trim());
-                sesion.setAttribute("CL", user.getPw_usuario());
                 sesion.setAttribute("PUESTO_ID", user.getId_puesto());
                 sesion.setAttribute("AREA_ID", user.getId_area());
                 sesion.setAttribute("AREA", user.getNo_area());
@@ -83,7 +82,6 @@ public class IndexController {
                 /*este procedmiento se puso en un job de cada un dia de intervalo*/
                 //  cto.VALIDAR_FE_HASTA_CON();
                 //response.sendRedirect("menu");
-                System.out.println(user.toString());
                 rpta.put("rpta", true);
 
             } else {

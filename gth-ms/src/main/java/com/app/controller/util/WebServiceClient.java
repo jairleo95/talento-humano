@@ -20,9 +20,6 @@ public class WebServiceClient {
         SOAPConnection soapConnection = soapConnectionFactory.createConnection();
         // Send SOAP Message to SOAP Server
         String keyPub = StringMD.getStringMessageDigest(globalProperties.keyApp + hour, StringMD.MD5);
-        System.out.println("Hora:" + hour);
-        System.out.println(globalProperties.service + keyPub);
-        System.out.println(globalProperties.keyApp + hour);
         SOAPMessage soapResponse = null;
         JSONObject jsonObject = null;
         JSONArray arr = null;

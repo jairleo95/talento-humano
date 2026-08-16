@@ -5,14 +5,14 @@ spring:
     virtual:
       enabled: true
   r2dbc:
-    url: r2dbc:postgresql://localhost:5434/identity_db
-    username: identity_user
-    password: changeme
+    url: ${DB_URL:r2dbc:postgresql://localhost:5434/identity_db}
+    username: ${DB_USERNAME:identity_user}
+    password: ${DB_PASSWORD}
   flyway:
     enabled: true
-    url: jdbc:postgresql://localhost:5434/identity_db
-    user: identity_user
-    password: changeme
+    url: ${DB_JDBC_URL:jdbc:postgresql://localhost:5434/identity_db}
+    user: ${DB_USERNAME:identity_user}
+    password: ${DB_PASSWORD}
     schemas: public
 
 server:
@@ -29,7 +29,7 @@ management:
 
 app:
   jwt:
-    secret: ${JWT_SECRET:d94a1f5c8e7b03a2f91c6d4e82b5073a9f0e1d2c3b4a59687a8b9c0d1e2f3a4b5c}
+    secret: ${JWT_SECRET}
     expiration: ${JWT_EXPIRATION:1h}
 
 logging:

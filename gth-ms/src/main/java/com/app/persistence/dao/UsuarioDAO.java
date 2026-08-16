@@ -64,10 +64,10 @@ public class UsuarioDAO implements IUsuarioDAO {
     @Override
     public List<User> USER_LOGIN(String Usuario, String PWD) {
         this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-        String sql = "SELECT * FROM RHTC_USUARIO where no_usuario='" + Usuario.trim() + "' and pw_usuario='" + PWD.trim() + "'";
+        String sql = "SELECT * FROM RHTC_USUARIO where no_usuario=? and pw_usuario=?";
         List<User> list = new ArrayList<User>();
         try {
-            ResultSet rs = this.conn.query(sql);
+            ResultSet rs = this.conn.queryPrepared(sql, Usuario.trim(), PWD.trim());
             while (rs.next()) {
                 User us = new User();
                 us.setId_usuario(rs.getString("id_usuario"));
@@ -96,10 +96,10 @@ public class UsuarioDAO implements IUsuarioDAO {
     @Override
     public List<V_Usuario> Val_Usuario(String Usuario, String PWD) {
         this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-        String sql = "select * from rhvd_usuario where no_usuario='" + Usuario.trim() + "' and pw_usuario='" + PWD + "'";
+        String sql = "select * from rhvd_usuario where no_usuario=? and pw_usuario=?";
         List<V_Usuario> list = new ArrayList<V_Usuario>();
         try {
-            ResultSet rs = this.conn.query(sql.toString());
+            ResultSet rs = this.conn.queryPrepared(sql, Usuario.trim(), PWD);
             while (rs.next()) {
                 V_Usuario us = new V_Usuario();
                 us.setId_usuario(rs.getString("id_usuario").trim());
@@ -143,10 +143,10 @@ public class UsuarioDAO implements IUsuarioDAO {
     public int Val_Cuenta(int Usuario) {
 
         this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-        String sql = "select count(*) from rhtc_usuario where usuario = '" + Usuario + "'";
+        String sql = "select count(*) from rhtc_usuario where usuario = ?";
         int num = 0;
         try {
-            ResultSet rs = this.conn.query(sql.toString());
+            ResultSet rs = this.conn.queryPrepared(sql, Usuario);
 
             while (rs.next()) {
                 num = rs.getInt(1);
@@ -198,10 +198,10 @@ public class UsuarioDAO implements IUsuarioDAO {
     public List<V_Usuario> Val_Usuario(String id_usuario) {
         this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
 
-        String sql = "select * from rhvd_usuario where id_usuario='" + id_usuario + "'";
+        String sql = "select * from rhvd_usuario where id_usuario=?";
         List<V_Usuario> list = new ArrayList<V_Usuario>();
         try {
-            ResultSet rs = this.conn.query(sql.toString());
+            ResultSet rs = this.conn.queryPrepared(sql, id_usuario);
             while (rs.next()) {
                 V_Usuario v = new V_Usuario();
 
@@ -312,10 +312,10 @@ public class UsuarioDAO implements IUsuarioDAO {
     @Override
     public List<User> List_ID_User(String id_user) {
         this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-        String sql = "select * from RHTC_USUARIO where ID_USUARIO ='" + id_user + "'";
+        String sql = "select * from RHTC_USUARIO where ID_USUARIO =?";
         List<User> list = new ArrayList<User>();
         try {
-            ResultSet rs = this.conn.query(sql);
+            ResultSet rs = this.conn.queryPrepared(sql, id_user);
             while (rs.next()) {
                 User us = new User();
                 us.setId_usuario(rs.getString("id_usuario"));
@@ -413,10 +413,10 @@ public class UsuarioDAO implements IUsuarioDAO {
     @Override
     public List<V_Var_Usuario> List_Usuario_var_id(String id_usu) {
         this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-        String sql = "select * from RHVD_VAR_USUARIO where id_usuario='" + id_usu + "'";
+        String sql = "select * from RHVD_VAR_USUARIO where id_usuario=?";
         List<V_Var_Usuario> list = new ArrayList<V_Var_Usuario>();
         try {
-            ResultSet rs = this.conn.query(sql.toString());
+            ResultSet rs = this.conn.queryPrepared(sql, id_usu);
             while (rs.next()) {
                 V_Var_Usuario v = new V_Var_Usuario();
                 v.setId_usuario(rs.getString("id_usuario"));
@@ -616,9 +616,9 @@ public class UsuarioDAO implements IUsuarioDAO {
         Boolean x = false;
         int count = 0;
         this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-        String sql = "select count(*) from rhtc_usuario where no_usuario='" + userName + "'";
+        String sql = "select count(*) from rhtc_usuario where no_usuario=?";
         try {
-            ResultSet rs = this.conn.query(sql);
+            ResultSet rs = this.conn.queryPrepared(sql, userName);
             if (rs.next()) {
                 count = rs.getInt(1);
                 if (count > 0) {

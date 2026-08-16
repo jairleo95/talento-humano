@@ -1,11 +1,12 @@
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * and open the editor.
  */
 package com.app.config.factory;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -46,6 +47,38 @@ public abstract class DBConnection {
             e.printStackTrace();
         }
         return op;
+    }
+
+    public ResultSet queryPrepared(String sql, Object... parameters) {
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try {
+            ps = connection.prepareStatement(sql);
+            setParameters(ps, parameters);
+            rs = ps.executeQuery();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return rs;
+    }
+
+    public boolean executePrepared(String sql, Object... parameters) {
+        PreparedStatement ps = null;
+        boolean op = true;
+        try {
+            ps = connection.prepareStatement(sql);
+            setParameters(ps, parameters);
+            op = ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return op;
+    }
+
+    private void setParameters(PreparedStatement ps, Object... parameters) throws SQLException {
+        for (int index = 0; index < parameters.length; index++) {
+            ps.setObject(index + 1, parameters[index]);
+        }
     }
 
     public boolean close() {

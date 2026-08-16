@@ -1,6 +1,7 @@
 package com.app.identity.service;
 
 import com.app.identity.config.JwtService;
+import com.app.identity.config.LoginRateLimiter;
 import com.app.identity.domain.Privilege;
 import com.app.identity.domain.Role;
 import com.app.identity.domain.RolePrivilege;
@@ -34,6 +35,7 @@ public class AuthService {
 
     private static final String INVALID_CREDENTIALS = "Invalid username or password";
     private static final String ACCOUNT_DISABLED = "Account is disabled";
+    private static final String TOO_MANY_ATTEMPTS = "Too many login attempts. Try again later.";
 
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
@@ -42,12 +44,24 @@ public class AuthService {
     private final PrivilegeRepository privilegeRepository;
     private final JwtService jwtService;
     private final PasswordEncoder passwordEncoder;
+    private final LoginRateLimiter rateLimiter;
 
     public Mono<LoginResponse> login(LoginRequest request) {
+        String rateLimitKey = "login:" + request.username();
+        if (rateLimiter.isBlocked(rateLimitKey)) {
+            return Mono.error(new ResponseStatusException(HttpStatus.TOO_MANY_REQUESTS, TOO_MANY_ATTEMPTS));
+        }
         return userRepository.findByUsername(request.username())
                 .switchIfEmpty(Mono.error(new ResponseStatusException(HttpStatus.UNAUTHORIZED, INVALID_CREDENTIALS)))
                 .flatMap(user -> validateCredentials(user, request.password()))
-                .flatMap(this::generateLoginResponse);
+                .flatMap(this::generateLoginResponse)
+                .doOnSuccess(response -> rateLimiter.clear(rateLimitKey))
+                .doOnError(error -> {
+                    if (error instanceof ResponseStatusException statusException
+                            && statusException.getStatusCode().value() == HttpStatus.UNAUTHORIZED.value()) {
+                        rateLimiter.registerFailure(rateLimitKey);
+                    }
+                });
     }
 
     public Mono<MeResponse> me(UUID userId) {
@@ -67,9 +81,23 @@ public class AuthService {
     }
 
     private Mono<LoginResponse> generateLoginResponse(UserAccount user) {
-        String token = jwtService.generate(user.getId(), user.getUsername());
-        return buildMeResponse(user)
-                .map(me -> new LoginResponse(token, "Bearer", jwtService.getExpirationSeconds(), me));
+        return loadRoleNames(user.getId())
+                .flatMap(roles -> {
+                    String token = jwtService.generate(user.getId(), user.getUsername(), roles);
+                    return buildMeResponse(user)
+                            .map(me -> new LoginResponse(token, "Bearer", jwtService.getExpirationSeconds(), me));
+                });
+    }
+
+    private Mono<Set<String>> loadRoleNames(UUID userId) {
+        return userRoleRepository.findByUserId(userId)
+                .map(UserRole::getRoleId)
+                .collectList()
+                .flatMap(roleIds -> roleIds.isEmpty()
+                        ? Mono.just(Set.of())
+                        : roleRepository.findAllById(roleIds)
+                                .map(Role::getName)
+                                .collect(Collectors.toUnmodifiableSet()));
     }
 
     private Mono<MeResponse> buildMeResponse(UserAccount user) {

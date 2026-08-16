@@ -25,3 +25,8 @@ npm-debug.log*
 
 # Logs
 *.log
+
+# Secrets
+.env
+# libs locales del gth-ms (no deben versionarse)
+gth-ms/libs/*.jar

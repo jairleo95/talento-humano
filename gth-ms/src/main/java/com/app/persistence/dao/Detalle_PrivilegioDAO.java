@@ -99,10 +99,10 @@ public class Detalle_PrivilegioDAO implements InterfaceDetalle_PrivilegioDAO {
     @Override
     public List<Detalle_Privilegio> List_det_pr_id(String id_pr) {
         this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-        String sql = "select * from RHTD_DETALLE_PRIVILEGIO where ID_DETALLE_PRIVILEGIO ='" + id_pr + "'";
+        String sql = "select * from RHTD_DETALLE_PRIVILEGIO where ID_DETALLE_PRIVILEGIO =?";
         List<Detalle_Privilegio> list = new ArrayList<Detalle_Privilegio>();
         try {
-            ResultSet rs = this.conn.query(sql);
+            ResultSet rs = this.conn.queryPrepared(sql, id_pr);
 
             while (rs.next()) {
                 Detalle_Privilegio icd = new Detalle_Privilegio();
@@ -130,10 +130,10 @@ public class Detalle_PrivilegioDAO implements InterfaceDetalle_PrivilegioDAO {
     @Override
     public List<X_Detalle_Privilegio> List_det_pri_id(String id_pr) {
         this.conn = FactoryConnectionDB.open(FactoryConnectionDB.ORACLE);
-        String sql = "select d.*,r.NO_ROL from RHTD_DETALLE_PRIVILEGIO d, RHTR_ROL r where d.ID_ROL=r.ID_ROL and d.ID_DETALLE_PRIVILEGIO ='" + id_pr + "'";
+        String sql = "select d.*,r.NO_ROL from RHTD_DETALLE_PRIVILEGIO d, RHTR_ROL r where d.ID_ROL=r.ID_ROL and d.ID_DETALLE_PRIVILEGIO =?";
         List<X_Detalle_Privilegio> list = new ArrayList<X_Detalle_Privilegio>();
         try {
-            ResultSet rs = this.conn.query(sql);
+            ResultSet rs = this.conn.queryPrepared(sql, id_pr);
 
             while (rs.next()) {
                 X_Detalle_Privilegio x = new X_Detalle_Privilegio();

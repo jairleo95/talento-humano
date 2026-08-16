@@ -9,7 +9,8 @@ services:
     image: postgres:16
     container_name: talento-postgres
     environment:
-      POSTGRES_PASSWORD: changeme
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     ports:
       - "5434:5432"
     volumes:
@@ -34,7 +35,7 @@ services:
   #   environment:
   #     SPRING_R2DBC_URL: r2dbc:postgresql://postgres:5432/identity_db
   #     SPRING_FLYWAY_URL: jdbc:postgresql://postgres:5432/identity_db
-  #     JWT_SECRET: d94a1f5c8e7b03a2f91c6d4e82b5073a9f0e1d2c3b4a59687a8b9c0d1e2f3a4b5c
+  #     JWT_SECRET: ${JWT_SECRET}
   #     JWT_EXPIRATION: 1h
 
   # recruitment-service:

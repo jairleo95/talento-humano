@@ -41,8 +41,8 @@ public class Renombrar implements Runnable {
     public void run() {
 
         try {
-            
-            File files = new File(getUbicacion(), getNombre());
+            String safeName = new File(this.nombre).getName();
+            File files = new File(getUbicacion(), safeName);
             getItem().write(files);
         } catch (Exception ex) {
             Logger.getLogger(Renombrar.class.getName()).log(Level.SEVERE, null, ex);

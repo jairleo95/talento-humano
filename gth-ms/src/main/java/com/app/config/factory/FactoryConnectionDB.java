@@ -16,7 +16,11 @@ public class FactoryConnectionDB {
     public static final int MYSQL = 1;
     public static final int ORACLE = 2;
 
-    public static String[] configMYSQL = {"bd_almacen", "root", "root"};
+    public static String[] configMYSQL = {
+            System.getenv().getOrDefault("GTH_MYSQL_DB", "bd_almacen"),
+            System.getenv().getOrDefault("GTH_MYSQL_USER", ""),
+            System.getenv().getOrDefault("GTH_MYSQL_PASSWORD", "")
+    };
 
     public static String[] configORACLE = {globalProperties.USER, globalProperties.USER_PWD, globalProperties.HOSTNAME, globalProperties.PORT, globalProperties.SID};
     //public static String[] configORACLE = {"gth", "123", "192.168.21.9", "1521", "xe"};

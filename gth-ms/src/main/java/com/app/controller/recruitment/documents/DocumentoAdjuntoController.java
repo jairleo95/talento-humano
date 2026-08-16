@@ -18,6 +18,7 @@ import javax.servlet.http.HttpSession;
 import com.app.persistence.dao.ContratoDAO;
 import com.app.persistence.dao_imp.IContratoDAO;
 import com.app.config.factory.FactoryConnectionDB;
+import com.app.controller.util.FileUploadValidator;
 import com.app.domain.model.Renombrar;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
@@ -113,9 +114,9 @@ public class DocumentoAdjuntoController {
                     if (fieldName.equals("archivo") & item.getName() != null) {
                         if (!item.getName().equals("")) {
 
-                            // out.println(item.getFieldName() + " : " + item.getName());
-                            nombre_archivo = String.valueOf(hora) + String.valueOf(min) + String.valueOf(sec) + "_" + num + idc + "_" + item.getName().toUpperCase();
-                            no_original = item.getName();
+                            FileUploadValidator.validateDocument(item);
+                            no_original = FileUploadValidator.sanitizeFileName(item.getName());
+                            nombre_archivo = String.valueOf(hora) + String.valueOf(min) + String.valueOf(sec) + "_" + num + idc + "_" + no_original;
                             Thread thread = new Thread(new Renombrar(item, ubicacion, nombre_archivo));
                             thread.start();
                             archivo = no_original + ":" + nombre_archivo;

@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.app.persistence.dao.Fotos_TrabajadorDAO;
+import com.app.controller.util.FileUploadValidator;
 
 /**
  *
@@ -85,8 +86,9 @@ public class PhotoController {
                         int min = fecha.get(Calendar.MINUTE);
                         int sec = fecha.get(Calendar.SECOND);
                         if (fieldName.equals("archivo")) {
-                            nombre_archivo = String.valueOf(hora) + String.valueOf(min) + String.valueOf(sec) + "_" + idtr + "_" + item.getName().toUpperCase();
-                            no_original = item.getName();
+                            FileUploadValidator.validateImage(item);
+                            no_original = FileUploadValidator.sanitizeFileName(item.getName());
+                            nombre_archivo = String.valueOf(hora) + String.valueOf(min) + String.valueOf(sec) + "_" + idtr + "_" + no_original;
                             Thread thread = new Thread(new Renombrar(item, ubicacion, nombre_archivo));
                             thread.start();
                         } else {

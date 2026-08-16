@@ -8,6 +8,7 @@ import com.app.persistence.dao_imp.ICorreoDAO;
 import com.app.persistence.dao_imp.IEmpleadoDAO;
 import com.app.domain.model.V_Autorizar_Dgp;
 import com.app.controller.util.CCriptografiar;
+import com.app.controller.util.Html;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -152,8 +153,8 @@ public class AcademicImboxController {
                             htmlBody += " <ul class='dropdown-menu'>";
                             htmlBody += "  <li><a href='dgp?iddgp=" + autCA.getId_dgp().trim() + "&opc=Seguimiento'>Ver Proceso</a></li>";
                             htmlBody += "  <li><a href='documento?iddgp=" + autCA.getId_dgp().trim() + "&idtr=" + autCA.getId_trabajador().trim() + "&opc=Ver_Documento'>Ver Documentos</a></li>";
-                            htmlBody += "   <li><a  data-valor='" + autCA.getId_dgp().trim() + ";" + autCA.getId_trabajador().trim() + ";" + autCA.getAp_paterno() + " " + autCA.getAp_materno() + " "
-                                    + autCA.getNo_trabajador() + "' class='click' data-toggle='modal' data-target='#myModal' data-backdrop='static' data-keyboard='false' onclick='sendAjax('')' >Comentario</a></li>";
+                            htmlBody += "   <li><a  data-valor='" + autCA.getId_dgp().trim() + ";" + autCA.getId_trabajador().trim() + ";" + Html.esc(autCA.getAp_paterno()) + " " + Html.esc(autCA.getAp_materno()) + " "
+                                    + Html.esc(autCA.getNo_trabajador()) + "' class='click' data-toggle='modal' data-target='#myModal' data-backdrop='static' data-keyboard='false' onclick='sendAjax('')' >Comentario</a></li>";
                             if (Integer.parseInt(autCA.getElab_contrato()) > 0) {
                                 htmlBody += "<li>";
                                 htmlBody += "  <a href='contrato?idtr=" + autCA.getId_trabajador().trim() + "&opc=Detalle_Contractual'>Ver Contrato</a></li>";
@@ -198,7 +199,7 @@ public class AcademicImboxController {
                                 htmlBody += "   <img class='user_avatar_" + autCA.getId_trabajador() + "' src='Archivo/Fotos/" + autCA.getAr_foto() + "'  width='30'  height='30'>";
                                 htmlBody += " </td>";
                             }
-                            htmlBody += "  <td >" + autCA.getAp_paterno() + " " + autCA.getAp_materno() + " " + autCA.getNo_trabajador() + "</td>";
+                            htmlBody += "  <td >" + Html.esc(autCA.getAp_paterno()) + " " + Html.esc(autCA.getAp_materno()) + " " + Html.esc(autCA.getNo_trabajador()) + "</td>";
                             htmlBody += " <td >" + autCA.getNo_puesto() + "</td>";
                             htmlBody += "  <td >" + autCA.getNo_area() + "</td>";
                             htmlBody += "<td >" + autCA.getNo_dep() + "</td>";
