@@ -1,25 +1,35 @@
-import { useParams, useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import { Button } from 'primereact/button';
+import { Dialog } from 'primereact/dialog';
 import { Tag } from 'primereact/tag';
 import { Divider } from 'primereact/divider';
 import dayjs from 'dayjs';
 import { apiGet } from '../../core/api/client';
 import type { ContractResponse, AttachmentResponse } from './types';
+import type { WorkerResponse } from '../workers/types';
+import type { RequirementResponse } from '../requirements/types';
 
 const BASE = '/contract/api/v1/contracts';
+const RECRUITMENT_BASE = '/recruitment/api/v1/recruitment';
 
 const STATUS_TAGS: Record<string, { severity: 'info' | 'success' | 'warning' | 'danger'; label: string }> = {
   DRAFT: { severity: 'info', label: 'Borrador' },
-  SIGNED: { severity: 'success', label: 'Firmado' },
+  PENDING_SIGNATURE: { severity: 'warning', label: 'Pendiente Firma' },
+  ACTIVE: { severity: 'success', label: 'Activo' },
   EXPIRED: { severity: 'danger', label: 'Vencido' },
-  TERMINATED: { severity: 'warning', label: 'Terminado' },
+  TERMINATED: { severity: 'danger', label: 'Terminado' },
 };
 
 function fmt(val: string | undefined | null) {
   return val ? dayjs(val).format('DD/MM/YYYY') : '—';
+}
+
+function money(val: number | undefined | null) {
+  return val != null ? `S/ ${val.toLocaleString('es-PE', { minimumFractionDigits: 2 })}` : '—';
 }
 
 export function ContractDetailPage() {
@@ -32,126 +42,215 @@ export function ContractDetailPage() {
     enabled: !!id,
   });
 
+  const { data: worker } = useQuery({
+    queryKey: ['worker', contract?.workerId],
+    queryFn: () => apiGet<WorkerResponse>(`${RECRUITMENT_BASE}/workers/${contract?.workerId}`),
+    enabled: !!contract?.workerId,
+  });
+
+  const { data: requisitions = [] } = useQuery({
+    queryKey: ['requisitions'],
+    queryFn: () => apiGet<RequirementResponse[]>(`${RECRUITMENT_BASE}/requisitions`),
+    enabled: !!contract?.requisitionId,
+  });
+
+  const requisition = requisitions.find((r) => r.id === contract?.requisitionId);
+
   const { data: attachments = [] } = useQuery({
     queryKey: ['contract-attachments', id],
     queryFn: () => apiGet<AttachmentResponse[]>(`${BASE}/attachments?contractId=${id}`),
     enabled: !!id,
   });
 
+  const { data: renderedDocument, refetch: fetchRender } = useQuery({
+    queryKey: ['contract-render', id],
+    queryFn: () => apiGet<string>(`${BASE}/${id}/render`),
+    enabled: false,
+  });
+
+  const [showPreview, setShowPreview] = useState(false);
+
+  const handlePreview = () => {
+    fetchRender();
+    setShowPreview(true);
+  };
+
   if (isLoading) {
-    return <div className="flex align-items-center justify-content-center p-5">
-      <i className="pi pi-spin pi-spinner" style={{ fontSize: '2rem' }} />
-    </div>;
+    return (
+      <div className="flex align-items-center justify-content-center p-5">
+        <i className="pi pi-spin pi-spinner" style={{ fontSize: '2rem', color: '#4f8cff' }} />
+      </div>
+    );
   }
 
-  const tag = contract ? STATUS_TAGS[contract.status] : null;
+  const tag = contract ? STATUS_TAGS[contract.status] || { severity: 'info', label: contract.status } : null;
 
   return (
     <div className="flex flex-column gap-3">
-      <div className="flex align-items-center gap-2">
-        <Button icon="pi pi-arrow-left" text rounded onClick={() => navigate('/contracts')} />
-        <h3 className="m-0">Contrato {contract?.contractNumber}</h3>
-        {tag && <Tag severity={tag.severity as never} value={tag.label} />}
+      {/* Header Bar */}
+      <div className="flex align-items-center justify-content-between">
+        <div className="flex align-items-center gap-2">
+          <Button icon="pi pi-arrow-left" text rounded onClick={() => navigate('/contracts')} />
+          <h3 className="m-0">Contrato {contract?.contractNumber}</h3>
+          {tag && <Tag severity={tag.severity as never} value={tag.label} />}
+          {contract?.isSpecialCase && <Tag severity="warning" value="Caso Especial (Sin DGP)" />}
+        </div>
+        <div className="flex gap-2">
+          <Button icon="pi pi-file-pdf" label="Ver Documento Generado" severity="success" size="small" onClick={handlePreview} />
+          <Button icon="pi pi-print" label="Imprimir / PDF" outlined size="small" onClick={() => window.print()} />
+        </div>
       </div>
+
+      {/* Modal Previsualización de Documento */}
+      <Dialog header={`Documento Generado: ${contract?.contractNumber}`} visible={showPreview} onHide={() => setShowPreview(false)} style={{ width: '700px' }} maximizable>
+        <pre className="surface-ground p-3 border-round font-mono text-sm white-space-pre-wrap m-0" style={{ maxHeight: '60vh', overflowY: 'auto' }}>
+          {renderedDocument || 'Cargando documento generado...'}
+        </pre>
+      </Dialog>
 
       {contract && (
         <>
+          {/* General Contract Info */}
           <div className="surface-card border-round p-3">
+            <h4 className="mt-0 mb-3 text-primary flex align-items-center gap-2">
+              <i className="pi pi-id-card" /> Datos del Contrato
+            </h4>
             <div className="grid">
-              <div className="col-3"><label className="text-xs text-color-secondary">Nro Contrato</label><p className="m-0 font-medium">{contract.contractNumber}</p></div>
-              <div className="col-3"><label className="text-xs text-color-secondary">Requerimiento</label><p className="m-0">{contract.requisitionId?.substring(0, 8)}...</p></div>
-              <div className="col-3"><label className="text-xs text-color-secondary">Plantilla</label><p className="m-0">{contract.templateId?.substring(0, 8)}...</p></div>
-              <div className="col-3"><label className="text-xs text-color-secondary">Firmado</label><p className="m-0">{fmt(contract.signedAt)}</p></div>
-              <div className="col-3"><label className="text-xs text-color-secondary">Trabajador</label><p className="m-0">{contract.workerId || '—'}</p></div>
-              <div className="col-3"><label className="text-xs text-color-secondary">Puesto</label><p className="m-0">{contract.positionId || '—'}</p></div>
-              <div className="col-3"><label className="text-xs text-color-secondary">Creado por</label><p className="m-0">{contract.createdBy || '—'}</p></div>
-              <div className="col-3"><label className="text-xs text-color-secondary">Creado</label><p className="m-0">{fmt(contract.createdAt)}</p></div>
+              <div className="col-3">
+                <label className="text-xs text-color-secondary">Nro Contrato</label>
+                <p className="m-0 font-bold text-lg">{contract.contractNumber}</p>
+              </div>
+              <div className="col-3">
+                <label className="text-xs text-color-secondary">Trabajador</label>
+                <p className="m-0 font-medium">
+                  {worker ? (
+                    <Link to={`/workers/${worker.id}`} className="no-underline text-primary">
+                      {worker.lastNamePaternal} {worker.lastNameMaternal || ''}, {worker.firstName}
+                    </Link>
+                  ) : (
+                    contract.workerId || '—'
+                  )}
+                </p>
+              </div>
+              <div className="col-3">
+                <label className="text-xs text-color-secondary">Requerimiento / Puesto</label>
+                <p className="m-0 font-medium">
+                  {requisition ? `${requisition.requestNumber} - ${requisition.title}` : contract.positionId || '—'}
+                </p>
+              </div>
+              <div className="col-3">
+                <label className="text-xs text-color-secondary">Tipo de Contrato</label>
+                <p className="m-0 font-medium">{contract.contractType || '—'}</p>
+              </div>
+
+              <div className="col-3 mt-2">
+                <label className="text-xs text-color-secondary">Condición</label>
+                <p className="m-0">{contract.conditionType || '—'}</p>
+              </div>
+              <div className="col-3 mt-2">
+                <label className="text-xs text-color-secondary">Régimen Laboral</label>
+                <p className="m-0">{contract.laborRegime || '—'}</p>
+              </div>
+              <div className="col-3 mt-2">
+                <label className="text-xs text-color-secondary">Régimen de Pensión</label>
+                <p className="m-0">{contract.pensionRegime || '—'}</p>
+              </div>
+              <div className="col-3 mt-2">
+                <label className="text-xs text-color-secondary">Fecha Suscripción / Firma</label>
+                <p className="m-0">{fmt(contract.signedAt || contract.signingDate)}</p>
+              </div>
             </div>
           </div>
 
+          {/* Fechas de Vigencia */}
           <div className="surface-card border-round p-3">
-            <h4 className="mt-0 mb-2">Fechas</h4>
+            <h4 className="mt-0 mb-3 text-primary flex align-items-center gap-2">
+              <i className="pi pi-calendar" /> Fechas y Horarios
+            </h4>
             <div className="grid">
-              <div className="col-3"><label className="text-xs text-color-secondary">Inicio</label><p className="m-0">{fmt(contract.startDate)}</p></div>
-              <div className="col-3"><label className="text-xs text-color-secondary">Fin</label><p className="m-0">{fmt(contract.endDate)}</p></div>
-              <div className="col-3"><label className="text-xs text-color-secondary">Terminación</label><p className="m-0">{fmt(contract.terminationDate)}</p></div>
+              <div className="col-3">
+                <label className="text-xs text-color-secondary">Fecha Inicio</label>
+                <p className="m-0 font-semibold text-green-500">{fmt(contract.startDate)}</p>
+              </div>
+              <div className="col-3">
+                <label className="text-xs text-color-secondary">Fecha Fin</label>
+                <p className="m-0 font-semibold text-orange-500">{fmt(contract.endDate)}</p>
+              </div>
+              <div className="col-3">
+                <label className="text-xs text-color-secondary">Fecha Terminación</label>
+                <p className="m-0">{fmt(contract.terminationDate)}</p>
+              </div>
+              <div className="col-3">
+                <label className="text-xs text-color-secondary">Jornada Horaria</label>
+                <p className="m-0">{contract.weeklyHours || 48} hrs/sem ({contract.dailyHours || 8} hrs/día)</p>
+              </div>
             </div>
           </div>
 
+          {/* Remuneración y Beneficios */}
           <div className="surface-card border-round p-3">
-            <h4 className="mt-0 mb-2">Información laboral y financiera</h4>
+            <h4 className="mt-0 mb-3 text-primary flex align-items-center gap-2">
+              <i className="pi pi-dollar" /> Remuneración y Beneficios (Soles - S/)
+            </h4>
             <div className="grid">
-              <div className="col-2"><label className="text-xs text-color-secondary">Salario</label><p className="m-0">Gs. {(contract.salaryAmount || 0).toLocaleString()}</p></div>
-              <div className="col-2"><label className="text-xs text-color-secondary">Reintegro</label><p className="m-0">Gs. {(contract.reintegrationAmount || 0).toLocaleString()}</p></div>
-              <div className="col-2"><label className="text-xs text-color-secondary">Asig. Familiar</label><p className="m-0">Gs. {(contract.familyAllowance || 0).toLocaleString()}</p></div>
-              <div className="col-2"><label className="text-xs text-color-secondary">Horas sem.</label><p className="m-0">{contract.weeklyHours || '—'}</p></div>
-              <div className="col-2"><label className="text-xs text-color-secondary">Horas diarias</label><p className="m-0">{contract.dailyHours || '—'}</p></div>
-              <div className="col-2"><label className="text-xs text-color-secondary">Condición</label><p className="m-0">{contract.conditionType || '—'}</p></div>
-              <div className="col-4"><label className="text-xs text-color-secondary">Régimen laboral</label><p className="m-0">{contract.laborRegime || '—'}</p></div>
-              <div className="col-4"><label className="text-xs text-color-secondary">Régimen pensión</label><p className="m-0">{contract.pensionRegime || '—'}</p></div>
-              <div className="col-4"><label className="text-xs text-color-secondary">Tipo contrato</label><p className="m-0">{contract.contractType || '—'}</p></div>
+              <div className="col-3">
+                <label className="text-xs text-color-secondary">Salario Base</label>
+                <p className="m-0 font-bold text-lg text-primary">{money(contract.salaryAmount)}</p>
+              </div>
+              <div className="col-3">
+                <label className="text-xs text-color-secondary">Asignación Familiar</label>
+                <p className="m-0 font-medium">{money(contract.familyAllowance)}</p>
+              </div>
+              <div className="col-3">
+                <label className="text-xs text-color-secondary">Bono Alimentación</label>
+                <p className="m-0 font-medium">{money(contract.foodBonus)}</p>
+              </div>
+              <div className="col-3">
+                <label className="text-xs text-color-secondary">Bono Puesto</label>
+                <p className="m-0 font-medium">{money(contract.positionBonus)}</p>
+              </div>
+              <div className="col-3 mt-2">
+                <label className="text-xs text-color-secondary">BEV Bonus</label>
+                <p className="m-0">{money(contract.bevBonus)}</p>
+              </div>
+              <div className="col-3 mt-2">
+                <label className="text-xs text-color-secondary">Reintegro</label>
+                <p className="m-0">{money(contract.reintegrationAmount)}</p>
+              </div>
+              <div className="col-6 mt-2">
+                <label className="text-xs text-color-secondary">Remuneraciones Totales Estimadas</label>
+                <p className="m-0 font-bold text-xl text-green-400">
+                  {money(
+                    (contract.totalSalary || contract.salaryAmount || 0) +
+                      (contract.familyAllowance || 0) +
+                      (contract.foodBonus || 0) +
+                      (contract.positionBonus || 0)
+                  )}
+                </p>
+              </div>
             </div>
           </div>
 
+          {/* Observaciones y Notas */}
           <div className="surface-card border-round p-3">
-            <h4 className="mt-0 mb-2">Bonificaciones</h4>
-            <div className="grid">
-              <div className="col-3"><label className="text-xs text-color-secondary">Bono Alimentación</label><p className="m-0">Gs. {(contract.foodBonus || 0).toLocaleString()}</p></div>
-              <div className="col-3"><label className="text-xs text-color-secondary">BEV</label><p className="m-0">Gs. {(contract.bevBonus || 0).toLocaleString()}</p></div>
-              <div className="col-3"><label className="text-xs text-color-secondary">Bono Puesto</label><p className="m-0">Gs. {(contract.positionBonus || 0).toLocaleString()}</p></div>
-              <div className="col-3"><label className="text-xs text-color-secondary">Total Salario</label><p className="m-0">Gs. {(contract.totalSalary || 0).toLocaleString()}</p></div>
-              <div className="col-3"><label className="text-xs text-color-secondary">Tipo Hora Pago</label><p className="m-0">{contract.paymentHourType || '—'}</p></div>
-              <div className="col-3"><label className="text-xs text-color-secondary">Moneda</label><p className="m-0">{contract.currencyType || '—'}</p></div>
-            </div>
-          </div>
-
-          <div className="surface-card border-round p-3">
-            <h4 className="mt-0 mb-2">Estructura organizacional</h4>
-            <div className="grid">
-              <div className="col-3"><label className="text-xs text-color-secondary">Dirección</label><p className="m-0">{contract.directionId || '—'}</p></div>
-              <div className="col-3"><label className="text-xs text-color-secondary">Departamento</label><p className="m-0">{contract.departmentId || '—'}</p></div>
-              <div className="col-3"><label className="text-xs text-color-secondary">Área</label><p className="m-0">{contract.areaId || '—'}</p></div>
-              <div className="col-3"><label className="text-xs text-color-secondary">Sección</label><p className="m-0">{contract.sectionId || '—'}</p></div>
-              <div className="col-3"><label className="text-xs text-color-secondary">Filial</label><p className="m-0">{contract.branchId || '—'}</p></div>
-              <div className="col-3"><label className="text-xs text-color-secondary">Sucursal</label><p className="m-0">{contract.branchCode || '—'}</p></div>
-              <div className="col-3"><label className="text-xs text-color-secondary">RUC Emp.</label><p className="m-0">{contract.companyRuc || '—'}</p></div>
-            </div>
-          </div>
-
-          <div className="surface-card border-round p-3">
-            <h4 className="mt-0 mb-2">Flags y fechas adicionales</h4>
-            <div className="grid">
-              <div className="col-2"><label className="text-xs text-color-secondary">Es Jefe</label><p className="m-0">{contract.isBoss ? 'Sí' : 'No'}</p></div>
-              <div className="col-2"><label className="text-xs text-color-secondary">Discapacidad</label><p className="m-0">{contract.isDisability ? 'Sí' : 'No'}</p></div>
-              <div className="col-2"><label className="text-xs text-color-secondary">Practicante</label><p className="m-0">{contract.isIntern ? 'Sí' : 'No'}</p></div>
-              <div className="col-2"><label className="text-xs text-color-secondary">Docs. Entregados</label><p className="m-0">{contract.documentsDelivered ? 'Sí' : 'No'}</p></div>
-              <div className="col-2"><label className="text-xs text-color-secondary">Huella</label><p className="m-0">{contract.fingerprintRegistered ? 'Sí' : 'No'}</p></div>
-              <div className="col-2"><label className="text-xs text-color-secondary">Planilla</label><p className="m-0">{contract.payrollRegistered ? 'Sí' : 'No'}</p></div>
-              <div className="col-3"><label className="text-xs text-color-secondary">Tipo Convenio</label><p className="m-0">{contract.agreementType || '—'}</p></div>
-              <div className="col-3"><label className="text-xs text-color-secondary">Rem. Variable</label><p className="m-0">{contract.variableRemuneration || '—'}</p></div>
-              <div className="col-3"><label className="text-xs text-color-secondary">Grupo Ocup.</label><p className="m-0">{contract.occupationGroupId || '—'}</p></div>
-              <div className="col-3"><label className="text-xs text-color-secondary">Sub Modalidad</label><p className="m-0">{contract.subModalityId || '—'}</p></div>
-              <div className="col-4"><label className="text-xs text-color-secondary">Fec. Suscripción</label><p className="m-0">{fmt(contract.signingDate)}</p></div>
-              <div className="col-4"><label className="text-xs text-color-secondary">Vac. Inicio</label><p className="m-0">{fmt(contract.vacationStartDate)}</p></div>
-              <div className="col-4"><label className="text-xs text-color-secondary">Vac. Fin</label><p className="m-0">{fmt(contract.vacationEndDate)}</p></div>
-            </div>
+            <h4 className="mt-0 mb-2 text-primary flex align-items-center gap-2">
+              <i className="pi pi-comment" /> Observaciones y Notas
+            </h4>
+            <p className="m-0 text-color-secondary">{contract.observation || 'Sin observaciones registradas.'}</p>
           </div>
         </>
       )}
 
-      <div className="surface-card border-round p-3">
-        <h4 className="mt-0 mb-2">Observaciones</h4>
-        <p className="m-0">{contract?.observation || 'Sin observaciones'}</p>
-      </div>
-
+      {/* Adjuntos y Documentos */}
       <Divider />
-      <h4 className="m-0">Adjuntos ({attachments.length})</h4>
-      <DataTable value={attachments} emptyMessage="Sin adjuntos" className="surface-card border-round" size="small">
+      <div className="flex align-items-center justify-content-between">
+        <h4 className="m-0">Documentos Adjuntos ({attachments.length})</h4>
+      </div>
+      <DataTable value={attachments} emptyMessage="No hay documentos adjuntos a este contrato." className="surface-card border-round" size="small">
         <Column field="filename" header="Archivo" sortable />
         <Column field="contentType" header="Tipo" sortable />
-        <Column field="uri" header="URI" sortable />
-        <Column field="sizeBytes" header="Tamaño" body={(r: AttachmentResponse) => r.sizeBytes ? `${(r.sizeBytes / 1024).toFixed(1)} KB` : '—'} />
-        <Column field="createdAt" header="Fecha" body={(r: AttachmentResponse) => fmt(r.createdAt)} sortable />
+        <Column field="sizeBytes" header="Tamaño" body={(r: AttachmentResponse) => (r.sizeBytes ? `${(r.sizeBytes / 1024).toFixed(1)} KB` : '—')} />
+        <Column field="createdAt" header="Fecha Carga" body={(r: AttachmentResponse) => fmt(r.createdAt)} sortable />
       </DataTable>
     </div>
   );

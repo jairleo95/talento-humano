@@ -18,6 +18,8 @@ public interface ContractMapper {
     @Mapping(target = "createdAt", expression = "java(Instant.now())")
     @Mapping(target = "updatedAt", expression = "java(Instant.now())")
     @Mapping(target = "updatedBy", ignore = true)
+    @Mapping(target = "signedFileUrl", ignore = true)
+    @Mapping(target = "signedBy", ignore = true)
     Contract toEntity(ContractRequest request);
 
     ContractResponse toResponse(Contract entity);

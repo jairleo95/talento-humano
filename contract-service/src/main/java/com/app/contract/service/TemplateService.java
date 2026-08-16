@@ -12,6 +12,8 @@ import reactor.core.publisher.Mono;
 
 import java.util.UUID;
 
+import java.time.Instant;
+
 @Service
 @RequiredArgsConstructor
 public class TemplateService {
@@ -24,9 +26,43 @@ public class TemplateService {
         return flux.map(mapper::toResponse);
     }
 
+    public Mono<TemplateResponse> getById(UUID id) {
+        return repository.findById(id)
+                .switchIfEmpty(Mono.error(new IllegalArgumentException("Plantilla no encontrada: " + id)))
+                .map(mapper::toResponse);
+    }
+
     public Mono<TemplateResponse> create(TemplateRequest request) {
         ContractTemplate entity = mapper.toEntity(request);
         entity.setId(UUID.randomUUID());
         return repository.save(entity).map(mapper::toResponse);
+    }
+
+    public Mono<TemplateResponse> update(UUID id, TemplateRequest request) {
+        return repository.findById(id)
+                .switchIfEmpty(Mono.error(new IllegalArgumentException("Plantilla no encontrada: " + id)))
+                .flatMap(t -> {
+                    t.setName(request.name());
+                    t.setVersion(request.version());
+                    t.setContent(request.content());
+                    t.setFileName(request.fileName());
+                    t.setStatus(request.status());
+                    return repository.save(t);
+                })
+                .map(mapper::toResponse);
+    }
+
+    public Mono<TemplateResponse> toggleStatus(UUID id) {
+        return repository.findById(id)
+                .switchIfEmpty(Mono.error(new IllegalArgumentException("Plantilla no encontrada: " + id)))
+                .flatMap(t -> {
+                    t.setStatus("ACTIVE".equals(t.getStatus()) ? "INACTIVE" : "ACTIVE");
+                    return repository.save(t);
+                })
+                .map(mapper::toResponse);
+    }
+
+    public Mono<Void> delete(UUID id) {
+        return repository.deleteById(id);
     }
 }

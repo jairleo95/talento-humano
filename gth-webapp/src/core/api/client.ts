@@ -30,15 +30,29 @@ function getAuthHeader(): Record<string, string> {
 
 async function handleResponse(response: Response) {
   if (response.status === 401) {
-    onUnauthorized();
-    throw new Error('Unauthorized');
+    let message = 'Usuario o contraseña incorrectos';
+    try {
+      const body = await response.json();
+      message = body?.error || body?.message || message;
+    } catch {
+      // Ignored
+    }
+    if (!response.url.includes('/auth/login')) {
+      onUnauthorized();
+    }
+    throw new Error(message);
   }
   if (response.status === 204) {
     return null;
   }
-  const body = await response.json();
+  let body: any = null;
+  try {
+    body = await response.json();
+  } catch {
+    body = null;
+  }
   if (!response.ok) {
-    const message = body?.error || body?.message || `Request failed: ${response.status}`;
+    const message = body?.error || body?.message || `Error en el servicio (${response.status}). Verifique la conexión con el servidor.`;
     throw new Error(message);
   }
   return body;
@@ -52,6 +66,15 @@ export async function apiGet<T = unknown>(path: string): Promise<T> {
 export async function apiPost<T = unknown>(path: string, body?: unknown): Promise<T> {
   const response = await fetch(`${API_BASE}${path}`, {
     method: 'POST',
+    headers: getAuthHeader(),
+    body: body ? JSON.stringify(body) : undefined,
+  });
+  return handleResponse(response) as Promise<T>;
+}
+
+export async function apiPut<T = unknown>(path: string, body?: unknown): Promise<T> {
+  const response = await fetch(`${API_BASE}${path}`, {
+    method: 'PUT',
     headers: getAuthHeader(),
     body: body ? JSON.stringify(body) : undefined,
   });

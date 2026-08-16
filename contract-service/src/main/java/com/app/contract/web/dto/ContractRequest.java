@@ -6,7 +6,7 @@ import java.time.Instant;
 import java.util.UUID;
 
 public record ContractRequest(
-        @NotNull UUID requisitionId,
+        UUID requisitionId,
         @NotNull UUID templateId,
         String contractNumber,
         String positionId,
@@ -52,6 +52,8 @@ public record ContractRequest(
         String companyRuc,
         String branchCode,
         String specialSituationId,
-        String specialSituationDesc
+        String specialSituationDesc,
+        UUID parentContractId,
+        Boolean isSpecialCase
 ) {
 }

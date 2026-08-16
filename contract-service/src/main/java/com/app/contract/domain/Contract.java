@@ -180,4 +180,16 @@ public class Contract {
 
     @Column("special_situation_desc")
     private String specialSituationDesc;
+
+    @Column("parent_contract_id")
+    private UUID parentContractId;
+
+    @Column("is_special_case")
+    private Boolean isSpecialCase;
+
+    @Column("signed_file_url")
+    private String signedFileUrl;
+
+    @Column("signed_by")
+    private String signedBy;
 }

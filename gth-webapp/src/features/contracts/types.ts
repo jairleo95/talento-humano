@@ -52,10 +52,14 @@ export interface ContractResponse {
   branchCode: string;
   specialSituationId: string;
   specialSituationDesc: string;
+  parentContractId?: string;
+  isSpecialCase?: boolean;
+  signedFileUrl?: string;
+  signedBy?: string;
 }
 
 export interface ContractRequest {
-  requisitionId: string;
+  requisitionId?: string;
   templateId: string;
   contractNumber: string;
   positionId: string;
@@ -102,6 +106,8 @@ export interface ContractRequest {
   branchCode: string;
   specialSituationId: string;
   specialSituationDesc: string;
+  parentContractId?: string;
+  isSpecialCase?: boolean;
 }
 
 export interface TemplateResponse {

@@ -16,6 +16,13 @@ import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+
+import java.util.UUID;
+
 @RestController
 @RequestMapping("/api/v1/contracts/templates")
 @RequiredArgsConstructor
@@ -28,9 +35,30 @@ public class TemplateController {
         return service.list(name);
     }
 
+    @GetMapping("/{id}")
+    public Mono<TemplateResponse> getById(@PathVariable UUID id) {
+        return service.getById(id);
+    }
+
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Mono<TemplateResponse> create(@RequestBody @Validated TemplateRequest request) {
         return service.create(request);
+    }
+
+    @PutMapping("/{id}")
+    public Mono<TemplateResponse> update(@PathVariable UUID id, @RequestBody @Validated TemplateRequest request) {
+        return service.update(id, request);
+    }
+
+    @PatchMapping("/{id}/toggle")
+    public Mono<TemplateResponse> toggleStatus(@PathVariable UUID id) {
+        return service.toggleStatus(id);
+    }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public Mono<Void> delete(@PathVariable UUID id) {
+        return service.delete(id);
     }
 }

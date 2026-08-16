@@ -30,3 +30,5 @@ npm-debug.log*
 .env
 # libs locales del gth-ms (no deben versionarse)
 gth-ms/libs/*.jar
+*.tsbuildinfo
+vite.config.d.ts

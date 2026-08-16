@@ -20,16 +20,32 @@ import reactor.core.publisher.Mono;
 
 import java.util.UUID;
 
+import com.app.contract.service.TemplateRenderService;
+import org.springframework.http.MediaType;
+
 @RestController
 @RequestMapping("/api/v1/contracts")
 @RequiredArgsConstructor
 public class ContractController {
 
     private final ContractService service;
+    private final TemplateRenderService renderService;
 
     @GetMapping
     public Flux<ContractResponse> list(@RequestParam(name = "requisitionId", required = false) UUID requisitionId) {
         return service.list(requisitionId);
+    }
+
+    @GetMapping("/{id}")
+    public Mono<ContractResponse> getById(@PathVariable UUID id) {
+        return service.list(null)
+                .filter(c -> c.id().equals(id))
+                .next();
+    }
+
+    @GetMapping(value = "/{id}/render", produces = MediaType.TEXT_PLAIN_VALUE)
+    public Mono<String> render(@PathVariable UUID id) {
+        return renderService.renderContract(id);
     }
 
     @PostMapping
@@ -46,5 +62,22 @@ public class ContractController {
     @PatchMapping("/{id}")
     public Mono<ContractResponse> update(@PathVariable UUID id, @RequestBody ContractRequest request) {
         return service.update(id, request);
+    }
+
+    @GetMapping("/worker/{workerId}/history")
+    public Flux<ContractResponse> getWorkerHistory(@PathVariable String workerId) {
+        return service.getWorkerHistory(workerId);
+    }
+
+    @PatchMapping("/{id}/signed-document")
+    public Mono<ContractResponse> uploadSignedDocument(@PathVariable UUID id,
+                                                        @RequestParam("fileUrl") String fileUrl,
+                                                        @RequestParam(name = "signedBy", defaultValue = "admin") String signedBy) {
+        return service.uploadSignedDocument(id, fileUrl, signedBy);
+    }
+
+    @PostMapping(value = "/batch-render", produces = MediaType.TEXT_HTML_VALUE)
+    public Mono<String> batchRender(@RequestBody java.util.List<UUID> contractIds) {
+        return renderService.renderBatchContracts(contractIds);
     }
 }

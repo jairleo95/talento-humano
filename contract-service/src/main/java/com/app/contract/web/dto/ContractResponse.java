@@ -56,6 +56,10 @@ public record ContractResponse(
         String companyRuc,
         String branchCode,
         String specialSituationId,
-        String specialSituationDesc
+        String specialSituationDesc,
+        UUID parentContractId,
+        Boolean isSpecialCase,
+        String signedFileUrl,
+        String signedBy
 ) {
 }
