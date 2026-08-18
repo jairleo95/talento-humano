@@ -35,6 +35,7 @@ public class TemplateService {
     public Mono<TemplateResponse> create(TemplateRequest request) {
         ContractTemplate entity = mapper.toEntity(request);
         entity.setId(UUID.randomUUID());
+        entity.setContent(HtmlSanitizer.sanitize(request.content()));
         return repository.save(entity).map(mapper::toResponse);
     }
 
@@ -44,7 +45,7 @@ public class TemplateService {
                 .flatMap(t -> {
                     t.setName(request.name());
                     t.setVersion(request.version());
-                    t.setContent(request.content());
+                    t.setContent(HtmlSanitizer.sanitize(request.content()));
                     t.setFileName(request.fileName());
                     t.setStatus(request.status());
                     return repository.save(t);

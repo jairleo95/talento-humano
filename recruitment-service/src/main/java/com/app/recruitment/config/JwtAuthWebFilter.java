@@ -1,10 +1,12 @@
-package com.app.identity.config;
+package com.app.recruitment.config;
 
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
@@ -13,37 +15,26 @@ import org.springframework.web.server.WebFilter;
 import org.springframework.web.server.WebFilterChain;
 import reactor.core.publisher.Mono;
 
+import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
-import java.util.Set;
 
 @Component
 @Order(Ordered.HIGHEST_PRECEDENCE)
 public class JwtAuthWebFilter implements WebFilter {
 
     private static final String BEARER_PREFIX = "Bearer ";
-    private static final String ADMIN_ROLE = "ADMIN";
-    private static final String ME_PATH = "/api/v1/users/me";
+    private static final String TOKEN_ISSUER = "gth-identity";
 
-    private static final Set<String> PUBLIC_PATHS = Set.of(
-            "/api/v1/auth/login"
-    );
-    private static final Set<String> ADMIN_PATHS = Set.of(
-            "/api/v1/users",
-            "/api/v1/roles",
-            "/api/v1/privileges"
-    );
+    private final SecretKey key;
 
-    private final JwtService jwtService;
-
-    public JwtAuthWebFilter(JwtService jwtService) {
-        this.jwtService = jwtService;
+    public JwtAuthWebFilter(@Value("${app.jwt.secret}") String secret) {
+        this.key = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
     }
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, WebFilterChain chain) {
         String path = exchange.getRequest().getURI().getPath();
-
-        if (isPublic(path)) {
+        if (path.equals("/actuator/health") || path.equals("/actuator/info")) {
             return chain.filter(exchange);
         }
 
@@ -53,39 +44,13 @@ public class JwtAuthWebFilter implements WebFilter {
         }
 
         String token = authHeader.substring(BEARER_PREFIX.length());
-        JwtService.TokenClaims claims;
         try {
-            claims = jwtService.parse(token);
+            Jwts.parser().requireIssuer(TOKEN_ISSUER).verifyWith(key).build().parseSignedClaims(token);
         } catch (Exception ex) {
             return writeError(exchange, HttpStatus.UNAUTHORIZED, "Invalid or expired token");
         }
 
-        if (requiresAdminRole(exchange, path) && !claims.roles().contains(ADMIN_ROLE)) {
-            return writeError(exchange, HttpStatus.FORBIDDEN, "Insufficient privileges");
-        }
-
         return chain.filter(exchange);
-    }
-
-    private boolean requiresAdminRole(ServerWebExchange exchange, String path) {
-        if (path.startsWith(ME_PATH)) {
-            return false;
-        }
-        HttpMethod method = exchange.getRequest().getMethod();
-        if (method == null) {
-            return false;
-        }
-        boolean isWrite = method == HttpMethod.POST || method == HttpMethod.PUT
-                || method == HttpMethod.PATCH || method == HttpMethod.DELETE;
-        if (!isWrite && method != HttpMethod.GET) {
-            return false;
-        }
-        return ADMIN_PATHS.stream().anyMatch(path::startsWith);
-    }
-
-    private boolean isPublic(String path) {
-        return PUBLIC_PATHS.stream().anyMatch(path::equals)
-                || path.equals("/actuator/health") || path.equals("/actuator/info");
     }
 
     private Mono<Void> writeError(ServerWebExchange exchange, HttpStatus status, String message) {

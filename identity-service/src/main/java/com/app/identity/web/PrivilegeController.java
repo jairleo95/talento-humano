@@ -6,7 +6,10 @@ import com.app.identity.domain.RolePrivilege;
 import com.app.identity.persistence.PrivilegeRepository;
 import com.app.identity.persistence.RolePrivilegeRepository;
 import com.app.identity.persistence.RoleRepository;
+import com.app.identity.web.dto.PrivilegeRequest;
+import com.app.identity.web.dto.RoleRequest;
 import com.app.identity.web.dto.RoleResponse;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -40,8 +43,15 @@ public class PrivilegeController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Mono<Privilege> create(@RequestBody Privilege privilege) {
-        if (privilege.getId() == null) privilege.setId(UUID.randomUUID());
+    public Mono<Privilege> create(@RequestBody @Valid PrivilegeRequest request) {
+        Privilege privilege = new Privilege();
+        privilege.setId(UUID.randomUUID());
+        privilege.setCode(request.code());
+        privilege.setDescription(request.description());
+        privilege.setLinkUrl(request.linkUrl());
+        privilege.setIcon(request.icon());
+        privilege.setModuleName(request.moduleName());
+        privilege.setSortOrder(request.sortOrder());
         return privilegeRepo.save(privilege);
     }
 
@@ -65,8 +75,11 @@ class RoleManagementController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Mono<Role> create(@RequestBody Role role) {
-        if (role.getId() == null) role.setId(UUID.randomUUID());
+    public Mono<Role> create(@RequestBody @Valid RoleRequest request) {
+        Role role = new Role();
+        role.setId(UUID.randomUUID());
+        role.setName(request.name());
+        role.setDescription(request.description());
         return roleRepo.save(role);
     }
 

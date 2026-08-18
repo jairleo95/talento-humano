@@ -1,18 +1,25 @@
 const net = require('net');
 
-// Create a server object
+const HOST = process.env.PUSH_HOST || '127.0.0.1';
+const PORT = parseInt(process.env.PUSH_PORT || '9898', 10);
+const MAX_MESSAGE_SIZE = 4 * 1024;
+
 const server = net.createServer((socket) => {
   socket.on('data', (data) => {
-    console.log(data.toString());
+    if (data.length > MAX_MESSAGE_SIZE) {
+      socket.write('SERVER: mensaje demasiado grande.\n');
+      socket.end();
+      return;
+    }
+    console.log('Datos recibidos (truncados):', data.toString().slice(0, 200));
   });
 
   socket.write('SERVER: Hello! This is server speaking.\n');
   socket.end('SERVER: Closing connection now.\n');
 }).on('error', (err) => {
-  console.error(err);
+  console.error(err.message);
 });
 
-// Open server on port 9898
-server.listen(9898, () => {
-  console.log('opened server on', server.address().port);
+server.listen(PORT, HOST, () => {
+  console.log('Servidor TCP abierto en ' + HOST + ':' + server.address().port);
 });

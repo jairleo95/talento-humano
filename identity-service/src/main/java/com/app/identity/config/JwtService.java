@@ -18,6 +18,7 @@ public class JwtService {
 
     private static final String CLAIM_USERNAME = "username";
     private static final String CLAIM_ROLES = "roles";
+    private static final String ISSUER = "gth-identity";
 
     private final SecretKey key;
     private final JwtProperties properties;
@@ -30,6 +31,7 @@ public class JwtService {
     public String generate(UUID userId, String username, Set<String> roles) {
         Instant now = Instant.now();
         return Jwts.builder()
+                .issuer(ISSUER)
                 .subject(userId.toString())
                 .claim(CLAIM_USERNAME, username)
                 .claim(CLAIM_ROLES, roles)
@@ -41,6 +43,7 @@ public class JwtService {
 
     public TokenClaims parse(String token) {
         Claims claims = Jwts.parser()
+                .requireIssuer(ISSUER)
                 .verifyWith(key)
                 .build()
                 .parseSignedClaims(token)

@@ -14,9 +14,13 @@ spring:
     user: ${DB_USERNAME:identity_user}
     password: ${DB_PASSWORD}
     schemas: public
+    placeholders:
+      adminInitialPasswordHash: ${ADMIN_INITIAL_PASSWORD_HASH}
+      userInitialPasswordHash: ${USER_INITIAL_PASSWORD_HASH}
 
 server:
   port: 8081
+  address: ${SERVER_ADDRESS:127.0.0.1}
 
 management:
   endpoints:

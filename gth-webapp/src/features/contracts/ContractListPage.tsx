@@ -16,6 +16,7 @@ import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import dayjs from 'dayjs';
+import DOMPurify from 'dompurify';
 import { apiGet, apiPost, apiPatch } from '../../core/api/client';
 import type { ContractResponse, ContractRequest, AttachmentResponse } from './types';
 import { VALIDATION_RULES } from '../../shared/validations';
@@ -500,7 +501,7 @@ export function ContractListPage() {
           <div className="alert alert-info text-xs mb-3 flex align-items-center gap-2">
             <i className="pi pi-info-circle" /> Se compiló el lote continuo de contratos. Haga clic en <strong>Imprimir Documentos</strong> para enviar a la impresora.
           </div>
-          <div dangerouslySetInnerHTML={{ __html: batchHtml || '' }} />
+          <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(batchHtml || '') }} />
         </div>
       </Dialog>
 

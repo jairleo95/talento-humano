@@ -38,15 +38,15 @@ public class TemplateRenderService {
         if (template == null) return buildDefaultRender(c);
         
         String result = template;
-        result = result.replace("${NRO_CONTRATO}", c.getContractNumber() != null ? c.getContractNumber() : "—");
-        result = result.replace("${TRABAJADOR_ID}", c.getWorkerId() != null ? c.getWorkerId() : "—");
-        result = result.replace("${PUESTO_ID}", c.getPositionId() != null ? c.getPositionId() : "—");
+        result = result.replace("${NRO_CONTRATO}", HtmlSanitizer.escapeText(c.getContractNumber()));
+        result = result.replace("${TRABAJADOR_ID}", HtmlSanitizer.escapeText(c.getWorkerId() != null ? c.getWorkerId().toString() : null));
+        result = result.replace("${PUESTO_ID}", HtmlSanitizer.escapeText(c.getPositionId() != null ? c.getPositionId().toString() : null));
         result = result.replace("${SALARIO}", c.getSalaryAmount() != null ? "S/ " + c.getSalaryAmount() : "S/ 0.00");
         result = result.replace("${FECHA_INICIO}", c.getStartDate() != null ? DATE_FORMATTER.format(c.getStartDate()) : "—");
         result = result.replace("${FECHA_FIN}", c.getEndDate() != null ? DATE_FORMATTER.format(c.getEndDate()) : "—");
-        result = result.replace("${REGIMEN_LABORAL}", c.getLaborRegime() != null ? c.getLaborRegime() : "—");
-        result = result.replace("${REGIMEN_PENSION}", c.getPensionRegime() != null ? c.getPensionRegime() : "—");
-        result = result.replace("${CONDICION}", c.getConditionType() != null ? c.getConditionType() : "—");
+        result = result.replace("${REGIMEN_LABORAL}", HtmlSanitizer.escapeText(c.getLaborRegime()));
+        result = result.replace("${REGIMEN_PENSION}", HtmlSanitizer.escapeText(c.getPensionRegime()));
+        result = result.replace("${CONDICION}", HtmlSanitizer.escapeText(c.getConditionType()));
         return result;
     }
 
@@ -55,15 +55,15 @@ public class TemplateRenderService {
         sb.append("=====================================================\n");
         sb.append("       CONTRATO INDIVIDUAL DE TRABAJO               \n");
         sb.append("=====================================================\n\n");
-        sb.append("NÚMERO DE CONTRATO : ").append(c.getContractNumber()).append("\n");
-        sb.append("TRABAJADOR ID      : ").append(c.getWorkerId() != null ? c.getWorkerId() : "—").append("\n");
-        sb.append("PUESTO ID          : ").append(c.getPositionId() != null ? c.getPositionId() : "—").append("\n");
-        sb.append("RÉGIMEN LABORAL    : ").append(c.getLaborRegime() != null ? c.getLaborRegime() : "—").append("\n");
+        sb.append("NÚMERO DE CONTRATO : ").append(HtmlSanitizer.escapeText(c.getContractNumber())).append("\n");
+        sb.append("TRABAJADOR ID      : ").append(HtmlSanitizer.escapeText(c.getWorkerId() != null ? c.getWorkerId().toString() : null)).append("\n");
+        sb.append("PUESTO ID          : ").append(HtmlSanitizer.escapeText(c.getPositionId() != null ? c.getPositionId().toString() : null)).append("\n");
+        sb.append("RÉGIMEN LABORAL    : ").append(HtmlSanitizer.escapeText(c.getLaborRegime())).append("\n");
         sb.append("REMUNERACIÓN BASE  : S/ ").append(c.getSalaryAmount() != null ? c.getSalaryAmount() : 0.0).append("\n");
         sb.append("VIGENCIA DEL       : ").append(c.getStartDate() != null ? DATE_FORMATTER.format(c.getStartDate()) : "—")
           .append(" HASTA: ").append(c.getEndDate() != null ? DATE_FORMATTER.format(c.getEndDate()) : "—").append("\n");
-        sb.append("ESTADO             : ").append(c.getStatus()).append("\n\n");
-        sb.append("OBSERVACIONES      : ").append(c.getObservation() != null ? c.getObservation() : "Ninguna").append("\n");
+        sb.append("ESTADO             : ").append(HtmlSanitizer.escapeText(c.getStatus())).append("\n\n");
+        sb.append("OBSERVACIONES      : ").append(HtmlSanitizer.escapeText(c.getObservation())).append("\n");
         return sb.toString();
     }
 

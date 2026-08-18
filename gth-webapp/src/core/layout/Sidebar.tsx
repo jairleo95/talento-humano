@@ -8,6 +8,8 @@ export function Sidebar({ collapsed }: { collapsed: boolean }) {
 
   const privileges = user?.privileges ?? [];
 
+  const isSafeUrl = (url: string) => url.startsWith('/');
+
   const getInitials = (name: string) => {
     const parts = name.split(' ');
     return (parts[0]?.[0] || '') + (parts[1]?.[0] || parts[0]?.[1] || '').toUpperCase();
@@ -25,6 +27,9 @@ export function Sidebar({ collapsed }: { collapsed: boolean }) {
 
       <ul className="menu-list">
         {privileges.map((item) => {
+          if (!isSafeUrl(item.linkUrl)) {
+            return null;
+          }
           const isActive = location.pathname === item.linkUrl || location.pathname.startsWith(item.linkUrl + '/');
           return (
             <li key={item.code}>

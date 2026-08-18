@@ -11,6 +11,7 @@ import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import dayjs from 'dayjs';
+import DOMPurify from 'dompurify';
 import { apiGet, apiPost, apiPut, apiPatch, apiDelete } from '../../core/api/client';
 import type { TemplateResponse, TemplateRequest } from './types';
 
@@ -262,7 +263,7 @@ export function TemplatePage() {
 
     return (
       <div className="font-mono text-sm white-space-pre-wrap leading-relaxed"
-        dangerouslySetInnerHTML={{ __html: replaced }}
+        dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(replaced) }}
       />
     );
   };
