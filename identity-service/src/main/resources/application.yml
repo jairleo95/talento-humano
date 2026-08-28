@@ -39,4 +39,3 @@ app:
 logging:
   level:
     root: INFO
-    org.springframework.r2dbc.core: DEBUG

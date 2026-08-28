@@ -34,8 +34,8 @@ import java.util.stream.Collectors;
 public class AuthService {
 
     private static final String INVALID_CREDENTIALS = "Invalid username or password";
-    private static final String ACCOUNT_DISABLED = "Account is disabled";
     private static final String TOO_MANY_ATTEMPTS = "Too many login attempts. Try again later.";
+    private static final String DUMMY_HASH = "$2b$12$904Yk.qLxygkRgFOV47Lpe4O3SWJ6N7Sbuaw8K.1ZxAwhF4FnQ5A6";
 
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
@@ -52,7 +52,7 @@ public class AuthService {
             return Mono.error(new ResponseStatusException(HttpStatus.TOO_MANY_REQUESTS, TOO_MANY_ATTEMPTS));
         }
         return userRepository.findByUsername(request.username())
-                .switchIfEmpty(Mono.error(new ResponseStatusException(HttpStatus.UNAUTHORIZED, INVALID_CREDENTIALS)))
+                .defaultIfEmpty(missingUser(request.username()))
                 .flatMap(user -> validateCredentials(user, request.password()))
                 .flatMap(this::generateLoginResponse)
                 .doOnSuccess(response -> rateLimiter.clear(rateLimitKey))
@@ -64,6 +64,11 @@ public class AuthService {
                 });
     }
 
+    private UserAccount missingUser(String username) {
+        return new UserAccount(UUID.randomUUID(), 0L, username, "missing@localhost",
+                Boolean.TRUE, DUMMY_HASH, java.time.Instant.now());
+    }
+
     public Mono<MeResponse> me(UUID userId) {
         return userRepository.findById(userId)
                 .switchIfEmpty(Mono.error(new ResponseStatusException(HttpStatus.UNAUTHORIZED, "User not found")))
@@ -72,7 +77,7 @@ public class AuthService {
 
     private Mono<UserAccount> validateCredentials(UserAccount user, String rawPassword) {
         if (Boolean.FALSE.equals(user.getEnabled())) {
-            return Mono.error(new ResponseStatusException(HttpStatus.UNAUTHORIZED, ACCOUNT_DISABLED));
+            return Mono.error(new ResponseStatusException(HttpStatus.UNAUTHORIZED, INVALID_CREDENTIALS));
         }
         if (!passwordEncoder.matches(rawPassword, user.getPasswordHash())) {
             return Mono.error(new ResponseStatusException(HttpStatus.UNAUTHORIZED, INVALID_CREDENTIALS));

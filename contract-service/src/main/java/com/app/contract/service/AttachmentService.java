@@ -3,6 +3,7 @@ package com.app.contract.service;
 import com.app.contract.domain.ContractAttachment;
 import com.app.contract.persistence.ContractAttachmentRepository;
 import com.app.contract.persistence.ContractRepository;
+import com.app.contract.util.UrlValidator;
 import com.app.contract.web.AttachmentMapper;
 import com.app.contract.web.dto.AttachmentRequest;
 import com.app.contract.web.dto.AttachmentResponse;
@@ -30,6 +31,9 @@ public class AttachmentService {
     }
 
     public Mono<AttachmentResponse> create(AttachmentRequest request) {
+        if (!UrlValidator.isSafeUrl(request.uri())) {
+            return Mono.error(new IllegalArgumentException("Invalid uri: only http/https URLs are allowed"));
+        }
         TransactionalOperator tx = TransactionalOperator.create(transactionManager);
         ContractAttachment entity = mapper.toEntity(request);
         entity.setId(UUID.randomUUID());

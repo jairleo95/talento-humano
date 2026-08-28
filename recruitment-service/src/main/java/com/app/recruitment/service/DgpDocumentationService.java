@@ -4,6 +4,7 @@ import com.app.recruitment.domain.DgpComment;
 import com.app.recruitment.domain.DgpDocument;
 import com.app.recruitment.persistence.DgpCommentRepository;
 import com.app.recruitment.persistence.DgpDocumentRepository;
+import com.app.recruitment.util.UrlValidator;
 import com.app.recruitment.web.DgpCommentMapper;
 import com.app.recruitment.web.DgpDocumentMapper;
 import com.app.recruitment.web.dto.DgpCommentRequest;
@@ -43,6 +44,9 @@ public class DgpDocumentationService {
     }
 
     public Mono<DgpDocumentResponse> addDocument(DgpDocumentRequest request) {
+        if (request.uri() != null && !request.uri().isBlank() && !UrlValidator.isSafeUrl(request.uri())) {
+            return Mono.error(new IllegalArgumentException("Invalid uri: only http/https URLs are allowed"));
+        }
         DgpDocument entity = docMapper.toEntity(request);
         entity.setId(UUID.randomUUID());
         return docRepo.save(entity).map(docMapper::toResponse);

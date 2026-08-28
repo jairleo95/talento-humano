@@ -46,7 +46,7 @@ public class OrgUnitController {
     }
 
     @PatchMapping("/{id}")
-    public Mono<OrgUnitResponse> update(@PathVariable UUID id, @RequestBody OrgUnitRequest request) {
+    public Mono<OrgUnitResponse> update(@PathVariable UUID id, @RequestBody @Validated OrgUnitRequest request) {
         return service.update(id, request);
     }
 

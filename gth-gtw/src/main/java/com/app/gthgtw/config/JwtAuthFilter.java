@@ -34,14 +34,11 @@ public class JwtAuthFilter implements GlobalFilter, Ordered {
             "/identity/api/v1/auth/login",
             "/gth/valida"
     );
-    private static final Set<String> ADMIN_PATHS = Set.of(
-            "/identity/api/v1/users",
-            "/identity/api/v1/roles",
-            "/identity/api/v1/privileges",
-            "/recruitment",
-            "/contract"
-    );
     private static final String ME_PATH = "/identity/api/v1/users/me";
+    private static final String LEGACY_ADMIN_PATH = "/gth";
+    private static final String IDENTITY_ADMIN_PATH = "/identity/api/v1";
+    private static final Set<String> DATA_ADMIN_PATHS = Set.of("/recruitment", "/contract");
+    private static final String PROMETHEUS_PATH = "/actuator/prometheus";
     private static final AntPathMatcher PATH_MATCHER = new AntPathMatcher();
 
     private final SecretKey key;
@@ -90,26 +87,29 @@ public class JwtAuthFilter implements GlobalFilter, Ordered {
         if (method == null) {
             return false;
         }
-        boolean isWrite = method == HttpMethod.POST || method == HttpMethod.PUT
-                || method == HttpMethod.PATCH || method == HttpMethod.DELETE;
-
         if (path.startsWith(ME_PATH)) {
             return false;
         }
-        boolean isIdentityAdminPath = ADMIN_PATHS.stream()
-                .filter(p -> p.startsWith("/identity/"))
-                .anyMatch(p -> PATH_MATCHER.match(p + "/**", path) || PATH_MATCHER.match(p, path));
-        if (isIdentityAdminPath && (isWrite || method == HttpMethod.GET)) {
+        if (PATH_MATCHER.match(PROMETHEUS_PATH, path)) {
             return true;
         }
-
-        if (isWrite) {
-            boolean isWriteAdminPath = ADMIN_PATHS.stream()
-                    .filter(p -> p.startsWith("/recruitment") || p.startsWith("/contract"))
-                    .anyMatch(p -> PATH_MATCHER.match(p + "/**", path) || PATH_MATCHER.match(p, path));
-            return isWriteAdminPath;
+        boolean isIdentityAdminPath = PATH_MATCHER.match(IDENTITY_ADMIN_PATH + "/**", path)
+                || PATH_MATCHER.match(IDENTITY_ADMIN_PATH, path);
+        if (isIdentityAdminPath && (method == HttpMethod.GET || isWriteMethod(method))) {
+            return true;
         }
-        return false;
+        boolean isLegacyAdminPath = PATH_MATCHER.match(LEGACY_ADMIN_PATH + "/**", path);
+        if (isLegacyAdminPath) {
+            return true;
+        }
+        boolean isDataPath = DATA_ADMIN_PATHS.stream()
+                .anyMatch(p -> PATH_MATCHER.match(p + "/**", path) || PATH_MATCHER.match(p, path));
+        return isDataPath;
+    }
+
+    private boolean isWriteMethod(HttpMethod method) {
+        return method == HttpMethod.POST || method == HttpMethod.PUT
+                || method == HttpMethod.PATCH || method == HttpMethod.DELETE;
     }
 
     private Set<String> parseRoles(Claims claims) {

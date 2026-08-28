@@ -46,7 +46,7 @@ public class UserController {
     }
 
     @PatchMapping("/{id}")
-    public Mono<UserResponse> update(@PathVariable UUID id, @RequestBody UpdateUserRequest request) {
+    public Mono<UserResponse> update(@PathVariable UUID id, @RequestBody @Validated UpdateUserRequest request) {
         return userService.update(id, request);
     }
 

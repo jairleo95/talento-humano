@@ -60,7 +60,7 @@ public class ContractController {
     }
 
     @PatchMapping("/{id}")
-    public Mono<ContractResponse> update(@PathVariable UUID id, @RequestBody ContractRequest request) {
+    public Mono<ContractResponse> update(@PathVariable UUID id, @RequestBody @Validated ContractRequest request) {
         return service.update(id, request);
     }
 

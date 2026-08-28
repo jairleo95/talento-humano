@@ -13,6 +13,7 @@ public class LoginRateLimiter {
     private static final int MAX_ATTEMPTS = 5;
     private static final Duration WINDOW = Duration.ofMinutes(5);
     private static final Duration BLOCK_DURATION = Duration.ofMinutes(15);
+    private static final int MAX_ENTRIES = 10_000;
 
     private final Map<String, AttemptWindow> attempts = new ConcurrentHashMap<>();
 
@@ -29,6 +30,9 @@ public class LoginRateLimiter {
 
     public void registerFailure(String key) {
         Instant now = Instant.now();
+        if (attempts.size() >= MAX_ENTRIES) {
+            evictStaleEntries(now);
+        }
         attempts.compute(key, (k, window) -> {
             AttemptWindow current = (window == null) ? new AttemptWindow() : window;
             if (current.blockedUntil != null && now.isBefore(current.blockedUntil)) {
@@ -49,6 +53,14 @@ public class LoginRateLimiter {
 
     public void clear(String key) {
         attempts.remove(key);
+    }
+
+    private void evictStaleEntries(Instant now) {
+        attempts.entrySet().removeIf(entry -> {
+            AttemptWindow window = entry.getValue();
+            return !(window.blockedUntil != null && now.isBefore(window.blockedUntil))
+                    && (window.failedAt == null || now.isAfter(window.failedAt.plus(WINDOW)));
+        });
     }
 
     private static final class AttemptWindow {

@@ -16,7 +16,7 @@ const wsServer = new WebSocketServer({
     maxPayload: MAX_MESSAGE_SIZE,
     verifyClient: (info) => {
         const origin = info.origin || '';
-        const allowed = ALLOWED_ORIGINS.length === 0 || ALLOWED_ORIGINS.includes(origin);
+        const allowed = ALLOWED_ORIGINS.includes(origin);
         if (!allowed) {
             console.warn('Conexión rechazada: origin no permitido:', origin);
         }

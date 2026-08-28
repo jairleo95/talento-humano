@@ -2,19 +2,11 @@ package com.app.contract.service;
 
 import com.app.contract.domain.Contract;
 import com.app.contract.persistence.ContractRepository;
+import com.app.contract.util.UrlValidator;
 import com.app.contract.web.ContractMapper;
 import com.app.contract.web.dto.ContractRequest;
 import com.app.contract.web.dto.ContractResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.ReactiveTransactionManager;
-import org.springframework.transaction.reactive.TransactionalOperator;
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
-
-import java.time.Instant;
-import java.util.UUID;
-
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.ReactiveTransactionManager;
@@ -41,6 +33,7 @@ public class ContractService {
                     c.setUpdatedAt(Instant.now());
                     return repository.save(c);
                 })
+                .doOnError(error -> System.err.println("Error expiring outdated contracts: " + error.getMessage()))
                 .subscribe();
     }
 
@@ -108,6 +101,9 @@ public class ContractService {
     }
 
     public Mono<ContractResponse> uploadSignedDocument(UUID id, String fileUrl, String signedBy) {
+        if (!UrlValidator.isSafeUrl(fileUrl)) {
+            return Mono.error(new IllegalArgumentException("Invalid fileUrl: only http/https URLs are allowed"));
+        }
         TransactionalOperator tx = TransactionalOperator.create(transactionManager);
         return repository.findById(id)
                 .flatMap(c -> {
