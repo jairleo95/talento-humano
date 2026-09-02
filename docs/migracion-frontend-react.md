@@ -2,7 +2,7 @@
 
 Documento de planificación y ejecución de la migración del frontend legacy (JSP + jQuery/SmartAdmin) a un SPA moderno en React, consumiendo la API vía el gateway único.
 
-Estado: **completado** — Fases R0-R5 finalizadas. 12 módulos en el menú.
+Estado: **completado** — Fases R0-R5 finalizadas. 12 módulos en el menú. +2 rondas de hardening de seguridad (commits `7f3a7768`, `99211148`).
 
 ## 1. Decisiones confirmadas
 
@@ -12,7 +12,7 @@ Estado: **completado** — Fases R0-R5 finalizadas. 12 módulos en el menú.
 | Ubicación | Reemplazar `gth-webapp/` (era Angular 14 vacío) |
 | UI library | **PrimeReact** (Datatable, Dialog, Steps, Editor) |
 | Backend mappers | **MapStruct 1.6.3** + Lombok (reemplaza mappers manuales) |
-| Gateway | **Spring Boot 3.3.6 + Spring Cloud Gateway 2023.0.3 + Java 21** (actualizado desde Boot 2.7/Java 11) |
+| Gateway | **Spring Boot 3.3.6 + Spring Cloud Gateway 2023.0.3 + Java 21** → ⚠️ **actualizado a Boot 4.0.7 + Spring Cloud 2025.1.2 + Java 21** en `7f3a7768` (artefacto `spring-cloud-starter-gateway-server-webflux`, prefijo `spring.cloud.gateway.server.webflux.*`) |
 | Autenticación | **Login JWT en identity-service** + validación del token en el gateway |
 | Estrategia | **Strangler fig**: incremental por módulo, convivencia con legacy `/gth/**` |
 | Servidor prod | **nginx** sirviendo el SPA y proxying al gateway |
@@ -295,10 +295,11 @@ gth-webapp/
 | R4 | **Usuario/Seguridad** | Search, PATCH, DELETE, /roles | UserManagementPage CRUD | ✅ |
 | R5a | **Trabajador** | 43 campos (V4+V5) | WorkerList, WorkerDetail | ✅ |
 | R5b | **Organigrama + Puesto** | Jerarquía unificada (V6+V7) | OrgStructurePage con filtro | ✅ |
-| R5c | **Presupuesto** | CostCenter (ya existía) | CostCenterPage CRUD | ✅ |
+| R5c | **Presupuesto** | CostCenter (ya existía) + budget (V10) | CostCenterPage + BudgetPage CRUD | ✅ |
 | R5d | **Académico** | Career + University (V8) | AcademicPage (TabView) | ✅ |
-| R5e | **Reportes** | — | Placeholder con 6 categorías | ✅ |
-| R5f | **Funciones** | Pendiente | Placeholder | ⬜ backend |
+| R5e | **Reportes** | — | Placeholder con 6 categorías (sin datos) | 🔄 backend+frontend |
+| R5f | **Funciones** | Pendiente | Placeholder | ⬜ |
+| R6 | **Seguridad** | RBAC, rate-limit, credenciales rotadas, URL/validation, CSP | react-router-dom 7 | ✅ |
 
 ## 7. Endpoints backend — estado
 
@@ -312,16 +313,25 @@ gth-webapp/
 | `/identity/api/v1/users` | PATCH | identity | ✅ |
 | `/identity/api/v1/users/{id}` | DELETE | identity | ✅ |
 | `/identity/api/v1/roles` | GET | identity | ✅ |
-| `/identity/api/v1/privileges` | GET | identity | ⬜ |
+| `/identity/api/v1/privileges` | GET/POST/PATCH/DELETE | identity | ✅ `5b937065` |
 | `/recruitment/api/v1/recruitment/requisitions` | GET/POST | recruitment | ✅ |
 | `/recruitment/api/v1/recruitment/requisitions/{id}/status` | PATCH | recruitment | ✅ |
+| `/recruitment/api/v1/recruitment/requisitions/{id}/comments` | GET/POST | recruitment | ✅ V9 |
+| `/recruitment/api/v1/recruitment/requisitions/{id}/documents` | GET/POST | recruitment | ✅ V9 |
 | `/recruitment/api/v1/recruitment/processes` | GET/POST | recruitment | ✅ |
 | `/recruitment/api/v1/recruitment/processes/{id}/status` | PATCH | recruitment | ✅ |
 | `/recruitment/api/v1/recruitment/processes/{id}/steps` | GET/POST | recruitment | ✅ |
 | `/recruitment/api/v1/recruitment/inbox` | GET/POST | recruitment | ✅ |
 | `/recruitment/api/v1/recruitment/inbox/{id}/status` | PATCH | recruitment | ✅ |
-| `/contract/api/v1/contracts` | GET/POST | contract | ✅ |
+| `/recruitment/api/v1/recruitment/organizational-units` | GET/POST/PATCH | recruitment | ✅ V6+V7 |
+| `/recruitment/api/v1/recruitment/workers` | GET/POST/PATCH | recruitment | ✅ V4+V5 |
+| `/recruitment/api/v1/recruitment/cost-centers` | CRUD | recruitment | ✅ |
+| `/recruitment/api/v1/recruitment/budget` | CRUD | recruitment | ✅ `db8407a3` (V10) |
+| `/recruitment/api/v1/recruitment/careers` | CRUD | recruitment | ✅ V8 |
+| `/recruitment/api/v1/recruitment/universities` | CRUD | recruitment | ✅ V8 |
+| `/contract/api/v1/contracts` | GET/POST/PATCH | contract | ✅ |
 | `/contract/api/v1/contracts/{id}/sign` | PATCH | contract | ✅ |
+| `/contract/api/v1/contracts/{id}/signed-document` | PATCH | contract | ✅ V4 |
 | `/contract/api/v1/contracts/templates` | GET/POST | contract | ✅ |
 | `/contract/api/v1/contracts/attachments` | GET/POST | contract | ✅ |
 
@@ -332,6 +342,8 @@ gth-webapp/
 |---|---|
 | V1 | init — roles, privileges, user_account, user_role, seeds ADMIN/USER |
 | V2 | auth — columna `password_hash`, seed admin/user con BCrypt |
+| V3 | privileges — tablas `privilege`, `role_privilege` (`5b937065`) |
+| V4 | rotate_default_credentials — rota hashes seed vía placeholders de env (`7f3a7768`) |
 
 ### recruitment-service
 | Versión | Descripción |
@@ -339,11 +351,21 @@ gth-webapp/
 | V1 | init — tabla `requisition` (24 columnas) |
 | V2 | process, inbox, cost_center — tablas `process`, `process_step`, `inbox_item`, `cost_center` |
 | V3 | requisition legacy fields — +10 columnas (`worker_id`, `motive`, `is_mfl`, `is_budgeted`, `ruc`, `position_bonus`, `bev_bonus`, `family_allowance`, `subsidy`, `honorarium_amount`) |
+| V4 | worker — tabla `worker` básica |
+| V5 | worker legacy fields — columnas legacy del trabajador |
+| V6 | organizational_unit — tabla `organizational_unit` |
+| V7 | puesto fields — columnas de puesto jerárquico |
+| V8 | academic — tablas `career`, `university` |
+| V9 | dgp comments/documents — tablas `dgp_comment`, `dgp_document` |
+| V10 | budget — tablas `budget_period`, `budget_allocation` (`db8407a3`) |
 
 ### contract-service
 | Versión | Descripción |
 |---|---|
 | V1 | init — tablas `contract`, `contract_template`, `contract_attachment` |
+| V2 | contract legacy fields — +28 columnas legacy |
+| V3 | allow_null_requisition — requisition_id opcional |
+| V4 | legacy contract features — `signed_file_url`, `signed_at`, `signed_by` + `contract_template_assignment` |
 
 ## 9. Paridad de campos DGP (legacy vs requisition DTO)
 
@@ -377,9 +399,9 @@ El DTO `RequisitionRequest` tiene 33 campos que cubren ~85% del formulario legac
 | `IDREQUERIMIENTO` (tipo) | `payrollTypeId` (parcial) | 🔄 |
 | Horario semanal (7 días × turnos) | — | ⬜ sub-módulo |
 | Cuotas/Pagos (várias líneas) | — | ⬜ sub-módulo |
-| Comentarios | — | ⬜ sub-módulo |
+| Comentarios | `dgp_comment` (V9) | ✅ |
 | Plazos | — | ⬜ sub-módulo |
-| Documentos adjuntos | — | ⬜ sub-módulo |
+| Documentos adjuntos | `dgp_document` (V9) | ✅ |
 
 ## 10. DevOps
 
@@ -423,8 +445,8 @@ Contenedores para el frontend (nginx:alpine + build) y servicios backend (openjd
 | identity-service | Boot 4.0.7 + WebFlux + R2DBC + Flyway + jjwt 0.12.6 | 21 |
 | recruitment-service | Boot 4.0.7 + WebFlux + R2DBC + Flyway | 21 |
 | contract-service | Boot 4.0.7 + WebFlux + R2DBC + Flyway | 21 |
-| gth-gtw (gateway) | Boot 3.3.6 + Spring Cloud Gateway 2023.0.3 | 21 |
-| gth-webapp (frontend) | React 18 + Vite + TypeScript + PrimeReact | — |
+| gth-gtw (gateway) | Boot 4.0.7 + Spring Cloud 2025.1.2 (`spring-cloud-starter-gateway-server-webflux`) | 21 |
+| gth-webapp (frontend) | React 18 + Vite + TypeScript + PrimeReact 10 + react-router-dom 7 | — |
 | DB | PostgreSQL 16 (Docker, :5434) | — |
 
 ## 13. Referencias
@@ -435,7 +457,7 @@ Contenedores para el frontend (nginx:alpine + build) y servicios backend (openjd
 
 ## 14. Análisis de brechas
 
-### 14.1 Requerimientos (DGP) — 85%
+### 14.1 Requerimientos (DGP) — 90%
 | Sub-módulo | Estado |
 |---|---|
 | CRUD DGP (33 campos) | ✅ |
@@ -444,15 +466,16 @@ Contenedores para el frontend (nginx:alpine + build) y servicios backend (openjd
 | Plazos | ⬜ V_Dgp_Plazo |
 | Horario semanal | ⬜ |
 
-### 14.2 Contrato — 90%
+### 14.2 Contrato — 92%
 | Sub-módulo | Estado |
 |---|---|
 | CRUD Contrato (56 campos) | ✅ |
-| Firmar / Plantillas / Adjuntos | ✅ |
+| Firmar / Plantillas / Adjuntos / Documento firmado | ✅ |
+| Asignación de plantilla por puesto/organigrama | ✅ V4 |
 | Tipo_Contrato catálogo | ⬜ |
-| Plantilla_Puesto / Casos Especiales | ⬜ |
+| Casos Especiales (flujo completo CE) | 🔄 parcial |
 
-### 14.3 Trabajador — 70%
+### 14.3 Trabajador — 72%
 | Sub-módulo | Estado |
 |---|---|
 | CRUD (43 campos) | ✅ |
@@ -460,30 +483,46 @@ Contenedores para el frontend (nginx:alpine + build) y servicios backend (openjd
 | Documentos trabajador | ⬜ |
 | Fotos / Historial | ⬜ |
 
-### 14.4 Organigrama — 95%
+### 14.4 Organigrama — 97%
 | Sub-módulo | Estado |
 |---|---|
-| Dirección→Puesto | ✅ |
+| Dirección→Departamento→Área→Puesto | ✅ |
 | Funciones por puesto | ⬜ |
 | Grupo_Ocupaciones / Ubigeo | ⬜ |
 
-### 14.5 Presupuesto — 40%
+### 14.5 Presupuesto — 55%
 | Sub-módulo | Estado |
 |---|---|
 | Centros de Costo | ✅ |
-| Gestión presupuestaria | ⬜ |
+| Períodos presupuestarios + asignaciones | ✅ V10 `db8407a3` |
 | Pedido / SFP / Solicitud DGP | ⬜ |
 
-### 14.6 Usuario/Seguridad — 70%
+### 14.6 Usuario/Seguridad — 85%
 | Sub-módulo | Estado |
 |---|---|
 | CRUD Usuarios / Roles | ✅ |
-| Privilegios (módulos) | ⬜ |
-| Menú dinámico por privilegios | ⬜ |
+| Privilegios (módulos) | ✅ `5b937065` |
+| Menú dinámico por privilegios | ✅ (Sidebar por roles/privilegios) |
+| Hardening: RBAC, rate-limit, anti-enumeración, CSP | ✅ `7f3a7768` `99211148` |
 
-### 14.7 Académico — 60%
+### 14.7 Académico — 65%
 | Sub-módulo | Estado |
 |---|---|
 | Universidades / Carreras | ✅ |
 | Carga académica / Pago docente | ⬜ |
 | Modalidad / Período | ⬜ |
+
+### 14.8 Reportes — 0% (real)
+| Sub-módulo | Estado |
+|---|---|
+| Trabajadores por dirección/departamento/situación | ⬜ |
+| DGP por estado y fecha | ⬜ |
+| Contratos firmados / por vencer / vencidos | ⬜ |
+| Resumen presupuestario por CC y departamento | ⬜ |
+| Asistencia y puntualidad | ⬜ |
+
+### 14.9 Funciones — 0%
+| Sub-módulo | Estado |
+|---|---|
+| Funciones/Cargos por puesto | ⬜ |
+| Asignación de funciones | ⬜ |
