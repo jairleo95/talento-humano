@@ -10,11 +10,48 @@ export interface AcademicPaymentResponse {
   id: string; chargeId: string; quotaNumber: number; amount: number; paymentDate: string | null; status: string;
 }
 
+export interface AcademicModalityResponse {
+  id: string;
+  code: string;
+  name: string;
+  subModality: string | null;
+  sortOrder: number;
+  isActive: boolean;
+  createdAt: string;
+}
+
+export interface AcademicModalityRequest {
+  code: string;
+  name: string;
+  subModality?: string | null;
+  sortOrder?: number;
+}
+
+export interface AcademicPeriodResponse {
+  id: string;
+  code: string;
+  name: string;
+  startDate: string | null;
+  endDate: string | null;
+  isActive: boolean;
+  createdAt: string;
+}
+
+export interface AcademicPeriodRequest {
+  code: string;
+  name: string;
+  startDate?: string | null;
+  endDate?: string | null;
+}
+
 export interface AcademicChargeResponse {
   id: string; workerId: string; workerName: string | null; documentNumber: string | null;
   semester: string; faculty: string; school: string; educationalSituation: string; profession: string;
   condition: string; payType: string; totalHours: number;
-  startDate: string | null; endDate: string | null; status: string;
+  startDate: string | null; endDate: string | null;
+  modalityId: string | null; modalityName: string | null;
+  periodId: string | null; periodName: string | null;
+  status: string;
   createdBy: string; createdAt: string; updatedAt: string;
   courses: AcademicCourseResponse[]; payments: AcademicPaymentResponse[];
 }

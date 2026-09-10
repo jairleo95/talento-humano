@@ -59,6 +59,12 @@ public class AcademicCharge {
     @Column("end_date")
     private LocalDate endDate;
 
+    @Column("modality_id")
+    private UUID modalityId;
+
+    @Column("period_id")
+    private UUID periodId;
+
     @Column("status")
     private String status;
 

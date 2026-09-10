@@ -24,6 +24,8 @@ import {
   type AcademicChargeResponse,
   type AcademicCourseResponse,
   type AcademicPaymentResponse,
+  type AcademicModalityResponse,
+  type AcademicPeriodResponse,
   type WorkerOption,
 } from './types';
 
@@ -42,6 +44,9 @@ function payStatusTag(status: string) {
   const severity = status === 'PAGADO' ? 'success' : 'warning';
   return <Tag value={PAYMENT_STATUS_LABEL[status] ?? status} severity={severity as 'success' | 'warning'} />;
 }
+function activeTag(isActive: boolean) {
+  return <Tag value={isActive ? 'Activo' : 'Inactivo'} severity={isActive ? 'success' : 'secondary'} />;
+}
 
 const UNI_SCHEMA = z.object({
   name: z.string().min(1, 'Requerido').max(VR.NAME_MAX, `Máx ${VR.NAME_MAX}`),
@@ -53,14 +58,29 @@ const CAREER_SCHEMA = z.object({
   universityId: z.string().min(1, 'Requerido'),
 });
 
+const MODALITY_SCHEMA = z.object({
+  code: z.string().min(1, 'Requerido').max(32, 'Máx 32'),
+  name: z.string().min(1, 'Requerido').max(128, 'Máx 128'),
+  subModality: z.string().max(128, 'Máx 128').optional(),
+  sortOrder: z.number().min(0).optional(),
+});
+
+const PERIOD_SCHEMA = z.object({
+  code: z.string().min(1, 'Requerido').max(32, 'Máx 32'),
+  name: z.string().min(1, 'Requerido').max(128, 'Máx 128'),
+  startDate: z.string().optional(),
+  endDate: z.string().optional(),
+});
+
 interface ChargeFormValues {
   workerId: string; semester: string; faculty: string; school: string; educationalSituation: string;
   profession: string; condition: string; payType: string; totalHours: number; startDate: string; endDate: string;
+  modalityId?: string; periodId?: string;
 }
 
 const CHARGE_DEFAULTS: ChargeFormValues = {
   workerId: '', semester: '', faculty: '', school: '', educationalSituation: '', profession: '',
-  condition: '', payType: '', totalHours: 0, startDate: '', endDate: '',
+  condition: '', payType: '', totalHours: 0, startDate: '', endDate: '', modalityId: '', periodId: '',
 };
 
 const CHARGE_SCHEMA: z.ZodType<ChargeFormValues> = z.object({
@@ -69,6 +89,7 @@ const CHARGE_SCHEMA: z.ZodType<ChargeFormValues> = z.object({
   faculty: z.string().max(128), school: z.string().max(128), educationalSituation: z.string().max(128),
   profession: z.string().max(128), condition: z.string().max(64), payType: z.string().min(1, 'Requerido'),
   totalHours: z.number().min(0), startDate: z.string(), endDate: z.string(),
+  modalityId: z.string().optional(), periodId: z.string().optional(),
 });
 
 export function AcademicPage() {
@@ -77,6 +98,8 @@ export function AcademicPage() {
   const [activeTab, setActiveTab] = useState(0);
   const [showUni, setShowUni] = useState(false);
   const [showCareer, setShowCareer] = useState(false);
+  const [showModality, setShowModality] = useState(false);
+  const [showPeriod, setShowPeriod] = useState(false);
   const [showCharge, setShowCharge] = useState(false);
   const [showChargeDetail, setShowChargeDetail] = useState<AcademicChargeResponse | null>(null);
   const [courses, setCourses] = useState<typeof NEW_COURSE[]>([]);
@@ -89,6 +112,14 @@ export function AcademicPage() {
   const { data: careers = [] } = useQuery({
     queryKey: ['careers'],
     queryFn: () => apiGet<{ id: string; name: string; universityId: string; createdAt: string }[]>('/recruitment/api/v1/recruitment/careers'),
+  });
+  const { data: modalities = [], isLoading: loadingModalities } = useQuery({
+    queryKey: ['academic-modalities'],
+    queryFn: () => apiGet<AcademicModalityResponse[]>('/recruitment/api/v1/recruitment/academic/modalities'),
+  });
+  const { data: periods = [], isLoading: loadingPeriods } = useQuery({
+    queryKey: ['academic-periods'],
+    queryFn: () => apiGet<AcademicPeriodResponse[]>('/recruitment/api/v1/recruitment/academic/periods'),
   });
   const { data: charges = [], isLoading: loadingCharges } = useQuery({
     queryKey: ['academic-charges'],
@@ -107,6 +138,16 @@ export function AcademicPage() {
     [workers],
   );
 
+  const modalityOptions = useMemo(
+    () => modalities.filter(m => m.isActive).map(m => ({ label: `${m.name} (${m.code})`, value: m.id })),
+    [modalities],
+  );
+
+  const periodOptions = useMemo(
+    () => periods.filter(p => p.isActive).map(p => ({ label: `${p.name} (${p.code})`, value: p.id })),
+    [periods],
+  );
+
   const uniMutate = useMutation({
     mutationFn: (b: Record<string, unknown>) => apiPost('/recruitment/api/v1/recruitment/universities', b),
     onSuccess: () => { queryClient.invalidateQueries({ queryKey: ['universities'] }); setShowUni(false); },
@@ -114,6 +155,22 @@ export function AcademicPage() {
   const careerMutate = useMutation({
     mutationFn: (b: Record<string, unknown>) => apiPost('/recruitment/api/v1/recruitment/careers', b),
     onSuccess: () => { queryClient.invalidateQueries({ queryKey: ['careers'] }); setShowCareer(false); },
+  });
+  const modalityMutate = useMutation({
+    mutationFn: (b: Record<string, unknown>) => apiPost('/recruitment/api/v1/recruitment/academic/modalities', b),
+    onSuccess: () => { queryClient.invalidateQueries({ queryKey: ['academic-modalities'] }); setShowModality(false); },
+  });
+  const modalityToggleMutate = useMutation({
+    mutationFn: (id: string) => apiPatch(`/recruitment/api/v1/recruitment/academic/modalities/${id}/toggle`, {}),
+    onSuccess: () => { queryClient.invalidateQueries({ queryKey: ['academic-modalities'] }); },
+  });
+  const periodMutate = useMutation({
+    mutationFn: (b: Record<string, unknown>) => apiPost('/recruitment/api/v1/recruitment/academic/periods', b),
+    onSuccess: () => { queryClient.invalidateQueries({ queryKey: ['academic-periods'] }); setShowPeriod(false); },
+  });
+  const periodToggleMutate = useMutation({
+    mutationFn: (id: string) => apiPatch(`/recruitment/api/v1/recruitment/academic/periods/${id}/toggle`, {}),
+    onSuccess: () => { queryClient.invalidateQueries({ queryKey: ['academic-periods'] }); },
   });
   const chargeMutate = useMutation({
     mutationFn: (b: Record<string, unknown>) => apiPost('/recruitment/api/v1/recruitment/academic-charges', b),
@@ -138,6 +195,14 @@ export function AcademicPage() {
 
   const { control, handleSubmit, reset: resetUni } = useForm({ resolver: zodResolver(UNI_SCHEMA), defaultValues: { name: '', shortName: '' } });
   const { control: c2, handleSubmit: h2, reset: r2 } = useForm({ resolver: zodResolver(CAREER_SCHEMA), defaultValues: { name: '', universityId: '' } });
+  const { control: cMod, handleSubmit: hMod, reset: rMod } = useForm({
+    resolver: zodResolver(MODALITY_SCHEMA),
+    defaultValues: { code: '', name: '', subModality: '', sortOrder: 0 },
+  });
+  const { control: cPer, handleSubmit: hPer, reset: rPer } = useForm({
+    resolver: zodResolver(PERIOD_SCHEMA),
+    defaultValues: { code: '', name: '', startDate: '', endDate: '' },
+  });
   const { control: c3, handleSubmit: h3, reset: r3 } = useForm({ resolver: zodResolver(CHARGE_SCHEMA), defaultValues: CHARGE_DEFAULTS });
 
   function openChargeDialog() {
@@ -164,6 +229,8 @@ export function AcademicPage() {
       totalHours: d.totalHours,
       startDate: d.startDate || null,
       endDate: d.endDate || null,
+      modalityId: d.modalityId || null,
+      periodId: d.periodId || null,
       createdBy: user?.username ?? 'admin',
       courses: courses.filter(c => c.courseName.trim() !== '').map(c => ({
         campus: c.campus || null, courseName: c.courseName, groupNumber: c.groupNumber || null,
@@ -201,6 +268,52 @@ export function AcademicPage() {
           </DataTable>
         </TabPanel>
 
+        <TabPanel header="Modalidades">
+          <Toolbar className="surface-card border-round my-2"
+            end={<Button label="Nueva Modalidad" icon="pi pi-plus" onClick={() => { rMod({ code: '', name: '', subModality: '', sortOrder: 0 }); setShowModality(true); }} />} />
+          <DataTable value={modalities} loading={loadingModalities} paginator rows={10} size="small" stripedRows className="surface-card border-round"
+            emptyMessage="No hay modalidades registradas">
+            <Column field="code" header="Código" sortable style={{ width: '120px' }} />
+            <Column field="name" header="Modalidad" sortable />
+            <Column field="subModality" header="Sub Modalidad" body={(r: AcademicModalityResponse) => r.subModality || '—'} sortable />
+            <Column field="sortOrder" header="Orden" sortable style={{ width: '90px' }} />
+            <Column field="isActive" header="Estado" body={(r: AcademicModalityResponse) => activeTag(r.isActive)} sortable style={{ width: '110px' }} />
+            <Column header="Acciones" style={{ width: '100px' }} body={(r: AcademicModalityResponse) => (
+              <Button
+                icon={r.isActive ? 'pi pi-ban' : 'pi pi-check'}
+                tooltip={r.isActive ? 'Desactivar' : 'Activar'}
+                size="small"
+                text
+                severity={r.isActive ? 'warning' : 'success'}
+                onClick={() => modalityToggleMutate.mutate(r.id)}
+              />
+            )} />
+          </DataTable>
+        </TabPanel>
+
+        <TabPanel header="Períodos">
+          <Toolbar className="surface-card border-round my-2"
+            end={<Button label="Nuevo Período" icon="pi pi-plus" onClick={() => { rPer({ code: '', name: '', startDate: '', endDate: '' }); setShowPeriod(true); }} />} />
+          <DataTable value={periods} loading={loadingPeriods} paginator rows={10} size="small" stripedRows className="surface-card border-round"
+            emptyMessage="No hay períodos académicos registrados">
+            <Column field="code" header="Código" sortable style={{ width: '130px' }} />
+            <Column field="name" header="Período" sortable />
+            <Column field="startDate" header="Inicio" body={(r: AcademicPeriodResponse) => dateBody(r.startDate)} sortable />
+            <Column field="endDate" header="Fin" body={(r: AcademicPeriodResponse) => dateBody(r.endDate)} sortable />
+            <Column field="isActive" header="Estado" body={(r: AcademicPeriodResponse) => activeTag(r.isActive)} sortable style={{ width: '110px' }} />
+            <Column header="Acciones" style={{ width: '100px' }} body={(r: AcademicPeriodResponse) => (
+              <Button
+                icon={r.isActive ? 'pi pi-ban' : 'pi pi-check'}
+                tooltip={r.isActive ? 'Desactivar' : 'Activar'}
+                size="small"
+                text
+                severity={r.isActive ? 'warning' : 'success'}
+                onClick={() => periodToggleMutate.mutate(r.id)}
+              />
+            )} />
+          </DataTable>
+        </TabPanel>
+
         <TabPanel header="Carga Académica">
           <Toolbar className="surface-card border-round my-2"
             end={<Button label="Nueva Carga" icon="pi pi-plus" onClick={openChargeDialog} />} />
@@ -208,6 +321,8 @@ export function AcademicPage() {
             emptyMessage="No hay cargas académicas">
             <Column header="Docente" body={(r: AcademicChargeResponse) => r.workerName ?? r.workerId} sortable />
             <Column field="semester" header="Semestre" sortable />
+            <Column header="Modalidad" body={(r: AcademicChargeResponse) => r.modalityName || '—'} sortable />
+            <Column header="Período" body={(r: AcademicChargeResponse) => r.periodName || '—'} sortable />
             <Column field="faculty" header="Facultad" body={(r: AcademicChargeResponse) => r.faculty || '—'} sortable />
             <Column field="school" header="Escuela" body={(r: AcademicChargeResponse) => r.school || '—'} sortable />
             <Column field="totalHours" header="Horas" body={(r: AcademicChargeResponse) => r.totalHours ?? '—'} sortable />
@@ -256,6 +371,44 @@ export function AcademicPage() {
         </form>
       </Dialog>
 
+      <Dialog header="Nueva Modalidad Académica" visible={showModality} onHide={() => setShowModality(false)} style={{ width: '450px' }}
+        footer={<div className="flex justify-content-end gap-2"><Button label="Cancelar" outlined onClick={() => setShowModality(false)} />
+          <Button label="Crear" icon="pi pi-check" onClick={hMod(d => modalityMutate.mutate({ ...d, subModality: d.subModality || null, sortOrder: d.sortOrder ?? 0 }))} loading={modalityMutate.isPending} /></div>}>
+        <form className="flex flex-column gap-3">
+          <div className="flex flex-column gap-1"><label className="text-sm font-semibold">Código *</label>
+            <Controller name="code" control={cMod} render={({ field, fieldState }) =>
+              <InputText {...field} placeholder="Ej. PRES, VIRT" className={fieldState.error ? 'p-invalid' : ''} />} /></div>
+          <div className="flex flex-column gap-1"><label className="text-sm font-semibold">Nombre *</label>
+            <Controller name="name" control={cMod} render={({ field, fieldState }) =>
+              <InputText {...field} placeholder="Ej. Presencial, Virtual" className={fieldState.error ? 'p-invalid' : ''} />} /></div>
+          <div className="flex flex-column gap-1"><label className="text-sm font-semibold">Sub Modalidad</label>
+            <Controller name="subModality" control={cMod} render={({ field }) =>
+              <InputText {...field} placeholder="Ej. Regular, Fines de semana" />} /></div>
+          <div className="flex flex-column gap-1"><label className="text-sm font-semibold">Orden</label>
+            <Controller name="sortOrder" control={cMod} render={({ field }) =>
+              <InputNumber value={field.value} onValueChange={e => field.onChange(e.value ?? 0)} min={0} />} /></div>
+        </form>
+      </Dialog>
+
+      <Dialog header="Nuevo Período Académico" visible={showPeriod} onHide={() => setShowPeriod(false)} style={{ width: '450px' }}
+        footer={<div className="flex justify-content-end gap-2"><Button label="Cancelar" outlined onClick={() => setShowPeriod(false)} />
+          <Button label="Crear" icon="pi pi-check" onClick={hPer(d => periodMutate.mutate({ ...d, startDate: d.startDate || null, endDate: d.endDate || null }))} loading={periodMutate.isPending} /></div>}>
+        <form className="flex flex-column gap-3">
+          <div className="flex flex-column gap-1"><label className="text-sm font-semibold">Código *</label>
+            <Controller name="code" control={cPer} render={({ field, fieldState }) =>
+              <InputText {...field} placeholder="Ej. 2026-I" className={fieldState.error ? 'p-invalid' : ''} />} /></div>
+          <div className="flex flex-column gap-1"><label className="text-sm font-semibold">Nombre *</label>
+            <Controller name="name" control={cPer} render={({ field, fieldState }) =>
+              <InputText {...field} placeholder="Ej. Semestre Académico 2026-I" className={fieldState.error ? 'p-invalid' : ''} />} /></div>
+          <div className="flex flex-column gap-1"><label className="text-sm font-semibold">Fecha de Inicio</label>
+            <Controller name="startDate" control={cPer} render={({ field }) =>
+              <InputText {...field} type="date" />} /></div>
+          <div className="flex flex-column gap-1"><label className="text-sm font-semibold">Fecha de Fin</label>
+            <Controller name="endDate" control={cPer} render={({ field }) =>
+              <InputText {...field} type="date" />} /></div>
+        </form>
+      </Dialog>
+
       <Dialog header="Nueva Carga Académica" visible={showCharge} onHide={() => setShowCharge(false)} style={{ width: '960px' }}
         footer={<div className="flex justify-content-end gap-2"><Button label="Cancelar" outlined onClick={() => setShowCharge(false)} />
           <Button label="Guardar" icon="pi pi-check" onClick={h3(submitCharge)} loading={chargeMutate.isPending} /></div>}>
@@ -268,6 +421,13 @@ export function AcademicPage() {
             <div className="col-6"><label className="text-sm font-semibold">Semestre *</label>
               <Controller name="semester" control={c3} render={({ field, fieldState }) =>
                 <InputText {...field} className={`w-full ${fieldState.error ? 'p-invalid' : ''}`} placeholder="Ej. 2026-I" />} /></div>
+
+            <div className="col-6"><label className="text-sm font-semibold">Modalidad</label>
+              <Controller name="modalityId" control={c3} render={({ field }) =>
+                <Dropdown value={field.value} options={modalityOptions} onChange={e => field.onChange(e.value)} placeholder="Seleccione modalidad" showClear className="w-full" />} /></div>
+            <div className="col-6"><label className="text-sm font-semibold">Período Académico</label>
+              <Controller name="periodId" control={c3} render={({ field }) =>
+                <Dropdown value={field.value} options={periodOptions} onChange={e => field.onChange(e.value)} placeholder="Seleccione período" showClear className="w-full" />} /></div>
 
             <div className="col-4"><label className="text-sm font-semibold">Facultad</label>
               <Controller name="faculty" control={c3} render={({ field }) => <InputText {...field} className="w-full" />} /></div>
@@ -349,11 +509,15 @@ export function AcademicPage() {
           <div className="flex flex-column gap-3">
             <div className="grid">
               <div className="col-6"><label className="text-xs text-color-secondary">Docente</label>
-                <p className="m-0">{showChargeDetail.workerName ?? '—'} {showChargeDetail.documentNumber ? `(${showChargeDetail.documentNumber})` : ''}</p></div>
+                <p className="m-0 font-semibold">{showChargeDetail.workerName ?? '—'} {showChargeDetail.documentNumber ? `(${showChargeDetail.documentNumber})` : ''}</p></div>
               <div className="col-3"><label className="text-xs text-color-secondary">Estado</label>
                 <p className="m-0">{statusTag(showChargeDetail.status)}</p></div>
               <div className="col-3"><label className="text-xs text-color-secondary">Horas</label>
                 <p className="m-0">{showChargeDetail.totalHours ?? '—'}</p></div>
+              <div className="col-6"><label className="text-xs text-color-secondary">Modalidad</label>
+                <p className="m-0">{showChargeDetail.modalityName ?? '—'}</p></div>
+              <div className="col-6"><label className="text-xs text-color-secondary">Período Académico</label>
+                <p className="m-0">{showChargeDetail.periodName ?? '—'}</p></div>
             </div>
 
             <label className="text-sm font-semibold">Cursos</label>

@@ -26,7 +26,7 @@ Guía orientativa de correspondencia entre el monolito legacy y los microservici
 | Plantillas | `ContractTemplateController`, `PlantillaContractualController` | contract-service | ✅ templates + template_assignment (V4) |
 | Trabajador / persona | `PersonController`, `EmployeeController`, `FamiliarController` | recruitment-service | 🔄 CRUD workers; familiar/hijos/docs pendiente |
 | Puesto / organigrama | `JobController`, `CDir_Puesto`, `CFuncion`, `CUbigeo` | recruitment-service | ✅ organizational-units jerárquicas; funciones/ubigeo pendiente |
-| Académico | `CargaAcademicaController`, `PagoDocenteController` | recruitment-service | 🔄 careers + universities (V8); carga/pago docente pendiente |
+| Académico | `CargaAcademicaController`, `PagoDocenteController` | recruitment-service | ✅ universities/careers (V8), carga/pago docente (V11), modalidades/períodos (V12) |
 | Reportes / historial | `ReporteController`, `ReporteHijoController`, `ReporteHistorialController` | (pendiente) | ⬜ |
 | Horario / formatos | `FormatoHorarioController`, `HorarioController` | (pendiente) | ⬜ |
 

@@ -22,6 +22,7 @@ public interface AcademicChargeMapper {
     @Mapping(target = "version", ignore = true)
     @Mapping(target = "workerId", expression = "java(request.workerId())")
     @Mapping(target = "status", constant = "BORRADOR")
+    @Mapping(target = "createdBy", expression = "java(request.createdBy() != null && !request.createdBy().isBlank() ? request.createdBy() : \"admin\")")
     @Mapping(target = "createdAt", expression = "java(Instant.now())")
     @Mapping(target = "updatedAt", expression = "java(Instant.now())")
     AcademicCharge toEntity(AcademicChargeRequest request);
@@ -39,6 +40,8 @@ public interface AcademicChargeMapper {
 
     @Mapping(target = "workerName", ignore = true)
     @Mapping(target = "documentNumber", ignore = true)
+    @Mapping(target = "modalityName", ignore = true)
+    @Mapping(target = "periodName", ignore = true)
     @Mapping(target = "courses", ignore = true)
     @Mapping(target = "payments", ignore = true)
     AcademicChargeResponse toResponse(AcademicCharge entity);

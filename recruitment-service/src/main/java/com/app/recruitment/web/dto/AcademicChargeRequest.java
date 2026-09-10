@@ -20,6 +20,8 @@ public record AcademicChargeRequest(
         @Min(0) Double totalHours,
         LocalDate startDate,
         LocalDate endDate,
+        UUID modalityId,
+        UUID periodId,
         String createdBy,
         @NotNull List<AcademicCourseRequest> courses,
         @NotNull List<AcademicPaymentRequest> payments

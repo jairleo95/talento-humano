@@ -5,14 +5,14 @@ spring:
     virtual:
       enabled: true
   r2dbc:
-    url: ${DB_URL:r2dbc:postgresql://localhost:5434/recruitment_db}
+    url: ${DB_URL:r2dbc:postgresql://localhost:${DB_PORT:5435}/recruitment_db}
     username: ${DB_USERNAME:recruitment_user}
-    password: ${DB_PASSWORD}
+    password: ${DB_PASSWORD:changeme}
   flyway:
     enabled: true
-    url: ${DB_JDBC_URL:jdbc:postgresql://localhost:5434/recruitment_db}
+    url: ${DB_JDBC_URL:jdbc:postgresql://localhost:${DB_PORT:5435}/recruitment_db}
     user: ${DB_USERNAME:recruitment_user}
-    password: ${DB_PASSWORD}
+    password: ${DB_PASSWORD:changeme}
     schemas: public
 
 server:

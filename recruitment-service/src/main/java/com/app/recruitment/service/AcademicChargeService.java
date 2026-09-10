@@ -15,6 +15,10 @@ import com.app.recruitment.web.dto.AcademicChargeStatusRequest;
 import com.app.recruitment.web.dto.AcademicCourseResponse;
 import com.app.recruitment.web.dto.AcademicPaymentResponse;
 import com.app.recruitment.web.dto.AcademicPaymentStatusRequest;
+import com.app.recruitment.domain.AcademicModality;
+import com.app.recruitment.domain.AcademicPeriod;
+import com.app.recruitment.persistence.AcademicModalityRepository;
+import com.app.recruitment.persistence.AcademicPeriodRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.ReactiveTransactionManager;
@@ -37,6 +41,8 @@ public class AcademicChargeService {
     private final AcademicCourseRepository courseRepository;
     private final AcademicPaymentRepository paymentRepository;
     private final WorkerRepository workerRepository;
+    private final AcademicModalityRepository modalityRepository;
+    private final AcademicPeriodRepository periodRepository;
     private final AcademicChargeMapper mapper;
     private final ReactiveTransactionManager transactionManager;
 
@@ -120,8 +126,16 @@ public class AcademicChargeService {
     }
 
     private Mono<AcademicChargeResponse> toSummaryResponse(AcademicCharge charge) {
-        return workerRepository.findById(charge.getWorkerId())
-                .map(worker -> withWorker(bare(charge), worker));
+        Mono<Worker> workerMono = workerRepository.findById(charge.getWorkerId());
+        Mono<String> modalityNameMono = charge.getModalityId() != null
+                ? modalityRepository.findById(charge.getModalityId()).map(AcademicModality::getName).defaultIfEmpty("")
+                : Mono.just("");
+        Mono<String> periodNameMono = charge.getPeriodId() != null
+                ? periodRepository.findById(charge.getPeriodId()).map(AcademicPeriod::getName).defaultIfEmpty("")
+                : Mono.just("");
+
+        return Mono.zip(workerMono, modalityNameMono, periodNameMono)
+                .map(tuple -> withWorkerAndCatalogs(bare(charge), tuple.getT1(), tuple.getT2(), tuple.getT3()));
     }
 
     private Mono<AcademicChargeResponse> toDetailResponse(AcademicCharge charge) {
@@ -133,10 +147,9 @@ public class AcademicChargeService {
                 .findByChargeIdOrderByQuotaNumberAsc(charge.getId())
                 .map(mapper::toResponse)
                 .collectList();
-        return workerRepository.findById(charge.getWorkerId())
-                .map(worker -> withWorker(bare(charge), worker))
-                .flatMap(base -> Mono.zip(courses, payments)
-                        .map(tuple -> withDetails(base, tuple.getT1(), tuple.getT2())));
+        return toSummaryResponse(charge)
+                .flatMap(summary -> Mono.zip(courses, payments)
+                        .map(tuple -> withDetails(summary, tuple.getT1(), tuple.getT2())));
     }
 
     private AcademicChargeResponse bare(AcademicCharge charge) {
@@ -155,6 +168,10 @@ public class AcademicChargeService {
                 charge.getTotalHours(),
                 charge.getStartDate(),
                 charge.getEndDate(),
+                charge.getModalityId(),
+                null,
+                charge.getPeriodId(),
+                null,
                 charge.getStatus(),
                 charge.getCreatedBy(),
                 charge.getCreatedAt(),
@@ -164,30 +181,30 @@ public class AcademicChargeService {
         );
     }
 
-    private AcademicChargeResponse withWorker(AcademicChargeResponse response, Worker worker) {
-        return withDetails(
-                new AcademicChargeResponse(
-                        response.id(),
-                        response.workerId(),
-                        fullName(worker),
-                        worker.getDocumentNumber(),
-                        response.semester(),
-                        response.faculty(),
-                        response.school(),
-                        response.educationalSituation(),
-                        response.profession(),
-                        response.condition(),
-                        response.payType(),
-                        response.totalHours(),
-                        response.startDate(),
-                        response.endDate(),
-                        response.status(),
-                        response.createdBy(),
-                        response.createdAt(),
-                        response.updatedAt(),
-                        List.of(),
-                        List.of()
-                ),
+    private AcademicChargeResponse withWorkerAndCatalogs(AcademicChargeResponse response, Worker worker, String modalityName, String periodName) {
+        return new AcademicChargeResponse(
+                response.id(),
+                response.workerId(),
+                fullName(worker),
+                worker.getDocumentNumber(),
+                response.semester(),
+                response.faculty(),
+                response.school(),
+                response.educationalSituation(),
+                response.profession(),
+                response.condition(),
+                response.payType(),
+                response.totalHours(),
+                response.startDate(),
+                response.endDate(),
+                response.modalityId(),
+                modalityName.isEmpty() ? null : modalityName,
+                response.periodId(),
+                periodName.isEmpty() ? null : periodName,
+                response.status(),
+                response.createdBy(),
+                response.createdAt(),
+                response.updatedAt(),
                 List.of(),
                 List.of()
         );
@@ -217,6 +234,10 @@ public class AcademicChargeService {
                 response.totalHours(),
                 response.startDate(),
                 response.endDate(),
+                response.modalityId(),
+                response.modalityName(),
+                response.periodId(),
+                response.periodName(),
                 response.status(),
                 response.createdBy(),
                 response.createdAt(),

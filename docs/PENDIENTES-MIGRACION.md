@@ -38,7 +38,7 @@
 | R5a Trabajador | ✅ | ✅ | ~72% |
 | R5b Organigrama + Puesto | ✅ | ✅ | ~97% |
 | R5c Presupuesto | ✅ | ✅ | ~55% |
-| R5d Académico | ✅ | ✅ | ~80% |
+| R5d Académico | ✅ | ✅ | ~95% |
 | R5e Reportes | ⬜ | placeholder | 0% |
 | R5f Funciones | ⬜ | placeholder | 0% |
 | R6 Seguridad (RBAC, rate-limit) | ✅ | — | 100% |
@@ -48,7 +48,7 @@
 ## 2. Prioridades y orden sugerido
 
 1. **R5f Funciones** (0%→90%) — 1 tabla nueva, CRUD simple, esfuerzo bajo.
-2. **14.7 Académico** (80%→95%) — 2 catálogos (Modalidad, Período), esfuerzo bajo.
+2. **14.7 Académico** (80%→95%) — ✅ **Completado (V12)**: catálogos `academic_modality` y `academic_period`, integración en `academic_charge` y tabs en frontend.
 3. **14.1 DGP** (90%→96%) — Plazos + Horario semanal ligados al requerimiento, esfuerzo bajo-medio.
 4. **14.4 Organigrama** (97%→100%) — catálogos Grupo_Ocupaciones / Ubigeo, esfuerzo bajo.
 5. **R5e Reportes** (0%→60%+) — 4 consultas de solo lectura + frontend, esfuerzo medio.
@@ -81,22 +81,24 @@
 
 ---
 
-## 4. Módulo: Académico — catálogos Modalidad y Período (pendiente ~20%)
+## 4. Módulo: Académico — catálogos Modalidad y Período (✅ Completado ~95%)
 
-**Qué falta:** tabla `Modalidad` (Modalidad/Sub_Modalidad, ya usada por PagoDocente legacy) y `Periodo_Academico`. Sin dependencia de pago docente.
+**Estado:** Implementado en migración **V12** (`academic_modality`, `academic_period`, claves foráneas en `academic_charge`), controllers `/api/v1/recruitment/academic/modalities` y `/periods`, integración en `AcademicCharge` y pestañas correspondientes en `AcademicPage.tsx`.
 
 ### Referencia legacy
 - Entidades: `Modalidad`, `Sub_Modalidad`, `Periodo_Pago` (domain: `gth-ms/.../domain/model/`; DAO: `Sub_ModalidadDAO.java`, `Periodo_PagoDAO.java`)
 - Doc: `docs/gth-legacy/02-modules/academico.md`
 - JSP: `gth-ms/src/main/webapp/WEB-INF/jsp/views/Academico/Carga_Academica/`
 
-### Sugerencia de backend (V13)
-- `academic_modality` (id, code, name, sub_modality, sort_order, is_active) y `academic_period` (id, code, name, start_date, end_date, is_active).
-- Controllers livianos (`AcademicModalityController`, `AcademicPeriodController`) en `/api/v1/recruitment/academic/modalities` y `/academic/periods`: GET list, POST, PATCH toggle.
-- Opcional: ampliar la carga académica existente para que `AcademicChargeRequest` acepte opcionalmente `modalityId`/`periodId`.
+### Implementación Backend (V12)
+- Tablas `academic_modality` y `academic_period` creadas con semillas iniciales.
+- Entidades `AcademicModality` y `AcademicPeriod`, repositorios R2DBC, mappers MapStruct y servicios con validación de unicidad de código y ordenamiento.
+- Controladores reactivos `AcademicModalityController` (`/api/v1/recruitment/academic/modalities`) y `AcademicPeriodController` (`/api/v1/recruitment/academic/periods`) con `GET`, `POST`, `PATCH /{id}/toggle`.
+- `AcademicCharge` ampliado con `modality_id` y `period_id`, retornando nombres resueltos en respuestas resumen y detalle.
 
-### Sugerencia de frontend
-- En `AcademicPage.tsx` añadir 2 tabs (o un tab único "Catálogos") con las tablas + dialogs. Seguir patrón del tab Universidades/Carreras.
+### Implementación Frontend
+- `AcademicPage.tsx` ampliado con pestañas "Modalidades" y "Períodos" (tablas con paginación, tags de estado, acciones de activación y diálogos de creación).
+- Formulario de "Nueva Carga" enriquecido con selectores Dropdown de Modalidad y Período Académico. Detalle de carga visualiza ambos catálogos.
 
 ---
 

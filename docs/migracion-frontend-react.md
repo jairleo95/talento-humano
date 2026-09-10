@@ -505,12 +505,12 @@ Contenedores para el frontend (nginx:alpine + build) y servicios backend (openjd
 | Menú dinámico por privilegios | ✅ (Sidebar por roles/privilegios) |
 | Hardening: RBAC, rate-limit, anti-enumeración, CSP | ✅ `7f3a7768` `99211148` |
 
-### 14.7 Académico — 65%
+### 14.7 Académico — 95%
 | Sub-módulo | Estado |
 |---|---|
-| Universidades / Carreras | ✅ |
-| Carga académica / Pago docente | ⬜ |
-| Modalidad / Período | ⬜ |
+| Universidades / Carreras | ✅ V8 |
+| Carga académica / Pago docente | ✅ V11 (`f441b466`) |
+| Modalidad / Período | ✅ V12 |
 
 ### 14.8 Reportes — 0% (real)
 | Sub-módulo | Estado |
